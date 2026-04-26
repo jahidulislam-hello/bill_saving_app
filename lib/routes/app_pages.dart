@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../../features/home/presentation/home_page.dart';
+import '../features/home/presentation/home_page.dart';
 import 'app_routes.dart';
 
 /// All application routes mapped to their pages and bindings.
