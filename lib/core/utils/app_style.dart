@@ -1,144 +1,257 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-
 class AppStyles {
-  // Head title: the largest front size
-  static TextStyle headTitle(
-      {Color? color, FontWeight? fontWeight, double? letterSpacing}) {
-    return TextStyle(
-        color: color,
-        fontSize: 24.sp,
-        letterSpacing: letterSpacing,
-        fontWeight: fontWeight ?? FontWeight.w600);
-  }
+  AppStyles._();
 
-  // Field Title: Smaller size 10-12, bold
-  static TextStyle fieldTitle(
-      {Color? color, FontWeight? fontWeight, double? letterSpacing}) {
-    return TextStyle(
-        color: color,
-        fontSize: 16.sp,
-        letterSpacing: letterSpacing,
-        fontWeight: fontWeight ?? FontWeight.w600);
-  }
+  // ─── Font Family ───────────────────────────────────────────────────────────
+  static const String _fontFamily = 'Open Sans';
 
-  // Field Content: same size as title, but not bold
-  static TextStyle fieldContent(
-      {Color? color, FontWeight? fontWeight, double? letterSpacing}) {
-    return TextStyle(
-        color: color,
-        fontSize: 12.sp,
-        letterSpacing: letterSpacing,
-        fontWeight: fontWeight ?? FontWeight.w400);
-  }
+  // ─── Titles ────────────────────────────────────────────────────────────────
 
-  static TextStyle fontSize24(
-      {Color? color, FontWeight? fontWeight, double? letterSpacing}) {
-    return TextStyle(
-        color: color,
-        fontSize: 24.sp,
-        letterSpacing: letterSpacing,
-        fontWeight: fontWeight ?? FontWeight.w400);
-  }
-
-  static TextStyle fontSize20(
-      {Color? color, FontWeight? fontWeight, double? letterSpacing}) {
-    return TextStyle(
-        color: color,
-        fontSize: 20.sp,
-        letterSpacing: letterSpacing,
-        fontWeight: fontWeight ?? FontWeight.w400);
-  }
-
-  static TextStyle fontSize18({
+  /// Title-1 — fontSize: 72, lineHeight: 88, letterSpacing: -0.8
+  static TextStyle title1({
     Color? color,
     FontWeight? fontWeight,
     double? letterSpacing,
-
   }) {
     return TextStyle(
-        color: color,
-        fontSize: 18.sp,
-        letterSpacing: letterSpacing,
-        fontWeight: fontWeight ?? FontWeight.w400);
-  }
-
-  static TextStyle fontSize16(
-      {Color? color,
-        FontWeight? fontWeight,
-        double? letterSpacing,
-        double? height}) {
-    return TextStyle(
-        fontSize: 16.sp,
-        color: color,
-        height: height,
-        letterSpacing: letterSpacing,
-        fontWeight: fontWeight ?? FontWeight.w400);
-  }
-
-  static TextStyle fontSize14(
-      {Color? color,
-        FontWeight? fontWeight,
-        double? letterSpacing,
-        double? height}) {
-    return TextStyle(
-        fontSize: 14.sp,
-        color: color,
-        height: height,
-        letterSpacing: letterSpacing,
-        fontWeight: fontWeight ?? FontWeight.w400);
-  }
-
-  static TextStyle fontSize12(
-      {Color? color,
-        FontWeight? fontWeight,
-        double? letterSpacing,
-        double? height}) {
-    return TextStyle(
-        fontSize: 12.sp,
-        color: color,
-        height: height,
-        letterSpacing: letterSpacing,
-        fontWeight: fontWeight ?? FontWeight.w400);
-  }
-
-  static TextStyle fontSize10(
-      {Color? color,
-        FontWeight? fontWeight,
-        double? letterSpacing,
-        double? height}) {
-    return TextStyle(
-        fontSize: 10.sp,
-        color: color,
-        height: height,
-        letterSpacing: letterSpacing,
-        fontWeight: fontWeight ?? FontWeight.w400);
-  }
-
-  static TextStyle customSize(
-      {Color? color,
-        required double size,
-        String? family,
-        double? letterSpacing,
-        double? height,
-        FontWeight? fontWeight}) {
-    return TextStyle(
-      fontWeight: fontWeight ?? FontWeight.w400,
       color: color,
-      fontSize: size,
-      height: height,
-      letterSpacing: letterSpacing,
+      fontFamily: _fontFamily,
+      fontSize: 72.sp,
+      height: 88 / 72,
+      letterSpacing: letterSpacing ?? -0.8,
+      fontWeight: fontWeight ?? FontWeight.w400,
     );
   }
 
-  static BoxShadow boxShadow =  BoxShadow(
-      blurRadius: 4,
-      offset: const Offset(0,0),
-      color:Colors.black.withOpacity(0.02),
-      spreadRadius:0);
+  /// Title-2 — fontSize: 64, lineHeight: 76, letterSpacing: -0.8
+  static TextStyle title2({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 64.sp,
+      height: 76 / 64,
+      letterSpacing: letterSpacing ?? -0.8,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
 
-  // Standard UI component height
-  static double get standardHeight => 54.h;
+  /// Title-3 — fontSize: 56, lineHeight: 68, letterSpacing: -0.6
+  static TextStyle title3({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 56.sp,
+      height: 68 / 56,
+      letterSpacing: letterSpacing ?? -0.6,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  // ─── Headings ──────────────────────────────────────────────────────────────
+
+  /// H1 — fontSize: 56, lineHeight: 68, letterSpacing: -0.5
+  static TextStyle h1({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 56.sp,
+      height: 68 / 56,
+      letterSpacing: letterSpacing ?? -0.5,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  /// H2 — fontSize: 48, lineHeight: 58, letterSpacing: -0.4
+  static TextStyle h2({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 48.sp,
+      height: 58 / 48,
+      letterSpacing: letterSpacing ?? -0.4,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  /// H3 — fontSize: 40, lineHeight: 48, letterSpacing: -0.3
+  static TextStyle h3({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 40.sp,
+      height: 48 / 40,
+      letterSpacing: letterSpacing ?? -0.3,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  /// H4 — fontSize: 32, lineHeight: 38, letterSpacing: -0.2
+  static TextStyle h4({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 32.sp,
+      height: 38 / 32,
+      letterSpacing: letterSpacing ?? -0.2,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  /// H5 — fontSize: 24, lineHeight: 30, letterSpacing: -0.15
+  static TextStyle h5({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 24.sp,
+      height: 30 / 24,
+      letterSpacing: letterSpacing ?? -0.15,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  /// H6 — fontSize: 20, lineHeight: 24, letterSpacing: 0
+  static TextStyle h6({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 20.sp,
+      height: 24 / 20,
+      letterSpacing: letterSpacing ?? 0,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  // ─── Body ──────────────────────────────────────────────────────────────────
+
+  /// Body-1 — fontSize: 18, lineHeight: 28, letterSpacing: 0
+  static TextStyle body1({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 18.sp,
+      height: 28 / 18,
+      letterSpacing: letterSpacing ?? 0,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  /// Body-2 — fontSize: 16, lineHeight: 24, letterSpacing: 0
+  static TextStyle body2({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 16.sp,
+      height: 24 / 16,
+      letterSpacing: letterSpacing ?? 0,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  /// Body-3 — fontSize: 14, lineHeight: 20, letterSpacing: 0
+  static TextStyle body3({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 14.sp,
+      height: 20 / 14,
+      letterSpacing: letterSpacing ?? 0,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  /// Body-4 — fontSize: 12, lineHeight: 16, letterSpacing: 0
+  static TextStyle body4({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 12.sp,
+      height: 16 / 12,
+      letterSpacing: letterSpacing ?? 0,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  // ─── Captions ──────────────────────────────────────────────────────────────
+
+  /// Caption-1 — fontSize: 10, lineHeight: 12, letterSpacing: 0
+  static TextStyle caption1({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 10.sp,
+      height: 12 / 10,
+      letterSpacing: letterSpacing ?? 0,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  /// Caption-2 — fontSize: 9, lineHeight: 10, letterSpacing: 0
+  static TextStyle caption2({
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: _fontFamily,
+      fontSize: 9.sp,
+      height: 10 / 9,
+      letterSpacing: letterSpacing ?? 0,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
 }

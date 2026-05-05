@@ -1,93 +1,126 @@
+//
 // import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:get/get.dart';
 //
 //
-// class BottomNavbar extends StatefulWidget {
-//   const BottomNavbar({super.key});
+// class CustomBottomNavBar extends StatefulWidget {
+//   const CustomBottomNavBar({super.key});
 //
 //   @override
-//   State<BottomNavbar> createState() => _BottomNavbarState();
+//   State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();
 // }
 //
-// class _BottomNavbarState extends State<BottomNavbar> {
-//   final BottomNavbarController controller = Get.put(BottomNavbarController());
+// class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
+//   int _currentIndex = 0;
 //
-//   final List<Widget> pages = [
-//     HomeVideoScreen(),
-//     FollowingVideoScreen(),
-//     CameraScreen(),
+//   final List<Widget> _screens = [
+//     HomeScreen(),
+//     BetMarketScreen(),
 //     MessagesScreen(),
-//     ProfileScreen(),
+//     SettingsProfileScreen(),
 //   ];
 //
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       backgroundColor: AppColors.navbarHome,
-//       // Use IndexedStack to keep all screens in memory and prevent rebuilding
-//       body: Obx(() => IndexedStack(
-//         index: controller.currentIndex.value,
-//         children: pages,
-//       )),
-//       bottomNavigationBar: Obx(() {
-//         // Hide navbar when Camera tab is selected
-//         if (controller.currentIndex.value == 2) {
-//           return const SizedBox.shrink();
-//         }
-//         return Container(
-//           height:54.h, // fixed height
-//           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-//           child: Row(
-//             children: [
-//               _buildNavItem(
-//                 activeImage: "assets/images/act_home.png",
-//                 passiveImage: "assets/images/pass_home.png",
-//                 index: 0,
-//               ),
-//               _buildNavItem(
-//                 activeImage: "assets/images/act_following.png",
-//                 passiveImage: "assets/images/following.png",
-//                 index: 1,
-//               ),
-//               _buildNavItem(
-//                 activeImage: "assets/images/lock.png",
-//                 passiveImage: "assets/images/lock.png",
-//                 index: 2,
-//               ),
-//               _buildNavItem(
-//                 activeImage: "assets/images/act_chat.png",
-//                 passiveImage: "assets/images/chat.png",
-//                 index: 3,
-//               ),
-//               _buildNavItem(
-//                 activeImage: "assets/images/act_profile.png",
-//                 passiveImage: "assets/images/profile.png",
-//                 index: 4,
-//               ),
-//             ].map((e) => Expanded(child: e)).toList(),
-//           ),
-//         );
-//       }),
+//       backgroundColor: Colors.white,
+//       body: _screens[_currentIndex],
+//       bottomNavigationBar: _buildBottomNavigationBar(),
+//       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+//       floatingActionButton: _buildFloatingActionButton(),
 //     );
 //   }
 //
+//   /// Floating Action Button
+//   Widget _buildFloatingActionButton() {
+//     return SizedBox(
+//       height: 69,
+//       width: 69,
+//       child: FloatingActionButton(
+//         backgroundColor: Colors.white,
+//         elevation: 2,
+//         onPressed: () {
+//           Get.to(() => ());
+//         },
+//
+//         shape: const CircleBorder(),
+//         child: ClipRRect(
+//           borderRadius: BorderRadius.circular(40),
+//           child: Image.asset(
+//             "assets/images/icon.png",
+//             fit: BoxFit.cover,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+//
+//   /// Bottom Navigation Bar
+//   Widget _buildBottomNavigationBar() {
+//     return Container(
+//       height: 100,
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.black.withOpacity(0.1),
+//             blurRadius: 10,
+//             offset: const Offset(0, -2),
+//           ),
+//         ],
+//       ),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceAround,
+//         children: [
+//           _buildNavItem(
+//             index: 0,
+//             activeImage: "assets/images/act_home.png",
+//             passiveImage: "assets/images/pass_home.png",
+//           ),
+//           _buildNavItem(
+//             index: 1,
+//             activeImage: "assets/images/act_bet.png",
+//             passiveImage: "assets/images/pass_bet.png",
+//           ),
+//           const SizedBox(width: 50), // Space for FAB
+//           _buildNavItem(
+//             index: 2,
+//             activeImage: "assets/images/act_chat.png",
+//             passiveImage: "assets/images/pass_chat.png",
+//           ),
+//           _buildNavItem(
+//             index: 3,
+//             activeImage: "assets/images/act_profile.png",
+//             passiveImage: "assets/images/pass_profile.png",
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   /// Navigation Item with Image Icons
 //   Widget _buildNavItem({
+//     required int index,
 //     required String activeImage,
 //     required String passiveImage,
-//     required int index,
 //   }) {
+//     bool isSelected = _currentIndex == index;
 //     return GestureDetector(
-//       onTap: () => controller.changeIndex(index),
-//       child: Obx(() {
-//         final isSelected = controller.currentIndex.value == index;
-//
-//         return Image.asset(
+//       onTap: () {
+//         setState(() {
+//           _currentIndex = index;
+//         });
+//       },
+//       child: AnimatedContainer(
+//         duration: const Duration(milliseconds: 250),
+//         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+//         child: Image.asset(
 //           isSelected ? activeImage : passiveImage,
-//           height: 56.h,
+//           width: 60,
+//           height: 60,
 //           fit: BoxFit.contain,
-//         );
-//       }),
+//         ),
+//       ),
 //     );
 //   }
 // }
