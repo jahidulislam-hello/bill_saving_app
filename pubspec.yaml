@@ -1,5 +1,5 @@
-name: flutter_task
-description: "Flutter task"
+name: billo
+description: "Billo"
 
 publish_to: 'none'
 
@@ -32,6 +32,16 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+    android: true
+    ios: true
+    remove_alpha_ios: true
+    image_path: "assets/images/applogo.png"
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/icons/
+    - assets/images/

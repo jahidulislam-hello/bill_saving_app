@@ -11,16 +11,13 @@ void main() async {
   // Initialize cache service
   await CacheService().init();
 
-  // Initialize dependency injection
-  await DependencyInjection.init();
-
-  // Pre-cache Roboto font - downloads once and caches for offline use
+  // Pre-cache Open Sans font - downloads once and caches for offline use
   GoogleFonts.config.allowRuntimeFetching = true;
 
-  // Pre-load Roboto font to cache it on first run
+  // Pre-load Open Sans font to cache it on first run
   try {
     await Future.wait([
-      GoogleFonts.pendingFonts([GoogleFonts.roboto()]),
+      GoogleFonts.pendingFonts([GoogleFonts.openSans()]),
     ]);
   } catch (e) {
     // If offline or font loading fails, app will use fallback fonts
