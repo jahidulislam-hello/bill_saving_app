@@ -122,7 +122,7 @@
 //           debugShowCheckedModeBanner: false,
 //           title: 'Personal Data',
 //           theme: ThemeData(
-//             fontFamily: 'SF Pro Display',
+//             fontFamily: 'Open Sans',
 //             useMaterial3: true,
 //             colorScheme: ColorScheme.fromSeed(
 //               seedColor: const Color(0xFF1A1A2E),

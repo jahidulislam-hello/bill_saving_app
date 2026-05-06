@@ -678,7 +678,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        fontFamily: 'SF Pro Display',
+        fontFamily: 'Open Sans',
         scaffoldBackgroundColor: const Color(0xFFF7F8FA),
       ),
       home: const RequestScreen(),

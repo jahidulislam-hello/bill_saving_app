@@ -9,6 +9,12 @@ class AppStyles {
 
   // ─── Titles ────────────────────────────────────────────────────────────────
 
+
+
+  // ----------- Like _______________________
+
+  static double get standardHeight => 56.h;
+
   /// Title-1 — fontSize: 72, lineHeight: 88, letterSpacing: -0.8
   static TextStyle title1({
     Color? color,

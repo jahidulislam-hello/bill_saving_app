@@ -13,6 +13,17 @@ class AppColors {
 
 
 
+  static const Color primaryColor = Color(0xFF583BC7);
+  static const Color fillColor = Color(0xFFFFFFFF);
+  static const Color hintColor = Color(0xFFAAAAAA);
+  static const Color borderColor = Color(0xFF583BC7);
+  static const Color dividerColor = Color(0xFFE0E0E0);
+  static const Color textPrimary = Color(0xFF111111);
+  static const Color textSecondary = Color(0xFF888888);
+
+
+
+
   // ─── Primary ───────────────────────────────────────────────────────────────
   static const Color primary50 = Color(0xFFF5F7FF);
   static const Color primary100 = Color(0xFFEEF0FF);

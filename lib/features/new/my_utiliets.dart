@@ -11,7 +11,7 @@ class _App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'SF Pro Display'),
+      theme: ThemeData(fontFamily: 'Open Sans'),
       home: const MyUtilitiesScreen(),
     );
   }
