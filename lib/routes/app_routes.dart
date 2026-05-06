@@ -1,5 +1,8 @@
 
 
+import 'package:billo/features/auth/create_account.dart';
+import 'package:billo/features/onboarding/warmup.dart';
+import 'package:billo/features/dumb/warmup_onboarding.dart';
 import 'package:get/get.dart';
 
 import '../features/onboarding/onboarding_screen.dart';
@@ -15,6 +18,7 @@ class AppRoutes {
 
   static String walletScreen = "/wallet_screen";
   static String onboardScreen = "/onboarding_screen";
+  static String warmOnboardScreen = "/warm_onboarding_screen";
   static String onboardSecondScreen = "/onboard_second_screen";
   static String signInScreen = "/sign_in_screen";
   static String signUpScreen = "/sign_up_screen";
@@ -105,9 +109,10 @@ class AppRoutes {
     //     page: () => ProfileScreen(),
     //     transition: Transition.noTransition),
     // GetPage(name: walletScreen, page: () => const WalletScreen()),
+    GetPage(name: warmOnboardScreen, page: () =>  WarmupOnboarding()),
     GetPage(name: onboardScreen, page: () =>  OnboardingScreen()),
     // GetPage(name: signInScreen, page: () => const SignInScreen()),
-    // GetPage(name: signUpScreen, page: () => const SignUpScreen()),
+    GetPage(name: signUpScreen, page: () => const RegisterScreen()),
     // GetPage(
     //     name: forgotPasswordScreen, page: () => const ForgotPasswordScreen()),
     // GetPage(

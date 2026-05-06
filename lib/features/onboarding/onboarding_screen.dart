@@ -1,7 +1,11 @@
 import 'package:billo/core/utils/app_images.dart';
 import 'package:billo/core/utils/app_style.dart';
+import 'package:billo/core/widgets/primary_button.dart';
+import 'package:billo/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -16,126 +20,121 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 10),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 10),
 
-              /// Back Button
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Icon(Icons.arrow_back),
-              ),
-
-              SizedBox(height: 20),
-
-
-
-              Center(
-                child: Image.asset(
-                  AppImages.appLogo,
-                  height: 80.h,
-                  fit: BoxFit.contain,
+                /// Back Button
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Icon(Icons.arrow_back),
                 ),
-              ),
+
+                SizedBox(height: 50),
 
 
 
-              SizedBox(height: 20),
-
-              /// Title
-              Text(
-                "Select Your Profile",
-                style: AppStyles.h5(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                Center(
+                  child: Image.asset(
+                    AppImages.appLogo,
+                    height: 80.h,
+                    width: 80.w,
+                    fit: BoxFit.contain,
+                  ),
                 ),
-              ),
 
-              SizedBox(height: 5),
 
-              Text(
-                "Choose How to Register on EasyBill",
-                style: AppStyles.body3(
-                  color: Colors.grey,
+
+                SizedBox(height: 40),
+
+                /// Title
+                Text(
+                  "Seleziona il tuo profilo",
+                  style: AppStyles.h5(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
 
-              SizedBox(height: 30),
+                SizedBox(height: 5),
 
-              /// Private Card
-              _buildOptionCard(
-                index: 0,
-                title: "Private",
-                subtitle:
-                "For Personal use and management of household utilities",
-                icon: Icons.person_outline,
-              ),
+                Text(
+                  "Scegli come registrarti su EasyBill",
+                  style: AppStyles.body3(
+                    color: Colors.grey,
+                  ),
+                ),
 
-              SizedBox(height: 16),
+                SizedBox(height: 50),
 
-              /// Business Card
-              _buildOptionCard(
-                index: 1,
-                title: "Business",
-                subtitle:
-                "For Companies, Professionals and Businesses with utilities",
-                icon: Icons.business_outlined,
-              ),
+                /// Private Card
+                _buildOptionCard(
+                  index: 0,
+                  title: "Privato",
+                  subtitle:
+                  "Per uso personale e gestione delle utenze domestiche",
+                  icon: Icons.person_outline,
+                ),
 
-              Spacer(),
+                SizedBox(height: 16),
 
-              /// Sign In Button
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF5B3FD6),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                /// Business Card
+                _buildOptionCard(
+                  index: 1,
+                  title: "Azienda",
+                  subtitle:
+                  "Per aziende, professionisti eattività con utenze",
+                  icon: Icons.business_outlined,
+                ),
+
+                SizedBox(height: 150),
+
+                /// Sign In Button
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: PrimaryButton(
+                    title: "Accedi",
+                    onPress: () {
+
+                    },
+                  )
+                ),
+
+                SizedBox(height: 16),
+
+                /// Create Account Button
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: Color(0xFF5B3FD6)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                  ),
-                  onPressed: () {
-                    print("Sign In Clicked");
-                  },
-                  child: Text(
-                    "Sign in",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
+                    onPressed: () {
+                      Get.offNamed(AppRoutes.signUpScreen);
 
-              SizedBox(height: 16),
-
-              /// Create Account Button
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: Color(0xFF5B3FD6)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  onPressed: () {
-                    print("Create Account Clicked");
-                  },
-                  child: Text(
-                    "Create an Account",
-                    style: TextStyle(
-                      color: Color(0xFF5B3FD6),
-                      fontSize: 16,
+                    },
+                    child: Text(
+                      "Crea un Account",
+                      style: TextStyle(
+                        color: Color(0xFF5B3FD6),
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
-              ),
 
-              SizedBox(height: 20),
-            ],
+                SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),
@@ -157,8 +156,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
         });
       },
       child: Container(
-        width: 360,
-        height: 120,
+        width: double.infinity,
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected ? Color(0xFFEDEBFF) : Colors.white,

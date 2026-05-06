@@ -1,4 +1,4 @@
-package com.task.flutter.flutter_task
+package com.bill_saving_app
 
 import io.flutter.embedding.android.FlutterActivity
 
