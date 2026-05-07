@@ -68,7 +68,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                     child: _buildCard(
                       title: "LUCE",
                       subtitle: "Optimize your power bill",
-                      asset: "assets/icons/electric.png",
+                      asset: "assets/icons/luce.png",
                       type: "luce",
                     ),
                   ),

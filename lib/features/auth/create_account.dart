@@ -3,8 +3,12 @@ import 'package:billo/core/widgets/custom_text_filled.dart';
 import 'package:billo/core/widgets/phone_filled.dart';
 import 'package:billo/core/widgets/primary_button.dart';
 import 'package:billo/core/widgets/social_button.dart';
+import 'package:billo/routes/app_routes.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 
 
@@ -221,7 +225,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   title: 'Registrati',
                   onPress: () {
                     if (_formKey.currentState!.validate() && _agreeToTerms) {
-                      // Handle registration
+                      Get.offNamed(AppRoutes.navbarScreen);
                     }
                   },
                 ),
@@ -286,7 +290,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontFamily: 'Open Sans',
                       ),
                       children: [
-                        const TextSpan(text: 'Hai già un account? '),
+                        const TextSpan(
+                          text: 'Hai già un account? ',
+                        ),
                         TextSpan(
                           text: 'Accedi',
                           style: TextStyle(
@@ -294,6 +300,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             fontWeight: FontWeight.w500,
                             fontSize: 13.sp,
                           ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Get.offNamed(AppRoutes.signInScreen);
+                            },
                         ),
                       ],
                     ),

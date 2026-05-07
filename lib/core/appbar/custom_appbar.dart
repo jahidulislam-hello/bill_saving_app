@@ -88,41 +88,28 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: height ?? 60.h,
-      padding: padding ?? EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      // decoration: BoxDecoration(
-      //   color: gradient == null ? (backgroundColor ?? AppColors.background) : null,
-      //   gradient: gradient,
-      //   border: border,
-      //   borderRadius: borderRadius,
-      //   // boxShadow: showShadow
-      //   //     ? [
-      //   //   BoxShadow(
-      //   //     color: Colors.black.withOpacity(0.05),
-      //   //     blurRadius: 10,
-      //   //     offset: const Offset(0, 2),
-      //   //   ),
-      //   // ]
-      //   //     : null,
-      // ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Left Side
-          _buildLeading(context),
+    return SafeArea(
+      child: Container(
+        height: height ?? 60.h,
+        padding: padding ?? EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Left Side
+            _buildLeading(context),
 
-          // Title (Center or Dynamic)
-          if (titleAlignment == AppBarTitleAlignment.center)
-            Expanded(child: _buildTitle())
-          else if (titleAlignment == AppBarTitleAlignment.left)
-            Expanded(child: _buildTitle())
-          else
-            const Spacer(),
+            // Title (Center or Dynamic)
+            if (titleAlignment == AppBarTitleAlignment.center)
+              Expanded(child: _buildTitle())
+            else if (titleAlignment == AppBarTitleAlignment.left)
+              Expanded(child: _buildTitle())
+            else
+              const Spacer(),
 
-          // Right Side Actions
-          _buildActions(),
-        ],
+            // Right Side Actions
+            _buildActions(),
+          ],
+        ),
       ),
     );
   }
@@ -332,7 +319,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(height ?? 56.h);
+  Size get preferredSize => Size.fromHeight(height ?? 60.h);
 }
 
 // ==================== APP BAR ACTION MODEL ====================

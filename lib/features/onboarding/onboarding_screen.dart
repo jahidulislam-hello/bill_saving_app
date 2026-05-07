@@ -101,6 +101,8 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                     title: "Accedi",
                     onPress: () {
 
+                      Get.offNamed(AppRoutes.signInScreen);
+
                     },
                   )
                 ),
