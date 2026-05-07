@@ -1,6 +1,10 @@
 
 
+import 'package:billo/core/navbar/navbar_screen.dart';
 import 'package:billo/features/auth/create_account.dart';
+import 'package:billo/features/auth/screen/forgot_email_screen.dart';
+import 'package:billo/features/auth/signin_screen.dart';
+import 'package:billo/features/home/screen/home_screen.dart';
 import 'package:billo/features/onboarding/warmup.dart';
 import 'package:billo/features/dumb/warmup_onboarding.dart';
 import 'package:get/get.dart';
@@ -84,14 +88,15 @@ class AppRoutes {
 
   static String invitationListPage = "/invitationPage";
   static String familyGroupScreen = "/familyGroupScreen";
+  static String navbarScreen = "/navbarScreen";
 
 //======================>>>> List PAge
   static List<GetPage> page = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
-    // GetPage(
-    //     name: homeScreen,
-    //     page: () => HomeScreen(),
-    //     transition: Transition.noTransition),
+    GetPage(
+        name: homeScreen,
+        page: () => HomeScreen(),
+        transition: Transition.noTransition),
     // GetPage(
     //     name: categoriesScreen,
     //     page: () => CategoriesScreen(),
@@ -111,10 +116,11 @@ class AppRoutes {
     // GetPage(name: walletScreen, page: () => const WalletScreen()),
     GetPage(name: warmOnboardScreen, page: () =>  WarmupOnboarding()),
     GetPage(name: onboardScreen, page: () =>  OnboardingScreen()),
-    // GetPage(name: signInScreen, page: () => const SignInScreen()),
+    GetPage(name: navbarScreen, page: () =>  CustomBottomNavBar()),
+    GetPage(name: signInScreen, page: () => const SignInScreen()),
     GetPage(name: signUpScreen, page: () => const RegisterScreen()),
-    // GetPage(
-    //     name: forgotPasswordScreen, page: () => const ForgotPasswordScreen()),
+    GetPage(
+        name: forgotPasswordScreen, page: () =>  ForgotPasswordScreen()),
     // GetPage(
     //     name: verificationCodeScreen,
     //     page: () => const VerificationCodeScreen()),

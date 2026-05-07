@@ -1,3 +1,4 @@
+import 'package:billo/core/navbar/navbar_screen.dart';
 import 'package:billo/features/onboarding/onboarding_screen.dart';
 import 'package:billo/features/onboarding/warmup.dart';
 import 'package:billo/features/dumb/warmup_onboarding.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          initialRoute: AppRoutes.splashScreen,
+          initialRoute: AppRoutes.navbarScreen,
           getPages: AppRoutes.page,
           // Bindings are handled by DependencyInjection.init() in main.dart
           initialBinding: BindingsBuilder(() {
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
           }),
         );
       },
-      child:  SplashScreen(),
+      child:  CustomBottomNavBar(),
     );
   }
 }

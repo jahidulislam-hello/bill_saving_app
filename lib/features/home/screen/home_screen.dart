@@ -1,0 +1,121 @@
+import 'package:billo/features/home/controller/home_controller.dart';
+import 'package:billo/features/home/widgets/action_section.dart';
+import 'package:billo/features/home/widgets/home_header.dart';
+import 'package:billo/features/home/widgets/how_it_works.dart';
+import 'package:billo/features/home/widgets/summary_card.dart';
+import 'package:billo/features/home/widgets/upload_section.dart';
+import 'package:billo/features/home/widgets/utilities_section.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+
+
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
+
+  final HomeController controller = Get.put(HomeController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFFFFFFF),
+      body: Obx(
+            () => SingleChildScrollView(
+          child: Column(
+            children: [
+              const HomeHeader(),
+
+              SizedBox(height: 18.h),
+
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Column(
+                  children: [
+                    /// IF NO DATA
+                    if (!controller.hasData.value) ...[
+                      UploadSection(
+                        onTap: () {
+                          /// navigate upload screen
+                          /// after upload success:
+                          controller.startSavingFlow();
+                        },
+                      ),
+
+                      SizedBox(height: 16.h),
+
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SummaryCard(
+                              icon: Icons.show_chart,
+                              iconColor: Colors.green,
+                              title: "Risparmi\nPotenziali",
+                              value: "€128,50",
+                              subtitle: "all'anno",
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: SummaryCard(
+                              icon: Icons.watch_later_outlined,
+                              iconColor: Colors.blue,
+                              title: "Richiesta Attiva",
+                              value: "00",
+                              subtitle: "in corso",
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: 20.h),
+
+                      const HowItWorksCard(),
+                    ],
+
+                    /// IF DATA AVAILABLE
+                    if (controller.hasData.value) ...[
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SummaryCard(
+                              icon: Icons.show_chart,
+                              iconColor: Colors.green,
+                              title: "Risparmi\nPotenziali",
+                              value: "€128,50",
+                              subtitle: "all'anno",
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: SummaryCard(
+                              icon: Icons.watch_later_outlined,
+                              iconColor: Colors.blue,
+                              title: "Richiesta Attiva",
+                              value: "00",
+                              subtitle: "in corso",
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: 18.h),
+
+                      UtilitiesSection(
+                        utilities: controller.utilityList,
+                      ),
+
+                      SizedBox(height: 18.h),
+
+                      ActionSection(),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
