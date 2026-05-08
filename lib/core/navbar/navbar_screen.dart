@@ -1,10 +1,11 @@
 
 import 'package:billo/core/utils/app_colors.dart';
 import 'package:billo/features/home/screen/home_screen.dart';
-import 'package:billo/features/new/my_utiliets.dart';
+import 'package:billo/features/my_utility/my_utiliets.dart';
 import 'package:billo/features/new/select_utility_screen.dart';
 import 'package:billo/features/profile/profile_screen.dart';
 import 'package:billo/features/request/request_screen.dart';
+import 'package:billo/features/utility/select_utility_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -43,8 +44,8 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   /// Floating Action Button
   Widget _buildFloatingActionButton() {
     return SizedBox(
-      height: 69.h,
-      width: 69.w,
+      height: 50.h,
+      width: 50.w,
       child: FloatingActionButton(
         backgroundColor: AppColors.primaryColor,
         elevation: 2,
@@ -56,7 +57,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(40.r),
           child: Image.asset(
-            "assets/images/circle.png",
+            "assets/icons/flash.png",
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -69,7 +70,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   /// Bottom Navigation Bar
   Widget _buildBottomNavigationBar() {
     return Container(
-      height: 90.h,
+      height: 70.h,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -97,7 +98,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
               passiveImage: "assets/images/rich.png",
             ),
           ),
-          SizedBox(width: 70.w), // Space for FAB
+          SizedBox(width: 50.w), // Space for FAB
           Expanded(
             child: _buildNavItem(
               index: 2,

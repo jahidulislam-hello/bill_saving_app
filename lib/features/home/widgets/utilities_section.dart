@@ -18,7 +18,7 @@ class UtilitiesSection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.grey,
         borderRadius: BorderRadius.circular(18.r),
       ),
       child: Column(
@@ -58,6 +58,10 @@ class UtilitiesSection extends StatelessWidget {
                 title: item['title'],
                 subtitle: item['subtitle'],
                 price: item['price'],
+                onTap: () {
+                  // Handle utility card tap
+                  print("Utility tapped: ${item['title']}");
+                },
               );
             },
           ),
