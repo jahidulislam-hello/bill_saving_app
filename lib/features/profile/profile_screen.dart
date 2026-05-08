@@ -1,4 +1,6 @@
 
+import 'package:billo/core/utils/app_colors.dart';
+import 'package:billo/features/profile/agreements/agreements_screen.dart';
 import 'package:billo/features/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -101,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F7),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -302,7 +304,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Colors.white, size: 14.sp),
                         SizedBox(width: 5.w),
                         Text(
-                          'Switch to Business',
+                          _controller.accountType == 'Personal'
+                              ? 'Switch to Business'
+                              : 'Switch to Personal',
                           style: TextStyle(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w500,
@@ -359,7 +363,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Divider(
                   height: 1,
                   thickness: 1,
-                  indent: 58.w,
+                  indent: 14.w,
+                  endIndent: 14.w,
                   color: Colors.grey.shade100,
                 ),
             ],
@@ -471,6 +476,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         context,
         MaterialPageRoute(
           builder: (_) => PersonalDataScreen(controller: _controller),
+        ),
+      );
+    }
+    if (route == 'agreements') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => AgreementsScreen(),
         ),
       );
     }

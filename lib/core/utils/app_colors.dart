@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AppColors {
   AppColors._();
@@ -20,6 +21,22 @@ class AppColors {
   static const Color dividerColor = Color(0xFFE0E0E0);
   static const Color textPrimary = Color(0xFF111111);
   static const Color textSecondary = Color(0xFF888888);
+
+
+
+  static const purple = Color(0xFF5B3FD9);
+  static const purpleGrad1 = Color(0xFF4B2FB9);
+  static const purpleGrad2 = Color(0xFF7B5FE9);
+  static const green = Color(0xFF00C896);
+  static const greenText = Color(0xFF00A876);
+  static const bg = Color(0xFFF7F8FC);
+  static const cardBg = Colors.white;
+  static const textDark = Color(0xFF1A1A2E);
+  static const textMid = Color(0xFF636E72);
+  static const textLight = Color(0xFFB2BEC3);
+  static const divider = Color(0xFFF0F0F5);
+  static const linkBlue = Color(0xFF2980B9);
+  static const linkGreen = Color(0xFF27AE60);
 
 
 

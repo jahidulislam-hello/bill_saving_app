@@ -36,36 +36,37 @@ class HomeScreen extends StatelessWidget {
                     if (!controller.hasData.value) ...[
                       UploadSection(
                         onTap: () {
-                          /// navigate upload screen
-                          /// after upload success:
                           controller.startSavingFlow();
                         },
                       ),
 
                       SizedBox(height: 16.h),
 
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SummaryCard(
-                              icon: Icons.show_chart,
-                              iconColor: Colors.green,
-                              title: "Risparmi\nPotenziali",
-                              value: "€128,50",
-                              subtitle: "all'anno",
+                      IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: SummaryCard(
+                                icon: Icons.show_chart,
+                                iconColor: Colors.green,
+                                title: "Risparmi\nPotenziali",
+                                value: "€128,50",
+                                subtitle: "all'anno",
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 12.w),
-                          Expanded(
-                            child: SummaryCard(
-                              icon: Icons.watch_later_outlined,
-                              iconColor: Colors.blue,
-                              title: "Richiesta Attiva",
-                              value: "00",
-                              subtitle: "in corso",
+                            SizedBox(width: 12.w),
+                            Expanded(
+                              child: SummaryCard(
+                                icon: Icons.watch_later_outlined,
+                                iconColor: Colors.blue,
+                                title: "Richiesta Attiva",
+                                value: "00",
+                                subtitle: "in corso",
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
 
                       SizedBox(height: 20.h),
@@ -75,28 +76,31 @@ class HomeScreen extends StatelessWidget {
 
                     /// IF DATA AVAILABLE
                     if (controller.hasData.value) ...[
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SummaryCard(
-                              icon: Icons.show_chart,
-                              iconColor: Colors.green,
-                              title: "Risparmi\nPotenziali",
-                              value: "€128,50",
-                              subtitle: "all'anno",
+                      IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: SummaryCard(
+                                icon: Icons.show_chart,
+                                iconColor: Colors.green,
+                                title: "Risparmi\nPotenziali",
+                                value: "€128,50",
+                                subtitle: "all'anno",
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 12.w),
-                          Expanded(
-                            child: SummaryCard(
-                              icon: Icons.watch_later_outlined,
-                              iconColor: Colors.blue,
-                              title: "Richiesta Attiva",
-                              value: "00",
-                              subtitle: "in corso",
+                            SizedBox(width: 12.w),
+                            Expanded(
+                              child: SummaryCard(
+                                icon: Icons.watch_later_outlined,
+                                iconColor: Colors.blue,
+                                title: "Richiesta Attiva",
+                                value: "00",
+                                subtitle: "in corso",
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
 
                       SizedBox(height: 18.h),

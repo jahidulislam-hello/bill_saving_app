@@ -1,6 +1,9 @@
 import 'package:billo/core/utils/app_colors.dart';
+import 'package:billo/features/new/offer_details.dart';
+import 'package:billo/features/request/offer_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../../core/appbar/custom_appbar.dart';
 import 'request_controller.dart';
@@ -457,7 +460,9 @@ class _RequestScreenState extends State<RequestScreen>
               width: double.infinity,
               height: 46.h,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(()=> OfferDetailsScreen());
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF5B3FD8),
                   foregroundColor: Colors.white,
