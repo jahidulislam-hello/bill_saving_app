@@ -1,24 +1,10 @@
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(const _App());
 
-class _App extends StatelessWidget {
-  const _App();
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: PrivacyPolicyScreen(),
-    );
-  }
-}
+class AboutUs extends StatelessWidget {
+  const AboutUs({super.key});
 
-class PrivacyPolicyScreen extends StatelessWidget {
-  const PrivacyPolicyScreen({super.key});
-
-  static const _purple = Color(0xFF6C5CE7);
-  static const _purpleBg = Color(0xFFEEECFB);
   static const _textDark = Color(0xFF1A1A2E);
   static const _textMid = Color(0xFF4A4A68);
   static const _bg = Colors.white;
@@ -46,7 +32,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.asset(
-                  "assets/images/terms.png",
+                  "assets/images/about.png",
                   width: 328,
                   height: 172,
                   fit: BoxFit.cover,
@@ -56,7 +42,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             const SizedBox(height: 28),
             // ── Title ──
             const Text(
-              'Privacy Policy',
+              'About VYZI',
               style: TextStyle(
                 color: _textDark,
                 fontSize: 18,
@@ -86,7 +72,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
         child: Icon(Icons.chevron_left, color: _textDark, size: 28),
       ),
       title: const Text(
-        'Privacy Policy',
+        'About VYZI',
         style: TextStyle(
           color: _textDark,
           fontSize: 17,

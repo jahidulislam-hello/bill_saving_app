@@ -1,6 +1,6 @@
 import 'dart:ui';
-import 'package:billo/core/utils/app_colors.dart';
-import 'package:billo/features/my_utility/my_utiliets.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/my_utility/my_utiliets.dart';
 import 'package:flutter/material.dart';
 
 
@@ -51,7 +51,7 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
           const SizedBox(height: 30),
         ],
       ),
-      bottomNavigationBar: _downloadBar(),
+      // bottomNavigationBar: _downloadBar(),
     );
   }
 
@@ -106,11 +106,11 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: const [
-                    Icon(Icons.circle, color: Color(0xFF40DEB04D), size: 7),
+                    Icon(Icons.circle, color: Color(0xFF40DEB0), size: 7),
                     SizedBox(width: 5),
                     Text('ACTIVE OFFER',
                         style: TextStyle(
-                            color: AppColors.primary50,
+                            color: Color(0xFF40DEB0),
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
                             letterSpacing: 0.5)),
@@ -127,11 +127,11 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
                       letterSpacing: -0.3)),
               const SizedBox(height: 6),
               const Text('Business Electricity Supply',
-                  style: TextStyle(color: AppColors.primary50, fontSize: 13, fontWeight: FontWeight.w600)),
+                  style: TextStyle(color: Colors.green, fontSize: 13, fontWeight: FontWeight.w600)),
               const SizedBox(height: 18),
               Row(
                 children: [
-                  _heroStat('MATERIAL PRICE', '0.124 €/kWh'),
+                  _heroStat('MATERIAL PRICE', '0.124 €/kWh', valueColor: const Color(0xFF40DEB0)),
                   const SizedBox(width: 32),
                   _heroStat('ACTIVATION', '12 Mag 2023'),
                 ],
@@ -143,7 +143,7 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
     );
   }
 
-  Widget _heroStat(String label, String value) {
+  Widget _heroStat(String label, String value, {Color? valueColor}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -155,8 +155,8 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
                 letterSpacing: 0.6)),
         const SizedBox(height: 4),
         Text(value,
-            style: const TextStyle(
-                color: AppColors.primary50,
+            style: TextStyle(
+                color: valueColor ?? AppColors.primary50,
                 fontSize: 14,
                 fontWeight: FontWeight.w800)),
       ],
@@ -190,7 +190,7 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 6),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: Color(0xFFF5F7FF),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: AppColors.primary50, width: 1.2),
       ),
@@ -255,8 +255,9 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: AppColors.primary50,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFFE8E8E8)),
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.04),
@@ -297,22 +298,23 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
 
   // ── FAQ Card ──
   Widget _faqCard() {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.primary50,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 2)),
-        ],
-      ),
-      child: Column(
-        children: List.generate(_faqs.length, (i) {
-          final isExpanded = _expandedFAQ.contains(i);
-          final isLast = i == _faqs.length - 1;
-          return Column(
+    return Column(
+      children: List.generate(_faqs.length, (i) {
+        final isExpanded = _expandedFAQ.contains(i);
+        return Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: const Color(0xFFE8E8E8)),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(0.04),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2)),
+            ],
+          ),
+          child: Column(
             children: [
               GestureDetector(
                 onTap: () => setState(() {
@@ -358,44 +360,43 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
                           fontSize: 12,
                           height: 1.55)),
                 ),
-              if (!isLast) const Divider(color: AppColors.primary50, height: 1),
             ],
-          );
-        }),
-      ),
+          ),
+        );
+      }),
     );
   }
 
-  // ── Download Bar ──
-  Widget _downloadBar() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 28),
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, -3)),
-        ],
-      ),
-      child: SizedBox(
-        width: double.infinity,
-        height: 52,
-        child: OutlinedButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.download_outlined, size: 18),
-          label: const Text('Download Contract',
-              style:
-              TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
-          style: OutlinedButton.styleFrom(
-            foregroundColor: Colors.black,
-            side: const BorderSide(color: Colors.black, width: 1.5),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14)),
-          ),
-        ),
-      ),
-    );
-  }
+  // // ── Download Bar ──
+  // Widget _downloadBar() {
+  //   return Container(
+  //     padding: const EdgeInsets.fromLTRB(16, 10, 16, 28),
+  //     decoration: BoxDecoration(
+  //       color: AppColors.background,
+  //       boxShadow: [
+  //         BoxShadow(
+  //             color: Colors.black.withOpacity(0.05),
+  //             blurRadius: 10,
+  //             offset: const Offset(0, -3)),
+  //       ],
+  //     ),
+  //     child: SizedBox(
+  //       width: double.infinity,
+  //       height: 52,
+  //       child: OutlinedButton.icon(
+  //         onPressed: () {},
+  //         icon: const Icon(Icons.download_outlined, size: 18),
+  //         label: const Text('Download Contract',
+  //             style:
+  //             TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+  //         style: OutlinedButton.styleFrom(
+  //           foregroundColor: Colors.black,
+  //           side: const BorderSide(color: Colors.black, width: 1.5),
+  //           shape: RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.circular(14)),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

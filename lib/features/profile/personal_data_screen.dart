@@ -1,4 +1,4 @@
-import 'package:billo/features/profile/controller/profile_controller.dart';
+import 'package:vyzi/features/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -1,4 +1,4 @@
-import 'package:billo/features/profile/agreements/agreements_details_screen.dart';
+import 'package:vyzi/features/profile/agreements/agreements_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'agreements_controller.dart';

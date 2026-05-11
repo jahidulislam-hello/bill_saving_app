@@ -1,12 +1,12 @@
 
 
-import 'package:billo/core/navbar/navbar_screen.dart';
-import 'package:billo/features/auth/create_account.dart';
-import 'package:billo/features/auth/screen/forgot_email_screen.dart';
-import 'package:billo/features/auth/signin_screen.dart';
-import 'package:billo/features/home/screen/home_screen.dart';
-import 'package:billo/features/onboarding/warmup.dart';
-import 'package:billo/features/dumb/warmup_onboarding.dart';
+import 'package:vyzi/core/navbar/navbar_screen.dart';
+import 'package:vyzi/features/auth/create_account.dart';
+import 'package:vyzi/features/auth/screen/forgot_email_screen.dart';
+import 'package:vyzi/features/auth/signin_screen.dart';
+import 'package:vyzi/features/home/screen/home_screen.dart';
+import 'package:vyzi/features/onboarding/warmup.dart';
+import 'package:vyzi/features/dumb/warmup_onboarding.dart';
 import 'package:get/get.dart';
 
 import '../features/onboarding/onboarding_screen.dart';

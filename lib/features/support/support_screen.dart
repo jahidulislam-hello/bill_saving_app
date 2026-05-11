@@ -7,15 +7,12 @@ import 'package:flutter/material.dart';
 // ─────────────────────────────────────────────
 class _T {
   static const bg = Colors.white;
-  static const scaffoldBg = Color(0xFFF9F9FB);
   static const textDark = Color(0xFF1A1A2E);
   static const textMid = Color(0xFF636E72);
   static const textLight = Color(0xFFB2BEC3);
-  static const divider = Color(0xFFF0F0F5);
   static const purple = Color(0xFF6C5CE7);
   static const purpleBg = Color(0xFFEEEAFB);
   static const green = Color(0xFF00C896);
-  static const greenText = Color(0xFF00A876);
   static const orange = Color(0xFFE67E22);
   static const orangeBg = Color(0xFFFEF0E6);
   static const teal = Color(0xFF00B4D8);

@@ -1,11 +1,10 @@
 
-import 'package:billo/core/utils/app_colors.dart';
-import 'package:billo/features/home/screen/home_screen.dart';
-import 'package:billo/features/my_utility/my_utiliets.dart';
-import 'package:billo/features/new/select_utility_screen.dart';
-import 'package:billo/features/profile/profile_screen.dart';
-import 'package:billo/features/request/request_screen.dart';
-import 'package:billo/features/utility/select_utility_screen.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/home/screen/home_screen.dart';
+import 'package:vyzi/features/my_utility/my_utiliets.dart';
+import 'package:vyzi/features/profile/profile_screen.dart';
+import 'package:vyzi/features/request/request_screen.dart';
+import 'package:vyzi/features/utility/select_utility_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -55,7 +54,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
 
         shape: const CircleBorder(),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(40.r),
+          borderRadius: BorderRadius.circular(30.r),
           child: Image.asset(
             "assets/icons/flash.png",
             fit: BoxFit.cover,
@@ -70,7 +69,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   /// Bottom Navigation Bar
   Widget _buildBottomNavigationBar() {
     return Container(
-      height: 70.h,
+      height: 64.h,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [

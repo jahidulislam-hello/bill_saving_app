@@ -1,21 +1,8 @@
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(const _App());
-
-class _App extends StatelessWidget {
-  const _App();
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: PrivacyPolicyScreen(),
-    );
-  }
-}
-
-class PrivacyPolicyScreen extends StatelessWidget {
-  const PrivacyPolicyScreen({super.key});
+class FaqQuestion extends StatelessWidget {
+  const FaqQuestion({super.key});
 
   static const _purple = Color(0xFF6C5CE7);
   static const _purpleBg = Color(0xFFEEECFB);
@@ -47,7 +34,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             const SizedBox(height: 28),
             // ── Title ──
             const Text(
-              'Privacy Policy',
+              'Frequently Ask Question',
               style: TextStyle(
                 color: _textDark,
                 fontSize: 18,
@@ -77,7 +64,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
         child: Icon(Icons.chevron_left, color: _textDark, size: 28),
       ),
       title: const Text(
-        'Privacy Policy',
+        'Frequently Ask Question',
         style: TextStyle(
           color: _textDark,
           fontSize: 17,

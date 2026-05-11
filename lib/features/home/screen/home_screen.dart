@@ -1,10 +1,10 @@
-import 'package:billo/features/home/controller/home_controller.dart';
-import 'package:billo/features/home/widgets/action_section.dart';
-import 'package:billo/features/home/widgets/home_header.dart';
-import 'package:billo/features/home/widgets/how_it_works.dart';
-import 'package:billo/features/home/widgets/summary_card.dart';
-import 'package:billo/features/home/widgets/upload_section.dart';
-import 'package:billo/features/home/widgets/utilities_section.dart';
+import 'package:vyzi/features/home/controller/home_controller.dart';
+import 'package:vyzi/features/home/widgets/action_section.dart';
+import 'package:vyzi/features/home/widgets/home_header.dart';
+import 'package:vyzi/features/home/widgets/how_it_works.dart';
+import 'package:vyzi/features/home/widgets/summary_card.dart';
+import 'package:vyzi/features/home/widgets/upload_section.dart';
+import 'package:vyzi/features/home/widgets/utilities_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

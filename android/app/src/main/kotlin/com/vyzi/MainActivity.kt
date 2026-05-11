@@ -1,4 +1,4 @@
-package com.bill_saving_app
+package com.vyzi
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -35,7 +35,7 @@ class ActionCard extends StatelessWidget {
           border: Border.all(
             color: isHighlighted
                 ? color.withOpacity(0.35)
-                : Colors.grey.shade200,
+                : Color(0xFFE8E8E8),
             width: isHighlighted ? 1.5 : 1.0,
           ),
         ),
@@ -51,7 +51,7 @@ class ActionCard extends StatelessWidget {
                   width: 56.w,
                   decoration: BoxDecoration(
                     color: isHighlighted
-                        ? const Color(0xFF1A1A2E) // dark bg
+                        ?  Color(0xFF1A1A2E) // dark bg
                         : color.withOpacity(0.10),
                     borderRadius: BorderRadius.circular(16.r),
                   ),

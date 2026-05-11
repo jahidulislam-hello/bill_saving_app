@@ -44,7 +44,6 @@ class AppIcons{
   static String cake="$baseUrl/cake.svg";
   static String helloIcon="$baseUrl/helloIcon.svg";
   static String filterIcon="$baseUrl/filter.svg";
-  static String delete="$baseUrl/delete.svg";
   static String heart="$baseUrl/heart.svg";
   static String search="$baseUrl/search.svg";
   static String homeIcons="$baseUrl/home_icons.svg";
@@ -69,6 +68,16 @@ class AppIcons{
   static String userIcon ="$baseUrl/user.svg";
   static String homeIcon="$baseUrl/homeIcon.svg";
   static String down_ArrowIcon="$baseUrl/down_arrow_icon.svg";
+
+
+
+
+  static String privacy = "$baseUrl/privacy.png";
+  static String terms = "$baseUrl/terms.png";
+  static String about = "$baseUrl/about.png";
+  static String delete = "$baseUrl/delete.png";
+  static String arrow = "$baseUrl/arrow.png";
+
 
 
 

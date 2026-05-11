@@ -1,6 +1,6 @@
 
-import 'package:billo/features/auth/password_succesfull.dart';
-import 'package:billo/features/auth/signin_screen.dart';
+import 'package:vyzi/features/auth/password_succesfull.dart';
+import 'package:vyzi/features/auth/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,10 +1,12 @@
 import 'dart:io';
 
-import 'package:billo/core/utils/app_colors.dart';
-import 'package:billo/features/utility/controller/select_utility_controller.dart';
-import 'package:billo/features/utility/controller/upload_bill_controller.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/home/email/email_bill_screen.dart';
+import 'package:vyzi/features/utility/controller/select_utility_controller.dart';
+import 'package:vyzi/features/utility/controller/upload_bill_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -326,7 +328,10 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
   // ── Send Our Email card ──
   Widget _buildEmailCard() {
     return GestureDetector(
-      onTap: () => _controller.selectMethod(UploadMethod.sendEmail),
+      onTap: () {
+        _controller.selectMethod(UploadMethod.sendEmail);
+        Get.to(() => EmailBillScreen());
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(

@@ -1,5 +1,7 @@
-import 'package:billo/core/utils/app_colors.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/request/complete_request/complete_request_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 class OfferDetailsController extends ChangeNotifier {
@@ -59,8 +61,7 @@ class OfferDetailsController extends ChangeNotifier {
   }
 
   void selectOffer() {
-    // Handle offer selection
-    notifyListeners();
+    Get.to(() => const CompleteRequestScreen());
   }
 }
 
@@ -144,9 +145,12 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
       elevation: 0,
       scrolledUnderElevation: 0,
       leadingWidth: 40,
-      leading: const Padding(
-        padding: EdgeInsets.only(left: 12),
-        child: Icon(Icons.chevron_left, color: AppColors.textDark, size: 28),
+      leading: GestureDetector(
+        onTap: () => Navigator.pop(context),
+        child: const Padding(
+          padding: EdgeInsets.only(left: 12),
+          child: Icon(Icons.chevron_left, color: AppColors.textDark, size: 28),
+        ),
       ),
       title: const Text(
         'Offer Details',

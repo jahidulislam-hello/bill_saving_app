@@ -1,5 +1,8 @@
+
+import 'package:vyzi/features/request/request_success_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -917,7 +920,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       width: double.infinity,
       height: 54.h,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.to(()=> RequestSuccessScreen());
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF5B3FD8),
           foregroundColor: Colors.white,
