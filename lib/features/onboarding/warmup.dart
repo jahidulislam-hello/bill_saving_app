@@ -1,5 +1,5 @@
-import 'package:billo/core/widgets/primary_button.dart';
-import 'package:billo/routes/app_routes.dart';
+import 'package:vyzi/core/widgets/primary_button.dart';
+import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

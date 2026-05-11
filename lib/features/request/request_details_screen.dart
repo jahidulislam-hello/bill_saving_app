@@ -1,4 +1,6 @@
+import 'package:vyzi/features/home/sign_contract/sign_contract.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RequestDetailsScreen extends StatelessWidget {
   const RequestDetailsScreen({super.key});
@@ -27,7 +29,7 @@ class RequestDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bg,
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(context),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         children: [
@@ -44,14 +46,17 @@ class RequestDetailsScreen extends StatelessWidget {
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: _bg,
       elevation: 0,
       leadingWidth: 40,
-      leading: const Padding(
-        padding: EdgeInsets.only(left: 12),
-        child: Icon(Icons.chevron_left, color: _textDark, size: 28),
+      leading: GestureDetector(
+        onTap: () => Navigator.pop(context),
+        child: const Padding(
+          padding: EdgeInsets.only(left: 12),
+          child: Icon(Icons.chevron_left, color: _textDark, size: 28),
+        ),
       ),
       title: const Text(
         'Request Details',
@@ -66,54 +71,57 @@ class RequestDetailsScreen extends StatelessWidget {
 
   // ── Processing Card ──
   Widget _processingCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
-      decoration: BoxDecoration(
-        color: _cardBg,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 3)),
-        ],
-      ),
-      child: Column(
-        children: [
-          // Icon badge
-          Container(
-            width: 68,
-            height: 68,
-            decoration: BoxDecoration(
-              color: _purpleBg,
-              shape: BoxShape.circle,
+    return GestureDetector(
+      onTap: () => Get.to(() => const SignContractScreen()),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
+        decoration: BoxDecoration(
+          color: _cardBg,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 3)),
+          ],
+        ),
+        child: Column(
+          children: [
+            // Icon badge
+            Container(
+              width: 68,
+              height: 68,
+              decoration: BoxDecoration(
+                color: _purpleBg,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.description_outlined,
+                  color: _purple, size: 32),
             ),
-            child: const Icon(Icons.description_outlined,
-                color: _purple, size: 32),
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            'Processing Your Request',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: _textDark,
-              fontSize: 18,
-              fontWeight: FontWeight.w800,
-              letterSpacing: -0.2,
+            const SizedBox(height: 16),
+            const Text(
+              'Processing Your Request',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: _textDark,
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+                letterSpacing: -0.2,
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            "We're working on your switch. No action\nneeded from you right now.",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: _textMid,
-              fontSize: 13,
-              height: 1.55,
+            const SizedBox(height: 8),
+            const Text(
+              "We're working on your switch. No action\nneeded from you right now.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: _textMid,
+                fontSize: 13,
+                height: 1.55,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

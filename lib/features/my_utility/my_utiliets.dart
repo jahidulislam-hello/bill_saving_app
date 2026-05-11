@@ -1,6 +1,7 @@
-import 'package:billo/core/utils/app_colors.dart';
-import 'package:billo/features/my_utility/my_utility_details_screen.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/my_utility/my_utility_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 
@@ -91,6 +92,7 @@ class MyUtilitiesScreen extends StatelessWidget {
   Widget _saveBanner() {
     return Container(
       width: double.infinity,
+      height: 192.h,
       padding: const EdgeInsets.fromLTRB(20, 22, 20, 22),
       decoration: BoxDecoration(
         color: Color(0xFF001C13),
@@ -119,7 +121,7 @@ class MyUtilitiesScreen extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.white60, fontSize: 13, height: 1.5),
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 28),
               GestureDetector(
                 onTap: () {},
                 child: Container(
@@ -159,11 +161,13 @@ class _UtilityTile extends StatelessWidget {
         ),
       ),
       child: Container(
+        height: 163,
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFE8E8E8)),
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.05),
@@ -215,9 +219,9 @@ class _UtilityTile extends StatelessWidget {
                     align: CrossAxisAlignment.end),
               ],
             ),
-            const SizedBox(height: 12),
-            const Divider(color: Color(0xFFF3F4F6), height: 1.22),
-            const SizedBox(height: 10),
+            const SizedBox(height: 16),
+            const Divider(color: Color(0xFFE8E8E8), height: 1.22),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

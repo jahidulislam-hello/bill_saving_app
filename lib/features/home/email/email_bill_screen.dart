@@ -32,29 +32,22 @@ class EmailBillScreen extends StatelessWidget {
             /// Top Card
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 30),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: Colors.grey.shade300),
               ),
               child: Column(
-                children: const [
-                  Icon(Icons.mail_outline, size: 40, color: Colors.black54),
-                  SizedBox(height: 12),
-                  Text(
-                    "Send Via Email",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                children: [
+
+                     Image.asset(
+                      'assets/images/send_mail.png',
+                      fit: BoxFit.contain,
+
+
                     ),
-                  ),
-                  SizedBox(height: 6),
-                  Text(
-                    "Forward your utility bill to your email\naddress.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey, fontSize: 13),
-                  ),
+
+
                 ],
               ),
             ),

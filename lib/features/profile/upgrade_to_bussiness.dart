@@ -1,42 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const _App());
 
-class _App extends StatelessWidget {
-  const _App();
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: _DemoScreen(),
-    );
-  }
-}
-
-// ── Demo trigger screen ──
-class _DemoScreen extends StatelessWidget {
-  const _DemoScreen();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FC),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () => showUpgradeToBusinessSheet(context),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF5B3FD9),
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
-            shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          child: const Text('Switch to Business',
-              style: TextStyle(fontWeight: FontWeight.w700)),
-        ),
-      ),
-    );
-  }
-}
 
 // ─────────────────────────────────────────────
 // PUBLIC FUNCTION – call from anywhere

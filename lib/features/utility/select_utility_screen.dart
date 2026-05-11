@@ -1,5 +1,5 @@
-import 'package:billo/core/utils/app_colors.dart';
-import 'package:billo/features/utility/controller/select_utility_controller.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/utility/controller/select_utility_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'upload_bill_screen.dart';

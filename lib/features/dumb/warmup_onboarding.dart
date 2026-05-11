@@ -1,4 +1,4 @@
-// import 'package:billo/features/onboarding/onboarding_screen.dart';
+// import 'package:vyzi/features/onboarding/onboarding_screen.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 //

@@ -1,5 +1,5 @@
-import 'package:billo/core/utils/app_images.dart';
-import 'package:billo/routes/app_routes.dart';
+import 'package:vyzi/core/utils/app_images.dart';
+import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         child: Center(
           child: Image.asset(
-            AppImages.appLogo,
+            AppImages.logo,
             width: 180.w,
             height: 180.h,
           ),

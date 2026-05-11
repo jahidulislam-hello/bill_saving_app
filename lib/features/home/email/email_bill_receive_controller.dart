@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'package:vyzi/core/navbar/navbar_screen.dart';
+import 'package:vyzi/features/request/request_screen.dart';
 import 'package:get/get.dart';
 
-class BillReceivedController extends GetxController {
+class EmailBillReceivedController extends GetxController {
   var progress = 45.obs;
 
   Timer? timer;
@@ -23,11 +25,11 @@ class BillReceivedController extends GetxController {
   }
 
   void goToRequests() {
-    Get.toNamed('/requests'); // adjust route
+    Get.to(() => const RequestScreen());
   }
 
   void backToHome() {
-    Get.offAllNamed('/home'); // adjust route
+    Get.offAll(() =>  CustomBottomNavBar());
   }
 
   @override

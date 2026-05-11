@@ -1,6 +1,6 @@
-import 'package:billo/core/utils/app_colors.dart';
-import 'package:billo/features/new/offer_details.dart';
-import 'package:billo/features/request/offer_details.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/request/request_details_screen.dart';
+import 'package:vyzi/features/request/offer_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -24,6 +24,7 @@ class _RequestScreenState extends State<RequestScreen>
   // Filter options for "Your Offers" tab
   final List<String> _filters = ['All', 'Direct Debit', 'Postal Order','AliKobe', 'Direct Order', 'Postal Ballet'];
   int _selectedFilter = 0;
+  bool _isBillUploaded = false;
 
   @override
   void initState() {
@@ -61,7 +62,8 @@ class _RequestScreenState extends State<RequestScreen>
         title: 'Request',
         showBackButton: false,
       ),
-      body: Column(
+      body: _isBillUploaded
+          ? Column(
         children: [
           _buildTabBar(),
           Expanded(
@@ -70,6 +72,19 @@ class _RequestScreenState extends State<RequestScreen>
                 : _buildMyRequestsTab(),
           ),
         ],
+      )
+          : GestureDetector(
+        onTap: () {
+          setState(() {
+            _isBillUploaded = true;
+          });
+        },
+        child: Center(
+          child: Image.asset(
+            'assets/images/uploadBill.png',
+            fit: BoxFit.contain,
+          ),
+        ),
       ),
     );
   }
@@ -104,7 +119,7 @@ class _RequestScreenState extends State<RequestScreen>
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 14.h),
+                padding: EdgeInsets.symmetric(vertical: 10.h),
                 child: Text(
                   title,
                   style: TextStyle(
@@ -618,6 +633,7 @@ class _RequestScreenState extends State<RequestScreen>
             ],
           ),
 
+
           // ── "View Alternatives" button for readyToSign ──
           if (request.status == RequestStatus.readyToSign) ...[
             SizedBox(height: 10.h),
@@ -625,7 +641,11 @@ class _RequestScreenState extends State<RequestScreen>
               width: double.infinity,
               height: 38.h,
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(()=>RequestDetailsScreen());
+                },
+
+
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: Color(0xFFE0E0E0)),
                   shape: RoundedRectangleBorder(

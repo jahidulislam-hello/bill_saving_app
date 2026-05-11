@@ -1,5 +1,5 @@
 
-import 'package:billo/features/auth/screen/forgot_otp_screen.dart';
+import 'package:vyzi/features/auth/screen/forgot_otp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

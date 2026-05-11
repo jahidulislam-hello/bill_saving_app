@@ -1,11 +1,14 @@
 
-import 'package:billo/core/utils/app_colors.dart';
-import 'package:billo/features/profile/agreements/agreements_screen.dart';
-import 'package:billo/features/profile/controller/profile_controller.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/profile/agreements/agreements_screen.dart';
+import 'package:vyzi/features/profile/controller/profile_controller.dart';
+import 'package:vyzi/features/profile/invite_friends/invite_friends.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'personal_data_screen.dart';
+import 'settings/more_screen.dart';
+import 'widgets/upgrade_to_business_sheet.dart';
 
 
 class ProfileScreen extends StatefulWidget {
@@ -42,25 +45,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
       icon: Icons.person_outline_rounded,
       iconBg: Color(0xFFEAF0FF),
       iconColor: Color(0xFF5B7FD8),
-      title: 'Personal Data',
-      subtitle: 'Edit your profile information',
+      title: 'Dati Personali',
+      subtitle: 'Modifica le informazioni del tuo profilo',
       route: 'personal_data',
     ),
     _MenuItem(
       icon: Icons.bolt_rounded,
       iconBg: Color(0xFFE8F8EF),
       iconColor: Color(0xFF27AE60),
-      title: 'Your Utilities',
-      subtitle: 'View active services',
+      title: 'Le tue utenze',
+      subtitle: 'Visualizza i servizi attivi',
       route: 'utilities',
     ),
     _MenuItem(
       icon: Icons.description_outlined,
       iconBg: Color(0xFFF3EEFF),
       iconColor: Color(0xFF9B59B6),
-      title: 'Your Requests',
-      subtitle: 'Track your switches',
+      title: 'Le tue richieste',
+      subtitle: 'Segui i tuoi passaggi',
       route: 'requests',
+    ),
+    _MenuItem(
+      icon: Icons.contact_support,
+      iconBg: Color(0xFFF3EEFF),
+      iconColor: Color(0xFFFFEDD4),
+      title: 'Supporto',
+      subtitle: 'Ricevi aiuto e contattaci',
+      route: 'supports',
     ),
   ];
 
@@ -70,8 +81,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       icon: Icons.person_add_outlined,
       iconBg: Color(0xFFEAF0FF),
       iconColor: Color(0xFF5B7FD8),
-      title: 'Invite & Earn',
-      subtitle: 'Share your link and earn 10',
+      title: 'Invita e Guadagna',
+      subtitle: 'Condividi il tuo link e guadagna 10',
       route: 'invite',
     ),
   ];
@@ -82,16 +93,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       icon: Icons.local_offer_outlined,
       iconBg: Color(0xFFE8F8EF),
       iconColor: Color(0xFF27AE60),
-      title: 'Agreements',
-      subtitle: 'Exclusive partner discounts',
+      title: 'Convenzioni',
+      subtitle: 'Sconti esclusivi dei partner',
       route: 'agreements',
     ),
     _MenuItem(
       icon: Icons.apps_rounded,
       iconBg: Color(0xFFF3EEFF),
       iconColor: Color(0xFF9B59B6),
-      title: 'More',
-      subtitle: 'Legal Privacy',
+      title: 'Altro',
+      subtitle: 'Privacy Legale',
       route: 'more',
     ),
   ];
@@ -118,15 +129,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     _buildProfileCard(),
                     SizedBox(height: 24.h),
-                    _buildSectionLabel('Account Management'),
+                    _buildSectionLabel('Gestione Account'),
                     SizedBox(height: 10.h),
                     _buildMenuCard(_accountItems),
                     SizedBox(height: 24.h),
-                    _buildSectionLabel('Invite and Rewards'),
+                    _buildSectionLabel('Invita e Premi'),
                     SizedBox(height: 10.h),
                     _buildMenuCard(_inviteItems),
                     SizedBox(height: 24.h),
-                    _buildSectionLabel('Others'),
+                    _buildSectionLabel('Altro'),
                     SizedBox(height: 10.h),
                     _buildMenuCard(_otherItems),
                     SizedBox(height: 24.h),
@@ -190,7 +201,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Container(
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF4A35B8), Color(0xFF6B52D8)],
+          colors: [Color(0xFF664AE1), Color(0xFF38287B)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -285,7 +296,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
                 GestureDetector(
-                  onTap: _controller.switchToBusiness,
+                  onTap: () {
+                    if (_controller.accountType == 'Personal') {
+                      showUpgradeToBusinessSheet(
+                        context,
+                        onConfirm: () => _controller.switchToBusiness(),
+                      );
+                    } else {
+                      _controller.switchToBusiness();
+                    }
+                  },
                   child: Container(
                     padding: EdgeInsets.symmetric(
                         horizontal: 14.w, vertical: 8.h),
@@ -487,6 +507,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       );
     }
+    if (route == 'invite') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => InviteScreen(),
+        ),
+      );
+    }
+    if (route == 'more') {
+     Navigator.push(
+       context,
+       MaterialPageRoute(
+           builder: (_) => MoreScreen(),
+    ),
+  );
+}
     // Add other routes as needed
   }
 }

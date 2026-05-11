@@ -1,9 +1,9 @@
-import 'package:billo/core/utils/app_colors.dart';
-import 'package:billo/core/widgets/custom_text_filled.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/core/widgets/custom_text_filled.dart';
 
-import 'package:billo/core/widgets/primary_button.dart';
-import 'package:billo/core/widgets/social_button.dart';
-import 'package:billo/routes/app_routes.dart';
+import 'package:vyzi/core/widgets/primary_button.dart';
+import 'package:vyzi/core/widgets/social_button.dart';
+import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

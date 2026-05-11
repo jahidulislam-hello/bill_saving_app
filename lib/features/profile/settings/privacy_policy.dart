@@ -1,23 +1,13 @@
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(const _App());
 
-class _App extends StatelessWidget {
-  const _App();
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: PrivacyPolicyScreen(),
-    );
-  }
-}
+
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
-  static const _purple = Color(0xFF6C5CE7);
+
   static const _purpleBg = Color(0xFFEEECFB);
   static const _textDark = Color(0xFF1A1A2E);
   static const _textMid = Color(0xFF4A4A68);

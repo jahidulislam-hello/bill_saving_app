@@ -1,3 +1,4 @@
+import 'package:vyzi/features/home/email/email_bill_receive_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -19,10 +20,6 @@ class EmailBillController extends GetxController {
 
   /// Button Action
   void onEmailSent() {
-    Get.snackbar(
-      "Success",
-      "Thanks! We'll review your bill shortly.",
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    Get.to(() => EmailBillReceivedScreen());
   }
 }

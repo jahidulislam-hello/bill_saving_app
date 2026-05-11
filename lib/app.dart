@@ -1,9 +1,9 @@
-import 'package:billo/core/navbar/navbar_screen.dart';
-import 'package:billo/features/onboarding/onboarding_screen.dart';
-import 'package:billo/features/onboarding/warmup.dart';
-import 'package:billo/features/dumb/warmup_onboarding.dart';
-import 'package:billo/features/splash/spalsh_screen.dart';
-import 'package:billo/routes/app_routes.dart';
+import 'package:vyzi/core/navbar/navbar_screen.dart';
+import 'package:vyzi/features/onboarding/onboarding_screen.dart';
+import 'package:vyzi/features/onboarding/warmup.dart';
+import 'package:vyzi/features/dumb/warmup_onboarding.dart';
+import 'package:vyzi/features/splash/spalsh_screen.dart';
+import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
-          title: 'Billo',
+          title: 'VYZI',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.green,
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          initialRoute: AppRoutes.navbarScreen,
+          initialRoute: AppRoutes.splashScreen,
           getPages: AppRoutes.page,
           // Bindings are handled by DependencyInjection.init() in main.dart
           initialBinding: BindingsBuilder(() {
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
           }),
         );
       },
-      child:  CustomBottomNavBar(),
+      child:  SplashScreen(),
     );
   }
 }
