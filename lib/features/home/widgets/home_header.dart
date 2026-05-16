@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyzi/core/utils/app_images.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -32,9 +33,11 @@ class HomeHeader extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  const Icon(
-                    Icons.notifications_none,
-                    color: Colors.white,
+                  Image.asset(
+                    AppImages.notification,
+                    width: 24.w,
+                    height: 24.h,
+                    fit: BoxFit.contain,
                   ),
                 ],
               ),

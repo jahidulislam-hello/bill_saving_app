@@ -21,7 +21,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: 'Forgot Password',
+        title: 'Password Dimenticata',
         showBackButton: true,
       ),
       backgroundColor: Colors.white,
@@ -42,7 +42,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     keyboardType: TextInputType.emailAddress,
                     hintText: 'you@example.com',
                     validator: (v) =>
-                    v == null || !v.contains('@') ? 'Enter valid email' : null,
+                    v == null || !v.contains('@') ? 'Inserisci un\'email valida' : null,
                   ),
                 ),
 
@@ -53,7 +53,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: PrimaryButton(
-                    title: "Get OTP",
+                    title: "Ottieni OTP",
                     onPress: controller.forgetPass,
 
                   ),

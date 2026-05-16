@@ -21,7 +21,7 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(
-        title: 'Verify OTP',
+        title: 'Verifica OTP',
         showBackButton: true,
       ),
       body: SafeArea(
@@ -92,7 +92,7 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                     return GestureDetector(
                       onTap: controller.resendCode,
                       child: const Text(
-                        "Resend OTP",
+                        "Invia di nuovo OTP",
                         style: TextStyle(
                           fontSize: 14,
                           color: AppColors.primary50,
@@ -109,7 +109,7 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                         style: const TextStyle(fontSize: 14),
                         children: [
                           const TextSpan(
-                            text: 'Resend OTP ',
+                            text: 'Invia di nuovo OTP ',
                             style: TextStyle(
                               color: AppColors.primary50,
                               fontWeight: FontWeight.w500,
@@ -135,7 +135,7 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: PrimaryButton(
-                  title: "Verify OTP",
+                  title: "Verifica OTP",
                   onPress: () {
                     Get.to(()=> ResetPasswordScreen());
                   },

@@ -46,7 +46,7 @@ class PasswordUpdateSuccessScreen extends StatelessWidget {
 
                 /// ✅ Static Message
                 const Text(
-                  "All set !",
+                  "Tutto pronto !",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,

@@ -57,7 +57,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
 
               /// Title
               const Text(
-                "Bill Received !",
+                "Bolletta Ricevuta !",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -68,7 +68,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
 
               /// Subtitle
               const Text(
-                "We've received your electricity bill and our AI is\nanalyzing it to find you the best offers.",
+                "Abbiamo ricevuto la tua bolletta elettrica e la nostra IA la sta\nanalizzando per trovarti le migliori offerte.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 13,
@@ -95,7 +95,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
                         const Icon(Icons.analytics_outlined, size: 20),
                         const SizedBox(width: 8),
                         const Text(
-                          "Analysis in Progress",
+                          "Analisi in Corso",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                           ),
@@ -110,7 +110,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          "Scanning for optimizations...",
+                          "Ricerca di ottimizzazioni in corso...",
                           style: TextStyle(fontSize: 13),
                         ),
                         Obx(() => Text(
@@ -152,7 +152,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
                           SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              "The analysis time is approximately 24 hours maximum. We'll notify you as soon as your results are ready.",
+                              "Il tempo di analisi è di circa 24 ore al massimo. Ti informeremo non appena i risultati saranno pronti.",
                               style: TextStyle(fontSize: 12),
                             ),
                           ),
@@ -177,7 +177,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text("Go to Requests"),
+                  child: const Text("Vai alle Richieste"),
                 ),
               ),
 
@@ -194,7 +194,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text("Back to Home"),
+                  child: const Text("Torna alla Home"),
                 ),
               ),
 

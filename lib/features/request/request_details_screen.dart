@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyzi/features/home/sign_contract/sign_contract.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,8 @@ class RequestDetailsScreen extends StatelessWidget {
   static const _purple = Color(0xFF6C5CE7);
   static const _purpleBg = Color(0xFFF0EEFB);
   static const _green = Color(0xFF00B894);
-  static const _greenBg = Color(0xFFE8F8F5);
+  static const _lao = Color(0xFF64FBCB1A);
+  static const _greenBg = Color(0xFFF5F7FF);
   static const _orange = Color(0xFFFFAB00);
   static const _orangeBg = Color(0xFFFFF8E1);
   static const _grey = Color(0xFFB2BEC3);
@@ -18,7 +20,7 @@ class RequestDetailsScreen extends StatelessWidget {
   static const _textMid = Color(0xFF636E72);
   static const _textLight = Color(0xFFB2BEC3);
   static const _cardBg = Colors.white;
-  static const _bg = Color(0xFFF7F8FC);
+  static const _bg = Color(0xFFFFFFFF);
   static const _divider = Color(0xFFEEEEEE);
   static const _infoBg = Color(0xFFEFF2FF);
   static const _infoBorder = Color(0xFFD0D8FF);
@@ -59,7 +61,7 @@ class RequestDetailsScreen extends StatelessWidget {
         ),
       ),
       title: const Text(
-        'Request Details',
+        'Dettagli Richiesta',
         style: TextStyle(
           color: _textDark,
           fontSize: 17,
@@ -77,7 +79,7 @@ class RequestDetailsScreen extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
         decoration: BoxDecoration(
-          color: _cardBg,
+          color: _greenBg,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -101,7 +103,7 @@ class RequestDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             const Text(
-              'Processing Your Request',
+              'Elaborazione della tua Richiesta',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: _textDark,
@@ -112,7 +114,7 @@ class RequestDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              "We're working on your switch. No action\nneeded from you right now.",
+              "Stiamo lavorando al tuo passaggio. Nessuna azione\nrichiesta da parte tua al momento.",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: _textMid,
@@ -170,7 +172,7 @@ class RequestDetailsScreen extends StatelessWidget {
                     const Icon(Icons.bolt, color: Color(0xFF00B0FF), size: 14),
                     const SizedBox(width: 3),
                     const Text(
-                      'Electricity',
+                      'Elettricità',
                       style: TextStyle(
                           color: _textMid,
                           fontSize: 12,
@@ -229,7 +231,7 @@ class RequestDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    'SUBMISSION DATE',
+                    'DATA DI INVIO',
                     style: TextStyle(
                       color: _textLight,
                       fontSize: 10,
@@ -261,7 +263,7 @@ class RequestDetailsScreen extends StatelessWidget {
                     Icon(Icons.circle, color: _yellowBadgeText, size: 8),
                     SizedBox(width: 5),
                     Text(
-                      'In Analysis',
+                      'In Analisi',
                       style: TextStyle(
                         color: _yellowBadgeText,
                         fontSize: 12,
@@ -274,39 +276,33 @@ class RequestDetailsScreen extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 22),
-          const Divider(color: _divider, height: 1),
+          // const SizedBox(height: 22),
+          // const Divider(color: _divider, height: 1),
           const SizedBox(height: 22),
 
           // Steps
           _timelineStep(
-            icon: Icons.check,
-            iconColor: Colors.white,
-            iconBg: _green,
+            assetIcon: 'assets/images/thik.png',
             connectorColor: _green,
-            title: 'Submitted',
-            subtitle: 'Request received successfully',
+            title: 'Inviata',
+            subtitle: 'Richiesta ricevuta con successo',
             isActive: true,
             isLast: false,
           ),
           _timelineStep(
-            icon: Icons.sync,
-            iconColor: _orange,
-            iconBg: _orangeBg,
+            assetIcon: 'assets/images/reverse.png',
             connectorColor: _grey,
-            title: 'Analyzing',
-            subtitle: 'Our experts are verifying data',
+            title: 'Analisi in corso',
+            subtitle: 'I nostri esperti stanno verificando i dati',
             isActive: true,
             isLast: false,
             isCurrentStep: true,
           ),
           _timelineStep(
-            icon: Icons.hourglass_empty,
-            iconColor: _grey,
-            iconBg: _greyBg,
+            assetIcon: 'assets/images/cont.png',
             connectorColor: Colors.transparent,
-            title: 'Contract',
-            subtitle: 'Final switch confirmation',
+            title: 'Contratto',
+            subtitle: 'Conferma finale del passaggio',
             isActive: false,
             isLast: true,
           ),
@@ -316,9 +312,7 @@ class RequestDetailsScreen extends StatelessWidget {
   }
 
   Widget _timelineStep({
-    required IconData icon,
-    required Color iconColor,
-    required Color iconBg,
+    required String assetIcon,
     required Color connectorColor,
     required String title,
     required String subtitle,
@@ -332,21 +326,31 @@ class RequestDetailsScreen extends StatelessWidget {
         children: [
           // Icon + connector column
           SizedBox(
-            width: 44,
+            width: 48,
             child: Column(
               children: [
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 48.w,
+                  height: 48.h,
                   decoration: BoxDecoration(
-                    color: iconBg,
                     shape: BoxShape.circle,
                     border: isCurrentStep
-                        ? Border.all(color: _orange.withOpacity(0.3), width: 3)
+                        ? Border.all(
+                      color: _orange.withOpacity(0.3),
+                      width: 3,
+                    )
                         : null,
                   ),
-                  child: Icon(icon, color: iconColor, size: 18),
+                  child: Center(
+                    child: Image.asset(
+                      assetIcon,
+                      width: 48.w,
+                      height: 48.h,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
+
                 if (!isLast)
                   Expanded(
                     child: Container(
@@ -361,12 +365,16 @@ class RequestDetailsScreen extends StatelessWidget {
               ],
             ),
           ),
+
           const SizedBox(width: 14),
+
           // Text
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(
-                  top: 8, bottom: isLast ? 0 : 20),
+                top: 8,
+                bottom: isLast ? 0 : 20,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -378,7 +386,9 @@ class RequestDetailsScreen extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
+
                   const SizedBox(height: 3),
+
                   Text(
                     subtitle,
                     style: TextStyle(

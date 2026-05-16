@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyzi/core/utils/app_images.dart';
 
 class UtilityCard extends StatelessWidget {
   final String title;
@@ -28,16 +29,12 @@ class UtilityCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
+            SizedBox(
               height: 44.h,
               width: 44.w,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: const Icon(
-                Icons.bolt,
-                color: Colors.amber,
+              child: Image.asset(
+                AppImages.spark,
+                fit: BoxFit.contain,
               ),
             ),
             SizedBox(width: 12.w),

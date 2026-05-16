@@ -42,7 +42,7 @@ class TermsCondition extends StatelessWidget {
             const SizedBox(height: 28),
             // ── Title ──
             const Text(
-              'Privacy Policy',
+              'Termini e Condizioni',
               style: TextStyle(
                 color: _textDark,
                 fontSize: 18,
@@ -72,7 +72,7 @@ class TermsCondition extends StatelessWidget {
         child: Icon(Icons.chevron_left, color: _textDark, size: 28),
       ),
       title: const Text(
-        'Privacy Policy',
+        'Termini e Condizioni',
         style: TextStyle(
           color: _textDark,
           fontSize: 17,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SummaryCard extends StatelessWidget {
-  final IconData icon;
+  final Widget icon;
   final Color iconColor;
   final String title;
   final String value;
@@ -24,16 +24,14 @@ class SummaryCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(
+          color: Colors.grey.shade200,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            icon,
-            color: iconColor,
-            size: 20.sp,
-          ),
+          icon,
 
           SizedBox(height: 10.h),
 

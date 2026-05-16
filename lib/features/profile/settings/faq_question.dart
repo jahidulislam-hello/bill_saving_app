@@ -34,7 +34,7 @@ class FaqQuestion extends StatelessWidget {
             const SizedBox(height: 28),
             // ── Title ──
             const Text(
-              'Frequently Ask Question',
+              'Domande Frequenti',
               style: TextStyle(
                 color: _textDark,
                 fontSize: 18,
@@ -64,7 +64,7 @@ class FaqQuestion extends StatelessWidget {
         child: Icon(Icons.chevron_left, color: _textDark, size: 28),
       ),
       title: const Text(
-        'Frequently Ask Question',
+        'Domande Frequenti',
         style: TextStyle(
           color: _textDark,
           fontSize: 17,

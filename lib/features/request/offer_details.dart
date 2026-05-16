@@ -7,43 +7,43 @@ import 'package:get/get.dart';
 class OfferDetailsController extends ChangeNotifier {
   // Offer data
   final String supplierName = 'EnergyPlus';
-  final String planName = 'Standard Residential Plan';
-  final String badge = 'Best Value';
+  final String planName = 'Piano Residenziale Standard';
+  final String badge = 'Miglior Valore';
   final String savingsAmount = '€306';
-  final String savingsLabel = 'Annual Savings';
+  final String savingsLabel = 'Risparmio Annuale';
 
   // Detail rows
   final List<OfferDetailRow> detailRows = [
     OfferDetailRow(
-      label: 'Contractual binding',
-      value: 'No binding',
+      label: 'Vincolo contrattuale',
+      value: 'Nessun vincolo',
       linkText: null,
     ),
     OfferDetailRow(
-      label: 'Price type',
-      value: 'Indexed price',
-      linkText: "What does it mean?",
+      label: 'Tipo di prezzo',
+      value: 'Prezzo indicizzato',
+      linkText: "Cosa significa?",
       linkColor: AppColors.linkBlue,
     ),
     OfferDetailRow(
-      label: 'Energy price',
+      label: 'Prezzo energia',
       value: 'PUN GME + 0.01 €/kWh',
-      linkText: 'How is it calculated?',
+      linkText: 'Come viene calcolato?',
       linkColor: AppColors.linkGreen,
     ),
     OfferDetailRow(
-      label: 'Fixed energy matter costs',
-      value: '14 \$/month',
+      label: 'Costi fissi materia energia',
+      value: '14 €/mese',
       linkText: null,
     ),
     OfferDetailRow(
-      label: 'Payment method',
-      value: 'Direct debit from current account',
+      label: 'Metodo di pagamento',
+      value: 'Addebito diretto su conto corrente',
       linkText: null,
     ),
     OfferDetailRow(
-      label: 'Contract duration',
-      value: 'Indefinite duration',
+      label: 'Durata del contratto',
+      value: 'Durata indeterminata',
       linkText: null,
     ),
   ];
@@ -153,7 +153,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         ),
       ),
       title: const Text(
-        'Offer Details',
+        'Dettagli Offerta',
         style: TextStyle(
           color: AppColors.textDark,
           fontSize: 17,
@@ -265,7 +265,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
       child: Column(
         children: [
           const Text(
-            'MAXIMUM POTENTIAL BENEFIT',
+            'MASSIMO BENEFICIO POTENZIALE',
             style: TextStyle(
               color: Colors.white60,
               fontSize: 11,
@@ -389,7 +389,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
           const SizedBox(width: 12),
           const Expanded(
             child: Text(
-              'Economic conditions',
+              'Condizioni economiche',
               style: TextStyle(
                   color: AppColors.textDark,
                   fontSize: 14,
@@ -454,7 +454,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
             elevation: 0,
           ),
           child: const Text(
-            'Select this Offer',
+            'Seleziona questa Offerta',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
           ),
         ),
@@ -478,32 +478,32 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
 
   static const _features = [
     (
-    '100% renewable energy',
-    'Carbon-neutral electricity sourced from wind and solar farms.'
+    'Energia 100% rinnovabile',
+    'Elettricità a zero emissioni di carbonio proveniente da parchi eolici e solari.'
     ),
     (
-    'No hidden fees',
-    'Transparent billing with zero unexpected administrative charges.'
+    'Nessun costo nascosto',
+    'Fatturazione trasparente con zero oneri amministrativi imprevisti.'
     ),
     (
-    'Fixed price guarantee',
-    'Your energy rate is locked in for the entire contract term.'
+    'Garanzia prezzo fisso',
+    'La tua tariffa energetica è bloccata per l\'intera durata del contratto.'
     ),
     (
-    '24/7 customer support',
-    'Access to expert energy concierge services at any time.'
+    'Assistenza clienti 24/7',
+    'Accesso a servizi esperti di concierge energetico in qualsiasi momento.'
     ),
   ];
 
   static const _faqs = [
-    ('How does the switching process work?',
-    'We handle the full switch on your behalf. Once you sign, we coordinate with your current and new supplier.'),
-    ('Will my service be interrupted?',
-    'No. Your service continues uninterrupted throughout the switching process.'),
-    ('What if I\'m still under contract?',
-    'We check for exit fees and let you know before proceeding. Some suppliers waive fees in certain situations.'),
-    ('How long does it take to receive my contract?',
-    'Your contract is typically ready within 24 hours of completing your request.'),
+    ('Come funziona il processo di cambio?',
+    'Gestiamo l\'intero passaggio per tuo conto. Una volta firmato, ci coordiniamo con il tuo fornitore attuale e quello nuovo.'),
+    ('Il mio servizio sarà interrotto?',
+    'No. Il tuo servizio continua ininterrottamente durante tutto il processo di cambio.'),
+    ('Cosa succede se sono ancora sotto contratto?',
+    'Controlliamo eventuali costi di uscita e ti informiamo prima di procedere. Alcuni fornitori rinunciano ai costi in determinate situazioni.'),
+    ('Quanto tempo ci vuole per ricevere il mio contratto?',
+    'Il tuo contratto è solitamente pronto entro 24 ore dal completamento della tua richiesta.'),
   ];
 
   @override
@@ -539,7 +539,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
         ),
       ),
       title: const Text(
-        'Offer Info',
+        'Info Offerta',
         style: TextStyle(
             color: AppColors.textDark, fontSize: 17, fontWeight: FontWeight.w700),
       ),
@@ -558,7 +558,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "What's Included",
+            "Cosa è Incluso",
             style: TextStyle(
                 color: AppColors.textDark,
                 fontSize: 16,
@@ -617,7 +617,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'About EnergyPlus',
+          'Su EnergyPlus',
           style: TextStyle(
               color: AppColors.textDark,
               fontSize: 16,
@@ -632,7 +632,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
             borderRadius: BorderRadius.circular(14),
           ),
           child: const Text(
-            'EnergyPlus is a trusted energy provider committed to delivering reliable service and competitive rates. They specialize in renewable energy solutions and have a proven track record of customer satisfaction.',
+            'EnergyPlus è un fornitore di energia affidabile impegnato a fornire un servizio eccellente e tariffe competitive. Si specializzano in soluzioni di energia rinnovabile e hanno una comprovata esperienza di soddisfazione del cliente.',
             style: TextStyle(
               color: AppColors.textMid,
               fontSize: 13,
@@ -650,7 +650,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Frequently Asked Questions',
+          'Domande Frequenti',
           style: TextStyle(
               color: AppColors.textDark,
               fontSize: 16,

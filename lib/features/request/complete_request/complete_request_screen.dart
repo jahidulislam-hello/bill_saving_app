@@ -85,7 +85,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
-        'Complete Your Request',
+        'Completa la tua Richiesta',
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w700,
@@ -139,13 +139,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Green Energy',
+                    Text('Energia Verde',
                         style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF1A1A2E),
                             height: 1.22)),
-                    Text('Green Offer',
+                    Text('Offerta Verde',
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: const Color(0xFF9E9E9E),
@@ -159,7 +159,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   color: const Color(0xFF4CAF50),
                   borderRadius: BorderRadius.circular(20.r),
                 ),
-                child: Text('Best Value',
+                child: Text('Miglior Valore',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 11.sp,
@@ -178,7 +178,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               color: const Color(0xFFF0EEFF),
               borderRadius: BorderRadius.circular(8.r),
             ),
-            child: Text('Energy Price : PUN GME + € 0.01/KWh',
+            child: Text('Prezzo Energia : PUN GME + € 0.01/KWh',
                 style: TextStyle(
                     fontSize: 12.sp,
                     color: const Color(0xFF5B3FD8),
@@ -188,10 +188,10 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 10.h),
 
           _buildInfoRow(Icons.credit_card_outlined,
-              const Color(0xFF5B7FD8), 'Payment Method: Postal Order'),
+              const Color(0xFF5B7FD8), 'Metodo di Pagamento: Bollettino Postale'),
           SizedBox(height: 7.h),
           _buildInfoRow(Icons.check_circle_outline,
-              const Color(0xFF9B59B6), 'Compatibility: Residential'),
+              const Color(0xFF9B59B6), 'Compatibilità: Residenziale'),
           SizedBox(height: 12.h),
 
           // ── Annual savings ──
@@ -204,7 +204,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       color: const Color(0xFF4CAF50),
                       height: 1.22)),
               SizedBox(width: 8.w),
-              Text('Annual Savings',
+              Text('Risparmio Annuale',
                   style: TextStyle(
                       fontSize: 13.sp,
                       color: const Color(0xFF1A1A2E),
@@ -243,7 +243,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _sectionTitle('Personal Information'),
+              _sectionTitle('Informazioni Personali'),
               GestureDetector(
                 onTap: () {},
                 child: Container(
@@ -258,7 +258,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       Icon(Icons.edit_rounded,
                           color: Colors.white, size: 12.sp),
                       SizedBox(width: 4.w),
-                      Text('Edit',
+                      Text('Modifica',
                           style: TextStyle(
                               fontSize: 12.sp,
                               color: Colors.white,
@@ -271,15 +271,15 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ],
           ),
           SizedBox(height: 14.h),
-          _personalRow('First Name', _c.firstName),
+          _personalRow('Nome', _c.firstName),
           _dividerLine(),
-          _personalRow('Last Name', _c.lastName),
+          _personalRow('Cognome', _c.lastName),
           _dividerLine(),
           _personalRow('Email', _c.email),
           _dividerLine(),
-          _personalRow('Phone', _c.phone),
+          _personalRow('Telefono', _c.phone),
           _dividerLine(),
-          _personalRow('POD Number', _c.podNumber),
+          _personalRow('Numero POD', _c.podNumber),
         ],
       ),
     );
@@ -325,9 +325,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('Supply Address'),
+          _sectionTitle('Indirizzo di Fornitura'),
           SizedBox(height: 2.h),
-          Text('Read-Only Summary from Bill/Profile',
+          Text('Riepilogo in sola lettura da Bolletta/Profilo',
               style: TextStyle(
                   fontSize: 12.sp,
                   color: const Color(0xFF9E9E9E),
@@ -373,7 +373,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           ),
           SizedBox(height: 14.h),
 
-          Text('Does the Residential address match the delivery address?',
+          Text('L\'indirizzo di residenza corrisponde all\'indirizzo di consegna?',
               style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
@@ -386,11 +386,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             children: [
               Expanded(
                   child: _addressOption(
-                      "Yes, it's the same", AddressMatch.same)),
+                      "Sì, è lo stesso", AddressMatch.same)),
               SizedBox(width: 10.w),
               Expanded(
                   child: _addressOption(
-                      "No, it's different", AddressMatch.different)),
+                      "No, è diverso", AddressMatch.different)),
             ],
           ),
           SizedBox(height: 12.h),
@@ -410,7 +410,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.r)),
               ),
-              child: Text('Address verified',
+              child: Text('Indirizzo verificato',
                   style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
@@ -467,13 +467,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _sectionTitle('Identity Verification'),
+              _sectionTitle('Verifica Identità'),
               Row(
                 children: [
                   Icon(Icons.check_rounded,
                       color: const Color(0xFF27AE60), size: 14.sp),
                   SizedBox(width: 3.w),
-                  Text('Save',
+                  Text('Salva',
                       style: TextStyle(
                           fontSize: 12.sp,
                           color: const Color(0xFF27AE60),
@@ -485,7 +485,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           ),
           SizedBox(height: 4.h),
           Text(
-              'Upload your identity document or driving license to complete the request.',
+              'Carica il tuo documento d\'identità o la patente per completare la richiesta.',
               style: TextStyle(
                   fontSize: 12.sp,
                   color: const Color(0xFF9E9E9E),
@@ -543,8 +543,8 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               Expanded(
                 child: _buildIdButton(
                   icon: Icons.upload_rounded,
-                  label: 'Upload File',
-                  sublabel: 'PDF, Photo',
+                  label: 'Carica File',
+                  sublabel: 'PDF, Foto',
                   canUpload: _c.uploadedFiles.length < 3,
                   onTap: _pickFile,
                 ),
@@ -553,8 +553,8 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               Expanded(
                 child: _buildIdButton(
                   icon: Icons.qr_code_scanner_rounded,
-                  label: 'Scan Document',
-                  sublabel: 'Scan with the camera',
+                  label: 'Scansiona Documento',
+                  sublabel: 'Scansiona con la fotocamera',
                   canUpload: true,
                   onTap: _openScanner,
                 ),
@@ -652,22 +652,22 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('Payment Method'),
+          _sectionTitle('Metodo di Pagamento'),
           SizedBox(height: 2.h),
-          Text('Select how you prefer to pay',
+          Text('Seleziona come preferisci pagare',
               style: TextStyle(
                   fontSize: 12.sp,
                   color: const Color(0xFF9E9E9E),
                   height: 1.22)),
           SizedBox(height: 12.h),
 
-          _personalRow('Full Name', _c.fullName),
+          _personalRow('Nome Completo', _c.fullName),
           _dividerLine(),
-          _personalRow('Tax Code', _c.taxCode),
+          _personalRow('Codice Fiscale', _c.taxCode),
 
           SizedBox(height: 14.h),
 
-          Text('Choose Payment Method',
+          Text('Scegli il Metodo di Pagamento',
               style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
@@ -677,14 +677,14 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
 
           _paymentOption(
             method: PaymentMethod.directDebit,
-            title: 'Direct Debit(SDD)',
-            subtitle: 'Automatic Payment from your account',
+            title: 'Addebito Diretto (SDD)',
+            subtitle: 'Pagamento automatico dal tuo conto',
           ),
           SizedBox(height: 8.h),
           _paymentOption(
             method: PaymentMethod.postalOrder,
-            title: 'Postal Order',
-            subtitle: 'You will receive the bulleting to pay',
+            title: 'Bollettino Postale',
+            subtitle: 'Riceverai il bollettino per pagare',
           ),
         ],
       ),
@@ -772,9 +772,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('Invoice Delivery Method'),
+          _sectionTitle('Metodo di Invio Fattura'),
           SizedBox(height: 2.h),
-          Text('Our advice: send via email to receive the service on time!',
+          Text('Il nostro consiglio: invio via email per ricevere il servizio puntualmente!',
               style: TextStyle(
                   fontSize: 12.sp,
                   color: const Color(0xFF9E9E9E),
@@ -782,14 +782,14 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 12.h),
           _invoiceOption(
             method: InvoiceMethod.digital,
-            title: 'Digital Invoice',
-            subtitle: 'Receive the invoice via email',
+            title: 'Fattura Digitale',
+            subtitle: 'Ricevi la fattura via email',
           ),
           SizedBox(height: 8.h),
           _invoiceOption(
             method: InvoiceMethod.paper,
-            title: 'Paper Invoice',
-            subtitle: 'You will receive the bulleting to pay',
+            title: 'Fattura Cartacea',
+            subtitle: 'Riceverai il bollettino per pagare',
           ),
         ],
       ),
@@ -890,7 +890,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Almost there!',
+                Text('Quasi fatto!',
                     style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -898,7 +898,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                         height: 1.22)),
                 SizedBox(height: 4.h),
                 Text(
-                    "Once you activate, we'll send your contract within 24 hours for signing.",
+                    "Una volta attivato, invieremo il tuo contratto entro 24 ore per la firma.",
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: const Color(0xFF555555),
@@ -930,7 +930,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.r)),
         ),
-        child: Text('Activate Offer',
+        child: Text('Attiva Offerta',
             style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
@@ -1002,7 +1002,7 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: Text('Scan Document',
+        title: Text('Scansiona Documento',
             style: TextStyle(
                 fontSize: 17.sp,
                 fontWeight: FontWeight.w600,
@@ -1074,7 +1074,7 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
             right: 0,
             child: Column(
               children: [
-                Text('Align document within the frame',
+                Text('Allinea il documento nella cornice',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 14.sp,
@@ -1082,7 +1082,7 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
                         fontWeight: FontWeight.w500,
                         height: 1.22)),
                 SizedBox(height: 6.h),
-                Text('QR codes and barcodes are also supported',
+                Text('Sono supportati anche codici QR e codici a barre',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 12.sp,

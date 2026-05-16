@@ -1,3 +1,4 @@
+import 'package:vyzi/core/utils/app_images.dart';
 import 'package:vyzi/features/home/controller/home_controller.dart';
 import 'package:vyzi/features/home/widgets/action_section.dart';
 import 'package:vyzi/features/home/widgets/home_header.dart';
@@ -48,7 +49,11 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: SummaryCard(
-                                icon: Icons.show_chart,
+                                icon: Image.asset(
+                                  AppImages.down,
+                                  width: 16.sp,
+                                  height: 16.sp,
+                                ),
                                 iconColor: Colors.green,
                                 title: "Risparmi\nPotenziali",
                                 value: "€128,50",
@@ -58,7 +63,11 @@ class HomeScreen extends StatelessWidget {
                             SizedBox(width: 12.w),
                             Expanded(
                               child: SummaryCard(
-                                icon: Icons.watch_later_outlined,
+                                icon: Image.asset(
+                                  AppImages.cir,
+                                  width: 26.sp,
+                                  height: 26.sp,
+                                ),
                                 iconColor: Colors.blue,
                                 title: "Richiesta Attiva",
                                 value: "00",
@@ -82,7 +91,11 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: SummaryCard(
-                                icon: Icons.show_chart,
+                                icon: Image.asset(
+                                  AppImages.down,
+                                  width: 16.sp,
+                                  height: 16.sp,
+                                ),
                                 iconColor: Colors.green,
                                 title: "Risparmi\nPotenziali",
                                 value: "€128,50",
@@ -92,7 +105,11 @@ class HomeScreen extends StatelessWidget {
                             SizedBox(width: 12.w),
                             Expanded(
                               child: SummaryCard(
-                                icon: Icons.watch_later_outlined,
+                                icon: Image.asset(
+                                  AppImages.cir,
+                                  width: 16.sp,
+                                  height: 16.sp,
+                                ),
                                 iconColor: Colors.blue,
                                 title: "Richiesta Attiva",
                                 value: "00",

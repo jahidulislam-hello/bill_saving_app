@@ -32,14 +32,14 @@ class MyUtilitiesScreen extends StatelessWidget {
       name: 'EnergyPlus',
       type: 'Gas',
       monthID: 'IT001EXXXXXXXXX',
-      offerType: 'Fixed Rate Plan',
+      offerType: 'Piano a Tariffa Fissa',
       activeSince: '26/03/2026',
     ),
     const UtilityModel(
       name: 'EnergyPlus',
       type: 'Gas',
       monthID: 'IT001EXXXXXXXXX',
-      offerType: 'Fixed Rate Plan',
+      offerType: 'Piano a Tariffa Fissa',
       activeSince: '26/03/2026',
     ),
   ];
@@ -75,14 +75,14 @@ class MyUtilitiesScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('My Utilities',
+          Text('Le Mie Utenze',
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 24,
                   fontWeight: FontWeight.w800,
                   letterSpacing: -0.4)),
           SizedBox(height: 4),
-          Text('Manage your active utility services',
+          Text('Gestisci i tuoi servizi attivi',
               style: TextStyle(color: Colors.black, fontSize: 13)),
         ],
       ),
@@ -110,14 +110,14 @@ class MyUtilitiesScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Save on your next bill',
+              const Text('Risparmia sulla tua prossima bolletta',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.w800)),
               const SizedBox(height: 8),
               const Text(
-                'We analyze your consumption to\nfind better rates every month.',
+                'Analizziamo i tuoi consumi per\ntrovare tariffe migliori ogni mese.',
                 style: TextStyle(
                     color: Colors.white60, fontSize: 13, height: 1.5),
               ),
@@ -131,7 +131,7 @@ class MyUtilitiesScreen extends StatelessWidget {
                     color: Color(0xFF64FBCB),
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  child: const Text('Upload Bill',
+                  child: const Text('Carica Bolletta',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
@@ -215,7 +215,7 @@ class _UtilityTile extends StatelessWidget {
                   ),
                 ),
                 // Active Since (Moved to Row 1)
-                _meta('Active Since', utility.activeSince,
+                _meta('Attivo dal', utility.activeSince,
                     align: CrossAxisAlignment.end),
               ],
             ),
@@ -225,7 +225,7 @@ class _UtilityTile extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _meta('Offer Type', utility.offerType),
+                _meta('Tipo di Offerta', utility.offerType),
 
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,

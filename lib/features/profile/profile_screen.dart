@@ -39,68 +39,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //  MENU DATA
   // ─────────────────────────────────────────────
 
-  // Account Management — 3 items
+  // Account Management — 4 items
   final List<_MenuItem> _accountItems = const [
     _MenuItem(
-      icon: Icons.person_outline_rounded,
-      iconBg: Color(0xFFEAF0FF),
-      iconColor: Color(0xFF5B7FD8),
+      assetIcon: 'assets/icons/1.png',
       title: 'Dati Personali',
       subtitle: 'Modifica le informazioni del tuo profilo',
       route: 'personal_data',
     ),
+
     _MenuItem(
-      icon: Icons.bolt_rounded,
-      iconBg: Color(0xFFE8F8EF),
-      iconColor: Color(0xFF27AE60),
+      assetIcon: 'assets/icons/2.png',
       title: 'Le tue utenze',
       subtitle: 'Visualizza i servizi attivi',
       route: 'utilities',
     ),
+
     _MenuItem(
-      icon: Icons.description_outlined,
-      iconBg: Color(0xFFF3EEFF),
-      iconColor: Color(0xFF9B59B6),
+      assetIcon: 'assets/icons/3.png',
       title: 'Le tue richieste',
       subtitle: 'Segui i tuoi passaggi',
       route: 'requests',
     ),
+
     _MenuItem(
-      icon: Icons.contact_support,
-      iconBg: Color(0xFFF3EEFF),
-      iconColor: Color(0xFFFFEDD4),
+      assetIcon: 'assets/icons/8.png',
       title: 'Supporto',
       subtitle: 'Ricevi aiuto e contattaci',
       route: 'supports',
     ),
   ];
 
-  // Invite and Rewards — 1 item
+// Invite and Rewards — 1 item
   final List<_MenuItem> _inviteItems = const [
     _MenuItem(
-      icon: Icons.person_add_outlined,
-      iconBg: Color(0xFFEAF0FF),
-      iconColor: Color(0xFF5B7FD8),
+      assetIcon: 'assets/icons/4.png',
       title: 'Invita e Guadagna',
       subtitle: 'Condividi il tuo link e guadagna 10',
       route: 'invite',
     ),
   ];
 
-  // Others — 2 items
+// Others — 2 items
   final List<_MenuItem> _otherItems = const [
     _MenuItem(
-      icon: Icons.local_offer_outlined,
-      iconBg: Color(0xFFE8F8EF),
-      iconColor: Color(0xFF27AE60),
+      assetIcon: 'assets/icons/5.png',
       title: 'Convenzioni',
       subtitle: 'Sconti esclusivi dei partner',
       route: 'agreements',
     ),
+
     _MenuItem(
-      icon: Icons.apps_rounded,
-      iconBg: Color(0xFFF3EEFF),
-      iconColor: Color(0xFF9B59B6),
+      assetIcon: 'assets/icons/6.png',
       title: 'Altro',
       subtitle: 'Privacy Legale',
       route: 'more',
@@ -166,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Profile',
+                  'Profilo',
                   style: TextStyle(
                     fontSize: 22.sp,
                     fontWeight: FontWeight.w700,
@@ -176,7 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  'Manage your account settings',
+                  'Gestisci le impostazioni del tuo account',
                   style: TextStyle(
                     fontSize: 13.sp,
                     color: const Color(0xFF9E9E9E),
@@ -276,7 +266,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Account Type',
+                      'Tipo di account',
                       style: TextStyle(
                         fontSize: 11.sp,
                         color: Colors.white.withOpacity(0.7),
@@ -297,7 +287,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (_controller.accountType == 'Personal') {
+                    if (_controller.accountType == 'Privato') {
                       showUpgradeToBusinessSheet(
                         context,
                         onConfirm: () => _controller.switchToBusiness(),
@@ -324,9 +314,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Colors.white, size: 14.sp),
                         SizedBox(width: 5.w),
                         Text(
-                          _controller.accountType == 'Personal'
-                              ? 'Switch to Business'
-                              : 'Switch to Personal',
+                          _controller.accountType == 'Privato'
+                              ? 'Passa ad Azienda'
+                              : 'Passa a Privato',
                           style: TextStyle(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w500,
@@ -400,20 +390,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
       borderRadius: BorderRadius.circular(14.r),
       onTap: () => _handleMenuTap(item.route),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: 14.w,
+          vertical: 14.h,
+        ),
         child: Row(
           children: [
-            // Icon box
+            // Asset Icon
             Container(
               width: 42.w,
               height: 42.w,
-              decoration: BoxDecoration(
-                color: item.iconBg,
-                borderRadius: BorderRadius.circular(12.r),
+              alignment: Alignment.center,
+              child: Image.asset(
+                item.assetIcon,
+                width: 42.w,
+                height: 42.w,
+                fit: BoxFit.contain,
               ),
-              child: Icon(item.icon, color: item.iconColor, size: 20.sp),
             ),
+
             SizedBox(width: 14.w),
+
             // Text
             Expanded(
               child: Column(
@@ -428,7 +425,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 1.22,
                     ),
                   ),
+
                   SizedBox(height: 2.h),
+
                   Text(
                     item.subtitle,
                     style: TextStyle(
@@ -440,8 +439,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
-            Icon(Icons.chevron_right_rounded,
-                color: Colors.grey.shade400, size: 20.sp),
+
+            Icon(
+              Icons.chevron_right_rounded,
+              color: Colors.grey.shade400,
+              size: 20.sp,
+            ),
           ],
         ),
       ),
@@ -474,7 +477,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: const Color(0xFFE53935), size: 18.sp),
               SizedBox(width: 8.w),
               Text(
-                'Log Out',
+                'Disconnetti',
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
@@ -527,19 +530,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
+
 // ── Menu item data class ──
 class _MenuItem {
-  final IconData icon;
-  final Color iconBg;
-  final Color iconColor;
+  final String assetIcon;
   final String title;
   final String subtitle;
   final String route;
 
   const _MenuItem({
-    required this.icon,
-    required this.iconBg,
-    required this.iconColor,
+    required this.assetIcon,
     required this.title,
     required this.subtitle,
     required this.route,

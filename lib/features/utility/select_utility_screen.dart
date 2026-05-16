@@ -42,7 +42,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
 
             // ── Heading ──
             Text(
-              'Which users do you want to\noptimize?',
+              'Quali utenze vuoi\nottimizzare?',
               style: TextStyle(
                 fontSize: 22.sp,
                 fontWeight: FontWeight.w800,
@@ -54,7 +54,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
 
             // ── Subtitle ──
             Text(
-              'Select the service for which you want to find the best deals',
+              'Seleziona il servizio per cui vuoi trovare le migliori offerte',
               style: TextStyle(
                 fontSize: 13.sp,
                 color: const Color(0xFF9E9E9E),
@@ -71,7 +71,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                     type: UtilityType.luce,
                     icon: Icons.bolt_rounded,
                     label: 'LUCE',
-                    sublabel: 'Optimize your power bill',
+                    sublabel: 'Ottimizza la tua bolletta elettrica',
                   ),
                 ),
                 SizedBox(width: 12.w),
@@ -80,7 +80,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                     type: UtilityType.gas,
                     icon: Icons.local_fire_department_rounded,
                     label: 'GAS',
-                    sublabel: 'Reduce your gas expenses',
+                    sublabel: 'Riduci le tue spese del gas',
                   ),
                 ),
               ],
@@ -106,7 +106,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
-        'Select Utility',
+        'Seleziona Utenza',
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w600,
@@ -287,12 +287,12 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                 ),
                 children: const [
                   TextSpan(
-                    text: 'Tip: ',
+                    text: 'Consiglio: ',
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                   TextSpan(
                     text:
-                    'You can upload more bills later to compare all your utilities.',
+                    'Puoi caricare altre bollette in seguito per confrontare tutte le tue utenze.',
                   ),
                 ],
               ),

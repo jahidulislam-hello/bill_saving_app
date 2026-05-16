@@ -5,7 +5,6 @@ class RequestSuccessScreen extends StatelessWidget {
   const RequestSuccessScreen({super.key});
 
   static const _purple = Color(0xFF5B3FD9);
-  static const _purpleLight = Color(0xFFEEEAFB);
   static const _textDark = Color(0xFF1A1A2E);
   static const _textGrey = Color(0xFF7A7A9A);
   static const _cardBg = Color(0xFFF4F5FB);
@@ -27,7 +26,7 @@ class RequestSuccessScreen extends StatelessWidget {
               _badgeIcon(),
               const SizedBox(height: 28),
               const Text(
-                'Request Send Successfully',
+                'Richiesta Inviata con Successo',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: _textDark,
@@ -38,7 +37,7 @@ class RequestSuccessScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               const Text(
-                'We have received your activation\nrequest.',
+                'Abbiamo ricevuto la tua richiesta di\nattivazione.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: _textGrey,
@@ -89,7 +88,7 @@ class RequestSuccessScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'What happens now',
+            'Cosa succede ora',
             style: TextStyle(
               color: _textDark,
               fontSize: 15,
@@ -99,18 +98,18 @@ class RequestSuccessScreen extends StatelessWidget {
           const SizedBox(height: 14),
           _stepItem(
             icon: Icons.fact_check_outlined,
-            title: 'We check the data entered',
-            subtitle: 'Our automated systems verify your information for accuracy.',
+            title: 'Verifichiamo i dati inseriti',
+            subtitle: 'I nostri sistemi automatizzati verificano l\'accuratezza delle tue informazioni.',
           ),
           _stepItem(
             icon: Icons.handshake_outlined,
-            title: 'We prepare the practice',
-            subtitle: 'We coordinate with utility providers to initiate your request.',
+            title: 'Prepariamo la pratica',
+            subtitle: 'Ci coordiniamo con i fornitori di servizi per avviare la tua richiesta.',
           ),
           _stepItem(
             icon: Icons.description_outlined,
-            title: 'The contract will be available within 24 hours',
-            subtitle: 'Your documentation will be generated and sent for signature.',
+            title: 'Il contratto sarà disponibile entro 24 ore',
+            subtitle: 'La tua documentazione sarà generata e inviata per la firma.',
             last: true,
           ),
         ],
@@ -198,7 +197,7 @@ class RequestSuccessScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'How will you complete the request?',
+                  'Come completerai la richiesta?',
                   style: TextStyle(
                     color: _textDark,
                     fontSize: 13,
@@ -208,7 +207,7 @@ class RequestSuccessScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'You will receive instructions to sign the contract via SMS, email or dedicated link, based on the chosen supplier.',
+                  'Riceverai le istruzioni per firmare il contratto via SMS, email o link dedicato, in base al fornitore scelto.',
                   style: TextStyle(
                     color: _textGrey,
                     fontSize: 12,
@@ -237,7 +236,7 @@ class RequestSuccessScreen extends StatelessWidget {
           elevation: 0,
         ),
         child: const Text(
-          'View My Request',
+          'Visualizza la Mia Richiesta',
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
       ),
@@ -255,7 +254,7 @@ class RequestSuccessScreen extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
         child: const Text(
-          'Back to Home',
+          'Torna alla Home',
           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
       ),

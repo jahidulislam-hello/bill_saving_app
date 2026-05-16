@@ -68,7 +68,7 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
           child: Icon(Icons.chevron_left, color: Colors.black, size: 28),
         ),
       ),
-      title: const Text('Utility Details',
+      title: const Text('Dettagli Utenza',
           style: TextStyle(
               color: Colors.black, fontSize: 17, fontWeight: FontWeight.w700)),
     );
@@ -108,7 +108,7 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
                   children: const [
                     Icon(Icons.circle, color: Color(0xFF40DEB0), size: 7),
                     SizedBox(width: 5),
-                    Text('ACTIVE OFFER',
+                    Text('OFFERTA ATTIVA',
                         style: TextStyle(
                             color: Color(0xFF40DEB0),
                             fontSize: 10,
@@ -126,14 +126,14 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
                       height: 1.2,
                       letterSpacing: -0.3)),
               const SizedBox(height: 6),
-              const Text('Business Electricity Supply',
+              const Text('Fornitura Elettrica Business',
                   style: TextStyle(color: Colors.green, fontSize: 13, fontWeight: FontWeight.w600)),
               const SizedBox(height: 18),
               Row(
                 children: [
-                  _heroStat('MATERIAL PRICE', '0.124 €/kWh', valueColor: const Color(0xFF40DEB0)),
+                  _heroStat('PREZZO MATERIA', '0.124 €/kWh', valueColor: const Color(0xFF40DEB0)),
                   const SizedBox(width: 32),
-                  _heroStat('ACTIVATION', '12 Mag 2023'),
+                  _heroStat('ATTIVAZIONE', '12 Mag 2023'),
                 ],
               ),
             ],
@@ -166,10 +166,10 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
   // ── Active Offer Card ──
   Widget _activeOfferCard() {
     return _infoCard(
-      title: 'Active Offer',
+      title: 'Offerta Attiva',
       rows: const [
-        ('Offer Name', 'Fixed Rate Plan'),
-        ('Service Type', 'Gas'),
+        ('Nome Offerta', 'Piano a Tariffa Fissa'),
+        ('Tipo di Servizio', 'Gas'),
       ],
     );
   }
@@ -177,10 +177,10 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
   // ── Supply Info Card ──
   Widget _supplyInfoCard() {
     return _infoCard(
-      title: 'Supply Information',
+      title: 'Informazioni di Fornitura',
       rows: const [
-        ('Meter Number', 'MTR-XCFAQBT18'),
-        ('Supply Point', 'SP-AMXQLAF7H99'),
+        ('Numero Contatore', 'MTR-XCFAQBT18'),
+        ('Punto di Fornitura', 'SP-AMXQLAF7H99'),
       ],
     );
   }
@@ -242,8 +242,8 @@ class _UtilityDetailsScreenState extends State<UtilityDetailsScreen> {
   Widget _contactCard() {
     final contacts = [
       (Icons.chat_bubble_outline, AppColors.primary50, const Color(0xFFEEEAFB),
-      'Send Message', 'Get help via support form'),
-      (Icons.call_outlined, AppColors.primary50, const Color(0xFFE6FBF5), 'Call Us',
+      'Invia Messaggio', 'Ottieni aiuto tramite il modulo di supporto'),
+      (Icons.call_outlined, AppColors.primary50, const Color(0xFFE6FBF5), 'Chiamaci',
       '1-800-UTILITY'),
       (Icons.mail_outline, const Color(0xFFE67E22), const Color(0xFFFEF3E8),
       'Email', 'support@utility.com'),
