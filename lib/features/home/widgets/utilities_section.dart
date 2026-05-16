@@ -45,7 +45,7 @@ class UtilitiesSection extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: 16.h),
+          SizedBox(height: 1.h),
 
           ListView.separated(
             shrinkWrap: true,

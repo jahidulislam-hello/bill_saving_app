@@ -39,7 +39,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
   }
 
   String get _title =>
-      widget.utilityType == UtilityType.luce ? 'electricity' : 'gas';
+      widget.utilityType == UtilityType.luce ? 'elettricità' : 'gas';
 
   // ─────────────────────────────────────────────
   //  ACTIONS
@@ -56,7 +56,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       if (file != null && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('File selected: ${file.name}'),
+            content: Text('File selezionato: ${file.name}'),
             backgroundColor: const Color(0xFF6C52D9),
           ),
         );
@@ -91,7 +91,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           children: [
             // ── Heading ──
             Text(
-              'Upload your $_title bill',
+              'Carica la tua bolletta di $_title',
               style: TextStyle(
                 fontSize: 22.sp,
                 fontWeight: FontWeight.w800,
@@ -101,7 +101,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
             ),
             SizedBox(height: 6.h),
             Text(
-              "Choose the method that's most convenient for you",
+              "Scegli il metodo più comodo per te",
               style: TextStyle(
                 fontSize: 13.sp,
                 color: const Color(0xFF9E9E9E),
@@ -146,7 +146,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
-        'Upload Your Bill',
+        'Carica la tua bolletta',
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w600,
@@ -182,7 +182,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               SizedBox(width: 8.w),
               Expanded(
                 child: Text(
-                  'We need your bill to analyze your current plan and find the best deals.',
+                  'Abbiamo bisogno della tua bolletta per analizzare il tuo piano attuale e trovare le migliori offerte.',
                   style: TextStyle(
                     fontSize: 13.sp,
                     color: const Color(0xFF555555),
@@ -196,7 +196,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           GestureDetector(
             onTap: () {},
             child: Text(
-              'Why do we need it?',
+              'Perché ne abbiamo bisogno?',
               style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
@@ -217,19 +217,21 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         Expanded(
           child: _buildMethodCard(
             method: UploadMethod.uploadFile,
-            icon: Icons.upload_rounded,
-            label: 'Upload File',
-            sublabel: 'PDF, Photo',
+            assetIcon: 'assets/icons/upload.png',
+            label: 'Carica File',
+            sublabel: 'PDF, Foto',
             onTap: _openFilePicker,
           ),
         ),
+
         SizedBox(width: 12.w),
+
         Expanded(
           child: _buildMethodCard(
             method: UploadMethod.scanFile,
-            icon: Icons.qr_code_scanner_rounded,
-            label: 'Scan File',
-            sublabel: 'Use camera to scan',
+            assetIcon: 'assets/icons/scannn.png',
+            label: 'Scansiona File',
+            sublabel: 'Usa la fotocamera',
             onTap: _openScanner,
           ),
         ),
@@ -239,7 +241,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
 
   Widget _buildMethodCard({
     required UploadMethod method,
-    required IconData icon,
+    required String assetIcon,
     required String label,
     required String sublabel,
     required VoidCallback onTap,
@@ -250,7 +252,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        height: 110.h,
+        height: 120.h,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14.r),
@@ -268,15 +270,19 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
             ),
           ],
         ),
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              size: 30.sp,
-              color: const Color(0xFF6C52D9),
+            Image.asset(
+              assetIcon,
+              width: 56.w,
+              height: 56.w,
+              fit: BoxFit.contain,
             ),
+
             SizedBox(height: 10.h),
+
             Text(
               label,
               style: TextStyle(
@@ -286,7 +292,9 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                 height: 1.22,
               ),
             ),
+
             SizedBox(height: 3.h),
+
             Text(
               sublabel,
               style: TextStyle(
@@ -310,7 +318,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           child: Text(
-            'OR',
+            'OPPURE',
             style: TextStyle(
               fontSize: 12.sp,
               color: const Color(0xFF9E9E9E),
@@ -374,7 +382,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Send Our Email',
+                    'Invia via Email',
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
@@ -384,7 +392,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                   ),
                   SizedBox(height: 3.h),
                   Text(
-                    'Forward to Bills@Example.com',
+                    'Inoltra a Bills@Example.com',
                     style: TextStyle(
                       fontSize: 12.sp,
                       color: const Color(0xFF9E9E9E),
@@ -405,17 +413,17 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
   // ── What we are looking for card ──
   Widget _buildLookingForCard() {
     const bullets = [
-      'Current supplier and tariff',
-      'Monthly consumption and costs',
-      'Contract end date',
-      'Meter number and supply point',
+      'Fornitore attuale e tariffa',
+      'Consumo mensile e costi',
+      'Data di fine contratto',
+      'Numero del contatore e punto di fornitura',
     ];
 
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFFEEF0FF),
         borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
@@ -429,7 +437,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'What we are looking for:',
+            'Cosa stiamo cercando:',
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w700,
@@ -470,20 +478,20 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       ),
     );
   }
-}
+  }
 
-// ─────────────────────────────────────────────
-//  SCANNER SCREEN  (uses mobile_scanner)
-// ─────────────────────────────────────────────
+  // ─────────────────────────────────────────────
+  //  SCANNER SCREEN  (uses mobile_scanner)
+  // ─────────────────────────────────────────────
 
-class _ScannerScreen extends StatefulWidget {
+  class _ScannerScreen extends StatefulWidget {
   const _ScannerScreen();
 
   @override
   State<_ScannerScreen> createState() => _ScannerScreenState();
-}
+  }
 
-class _ScannerScreenState extends State<_ScannerScreen> {
+  class _ScannerScreenState extends State<_ScannerScreen> {
   final MobileScannerController _scanController = MobileScannerController();
   bool _scanned = false;
 
@@ -501,7 +509,7 @@ class _ScannerScreenState extends State<_ScannerScreen> {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         title: Text(
-          'Scan Your Bill',
+          'Scansiona la tua bolletta',
           style: TextStyle(
               fontSize: 17.sp,
               fontWeight: FontWeight.w600,
@@ -542,7 +550,7 @@ class _ScannerScreenState extends State<_ScannerScreen> {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Scanned: $value'),
+                      content: Text('Scansionato: $value'),
                       backgroundColor: const Color(0xFF6C52D9),
                     ),
                   );
@@ -570,7 +578,7 @@ class _ScannerScreenState extends State<_ScannerScreen> {
             left: 0,
             right: 0,
             child: Text(
-              'Align your bill within the frame',
+              'Allinea la tua bolletta nella cornice',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14.sp,
@@ -584,4 +592,4 @@ class _ScannerScreenState extends State<_ScannerScreen> {
       ),
     );
   }
-}
+  }

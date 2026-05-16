@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyzi/core/utils/app_images.dart';
 
 class UploadSection extends StatelessWidget {
   final VoidCallback onTap;
@@ -30,10 +31,10 @@ class UploadSection extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.upload_outlined,
-              size: 54.sp,
-              color: const Color(0xff5B36F2),
+            Image.asset(
+              AppImages.uploadIcon,
+              width: 48.sp,
+              height: 48.sp,
             ),
             SizedBox(height: 16.h),
             Text(
@@ -64,7 +65,7 @@ class UploadSection extends StatelessWidget {
                   vertical: 14.h,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xff5B36F2),
+                  color: const Color(0xff583BC7),
                   borderRadius: BorderRadius.circular(14.r),
                 ),
                 child: Text(

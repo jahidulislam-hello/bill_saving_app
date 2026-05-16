@@ -18,7 +18,7 @@ class EmailBillScreen extends StatelessWidget {
         elevation: 0,
         leading: const BackButton(color: Colors.black),
         title: const Text(
-          "Email Your Bill",
+          "Invia la tua Bolletta via Email",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: false,
@@ -66,7 +66,7 @@ class EmailBillScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "Instructions",
+                    "Istruzioni",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
@@ -74,14 +74,14 @@ class EmailBillScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   const Text(
-                    "You can send us the bill whenever you prefer, attaching it to the address below.",
+                    "Puoi inviarci la bolletta quando preferisci, allegandola all'indirizzo qui sotto.",
                     style: TextStyle(fontSize: 13, color: Colors.black54),
                   ),
 
                   const SizedBox(height: 14),
 
                   const Text(
-                    "Email Box",
+                    "Casella Email",
                     style: TextStyle(fontWeight: FontWeight.w500),
                   ),
 
@@ -117,7 +117,7 @@ class EmailBillScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: const Text(
-                              "Copy",
+                              "Copia",
                               style: TextStyle(fontSize: 12),
                             ),
                           ),
@@ -135,7 +135,7 @@ class EmailBillScreen extends StatelessWidget {
                       Text("• "),
                       Expanded(
                         child: Text(
-                          "If you send photos of the bill, make sure to attach the first 3 pages.",
+                          "Se invii foto della bolletta, assicurati di allegare le prime 3 pagine.",
                           style: TextStyle(fontSize: 13),
                         ),
                       ),
@@ -150,7 +150,7 @@ class EmailBillScreen extends StatelessWidget {
                       Text("• "),
                       Expanded(
                         child: Text(
-                          "You can also send any new economic conditions or documents useful for the analysis",
+                          "Puoi anche inviare eventuali nuove condizioni economiche o documenti utili per l'analisi",
                           style: TextStyle(fontSize: 13),
                         ),
                       ),
@@ -174,7 +174,7 @@ class EmailBillScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text("I've Sent the Email"),
+                child: const Text("Ho inviato l'email"),
               ),
             ),
 
@@ -191,7 +191,7 @@ class EmailBillScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text("Go Back"),
+                child: const Text("Torna Indietro"),
               ),
             ),
 

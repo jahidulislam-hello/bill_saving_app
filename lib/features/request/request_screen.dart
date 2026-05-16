@@ -1,4 +1,5 @@
 import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/core/utils/app_images.dart';
 import 'package:vyzi/features/request/request_details_screen.dart';
 import 'package:vyzi/features/request/offer_details.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class _RequestScreenState extends State<RequestScreen>
   late final TabController _tabController;
 
   // Filter options for "Your Offers" tab
-  final List<String> _filters = ['All', 'Direct Debit', 'Postal Order','AliKobe', 'Direct Order', 'Postal Ballet'];
+  final List<String> _filters = ['Tutti', 'Addebito Diretto', 'Bollettino Postale','AliKobe', 'Ordine Diretto', 'Bollettino Postale'];
   int _selectedFilter = 0;
   bool _isBillUploaded = false;
 
@@ -59,7 +60,7 @@ class _RequestScreenState extends State<RequestScreen>
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: const CustomAppBar(
-        title: 'Request',
+        title: 'Richiesta',
         showBackButton: false,
       ),
       body: _isBillUploaded
@@ -98,8 +99,8 @@ class _RequestScreenState extends State<RequestScreen>
       color: Colors.white,
       child: Row(
         children: [
-          _tabItem('Your Offers', 0),
-          _tabItem('My Requests', 1),
+          _tabItem('Le Tue Offerte', 0),
+          _tabItem('Le Mie Richieste', 1),
         ],
       ),
     );
@@ -180,11 +181,15 @@ class _RequestScreenState extends State<RequestScreen>
           // ── Line 1: Filter icon + label ──
           Row(
             children: [
-              Icon(Icons.filter_list_rounded,
-                  size: 16.sp, color: const Color(0xFF1A1A2E)),
+              Image.asset(
+                AppImages.filter,
+                width: 20.w,
+                height: 20.h,
+                fit: BoxFit.contain,
+              ),
               SizedBox(width: 4.w),
               Text(
-                'Payment Method:',
+                'Metodo di Pagamento:',
                 style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w500,
@@ -253,7 +258,7 @@ class _RequestScreenState extends State<RequestScreen>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Best Offers for You',
+            'Migliori Offerte per Te',
             style: TextStyle(
               fontSize: 15.sp,
               fontWeight: FontWeight.w700,
@@ -261,7 +266,7 @@ class _RequestScreenState extends State<RequestScreen>
             ),
           ),
           Text(
-            '${_controller.offers.length} found',
+            '${_controller.offers.length} trovate',
             style: TextStyle(
               fontSize: 12.sp,
               color: const Color(0xFF9E9E9E),
@@ -369,7 +374,7 @@ class _RequestScreenState extends State<RequestScreen>
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
-                      'Best Value',
+                      'Miglior Valore',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 11.sp,
@@ -394,7 +399,7 @@ class _RequestScreenState extends State<RequestScreen>
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: Text(
-                'Energy Price : PUN GME + € 0.01/KWh',
+                'Prezzo Energia : PUN GME + € 0.01/KWh',
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: const Color(0xFF5B3FD8),
@@ -410,9 +415,14 @@ class _RequestScreenState extends State<RequestScreen>
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 14.w),
             child: _buildInfoRow(
-              icon: Icons.credit_card_outlined,
+              icon: Image.asset(
+                AppImages.pay,
+                width: 24.w,
+                height: 24.h,
+                fit: BoxFit.contain,
+              ),
               iconColor: const Color(0xFF5B7FD8),
-              text: 'Payment Method: Postal Order',
+              text: 'Metodo di Pagamento: Bollettino Postale',
             ),
           ),
 
@@ -424,9 +434,14 @@ class _RequestScreenState extends State<RequestScreen>
     child: Column(
          children: [
           _buildInfoRow(
-          icon: Icons.check_circle_outline,
+          icon: Image.asset(
+            AppImages.compat,
+            width: 24.w,
+            height: 24.h,
+            fit: BoxFit.contain,
+          ),
            iconColor: const Color(0xFF9B59B6),
-            text: 'Compatibility: Residential',
+            text: 'Compatibilità: Residenziale',
           ),
          SizedBox(height: 12.h),
         Divider(
@@ -455,7 +470,7 @@ class _RequestScreenState extends State<RequestScreen>
                 ),
                 SizedBox(width: 8.w),
                 Text(
-                  'Annual Savings',
+                  'Risparmio Annuale',
                   style: TextStyle(
                     fontSize: 13.sp,
                     color: const Color(0xFF1A1A2E),
@@ -487,7 +502,7 @@ class _RequestScreenState extends State<RequestScreen>
                   ),
                 ),
                 child: Text(
-                  'Go to Details and proceed',
+                  'Vai ai Dettagli e procedi',
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -502,14 +517,16 @@ class _RequestScreenState extends State<RequestScreen>
   }
 
   Widget _buildInfoRow({
-    required IconData icon,
+    required Widget icon,
     required Color iconColor,
     required String text,
   }) {
     return Row(
       children: [
-        Icon(icon, size: 16.sp, color: iconColor),
+        icon,
+
         SizedBox(width: 6.w),
+
         Text(
           text,
           style: TextStyle(
@@ -561,15 +578,15 @@ class _RequestScreenState extends State<RequestScreen>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Icon box
-              Container(
-                width: 44.w,
-                height: 44.w,
-                decoration: BoxDecoration(
-                  color: request.iconColor.withOpacity(0.12),
-                  borderRadius: BorderRadius.circular(12.r),
+              SizedBox(
+                width: 48.w,
+                height: 48.w,
+                child: Image.asset(
+                  'assets/images/request.png',
+                  width: 20.sp,
+                  height: 20.sp,
+                  fit: BoxFit.contain,
                 ),
-                child: Icon(request.icon,
-                    color: request.iconColor, size: 22.sp),
               ),
               SizedBox(width: 12.w),
 
@@ -598,7 +615,7 @@ class _RequestScreenState extends State<RequestScreen>
                     if (request.status != RequestStatus.processing) ...[
                       SizedBox(height: 4.h),
                       Text(
-                        'Your current price is in the top 10% of the market.',
+                        'Il tuo prezzo attuale è nel top 10% del mercato.',
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: const Color(0xFF555555),
@@ -627,7 +644,7 @@ class _RequestScreenState extends State<RequestScreen>
                 request.date,
                 style: TextStyle(
                   fontSize: 11.sp,
-                  color: const Color(0xFF9E9E9E),
+                  color: const Color(0xFF9810FA),
                 ),
               ),
             ],
@@ -647,17 +664,17 @@ class _RequestScreenState extends State<RequestScreen>
 
 
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFFE0E0E0)),
+                  side: const BorderSide(color: Color(0xFFE9D4FF)),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                 ),
                 child: Text(
-                  'View Alternatives',
+                  'Visualizza Alternative',
                   style: TextStyle(
-                    fontSize: 13.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
-                    color: const Color(0xFF5B3FD8),
+                    color: const Color(0xFF9810FA),
                   ),
                 ),
               ),
@@ -672,21 +689,21 @@ class _RequestScreenState extends State<RequestScreen>
     switch (status) {
       case RequestStatus.processing:
         return _chip(
-          label: 'Processing',
+          label: 'In elaborazione',
           bg: const Color(0xFFFFF3E0),
-          fg: const Color(0xFFE65100),
+          fg: const Color(0xFFDFB400),
         );
       case RequestStatus.readyToSign:
         return _chip(
-          label: '↘ Competitive Offer Found',
-          bg: const Color(0xFFE8F5E9),
-          fg: const Color(0xFF2E7D32),
+          label: '↘ Offerta Competitiva Trovata',
+          bg: const Color(0xFFDCFCE7),
+          fg: const Color(0xFF008236),
         );
       case RequestStatus.completed:
         return _chip(
-          label: '✓ Confirmed Contract',
-          bg: const Color(0xFFE3F2FD),
-          fg: const Color(0xFF1565C0),
+          label: '✓ Contratto Confermato',
+          bg: const Color(0xFFDBEAFE),
+          fg: const Color(0xFF1447E6),
           icon: Icons.verified_outlined,
           iconColor: const Color(0xFF1565C0),
         );
@@ -704,7 +721,7 @@ class _RequestScreenState extends State<RequestScreen>
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(20.r),
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -729,14 +746,26 @@ class _RequestScreenState extends State<RequestScreen>
   Widget _buildStatusIcon(RequestStatus status) {
     switch (status) {
       case RequestStatus.processing:
-        return Icon(Icons.access_time_rounded,
-            color: const Color(0xFF9E9E9E), size: 20.sp);
+        return Image.asset(
+          'assets/images/process.png',
+          width: 20.sp,
+          height: 20.sp,
+          fit: BoxFit.contain,
+        );
       case RequestStatus.readyToSign:
-        return Icon(Icons.insert_drive_file_outlined,
-            color: const Color(0xFF7B1FA2), size: 20.sp);
+        return Image.asset(
+          'assets/images/doc.png',
+          width: 20.sp,
+          height: 20.sp,
+          fit: BoxFit.contain,
+        );
       case RequestStatus.completed:
-        return Icon(Icons.insert_drive_file_outlined,
-            color: const Color(0xFF7B1FA2), size: 20.sp);
+        return Image.asset(
+          'assets/images/doc.png',
+          width: 20.sp,
+          height: 20.sp,
+          fit: BoxFit.contain,
+        );
     }
   }
 }

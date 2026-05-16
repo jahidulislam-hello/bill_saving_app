@@ -4,21 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ActionCard extends StatelessWidget {
   final String title;
   final String subtitle;
-  final IconData icon;
-  final Color color;
+  final String image;
   final VoidCallback? onTap;
-  final bool isHighlighted; // dark bg icon variant
-  final bool showBadge;     // "Nuovo" badge
+  final bool showBadge;
   final String? badgeText;
 
   const ActionCard({
     super.key,
     required this.title,
     required this.subtitle,
-    required this.icon,
-    required this.color,
+    required this.image,
     this.onTap,
-    this.isHighlighted = false,
     this.showBadge = false,
     this.badgeText,
   });
@@ -33,10 +29,7 @@ class ActionCard extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(18.r),
           border: Border.all(
-            color: isHighlighted
-                ? color.withOpacity(0.35)
-                : Color(0xFFE8E8E8),
-            width: isHighlighted ? 1.5 : 1.0,
+            color: const Color(0xFFE8E8E8),
           ),
         ),
         child: Stack(
@@ -45,21 +38,12 @@ class ActionCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // ── Left Icon 56×56 ──
-                Container(
-                  height: 56.h,
+                // ── Asset Image ──
+                Image.asset(
+                  image,
                   width: 56.w,
-                  decoration: BoxDecoration(
-                    color: isHighlighted
-                        ?  Color(0xFF1A1A2E) // dark bg
-                        : color.withOpacity(0.10),
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  child: Icon(
-                    icon,
-                    color: isHighlighted ? Colors.white : color,
-                    size: 26.sp,
-                  ),
+                  height: 56.h,
+                  fit: BoxFit.contain,
                 ),
 
                 SizedBox(width: 14.w),
@@ -77,7 +61,9 @@ class ActionCard extends StatelessWidget {
                           color: const Color(0xFF1A1A2E),
                         ),
                       ),
+
                       SizedBox(height: 4.h),
+
                       Text(
                         subtitle,
                         style: TextStyle(
@@ -92,7 +78,7 @@ class ActionCard extends StatelessWidget {
 
                 SizedBox(width: 8.w),
 
-                // ── Right Chevron 24×24 ──
+                // ── Right Chevron ──
                 SizedBox(
                   width: 24.w,
                   height: 24.h,
@@ -105,14 +91,16 @@ class ActionCard extends StatelessWidget {
               ],
             ),
 
-            // ── "Nuovo" Badge (top-right of card) ──
+            // ── Badge ──
             if (showBadge)
               Positioned(
                 top: -20.h,
                 right: -6.w,
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                      horizontal: 10.w, vertical: 4.h),
+                    horizontal: 10.w,
+                    vertical: 4.h,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFF00C896),
                     borderRadius: BorderRadius.circular(20.r),

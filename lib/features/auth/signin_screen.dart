@@ -70,7 +70,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     keyboardType: TextInputType.emailAddress,
                     hintText: 'you@example.com',
                     validator: (v) =>
-                    v == null || !v.contains('@') ? 'Enter valid email' : null,
+                    v == null || !v.contains('@') ? 'Inserisci un\'email valida' : null,
                   ),
                 ),
 
@@ -84,7 +84,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     isPassword: true,
                     hintText: '••••••••••',
                     validator: (v) =>
-                    v == null || v.length < 6 ? 'Min 6 characters' : null,
+                    v == null || v.length < 6 ? 'Minimo 6 caratteri' : null,
                   ),
                 ),
 

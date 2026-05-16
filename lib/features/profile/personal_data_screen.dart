@@ -37,7 +37,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             Padding(
               padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 20.h),
               child: Text(
-                'Update your account information and how\nwe contact you.',
+                'Aggiorna le informazioni del tuo account e come\nti contattiamo.',
                 style: TextStyle(
                   fontSize: 13.sp,
                   color: const Color(0xFF555555),
@@ -91,7 +91,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
-        'Personal Data',
+        'Dati Personali',
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w700,
@@ -185,7 +185,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
           GestureDetector(
             onTap: () {},
             child: Text(
-              'Change photo',
+              'Cambia foto',
               style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
@@ -218,13 +218,13 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildField(
-            label: 'First Name',
+            label: 'Nome',
             controller: _c.firstNameController,
             hint: '',
           ),
           SizedBox(height: 16.h),
           _buildField(
-            label: 'Last Name',
+            label: 'Cognome',
             controller: _c.lastNameController,
             hint: '',
           ),
@@ -237,7 +237,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
           ),
           SizedBox(height: 16.h),
           _buildField(
-            label: 'Phone Number',
+            label: 'Numero di Telefono',
             controller: _c.phoneController,
             hint: '',
             keyboardType: TextInputType.phone,
@@ -325,7 +325,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Privacy First',
+                  'Privacy Prima di Tutto',
                   style: TextStyle(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w700,
@@ -335,7 +335,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'Your data is encrypted and managed according to our premium guardian standards. We never share your personal details with third-party providers without consent.',
+                  'I tuoi dati sono crittografati e gestiti secondo i nostri standard di protezione premium. Non condividiamo mai i tuoi dati personali con fornitori terzi senza il tuo consenso.',
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: const Color(0xFF5B3FD8),
@@ -383,7 +383,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               ),
             )
                 : Text(
-              'Save Changes',
+              'Salva Modifiche',
               style: TextStyle(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
@@ -404,7 +404,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               Navigator.pop(context);
             },
             child: Text(
-              'Cancel and discard',
+              'Annulla e scarta',
               style: TextStyle(
                 fontSize: 14.sp,
                 color: const Color(0xFF9E9E9E),

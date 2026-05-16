@@ -108,7 +108,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
         ),
       ),
       title: Text(
-        'Agreement Details',
+        'Dettagli Convenzione',
         style: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.w700,
@@ -181,7 +181,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
             ),
             children: [
               TextSpan(
-                text: 'Offer Date : ',
+                text: 'Data Offerta : ',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF1A1A2E),
@@ -219,7 +219,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                   color: Colors.white.withOpacity(0.85), size: 14.sp),
               SizedBox(width: 6.w),
               Text(
-                'Your Exclusive Discount',
+                'Il Tuo Sconto Esclusivo',
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: Colors.white.withOpacity(0.85),
@@ -260,7 +260,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Discount Code',
+                        'Codice Sconto',
                         style: TextStyle(
                           fontSize: 11.sp,
                           color: const Color(0xFF9E9E9E),
@@ -318,7 +318,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                         ),
                         SizedBox(width: 5.w),
                         Text(
-                          isCopied ? 'Copied!' : 'Copy',
+                          isCopied ? 'Copiato!' : 'Copia',
                           style: TextStyle(
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w600,
@@ -374,7 +374,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Location',
+                'Posizione',
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
@@ -411,7 +411,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'How to Use Your Discount',
+            'Come Usare il Tuo Sconto',
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w700,

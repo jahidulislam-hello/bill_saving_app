@@ -32,9 +32,9 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
   static const _borderColor = Color(0xFFE8E8E8);
 
   static const _timeSlots = [
-    'Morning (9am – 12pm)',
-    'Afternoon (12pm – 3pm)',
-    'Evening (3am – 6pm)',
+    'Mattina (09:00 – 12:00)',
+    'Pomeriggio (12:00 – 15:00)',
+    'Sera (15:00 – 18:00)',
   ];
 
   final _phoneCtrl = TextEditingController();
@@ -115,7 +115,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "We'll call you at your preferred time to discuss your request.",
+              "Ti chiameremo all'orario preferito per discutere la tua richiesta.",
               style: TextStyle(
                 color: _textMid,
                 fontSize: 14,
@@ -125,7 +125,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
             const SizedBox(height: 24),
 
             // ── Phone Number ──
-            const Text('Phone Number',
+            const Text('Numero di Telefono',
                 style: TextStyle(
                     color: _textDark,
                     fontSize: 13,
@@ -137,7 +137,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
               style: const TextStyle(
                   color: _textDark, fontSize: 14, fontWeight: FontWeight.w500),
               decoration: InputDecoration(
-                hintText: '+1 (555) 123-4567',
+                hintText: '+39 333 123 4567',
                 hintStyle:
                 const TextStyle(color: Color(0xFFB2BEC3), fontSize: 14),
                 filled: true,
@@ -162,7 +162,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
             const SizedBox(height: 20),
 
             // ── Preferred Time Slot ──
-            const Text('Preferred Time Slot',
+            const Text('Fascia Oraria Preferita',
                 style: TextStyle(
                     color: _textDark,
                     fontSize: 13,
@@ -191,7 +191,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      _selectedTime ?? 'Select a time',
+                      _selectedTime ?? 'Seleziona un orario',
                       style: TextStyle(
                         color: _selectedTime != null
                             ? _textDark
@@ -223,7 +223,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Text(
-                'Note: Our team typically responds within 2-4 business hours during working days (Mon-Fri).',
+                'Nota: Il nostro team risponde solitamente entro 2-4 ore lavorative durante i giorni feriali (Lun-Ven).',
                 style: TextStyle(
                   color: _infoText,
                   fontSize: 13,
@@ -246,7 +246,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
                       borderRadius: BorderRadius.circular(12)),
                   elevation: 0,
                 ),
-                child: const Text('Request Call Back',
+                child: const Text('Richiedi Chiamata',
                     style: TextStyle(
                         fontSize: 15, fontWeight: FontWeight.w700)),
               ),
@@ -269,7 +269,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
         Icon(Icons.arrow_back, color: Color(0xFF1A1A2E), size: 22),
       ),
       title: const Text(
-        'Request Call Back',
+        'Richiedi Chiamata',
         style: TextStyle(
           color: Color(0xFF1A1A2E),
           fontSize: 17,

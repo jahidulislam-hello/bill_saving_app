@@ -15,8 +15,8 @@ class InviteController extends ChangeNotifier {
 
   // ── Earnings ──
   double totalEarnings = 40.00;
-  final String earningsType = 'Amazon vouchers';
-  final String earningsStatus = 'AVAILABLE';
+  final String earningsType = 'Buoni Amazon';
+  final String earningsStatus = 'DISPONIBILE';
   final String progressAmount = '€10';
 
   bool isCopied = false;
@@ -40,7 +40,7 @@ class InviteController extends ChangeNotifier {
     // );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Link shared!'),
+        content: const Text('Link condiviso!'),
         backgroundColor: const Color(0xFF6C52D9),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

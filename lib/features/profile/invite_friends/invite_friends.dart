@@ -61,7 +61,7 @@ class _InviteScreenState extends State<InviteScreen> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Text(
-                'Invite Statistics',
+                'Statistiche Inviti',
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w700,
@@ -108,7 +108,7 @@ class _InviteScreenState extends State<InviteScreen> {
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
-        'Invite your friends',
+        'Invita i tuoi amici',
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w600,
@@ -152,7 +152,7 @@ class _InviteScreenState extends State<InviteScreen> {
           SizedBox(height: 16.h),
 
           Text(
-            'Share the savings',
+            'Condividi il risparmio',
             style: TextStyle(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
@@ -166,7 +166,7 @@ class _InviteScreenState extends State<InviteScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 32.w),
             child: Text(
-              'Help your friends reduce their utility bills and\nget rewarded for every successful activation.',
+              'Aiuta i tuoi amici a ridurre le bollette e\nricevi un premio per ogni attivazione riuscita.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 13.sp,
@@ -203,7 +203,7 @@ class _InviteScreenState extends State<InviteScreen> {
         children: [
           // ── Label ──
           Text(
-            'Personal referral link',
+            'Link di invito personale',
             style: TextStyle(
               fontSize: 12.sp,
               color: const Color(0xFF9E9E9E),
@@ -274,7 +274,7 @@ class _InviteScreenState extends State<InviteScreen> {
               onPressed: () => _controller.shareLink(context),
               icon: Icon(Icons.share_rounded, size: 18.sp),
               label: Text(
-                'Share link',
+                'Condividi link',
                 style: TextStyle(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w600,
@@ -308,9 +308,9 @@ class _InviteScreenState extends State<InviteScreen> {
             icon: Icons.person_add_alt_1_rounded,
             iconBg: const Color(0xFFE8F8EF),
             iconColor: const Color(0xFF27AE60),
-            topLabel: 'You earn',
+            topLabel: 'Tu guadagni',
             amount: _controller.youEarn,
-            bottomLabel: 'When their contract is\nactivated',
+            bottomLabel: 'Quando il loro contratto viene\nattivato',
           ),
         ),
         SizedBox(width: 12.w),
@@ -319,9 +319,9 @@ class _InviteScreenState extends State<InviteScreen> {
             icon: Icons.group_rounded,
             iconBg: const Color(0xFFEAF0FF),
             iconColor: const Color(0xFF5B7FD8),
-            topLabel: 'Friend gets',
+            topLabel: 'L\'amico riceve',
             amount: _controller.friendGets,
-            bottomLabel: 'Applied to their first\nactivation',
+            bottomLabel: 'Applicato alla loro prima\nattivazione',
           ),
         ),
       ],
@@ -427,8 +427,8 @@ class _InviteScreenState extends State<InviteScreen> {
             icon: Icons.mail_outline_rounded,
             iconBg: const Color(0xFFEAF0FF),
             iconColor: const Color(0xFF5B7FD8),
-            title: 'Invites sent',
-            subtitle: 'Total shared links',
+            title: 'Inviti inviati',
+            subtitle: 'Link totali condivisi',
             value: _controller.invitesSent,
             isLast: false,
           ),
@@ -442,8 +442,8 @@ class _InviteScreenState extends State<InviteScreen> {
             icon: Icons.check_circle_outline_rounded,
             iconBg: const Color(0xFFE8F8EF),
             iconColor: const Color(0xFF27AE60),
-            title: 'Completed invites',
-            subtitle: 'Successfully activated',
+            title: 'Inviti completati',
+            subtitle: 'Attivati con successo',
             value: _controller.completedInvites,
             isLast: true,
           ),
@@ -553,7 +553,7 @@ class _InviteScreenState extends State<InviteScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Total Earnings',
+                'Guadagni Totali',
                 style: TextStyle(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w700,

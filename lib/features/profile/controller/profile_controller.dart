@@ -5,8 +5,8 @@ class ProfileController extends ChangeNotifier {
   // ── User Info ──
   String name = 'Alex Harrison';
   String email = 'alexsmith.mobbin@gmail.com';
-  String accountType = 'Personal';
-  String memberSince = 'Member since January 2024';
+  String accountType = 'Privato';
+  String memberSince = 'Membro dal Gennaio 2024';
   String avatarAsset = ''; // set your asset path here
 
   // ── Personal Data form fields ──
@@ -21,7 +21,7 @@ class ProfileController extends ChangeNotifier {
   bool isSaving = false;
 
   void switchToBusiness() {
-    accountType = accountType == 'Personal' ? 'Business' : 'Personal';
+    accountType = accountType == 'Privato' ? 'Azienda' : 'Privato';
     notifyListeners();
   }
 

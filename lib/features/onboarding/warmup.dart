@@ -122,7 +122,7 @@ class WarmupOnboarding extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
               child: controller.currentIndex.value == 2
                   ? PrimaryButton(
-                title: "Next",
+                title: "Avanti",
                 onPress: () {
                   Get.offNamed(AppRoutes.onboardScreen);
                 },

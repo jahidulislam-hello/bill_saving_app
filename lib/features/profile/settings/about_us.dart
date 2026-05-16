@@ -42,7 +42,7 @@ class AboutUs extends StatelessWidget {
             const SizedBox(height: 28),
             // ── Title ──
             const Text(
-              'About VYZI',
+              'Su VYZI',
               style: TextStyle(
                 color: _textDark,
                 fontSize: 18,
@@ -72,7 +72,7 @@ class AboutUs extends StatelessWidget {
         child: Icon(Icons.chevron_left, color: _textDark, size: 28),
       ),
       title: const Text(
-        'About VYZI',
+        'Su VYZI',
         style: TextStyle(
           color: _textDark,
           fontSize: 17,

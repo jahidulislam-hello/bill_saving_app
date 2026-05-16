@@ -71,7 +71,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Agreements',
+            'Convenzioni',
             style: TextStyle(
               fontSize: 17.sp,
               fontWeight: FontWeight.w700,
@@ -80,7 +80,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
             ),
           ),
           Text(
-            'Exclusive discounts for you',
+            'Sconti esclusivi per te',
             style: TextStyle(
               fontSize: 11.sp,
               color: const Color(0xFF9E9E9E),
@@ -125,7 +125,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Your Benefits',
+                  'I Tuoi Vantaggi',
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
@@ -135,7 +135,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'Enjoy exclusive discounts at our partner restaurants as a valued member.',
+                  'Goditi sconti esclusivi presso i nostri ristoranti partner come membro prezioso.',
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: const Color(0xFF555555),

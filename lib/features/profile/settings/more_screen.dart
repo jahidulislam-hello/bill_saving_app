@@ -24,7 +24,7 @@ class MoreScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const CustomAppBar(title: "Settings", showBackButton: true),
+            const CustomAppBar(title: "Impostazioni", showBackButton: true),
             const SizedBox(height: 32),
 
             // Settings List wrapped in a single card
@@ -47,7 +47,7 @@ class MoreScreen extends StatelessWidget {
                         width: 24,
                         height: 24,
                       ),
-                      title: "Privacy Policy",
+                      title: "Informativa sulla Privacy",
                       trailingIcon: Image.asset(
                         AppIcons.arrow,
                         width: 24,
@@ -64,7 +64,7 @@ class MoreScreen extends StatelessWidget {
                         width: 24,
                         height: 24,
                       ),
-                      title: "Terms & Condition",
+                      title: "Termini e Condizioni",
                       onTap: () {
                         Get.to(() => TermsCondition());
                       },
@@ -76,7 +76,7 @@ class MoreScreen extends StatelessWidget {
                         width: 24,
                         height: 24,
                       ),
-                      title: "About Easy Saving",
+                      title: "Su Easy Saving",
                       trailingIcon: Image.asset(
                         AppIcons.arrow,
                         width: 24,
@@ -110,7 +110,7 @@ class MoreScreen extends StatelessWidget {
                         width: 24,
                         height: 24,
                       ),
-                      title: "Delete Account",
+                      title: "Elimina Account",
                       trailingIcon: Image.asset(
                         AppIcons.arrow,
                         width: 24,

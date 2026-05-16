@@ -82,7 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: _firstNameController,
                           hintText: 'Alex',
                           validator: (v) =>
-                          v == null || v.isEmpty ? 'Required' : null,
+                          v == null || v.isEmpty ? 'Obbligatorio' : null,
                         ),
                       ),
                     ),
@@ -94,7 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: _lastNameController,
                           hintText: 'Smith',
                           validator: (v) =>
-                          v == null || v.isEmpty ? 'Required' : null,
+                          v == null || v.isEmpty ? 'Obbligatorio' : null,
                         ),
                       ),
                     ),
@@ -119,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     validator: (v) =>
-                    v == null || !v.contains('@') ? 'Enter valid email' : null,
+                    v == null || !v.contains('@') ? 'Inserisci un\'email valida' : null,
                   ),
                 ),
 
@@ -141,7 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     isPassword: true,
                     hintText: '••••••••••',
                     validator: (v) =>
-                    v == null || v.length < 6 ? 'Min 6 characters' : null,
+                    v == null || v.length < 6 ? 'Minimo 6 caratteri' : null,
                   ),
                 ),
 
@@ -155,7 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     isPassword: true,
                     hintText: '••••••••••',
                     validator: (v) => v != _passwordController.text
-                        ? 'Passwords do not match'
+                        ? 'Le password non corrispondono'
                         : null,
                   ),
                 ),

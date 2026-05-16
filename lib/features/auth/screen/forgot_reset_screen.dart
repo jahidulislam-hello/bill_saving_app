@@ -30,7 +30,7 @@ class ResetPasswordScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
-        title: "Reset Password",
+        title: "Reimposta Password",
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -48,7 +48,7 @@ class ResetPasswordScreen extends StatelessWidget {
                 isPassword: true,
                 hintText: '••••••••••',
                 validator: (v) =>
-                v == null || v.length < 6 ? 'Min 6 characters' : null,
+                v == null || v.length < 6 ? 'Minimo 6 caratteri' : null,
               ),
             ),
 
@@ -62,7 +62,7 @@ class ResetPasswordScreen extends StatelessWidget {
                 isPassword: true,
                 hintText: '••••••••••',
                 validator: (v) => v != _passwordController.text
-                    ? 'Passwords do not match'
+                    ? 'Le password non corrispondono'
                     : null,
               ),
             ),
@@ -75,7 +75,7 @@ class ResetPasswordScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: PrimaryButton(
-                title: "Reset Password",
+                title: "Reimposta Password",
                 onPress: () {
                   controller.resetPassword(); // ✅ logic here
                 },

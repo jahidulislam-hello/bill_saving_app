@@ -268,14 +268,14 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
   final _dropdownKey = GlobalKey();
   OverlayEntry? _overlayEntry;
 
-  static const _tabs = ['Technical Support', 'Billing and Payments'];
+  static const _tabs = ['Supporto Tecnico', 'Fatturazione e Pagamenti'];
   static const _topics = [
-    'Billing Question',
-    'Technical Issue',
-    'Switching Process',
-    'Contact Question',
-    'Account Management',
-    'Other',
+    'Domanda Fatturazione',
+    'Problema Tecnico',
+    'Processo di Passaggio',
+    'Domanda Contatto',
+    'Gestione Account',
+    'Altro',
   ];
 
   @override
@@ -348,7 +348,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
         padding: const EdgeInsets.fromLTRB(18, 16, 18, 30),
         children: [
           const Text(
-            'Do you need help? Select a topic and describe your request. Our specialized team will respond as soon as possible.',
+            'Hai bisogno di aiuto? Seleziona un argomento e descrivi la tua richiesta. Il nostro team specializzato risponderà il prima possibile.',
             style: TextStyle(
               color: _T.textMid,
               fontSize: 13,
@@ -362,7 +362,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
           const SizedBox(height: 22),
 
           // ── Topic Dropdown ──
-          const Text('Topic',
+          const Text('Argomento',
               style: TextStyle(
                   color: _T.textDark,
                   fontSize: 13,
@@ -385,7 +385,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    _selectedTopic ?? 'Billing Inquiry',
+                    _selectedTopic ?? 'Richiesta Fatturazione',
                     style: TextStyle(
                       color: _selectedTopic != null
                           ? _T.textDark
@@ -407,7 +407,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
           const SizedBox(height: 18),
 
           // ── Message ──
-          const Text('Message',
+          const Text('Messaggio',
               style: TextStyle(
                   color: _T.textDark,
                   fontSize: 13,
@@ -419,7 +419,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
             style: const TextStyle(
                 color: _T.textDark, fontSize: 14, height: 1.5),
             decoration: InputDecoration(
-              hintText: 'Describe your issue or question...',
+              hintText: 'Descrivi il tuo problema o domanda...',
               hintStyle:
               const TextStyle(color: _T.textLight, fontSize: 13),
               filled: true,
@@ -451,7 +451,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
                     borderRadius: BorderRadius.circular(12)),
                 elevation: 0,
               ),
-              child: const Text('Submit Request',
+              child: const Text('Invia Richiesta',
                   style: TextStyle(
                       fontSize: 15, fontWeight: FontWeight.w700)),
             ),
@@ -463,17 +463,17 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
           const SizedBox(height: 24),
 
           // ── Other Ways to Contact ──
-          const Text('Other Ways to Contact Us',
+          const Text('Altri modi per contattarci',
               style: TextStyle(
                   color: _T.textDark,
                   fontSize: 16,
                   fontWeight: FontWeight.w800)),
           const SizedBox(height: 16),
-          _contactRow('Phone', '1-800-UTILITY', _T.blue),
+          _contactRow('Telefono', '1-800-UTILITY', _T.blue),
           const SizedBox(height: 14),
           _contactRow('Email', 'support@utility.com', _T.blue),
           const SizedBox(height: 14),
-          _contactRow('Hours', 'Mon-Fri, 9:00 AM – 6:00 PM', _T.textDark),
+          _contactRow('Orari', 'Lun-Ven, 09:00 – 18:00', _T.textDark),
         ],
       ),
     );
@@ -492,7 +492,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
           child: Icon(Icons.chevron_left, color: _T.textDark, size: 28),
         ),
       ),
-      title: const Text('Support',
+      title: const Text('Supporto',
           style: TextStyle(
               color: _T.textDark,
               fontSize: 17,

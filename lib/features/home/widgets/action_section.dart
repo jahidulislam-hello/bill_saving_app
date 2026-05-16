@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyzi/core/utils/app_images.dart';
 
-// Update this import path to match your project structure
 import 'action_card.dart';
 
 class ActionSection extends StatelessWidget {
@@ -11,34 +11,26 @@ class ActionSection extends StatelessWidget {
     {
       "title": "Cambia Fornitore",
       "subtitle": "Controlla il mercato e scopri quanto puoi risparmiare!",
-      "icon": Icons.swap_horiz,
-      "color": const Color(0xFF27AE60), // green
-      "isHighlighted": false,
+      "image": AppImages.h_1,
       "showBadge": false,
     },
     {
       "title": "Trasferimento di Proprietà",
       "subtitle": "2-in-1: Trasferisci la proprietà e cambia fornitore!",
-      "icon": Icons.people_alt_outlined,
-      "color": const Color(0xFFE67E22), // orange
-      "isHighlighted": false,
+      "image": AppImages.h_2,
       "showBadge": false,
     },
     {
       "title": "Attiva Utenza",
       "subtitle": "Completa la tua richiesta e attiva il servizio ora!",
-      "icon": Icons.bolt,
-      "color": const Color(0xFF27AE60), // border accent color
-      "isHighlighted": true,  // ← dark icon bg
-      "showBadge": true,      // ← "Nuovo" badge
+      "image": AppImages.h_3,
+      "showBadge": true,
       "badgeText": "Nuovo",
     },
     {
       "title": "Controllo Fattura",
       "subtitle": "Controlla se le tue fatture sono corrette e trova risparmi!",
-      "icon": Icons.manage_search_rounded,
-      "color": const Color(0xFF2980B9), // blue
-      "isHighlighted": false,
+      "image": AppImages.h_4,
       "showBadge": false,
     },
   ];
@@ -64,7 +56,7 @@ class ActionSection extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 14.h),
+          SizedBox(height: 1.h),
 
           ListView.separated(
             shrinkWrap: true,
@@ -76,9 +68,7 @@ class ActionSection extends StatelessWidget {
               return ActionCard(
                 title: item['title'],
                 subtitle: item['subtitle'],
-                icon: item['icon'],
-                color: item['color'],
-                isHighlighted: item['isHighlighted'] ?? false,
+                image: item['image'],
                 showBadge: item['showBadge'] ?? false,
                 badgeText: item['badgeText'],
                 onTap: () {
