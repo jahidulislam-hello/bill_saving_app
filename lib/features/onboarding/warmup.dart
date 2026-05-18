@@ -46,127 +46,136 @@ class WarmupOnboarding extends StatelessWidget {
       body: Obx(() {
         final item = data[controller.currentIndex.value];
 
-        return Column(
-          children: [
-            // TOP CURVED BACKGROUND + IMAGE
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.50,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  // Shifted circular background
-                  Positioned(
-                    top: -128,
-                    left: -81,
-                    child: Container(
-                      width: 555,
-                      height: 551,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFC8CCFD),
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-
-                  // PHONE IMAGE
-                  Positioned(
-                    bottom: -208, // Pulls the image down to overlap the white background
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: Image.asset(
-                        item["image"]!,
-                        height: 580,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height,
             ),
-
-            const SizedBox(height: 220), // Reserve space for the overlapping image part
-
-            // TEXT SECTION
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: IntrinsicHeight(
               child: Column(
                 children: [
-                  Text(
-                    item["title"]!,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      height: 1.3,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    item["desc"]!,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                      height: 1.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const Spacer(),
-
-            // BOTTOM INDICATOR + BUTTON
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
-              child: controller.currentIndex.value == 2
-                  ? PrimaryButton(
-                title: "Avanti",
-                onPress: () {
-                  Get.offNamed(AppRoutes.onboardScreen);
-                },
-              )
-                  : Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // INDICATOR
-                  Row(
-                    children: List.generate(3, (index) {
-                      return Container(
-                        margin: const EdgeInsets.only(right: 6),
-                        height: 6,
-                        width: controller.currentIndex.value == index ? 20 : 6,
-                        decoration: BoxDecoration(
-                          color: controller.currentIndex.value == index
-                              ? Colors.deepPurple
-                              : Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(10),
+                  // TOP CURVED BACKGROUND + IMAGE
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.50,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        // Shifted circular background
+                        Positioned(
+                          top: -128,
+                          left: -81,
+                          child: Container(
+                            width: 555,
+                            height: 551,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFC8CCFD),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
                         ),
-                      );
-                    }),
+
+                        // PHONE IMAGE
+                        Positioned(
+                          bottom: -208,
+                          left: 0,
+                          right: 0,
+                          child: Center(
+                            child: Image.asset(
+                              item["image"]!,
+                              height: 580,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
 
-                  // NEXT BUTTON
-                  GestureDetector(
-                    onTap: controller.next,
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: const BoxDecoration(
-                        color: Colors.deepPurple,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                      ),
+                  const SizedBox(height: 220),
+
+                  // TEXT SECTION
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      children: [
+                        Text(
+                          item["title"]!,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            height: 1.3,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          item["desc"]!,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                            height: 1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const Spacer(),
+
+                  // BOTTOM INDICATOR + BUTTON
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+                    child: controller.currentIndex.value == 2
+                        ? PrimaryButton(
+                      title: "Avanti",
+                      onPress: () {
+                        Get.offNamed(AppRoutes.onboardScreen);
+                      },
+                    )
+                        : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // INDICATOR
+                        Row(
+                          children: List.generate(3, (index) {
+                            return Container(
+                              margin: const EdgeInsets.only(right: 6),
+                              height: 6,
+                              width: controller.currentIndex.value == index ? 20 : 6,
+                              decoration: BoxDecoration(
+                                color: controller.currentIndex.value == index
+                                    ? Colors.deepPurple
+                                    : Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            );
+                          }),
+                        ),
+
+                        // NEXT BUTTON
+                        GestureDetector(
+                          onTap: controller.next,
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            decoration: const BoxDecoration(
+                              color: Colors.deepPurple,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   )
                 ],
               ),
-            )
-          ],
+            ),
+          ),
         );
       }),
     );
