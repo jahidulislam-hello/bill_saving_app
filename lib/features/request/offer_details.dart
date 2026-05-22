@@ -1,5 +1,7 @@
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/request/complete_request/complete_request_screen.dart';
+import 'package:vyzi/features/request/price_calculation_dialog.dart';
+import 'package:vyzi/features/request/price_type_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -168,12 +170,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
           ),
           child: Container(
             margin: const EdgeInsets.only(right: 16),
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: AppColors.textLight, width: 1.5),
-            ),
+            width: 24,
+            height: 24,
+
             child: const Icon(Icons.info_outline, color: AppColors.textDark, size: 18),
           ),
         ),
@@ -298,6 +297,20 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     );
   }
 
+  void _handleLinkTap(String text) {
+    if (text == "Cosa significa?") {
+      showDialog(
+        context: context,
+        builder: (_) => const PriceTypeSheet(),
+      );
+    } else if (text == 'Come viene calcolato?') {
+      showDialog(
+        context: context,
+        builder: (_) => const PriceCalculationDialog(),
+      );
+    }
+  }
+
   // ── Detail Row ──
   Widget _detailRow(OfferDetailRow row) {
     return Column(
@@ -309,15 +322,17 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
             children: [
               // Label
               Expanded(
-                flex: 5,
+                flex: 4,
                 child: Row(
                   children: [
-                    Text(
-                      row.label,
-                      style: const TextStyle(
-                        color: AppColors.textDark,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
+                    Flexible(
+                      child: Text(
+                        row.label,
+                        style: const TextStyle(
+                          color: AppColors.textDarkest,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 4),
@@ -326,7 +341,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                   ],
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 16),
               // Value
               Expanded(
                 flex: 5,
@@ -345,12 +360,16 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                     ),
                     if (row.linkText != null) ...[
                       const SizedBox(height: 3),
-                      Text(
-                        row.linkText!,
-                        style: TextStyle(
-                          color: row.linkColor,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
+                      GestureDetector(
+                        onTap: () => _handleLinkTap(row.linkText!),
+                        behavior: HitTestBehavior.opaque,
+                        child: Text(
+                          row.linkText!,
+                          style: TextStyle(
+                            color: row.linkColor,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ],
@@ -360,7 +379,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
             ],
           ),
         ),
-        const Divider(color: AppColors.divider, height: 1),
+        const Divider(color: AppColors.divider, height: 1.2),
       ],
     );
   }

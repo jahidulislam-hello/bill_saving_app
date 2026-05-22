@@ -175,14 +175,14 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFF0EEFF),
+              color: const Color(0xFFA0AFDE),
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Text('Prezzo Energia : PUN GME + € 0.01/KWh',
                 style: TextStyle(
                     fontSize: 12.sp,
-                    color: const Color(0xFF5B3FD8),
-                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF000000),
+                    fontWeight: FontWeight.w400,
                     height: 1.22)),
           ),
           SizedBox(height: 10.h),
@@ -193,6 +193,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           _buildInfoRow(Icons.check_circle_outline,
               const Color(0xFF9B59B6), 'Compatibilità: Residenziale'),
           SizedBox(height: 12.h),
+          _dividerLine(),
 
           // ── Annual savings ──
           Row(
@@ -272,13 +273,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           ),
           SizedBox(height: 14.h),
           _personalRow('Nome', _c.firstName),
-          _dividerLine(),
+
           _personalRow('Cognome', _c.lastName),
-          _dividerLine(),
+
           _personalRow('Email', _c.email),
-          _dividerLine(),
+
           _personalRow('Telefono', _c.phone),
-          _dividerLine(),
+
           _personalRow('Numero POD', _c.podNumber),
         ],
       ),

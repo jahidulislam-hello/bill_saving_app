@@ -132,7 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _buildMenuCard(_otherItems),
                     SizedBox(height: 24.h),
                     _buildLogoutButton(),
-                    SizedBox(height: 30.h),
+                    SizedBox(height: 100.h),
                   ],
                 ),
               ),

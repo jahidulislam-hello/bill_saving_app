@@ -10,7 +10,7 @@ class AppImages{
   static String onboardingBg="$baseUrl/OnboardingBg.png";
   static String onboardingBg2="$baseUrl/OnboardingBg2.png";
   static String profileContainer="$baseUrl/profileContainer.png";
-  static String logo="$baseUrl/VYZI.png";
+  static String logo="$baseUrl/logo.png";
   static String logoCard="$baseUrl/logoCard.png";
   static String upcoming="$baseUrl/upcoming.png";
   static String uploadIcon="$baseUrl/uploadIcon.png";
@@ -27,6 +27,7 @@ class AppImages{
   static String compat="$baseUrl/compat.png";
   static String pay="$baseUrl/pay.png";
   static String filter="$baseUrl/filter.png";
+  static String home_logo="$baseUrl/home_logo.png";
 
   static String errorPageImage = "$baseUrl/errorpage.png";
   static String visaImage = "$baseUrl/visa.png";
