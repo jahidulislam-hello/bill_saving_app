@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:vyzi/features/utility/controller/utility_details_controller.dart';
+import 'package:vyzi/features/my_utility/utility_details_controller.dart';
 
 
 class UtilityDetailsScreen extends StatelessWidget {
@@ -13,7 +13,7 @@ class UtilityDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor:  Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -218,19 +218,18 @@ class UtilityDetailsScreen extends StatelessWidget {
             SizedBox(height: 18.h),
 
             /// ACTIVE OFFER
-            _sectionTitle("Active Offer"),
-
-            SizedBox(height: 12.h),
-
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(18.w),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: const Color(0xFFEFEFEF),
                 borderRadius: BorderRadius.circular(18.r),
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  _sectionTitle("Active Offer"),
+                  SizedBox(height: 16.h),
                   _infoRow("Offer Name", "fixed Rate Plan"),
                   SizedBox(height: 16.h),
                   _infoRow("Service Type", "Gas"),
@@ -246,6 +245,7 @@ class UtilityDetailsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(22.r),
+                border: Border.all(color: const Color(0xFFD2D2D2)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,7 +254,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.location_on_outlined,
-                        color: const Color(0xFFB300FF),
+                        color: const Color(0xFF9400D3),
                         size: 20.sp,
                       ),
                       SizedBox(width: 6.w),
@@ -376,7 +376,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                                 "ANNUAL CONSUMPTION",
                                 style: TextStyle(
                                   color:
-                                  const Color(0xFFB300FF),
+                                  const Color(0xFF9400D3),
                                   fontSize: 9.sp,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 1,
@@ -453,6 +453,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                         color: Colors.white,
                         borderRadius:
                         BorderRadius.circular(16.r),
+                        border: Border.all(color: const Color(0xFFE8E8E8)),
                       ),
                       child: ExpansionTile(
                         tilePadding: EdgeInsets.symmetric(
@@ -562,8 +563,9 @@ class UtilityDetailsScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xFFEFEFEF),
         borderRadius: BorderRadius.circular(18.r),
+        border: Border.all(color: const Color(0xFFE8E8E8)),
       ),
       child: Row(
         children: [
@@ -571,12 +573,12 @@ class UtilityDetailsScreen extends StatelessWidget {
             height: 42.h,
             width: 42.w,
             decoration: BoxDecoration(
-              color: const Color(0xFFF3E9FF),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Icon(
               icon,
-              color: const Color(0xFFB300FF),
+              color: const Color(0xFF9400D3),
             ),
           ),
 

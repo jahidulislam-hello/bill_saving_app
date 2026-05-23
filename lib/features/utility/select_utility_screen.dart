@@ -159,18 +159,18 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
           duration: const Duration(milliseconds: 220),
           height: 130.h,
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFF6C52D9) : Colors.white,
+            color: isSelected ? const Color(0xFF9400D3) : Colors.white,
             borderRadius: BorderRadius.circular(14.r),
             border: Border.all(
               color: isSelected
-                  ? const Color(0xFF6C52D9)
+                  ? const Color(0xFF9400D3)
                   : Colors.grey.shade200,
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
                 color: isSelected
-                    ? const Color(0xFF6C52D9).withOpacity(0.22)
+                    ? const Color(0xFF9400D3).withOpacity(0.22)
                     : Colors.black.withOpacity(0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 3),
@@ -201,7 +201,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                       ? Icon(
                           Icons.check_rounded,
                           size: 13.sp,
-                          color: const Color(0xFF6C52D9),
+                          color: const Color(0xFF9400D3),
                         )
                       : const SizedBox.shrink(),
                 ),
@@ -227,7 +227,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                         size: 26.sp,
                         color: isSelected
                             ? Colors.white
-                            : const Color(0xFF6C52D9),
+                            : const Color(0xFF9400D3),
                       ),
                     ),
                     SizedBox(height: 10.h),
@@ -282,7 +282,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
               text: TextSpan(
                 style: TextStyle(
                   fontSize: 13.sp,
-                  color: const Color(0xFF6C52D9),
+                  color: const Color(0xFF9400D3),
                   height: 1.22,
                 ),
                 children: const [

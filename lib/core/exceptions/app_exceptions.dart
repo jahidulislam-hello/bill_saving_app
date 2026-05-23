@@ -197,3 +197,4 @@ class UnknownException extends AppException {
   UnknownException([String? details])
       : super('An unknown error occurred', details);
 }
+

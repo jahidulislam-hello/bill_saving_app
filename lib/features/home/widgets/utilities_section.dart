@@ -37,7 +37,7 @@ class UtilitiesSection extends StatelessWidget {
               Text(
                 "Visualizza Tutto",
                 style: TextStyle(
-                  color: Color(0xff6B4EFF),
+                  color: Color(0xff9400D3),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
                 ),

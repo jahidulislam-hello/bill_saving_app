@@ -57,7 +57,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('File selezionato: ${file.name}'),
-            backgroundColor: const Color(0xFF6C52D9),
+            backgroundColor: const Color(0xFF9400D3),
           ),
         );
       }
@@ -178,7 +178,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(Icons.help_outline_rounded,
-                  color: const Color(0xFF6C52D9), size: 18.sp),
+                  color: const Color(0xFF9400D3), size: 18.sp),
               SizedBox(width: 8.w),
               Expanded(
                 child: Text(
@@ -200,7 +200,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
-                color: const Color(0xFF6C52D9),
+                color: const Color(0xFF9400D3),
                 height: 1.22,
               ),
             ),
@@ -258,7 +258,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           borderRadius: BorderRadius.circular(14.r),
           border: Border.all(
             color: isSelected
-                ? const Color(0xFF6C52D9)
+                ? const Color(0xFF9400D3)
                 : Colors.grey.shade200,
             width: isSelected ? 1.8 : 1.2,
           ),
@@ -348,7 +348,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           border: Border.all(
             color:
             _controller.selectedMethod == UploadMethod.sendEmail
-                ? const Color(0xFF6C52D9)
+                ? const Color(0xFF9400D3)
                 : Colors.grey.shade200,
             width:
             _controller.selectedMethod == UploadMethod.sendEmail
@@ -551,7 +551,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Scansionato: $value'),
-                      backgroundColor: const Color(0xFF6C52D9),
+                      backgroundColor: const Color(0xFF9400D3),
                     ),
                   );
                 }
@@ -566,7 +566,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               height: 240.w,
               decoration: BoxDecoration(
                 border: Border.all(
-                    color: const Color(0xFF6C52D9), width: 2.5),
+                    color: const Color(0xFF9400D3), width: 2.5),
                 borderRadius: BorderRadius.circular(16.r),
               ),
             ),
@@ -593,3 +593,4 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     );
   }
   }
+

@@ -1,7 +1,8 @@
 import 'package:vyzi/core/utils/app_colors.dart';
-import 'package:vyzi/features/my_utility/my_utility_details_screen.dart';
+import 'package:vyzi/features/dumb/my_utility_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyzi/features/my_utility/utility_details_screen.dart';
 
 
 
@@ -157,7 +158,7 @@ class _UtilityTile extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => UtilityDetailsScreen(utility: utility),
+          builder: (_) => UtilityDetailsScreen(),
         ),
       ),
       child: Container(
@@ -263,3 +264,4 @@ class _UtilityTile extends StatelessWidget {
     );
   }
 }
+

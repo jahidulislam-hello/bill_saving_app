@@ -122,3 +122,4 @@ abstract class StorageKeys {
   // static const String fcmToken = 'fcm_token';
   // static const String lastSyncTime = 'last_sync_time';
 }
+

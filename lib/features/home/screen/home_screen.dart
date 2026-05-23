@@ -93,8 +93,8 @@ class HomeScreen extends StatelessWidget {
                               child: SummaryCard(
                                 icon: Image.asset(
                                   AppImages.down,
-                                  width: 16.sp,
-                                  height: 16.sp,
+                                  width: 12.sp,
+                                  height: 12.sp,
                                 ),
                                 iconColor: Colors.green,
                                 title: "Risparmi\nPotenziali",
@@ -107,8 +107,8 @@ class HomeScreen extends StatelessWidget {
                               child: SummaryCard(
                                 icon: Image.asset(
                                   AppImages.cir,
-                                  width: 16.sp,
-                                  height: 16.sp,
+                                  width: 12.sp,
+                                  height: 12.sp,
                                 ),
                                 iconColor: Colors.blue,
                                 title: "Richiesta Attiva",

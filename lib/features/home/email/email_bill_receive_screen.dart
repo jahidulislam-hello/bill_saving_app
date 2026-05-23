@@ -39,8 +39,8 @@ class EmailBillReceivedScreen extends StatelessWidget {
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
                         colors: [
-                          Color(0xFF5B3FD8),
-                          Color(0xFF6A4CF4),
+                          Color(0xFF9400D3),
+                          Color(0xFF9400D3),
                         ],
                       ),
                     ),
@@ -132,7 +132,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
                         value: controller.progress.value / 100,
                         minHeight: 8,
                         backgroundColor: Colors.grey.shade300,
-                        color: const Color(0xFF5B3FD8),
+                        color: const Color(0xFF9400D3),
                       ),
                     )),
 
@@ -171,7 +171,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: controller.goToRequests,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF5B3FD8),
+                    backgroundColor: const Color(0xFF9400D3),
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),

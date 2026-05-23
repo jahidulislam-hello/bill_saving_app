@@ -9,22 +9,22 @@ class AppColors {
 
 
   static const Color background = Color(0xFFFFFFFF);
-  static const Color primaryButton = Color(0xFF583BC7);
+  static const Color primaryButton = Color(0xFF9400D3);
 
 
 
 
-  static const Color primaryColor = Color(0xFF583BC7);
+  static const Color primaryColor = Color(0xFF9400D3);
   static const Color fillColor = Color(0xFFFFFFFF);
   static const Color hintColor = Color(0xFFAAAAAA);
-  static const Color borderColor = Color(0xFF583BC7);
+  static const Color borderColor = Color(0xFF9400D3);
   static const Color dividerColor = Color(0xFFE0E0E0);
   static const Color textPrimary = Color(0xFF111111);
   static const Color textSecondary = Color(0xFF888888);
 
 
 
-  static const purple = Color(0xFF5B3FD9);
+  static const purple = Color(0xFF9400D3);
   static const purpleGrad1 = Color(0xFF4B2FB9);
   static const purpleGrad2 = Color(0xFF7B5FE9);
   static const green = Color(0xFF00C896);
@@ -50,10 +50,9 @@ class AppColors {
   static const Color primary400 = Color(0xFFA7ABFA);
   static const Color primary500 = Color(0xFF8884F5);
   static const Color primary600 = Color(0xFF7061ED);
-  static const Color primary700 = Color(0xFF664AE1);
-  static const Color primary800 = Color(0xFF583BC7);
-  static const Color primary900 = Color(0xFF4833A0);
-  static const Color primary1000 = Color(0xFF3D307F);
+  static const Color primary700 = Color(0xFF9400D3);
+  static const Color primary800 = Color(0xFF9400D3);
+  static const Color primary900 = Color(0xFF4833A0);  static const Color primary1000 = Color(0xFF3D307F);
 
   /// Primary Alpha
   static const Color primaryAlpha10 = Color(0x1A2E19DE);

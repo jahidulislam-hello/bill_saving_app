@@ -112,18 +112,21 @@ class PriceCalculationDialog extends StatelessWidget {
 class _HeroBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
         // ── Asset image (replace path with yours) ──
-        SizedBox(
+        Container(
           height: 130,
           width: double.infinity,
+          padding: const EdgeInsets.only(top: 20),
           child: Image.asset(
             // 🔑 Replace with your actual asset, e.g.:
             // 'assets/images/price_banner.png'
-            'assets/images/price_banner.png',
-            fit: BoxFit.cover,
+            'assets/images/price_calculate.png',
+            height: 64,
             errorBuilder: (_, __, ___) {
               // Fallback: light grey background matching the screenshot
               return Container(
@@ -134,29 +137,29 @@ class _HeroBanner extends StatelessWidget {
         ),
 
         // ── Icon badge — sits on the bottom edge of the banner ──
-        Positioned(
-          bottom: -28,
-          child: Container(
-            width: 58,
-            height: 58,
-            decoration: BoxDecoration(
-              color: const Color(0xFF1A2B6B),
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF1A2B6B).withOpacity(0.35),
-                  blurRadius: 16,
-                  offset: const Offset(0, 6),
-                ),
-              ],
-            ),
-            child: const Icon(
-              Icons.tune_rounded,
-              color: Colors.white,
-              size: 26,
-            ),
-          ),
-        ),
+        // Positioned(
+        //   bottom: -28,
+        //   child: Container(
+        //     width: 58,
+        //     height: 58,
+        //     decoration: BoxDecoration(
+        //       color: const Color(0xFF1A2B6B),
+        //       shape: BoxShape.circle,
+        //       boxShadow: [
+        //         BoxShadow(
+        //           color: const Color(0xFF1A2B6B).withOpacity(0.35),
+        //           blurRadius: 16,
+        //           offset: const Offset(0, 6),
+        //         ),
+        //       ],
+        //     ),
+        //     child: const Icon(
+        //       Icons.tune_rounded,
+        //       color: Colors.white,
+        //       size: 26,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -212,3 +215,4 @@ class _FormulaCard extends StatelessWidget {
     );
   }
 }
+

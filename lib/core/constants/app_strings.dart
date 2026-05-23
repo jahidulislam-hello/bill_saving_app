@@ -61,3 +61,4 @@ class AppStrings {
   static const String cacheNotInitialized =
       'Servizio di cache non inizializzato. Chiama prima init().';
 }
+

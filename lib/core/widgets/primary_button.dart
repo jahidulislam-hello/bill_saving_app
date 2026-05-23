@@ -6,7 +6,7 @@ class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     super.key,
     required this.title,
-    this.backgroundColor = const Color(0xFF583BC7),
+    this.backgroundColor = const Color(0xFF9400D3),
     this.borderColor = Colors.transparent,
     required this.onPress,
     this.textStyle = const TextStyle(

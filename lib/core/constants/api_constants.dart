@@ -23,3 +23,4 @@ class ApiConstants {
   static const String cacheRestaurants = 'restaurants';
   static const String cacheRestaurantsTotalSize = 'restaurantsTotalSize';
 }
+

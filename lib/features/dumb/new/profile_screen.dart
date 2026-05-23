@@ -234,7 +234,7 @@
 //       decoration: BoxDecoration(
 //         borderRadius: BorderRadius.circular(20),
 //         gradient: const LinearGradient(
-//           colors: [Color(0xFF3949AB), Color(0xFF5E35B1)],
+//           colors: [Color(0xFF3949AB), Color(0xFF9400D3)],
 //           begin: Alignment.topLeft,
 //           end: Alignment.bottomRight,
 //         ),
@@ -339,13 +339,13 @@
 //                       Icon(
 //                         Icons.swap_horiz_rounded,
 //                         size: 15,
-//                         color: const Color(0xFF5E35B1),
-//                       ),
-//                       const SizedBox(width: 5),
-//                       Text(
-//                         _controller.switchLabel,
-//                         style: const TextStyle(
-//                           color: Color(0xFF5E35B1),
+// color: const Color(0xFF9400D3),
+// ),
+// const SizedBox(width: 5),
+// Text(
+// _controller.switchLabel,
+// style: const TextStyle(
+//   color: Color(0xFF9400D3),
 //                           fontSize: 12,
 //                           fontWeight: FontWeight.w600,
 //                         ),

@@ -111,7 +111,7 @@ class _HeroBanner extends StatelessWidget {
           child: Image.asset(
             // 🔑 Replace with your actual asset path, e.g.:
             // 'assets/images/price_banner.png'
-            'assets/images/hero_banner.png',
+            'assets/images/priceType.png',
             fit: BoxFit.cover,
             errorBuilder: (_, __, ___) {
               // Fallback gradient while asset is not set up
@@ -244,3 +244,4 @@ class _InfoCard extends StatelessWidget {
     );
   }
 }
+

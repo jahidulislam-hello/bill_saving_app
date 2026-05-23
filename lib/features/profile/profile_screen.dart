@@ -1,5 +1,6 @@
 
 import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/core/utils/app_images.dart';
 import 'package:vyzi/features/profile/agreements/agreements_screen.dart';
 import 'package:vyzi/features/profile/controller/profile_controller.dart';
 import 'package:vyzi/features/profile/invite_friends/invite_friends.dart';
@@ -39,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //  MENU DATA
   // ─────────────────────────────────────────────
 
-  // Account Management — 4 items
+  // Account Management — 3 items
   final List<_MenuItem> _accountItems = const [
     _MenuItem(
       assetIcon: 'assets/icons/1.png',
@@ -62,12 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       route: 'requests',
     ),
 
-    _MenuItem(
-      assetIcon: 'assets/icons/8.png',
-      title: 'Supporto',
-      subtitle: 'Ricevi aiuto e contattaci',
-      route: 'supports',
-    ),
+
   ];
 
 // Invite and Rewards — 1 item
@@ -80,15 +76,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ),
   ];
 
-// Others — 2 items
+// Others — 3 items
   final List<_MenuItem> _otherItems = const [
+
+    _MenuItem(
+      assetIcon: 'assets/icons/8.png',
+      title: 'Supporto',
+      subtitle: 'Ricevi aiuto e contattaci',
+      route: 'supports',
+    ),
     _MenuItem(
       assetIcon: 'assets/icons/5.png',
       title: 'Convenzioni',
       subtitle: 'Sconti esclusivi dei partner',
       route: 'agreements',
     ),
-
     _MenuItem(
       assetIcon: 'assets/icons/6.png',
       title: 'Altro',
@@ -191,7 +193,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Container(
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF664AE1), Color(0xFF38287B)],
+          colors: [Color(0xFF9400D3), Color(0xFF06B6D4)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -250,9 +252,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
           // Divider inside card
           Divider(
-            height: 1,
-            // thickness: 1,
-            color: Colors.white.withOpacity(0.2),
+            height: 1.22,
+             thickness: 1,
+            color: Color(0xFF2B7FFF),
           ),
 
           // Bottom: Account type + switch button
@@ -300,18 +302,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: EdgeInsets.symmetric(
                         horizontal: 14.w, vertical: 8.h),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.18),
+                      color: Color(0xFFF4E6FB),
                       borderRadius: BorderRadius.circular(20.r),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.35),
+                        color: Color(0xFFDEB0F1),
                         width: 1,
                       ),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.swap_horiz_rounded,
-                            color: Colors.white, size: 14.sp),
+                        Image.asset(
+                          AppImages.swapIcon, // your image constant
+                          width: 14.sp,
+                          height: 14.sp,
+                          color: Colors.white,
+                        ),
                         SizedBox(width: 5.w),
                         Text(
                           _controller.accountType == 'Privato'
@@ -320,7 +326,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: TextStyle(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white,
+                            color: Color(0xFF3E0059),
                           ),
                         ),
                       ],

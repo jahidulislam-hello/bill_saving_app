@@ -137,7 +137,7 @@ class _RequestScreenState extends State<RequestScreen>
                 duration: const Duration(milliseconds: 250),
                 height: 2.h,
                 color: isSelected
-                    ? const Color(0xFF5B3FD8)
+                    ? const Color(0xFF9400D3)
                     : Colors.transparent,
               ),
             ],
@@ -227,12 +227,12 @@ class _RequestScreenState extends State<RequestScreen>
         EdgeInsets.symmetric(horizontal: 14.w, vertical: 7.h),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFF5B3FD8)
+              ? const Color(0xFF9400D3)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(8.r),
           border: Border.all(
             color: isSelected
-                ? const Color(0xFF5B3FD8)
+                ? const Color(0xFF9400D3)
                 : const Color(0xFFDDDDDD),
             width: 1.2,
           ),
@@ -402,7 +402,7 @@ class _RequestScreenState extends State<RequestScreen>
                 'Prezzo Energia : PUN GME + € 0.01/KWh',
                 style: TextStyle(
                   fontSize: 12.sp,
-                  color: const Color(0xFF5B3FD8),
+                  color: const Color(0xFF9400D3),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -494,7 +494,7 @@ class _RequestScreenState extends State<RequestScreen>
                   Get.to(()=> OfferDetailsScreen());
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF5B3FD8),
+                  backgroundColor: const Color(0xFF9400D3),
                   foregroundColor: Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(

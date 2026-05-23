@@ -23,7 +23,7 @@ class HowItWorksCard extends StatelessWidget {
             children: [
               Icon(
                 Icons.lightbulb_outline,
-                color: const Color(0xff6B4EFF),
+                color: const Color(0xff9400D3),
                 size: 22.sp,
               ),
               SizedBox(width: 8.w),
@@ -51,14 +51,7 @@ class HowItWorksCard extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: Text(
-                    "1",
-                    style: TextStyle(
-                      color: Color(0xff6B4EFF),
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  child: _gradientText("1"),
                 ),
               ),
 
@@ -79,7 +72,7 @@ class HowItWorksCard extends StatelessWidget {
                     SizedBox(height: 4.h),
 
                     Text(
-                      "Scatta una foto o carica un PDF",
+                      "Take a photo of your bill or directly upload a PDF from the app.",
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 13.sp,
@@ -105,14 +98,7 @@ class HowItWorksCard extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: Text(
-                    "2",
-                    style: TextStyle(
-                      color: Color(0xff6B4EFF),
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  child: _gradientText("2"),
                 ),
               ),
 
@@ -123,7 +109,7 @@ class HowItWorksCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Analizziamo e Confrontiamo",
+                      "We analyze and propose better offers",
                       style: TextStyle(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w600,
@@ -133,7 +119,53 @@ class HowItWorksCard extends StatelessWidget {
                     SizedBox(height: 4.h),
 
                     Text(
-                      "L'IA trova le migliori offerte per te",
+                      "The VYZI team analyzes your current situation. When the analysis is complete, you will receive a notification with the most suitable offers for your needs.",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 20.h),
+
+          /// STEP 3
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 32.h,
+                width: 32.w,
+                decoration: const BoxDecoration(
+                  color: Color(0xffEEE9FF),
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: _gradientText("3"),
+                ),
+              ),
+
+              SizedBox(width: 14.w),
+
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Choose the offer and we handle the activation",
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+
+                    SizedBox(height: 4.h),
+
+                    Text(
+                      "Compare the selected offers and choose the one you prefer. The VYZI team assists you with the request and manages the activation process.",
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 13.sp,
@@ -145,6 +177,26 @@ class HowItWorksCard extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _gradientText(String text) {
+    return ShaderMask(
+      blendMode: BlendMode.srcIn,
+      shaderCallback: (bounds) => const LinearGradient(
+        colors: [Color(0xff9400D3), Color(0xff06B6D4)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ).createShader(
+        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 14.sp,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

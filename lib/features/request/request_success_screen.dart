@@ -1,10 +1,13 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../dumb/new_complete.dart';
 
 class RequestSuccessScreen extends StatelessWidget {
   const RequestSuccessScreen({super.key});
 
-  static const _purple = Color(0xFF5B3FD9);
+  static const _purple = Color(0xFF9400D3);
   static const _textDark = Color(0xFF1A1A2E);
   static const _textGrey = Color(0xFF7A7A9A);
   static const _cardBg = Color(0xFFF4F5FB);
@@ -228,7 +231,9 @@ class RequestSuccessScreen extends StatelessWidget {
       width: double.infinity,
       height: 52,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.to(()=> ());
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: _purple,
           foregroundColor: Colors.white,

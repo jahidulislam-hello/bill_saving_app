@@ -505,7 +505,7 @@ class _DemoScreenState extends State<DemoScreen> {
                 if (result != null) setState(() => _picked = result);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF5E35B1),
+                backgroundColor: const Color(0xFF9400D3),
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(
                     horizontal: 28, vertical: 14),

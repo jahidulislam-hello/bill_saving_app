@@ -116,14 +116,15 @@ class _HeroBanner extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       children: [
         // ── Asset image (replace path with yours) ──
-        SizedBox(
+        Container(
           height: 130,
           width: double.infinity,
+          padding: const EdgeInsets.only(top: 20),
           child: Image.asset(
             // 🔑 Replace with your actual asset, e.g.:
             // 'assets/images/price_banner.png'
-            'assets/images/price_banner.png',
-            fit: BoxFit.cover,
+            'assets/images/price_calculate.png',
+            height: 64,
             errorBuilder: (_, __, ___) {
               // Fallback: light grey background matching the screenshot
               return Container(
