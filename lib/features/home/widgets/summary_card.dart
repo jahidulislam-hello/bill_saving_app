@@ -22,25 +22,27 @@ class SummaryCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFFEFEFEF),
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: Colors.grey.shade200,
+          color: Color(0xFFE8E8E8),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          icon,
-
-          SizedBox(height: 10.h),
-
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.grey.shade700,
-              fontSize: 13.sp,
-            ),
+          Row(
+            children: [
+              icon,
+              SizedBox(width: 8.w),
+              Text(
+                title,
+                style: TextStyle(
+                  color: Colors.grey.shade700,
+                  fontSize: 13.sp,
+                ),
+              ),
+            ],
           ),
 
           SizedBox(height: 12.h),

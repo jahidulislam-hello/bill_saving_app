@@ -41,7 +41,7 @@ class InviteController extends ChangeNotifier {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Link condiviso!'),
-        backgroundColor: const Color(0xFF6C52D9),
+        backgroundColor: const Color(0xFF9400D3),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),

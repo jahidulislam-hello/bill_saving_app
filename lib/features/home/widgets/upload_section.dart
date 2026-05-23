@@ -15,7 +15,7 @@ class UploadSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: DottedBorderPainter(
-        color: const Color(0xff5B36F2),
+        color: const Color(0xff9400D3),
         strokeWidth: 1.w,
         dashPattern: [8.w, 8.w],
         borderRadius: 12.r,
@@ -65,7 +65,7 @@ class UploadSection extends StatelessWidget {
                   vertical: 14.h,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xff583BC7),
+                  color: const Color(0xff9400D3),
                   borderRadius: BorderRadius.circular(14.r),
                 ),
                 child: Text(
@@ -138,3 +138,4 @@ class DottedBorderPainter extends CustomPainter {
         oldDelegate.borderRadius != borderRadius;
   }
 }
+

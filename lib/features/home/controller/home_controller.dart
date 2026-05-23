@@ -12,10 +12,8 @@ class HomeController extends GetxController {
   /// utility list
   RxList<Map<String, dynamic>> utilityList = <Map<String, dynamic>>[].obs;
 
-  /// upload / complete flow
   void startSavingFlow() {
-    /// after upload success from another screen
-    /// call this method
+
     hasData.value = true;
 
     utilityList.assignAll([

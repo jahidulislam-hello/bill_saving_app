@@ -14,7 +14,7 @@
 //   final PageController _pageController = PageController();
 //   int _currentPage = 0;
 //
-//   static const Color _purple = Color(0xFF583BC7);
+//   static const Color _purple = Color(0xFF9400D3);
 //   static const Color _bgTop = Color(0xFFC8CCFD);
 //   static const Color _bgBottom = Colors.white;
 //
@@ -448,7 +448,7 @@
 //                         Text('View All',
 //                             style: TextStyle(
 //                                 fontSize: 8.sp,
-//                                 color: const Color(0xFF583BC7),
+//                                 color: const Color(0xFF9400D3),
 //                                 fontWeight: FontWeight.w500)),
 //                       ],
 //                     ),
@@ -483,13 +483,13 @@
 //               child: Row(
 //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
 //                 children: [
-//                   Icon(Icons.home_rounded, color: const Color(0xFF583BC7), size: 18.sp),
+//                   Icon(Icons.home_rounded, color: const Color(0xFF9400D3), size: 18.sp),
 //                   Icon(Icons.receipt_long_outlined, color: Colors.grey, size: 18.sp),
 //                   Container(
 //                     width: 32.w,
 //                     height: 32.w,
 //                     decoration: const BoxDecoration(
-//                       color: Color(0xFF583BC7),
+//                       color: Color(0xFF9400D3),
 //                       shape: BoxShape.circle,
 //                     ),
 //                     child: Icon(Icons.add, color: Colors.white, size: 18.sp),
@@ -657,7 +657,7 @@
 //               height: 100.h,
 //               decoration: const BoxDecoration(
 //                 gradient: LinearGradient(
-//                   colors: [Color(0xFF2D1B69), Color(0xFF583BC7)],
+//                   colors: [Color(0xFF2D1B69), Color(0xFF9400D3)],
 //                   begin: Alignment.topLeft,
 //                   end: Alignment.bottomRight,
 //                 ),
@@ -839,7 +839,7 @@
 //           width: 18.w,
 //           height: 18.w,
 //           decoration: BoxDecoration(
-//             color: const Color(0xFF583BC7),
+//             color: const Color(0xFF9400D3),
 //             shape: BoxShape.circle,
 //           ),
 //           child: Center(
@@ -960,3 +960,4 @@
 //     required this.subtitle,
 //   });
 // }
+

@@ -168,7 +168,7 @@ class EmailBillScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: controller.onEmailSent,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF5B3FD8),
+                  backgroundColor: const Color(0xFF9400D3),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

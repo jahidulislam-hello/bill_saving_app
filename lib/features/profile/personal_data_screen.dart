@@ -189,7 +189,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
-                color: const Color(0xFF5B3FD8),
+                color: const Color(0xFF9400D3),
                 height: 1.22,
               ),
             ),
@@ -298,7 +298,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
               borderSide: const BorderSide(
-                  color: Color(0xFF5B3FD8), width: 1.5),
+                  color: Color(0xFF9400D3), width: 1.5),
             ),
           ),
         ),
@@ -318,7 +318,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(Icons.shield_outlined,
-              color: const Color(0xFF5B3FD8), size: 20.sp),
+              color: const Color(0xFF9400D3), size: 20.sp),
           SizedBox(width: 10.w),
           Expanded(
             child: Column(
@@ -338,7 +338,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                   'I tuoi dati sono crittografati e gestiti secondo i nostri standard di protezione premium. Non condividiamo mai i tuoi dati personali con fornitori terzi senza il tuo consenso.',
                   style: TextStyle(
                     fontSize: 12.sp,
-                    color: const Color(0xFF5B3FD8),
+                    color: const Color(0xFF9400D3),
                     height: 1.5,
                   ),
                 ),

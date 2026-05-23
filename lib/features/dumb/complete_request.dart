@@ -178,7 +178,7 @@
 //             child: Text('Energy Price : PUN GME + € 0.01/KWh',
 //                 style: TextStyle(
 //                     fontSize: 12.sp,
-//                     color: const Color(0xFF5B3FD8),
+//                     color: const Color(0xFF9400D3),
 //                     fontWeight: FontWeight.w500,
 //                     height: 1.22)),
 //           ),
@@ -247,7 +247,7 @@
 //                   padding:
 //                   EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
 //                   decoration: BoxDecoration(
-//                     color: const Color(0xFF5B3FD8),
+//                     color: const Color(0xFF9400D3),
 //                     borderRadius: BorderRadius.circular(20.r),
 //                   ),
 //                   child: Row(
@@ -342,7 +342,7 @@
 //             child: Row(
 //               children: [
 //                 Icon(Icons.location_on_outlined,
-//                     color: const Color(0xFF5B3FD8), size: 20.sp),
+//                     color: const Color(0xFF9400D3), size: 20.sp),
 //                 SizedBox(width: 12.w),
 //                 Expanded(
 //                   child: Column(
@@ -433,7 +433,7 @@
 //           borderRadius: BorderRadius.circular(10.r),
 //           border: Border.all(
 //             color: isSelected
-//                 ? const Color(0xFF5B3FD8)
+//                 ? const Color(0xFF9400D3)
 //                 : Colors.grey.shade300,
 //             width: 1.3,
 //           ),
@@ -444,7 +444,7 @@
 //                   fontSize: 12.sp,
 //                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
 //                   color: isSelected
-//                       ? const Color(0xFF5B3FD8)
+//                       ? const Color(0xFF9400D3)
 //                       : const Color(0xFF555555),
 //                   height: 1.22)),
 //         ),
@@ -588,7 +588,7 @@
 //             Icon(icon,
 //                 size: 26.sp,
 //                 color: canUpload
-//                     ? const Color(0xFF5B3FD8)
+//                     ? const Color(0xFF9400D3)
 //                     : Colors.grey.shade400),
 //             SizedBox(height: 6.h),
 //             Text(label,
@@ -706,7 +706,7 @@
 //           borderRadius: BorderRadius.circular(12.r),
 //           border: Border.all(
 //             color: isSelected
-//                 ? const Color(0xFF5B3FD8)
+//                 ? const Color(0xFF9400D3)
 //                 : Colors.grey.shade200,
 //             width: 1.3,
 //           ),
@@ -720,11 +720,11 @@
 //               decoration: BoxDecoration(
 //                 shape: BoxShape.circle,
 //                 color: isSelected
-//                     ? const Color(0xFF5B3FD8)
+//                     ? const Color(0xFF9400D3)
 //                     : Colors.transparent,
 //                 border: Border.all(
 //                   color: isSelected
-//                       ? const Color(0xFF5B3FD8)
+//                       ? const Color(0xFF9400D3)
 //                       : Colors.grey.shade400,
 //                   width: 1.5,
 //                 ),
@@ -811,7 +811,7 @@
 //           borderRadius: BorderRadius.circular(12.r),
 //           border: Border.all(
 //             color: isSelected
-//                 ? const Color(0xFF5B3FD8)
+//                 ? const Color(0xFF9400D3)
 //                 : Colors.grey.shade200,
 //             width: 1.3,
 //           ),
@@ -825,11 +825,11 @@
 //               decoration: BoxDecoration(
 //                 shape: BoxShape.circle,
 //                 color: isSelected
-//                     ? const Color(0xFF5B3FD8)
+//                     ? const Color(0xFF9400D3)
 //                     : Colors.transparent,
 //                 border: Border.all(
 //                   color: isSelected
-//                       ? const Color(0xFF5B3FD8)
+//                       ? const Color(0xFF9400D3)
 //                       : Colors.grey.shade400,
 //                   width: 1.5,
 //                 ),
@@ -919,7 +919,7 @@
 //       child: ElevatedButton(
 //         onPressed: () {},
 //         style: ElevatedButton.styleFrom(
-//           backgroundColor: const Color(0xFF5B3FD8),
+//           backgroundColor: const Color(0xFF9400D3),
 //           foregroundColor: Colors.white,
 //           elevation: 0,
 //           shape: RoundedRectangleBorder(
@@ -1050,7 +1050,7 @@
 //               height: 180.h,
 //               decoration: BoxDecoration(
 //                 border: Border.all(
-//                     color: const Color(0xFF5B3FD8), width: 2.5),
+//                     color: const Color(0xFF9400D3), width: 2.5),
 //                 borderRadius: BorderRadius.circular(16.r),
 //               ),
 //               child: Stack(
@@ -1135,7 +1135,7 @@
 //   }
 //
 //   List<Widget> _cornerAccents() {
-//     const c = Color(0xFF5B3FD8);
+//     const c = Color(0xFF9400D3);
 //     const size = 20.0;
 //     const w = 3.0;
 //     return [

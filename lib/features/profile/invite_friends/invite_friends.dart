@@ -255,7 +255,7 @@ class _InviteScreenState extends State<InviteScreen> {
                         : Icon(
                       Icons.copy_rounded,
                       key: const ValueKey('copy'),
-                      color: const Color(0xFF6C52D9),
+                      color: const Color(0xFF9400D3),
                       size: 20.sp,
                     ),
                   ),
@@ -282,7 +282,7 @@ class _InviteScreenState extends State<InviteScreen> {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF6C52D9),
+                backgroundColor: const Color(0xFF9400D3),
                 foregroundColor: Colors.white,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -517,7 +517,7 @@ class _InviteScreenState extends State<InviteScreen> {
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w700,
-                color: const Color(0xFF6C52D9),
+                color: const Color(0xFF9400D3),
                 height: 1.22,
               ),
             ),

@@ -1,11 +1,9 @@
-import 'package:vyzi/core/utils/app_images.dart';
-import 'package:vyzi/core/utils/app_style.dart';
-import 'package:vyzi/core/widgets/primary_button.dart';
-import 'package:vyzi/routes/app_routes.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
+import 'package:vyzi/routes/app_routes.dart';
+
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -14,197 +12,361 @@ class OnboardingScreen extends StatefulWidget {
 
 class _SelectProfileScreenState extends State<OnboardingScreen> {
   int selectedIndex = 0; // 0 = Private, 1 = Business
+  final List<Map<String, dynamic>> accountTypes = [
+    {
+      "title": "Private",
+      "subtitle":
+      "For Personal use and management\nof household utilities",
+      "icon": Icons.person,
+      "points": [
+        "Manage your home electricity & gas",
+        "Compare personal energy offers",
+        "Track savings and consumption",
+      ]
+    },
+    {
+      "title": "Business",
+      "subtitle":
+      "For Companies, Professionals and\nBusinesses with utilities",
+      "icon": Icons.business_center_outlined,
+      "points": [
+        "Manage multiple business utilities",
+        "Business-specific energy offers",
+        "VAT/P.IVA and company details",
+      ]
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFF5F5F5),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 10),
-
-                /// Back Button
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Icon(Icons.arrow_back),
-                ),
-
-                SizedBox(height: 50),
-
-
-
-                Center(
-                  child: Image.asset(
-                    AppImages.appLogo,
-                    height: 80.h,
-                    width: 80.w,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-
-
-
-                SizedBox(height: 40),
-
-                /// Title
-                Text(
-                  "Seleziona il tuo profilo",
-                  style: AppStyles.h5(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                SizedBox(height: 5),
-
-                Text(
-                  "Scegli come registrarti su EasyBill",
-                  style: AppStyles.body3(
-                    color: Colors.grey,
-                  ),
-                ),
-
-                SizedBox(height: 50),
-
-                /// Private Card
-                _buildOptionCard(
-                  index: 0,
-                  title: "Privato",
-                  subtitle:
-                  "Per uso personale e gestione delle utenze domestiche",
-                  icon: Icons.person_outline,
-                ),
-
-                SizedBox(height: 16),
-
-                /// Business Card
-                _buildOptionCard(
-                  index: 1,
-                  title: "Azienda",
-                  subtitle:
-                  "Per aziende, professionisti eattività con utenze",
-                  icon: Icons.business_outlined,
-                ),
-
-                SizedBox(height: 150),
-
-                /// Sign In Button
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: PrimaryButton(
-                    title: "Accedi",
-                    onPress: () {
-
-                      Get.offNamed(AppRoutes.signInScreen);
-
-                    },
-                  )
-                ),
-
-                SizedBox(height: 16),
-
-                /// Create Account Button
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: Color(0xFF5B3FD6)),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () {
-                      Get.offNamed(AppRoutes.signUpScreen);
-
-                    },
-                    child: Text(
-                      "Crea un Account",
-                      style: TextStyle(
-                        color: Color(0xFF5B3FD6),
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 20),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildOptionCard({
-    required int index,
-    required String title,
-    required String subtitle,
-    required IconData icon,
-  }) {
-    bool isSelected = selectedIndex == index;
-
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedIndex = index;
-        });
-      },
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: isSelected ? Color(0xFFEDEBFF) : Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected ? Color(0xFF5B3FD6) : Colors.grey.shade300,
-            width: 1,
-          ),
-        ),
-        child: Row(
+        child: Column(
           children: [
-            /// Icon Circle
-            Container(
-              height: 76,
-              width: 76,
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? Color(0xFF5B3FD6)
-                    : Colors.grey.shade200,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                icon,
-                color: isSelected ? Colors.white : Colors.grey, size: 24.h,
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 14.w),
+                child: Column(
+                  children: [
+                    SizedBox(height: 18.h),
+
+                    /// LOGO
+                    Container(
+                      height: 76.h,
+                      width: 76.w,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8E2F3),
+                        borderRadius: BorderRadius.circular(18.r),
+                      ),
+                      child: Center(
+                        child: ShaderMask(
+                          shaderCallback: (bounds) {
+                            return const LinearGradient(
+                              colors: [
+                                Color(0xFF0D63FF),
+                                Color(0xFF00D2FF),
+                              ],
+                            ).createShader(bounds);
+                          },
+                          child: Icon(
+                            Icons.flash_on,
+                            size: 42.sp,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 10.h),
+
+                    Text(
+                      "VYZI",
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.w800,
+                        color: const Color(0xFF122A72),
+                        letterSpacing: 1,
+                      ),
+                    ),
+
+                    SizedBox(height: 8.h),
+
+                    Text(
+                      "How do you want to use VYZI?",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF333333),
+                      ),
+                    ),
+
+                    SizedBox(height: 10.h),
+
+                    Text(
+                      "Choose how to register on VYZI",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFF7B7B7B),
+                      ),
+                    ),
+
+                    SizedBox(height: 14.h),
+
+                    /// CARDS
+                    ListView.builder(
+                      itemCount: accountTypes.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final item = accountTypes[index];
+                        final isSelected = selectedIndex == index;
+
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedIndex = index;
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 24.h),
+                            padding: EdgeInsets.all(16.w),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12.r),
+                              border: Border.all(
+                                color: isSelected
+                                    ? const Color(0xFFB400FF)
+                                    : const Color(0xFFD9C7EB),
+                                width: 2,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 48.h,
+                                      width: 48.w,
+                                      decoration: BoxDecoration(
+                                        color:
+                                        const Color(0xFFF0E8FA),
+                                        borderRadius:
+                                        BorderRadius.circular(16.r),
+                                      ),
+                                      child: Icon(
+                                        item["icon"],
+                                        color: const Color(0xFF8E24FF),
+                                        size: 24.sp,
+                                      ),
+                                    ),
+
+                                    SizedBox(width: 16.w),
+
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            item["title"],
+                                            style: TextStyle(
+                                              fontSize: 18.sp,
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              color:
+                                              const Color(0xFF333333),
+                                            ),
+                                          ),
+
+                                          SizedBox(height: 4.h),
+
+                                          Text(
+                                            item["subtitle"],
+                                            style: TextStyle(
+                                              fontSize: 10.sp,
+                                              height: 1.4,
+                                              color:
+                                              const Color(0xFF7C7C7C),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    Container(
+                                      height: 24.h,
+                                      width: 24.w,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: isSelected
+                                              ? const Color(0xFFB400FF)
+                                              : const Color(0xFFC8C8C8),
+                                          width: 2,
+                                        ),
+                                        color: isSelected
+                                            ? const Color(0xFFB400FF)
+                                            : Colors.transparent,
+                                      ),
+                                      child: isSelected
+                                          ? Icon(
+                                        Icons.check,
+                                        color: Colors.white,
+                                        size: 14.sp,
+                                      )
+                                          : null,
+                                    ),
+                                  ],
+                                ),
+
+                                SizedBox(height: 10.h),
+
+                                Divider(
+                                  color: const Color(0xFFE5E5E5),
+                                  thickness: 1,
+                                ),
+
+                                SizedBox(height: 8.h),
+
+                                Column(
+                                  children: List.generate(
+                                    item["points"].length,
+                                        (i) => Padding(
+                                      padding:
+                                      EdgeInsets.only(bottom: 14.h),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 16.h,
+                                            width: 16.w,
+                                            decoration:
+                                            const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color:
+                                              Color(0xFF23C16B),
+                                            ),
+                                            child: Icon(
+                                              Icons.check,
+                                              color: Colors.white,
+                                              size: 12.sp,
+                                            ),
+                                          ),
+
+                                          SizedBox(width: 12.w),
+
+                                          Expanded(
+                                            child: Text(
+                                              item["points"][i],
+                                              style: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: const Color(
+                                                    0xFF666666),
+                                                fontWeight:
+                                                FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
 
-            SizedBox(width: 15),
 
-            /// Text
-            Expanded(
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.w,
+                vertical: 18.h,
+              ),
+              decoration: BoxDecoration(
+                color: const Color(0xFFEAF1F3),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(34.r),
+                  topRight: Radius.circular(34.r),
+                ),
+              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: AppStyles.h5(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
+                  /// Sign In Button
+                  GestureDetector(
+                    onTap: () {
+                      Get.offNamed(AppRoutes.signInScreen);
+                    },
+                    child: Container(
+                      height: 52.h,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFF9C00FF),
+                            Color(0xFFC300FF),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Sign in",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 5),
-                  Text(
-                    subtitle,
-                    style: AppStyles.body3(
-                      color: Colors.grey,
+
+                  SizedBox(height: 16.h),
+
+                  /// Create Account Button
+                  GestureDetector(
+                    onTap: () {
+                      Get.offNamed(AppRoutes.signUpScreen);
+                    },
+                    child: Container(
+                      height: 52.h,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(
+                          color: const Color(0xFFB400FF),
+                          width: 1.6,
+                        ),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Create an Account",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFFB400FF),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],

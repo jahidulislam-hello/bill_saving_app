@@ -26,7 +26,8 @@ class MyApp extends StatelessWidget {
           title: 'VYZI',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primarySwatch: Colors.green,
+            primaryColor: AppColors.primaryColor,
+            colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
             scaffoldBackgroundColor: AppColors.background,
             textTheme: GoogleFonts.openSansTextTheme(Theme.of(context).textTheme),
             appBarTheme: AppBarTheme(
@@ -52,3 +53,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

@@ -4,7 +4,7 @@
 //   const HowToSignContractScreen({super.key});
 //
 //   // ── Design Tokens ──
-//   static const _purple = Color(0xFF5B3FD9);
+//   static const _purple = Color(0xFF9400D3);
 //   static const _purpleBg = Color(0xFFEEEAFB);
 //   static const _bg = Color(0xFFF7F8FC);
 //   static const _cardBg = Colors.white;

@@ -24,14 +24,14 @@ class HomeHeader extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(
-                    "Ciao, Ja! 👋",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
+
+                  Image.asset(
+                    AppImages.home_logo,
+                    width: 48.w,
+                    height: 48.h,
+                    fit: BoxFit.contain,
                   ),
+
                   const Spacer(),
                   Image.asset(
                     AppImages.notification,
@@ -40,6 +40,15 @@ class HomeHeader extends StatelessWidget {
                     fit: BoxFit.contain,
                   ),
                 ],
+              ),
+              SizedBox(height: 8.h),
+              Text(
+                "Ciao, Ja! 👋",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               SizedBox(height: 8.h),
               Text(

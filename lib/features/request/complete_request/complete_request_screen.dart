@@ -1,4 +1,3 @@
-
 import 'package:vyzi/features/request/request_success_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,17 +18,82 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   final CompleteRequestController _c = CompleteRequestController();
   final ImagePicker _picker = ImagePicker();
 
+  // ── Personal Info edit ──
+  bool _editingPersonalInfo = false;
+  late TextEditingController _firstNameCtrl;
+  late TextEditingController _lastNameCtrl;
+  late TextEditingController _emailCtrl;
+  late TextEditingController _phoneCtrl;
+  late TextEditingController _podCtrl;
+
+  // ── Supply Address edit ──
+  bool _editingAddress = false;
+  late TextEditingController _streetCtrl;
+  late TextEditingController _cityCtrl;
+  late TextEditingController _zipCtrl;
+  String? _supplyProvince;
+
+  // ── Payment Method extras ──
+  // shown only when directDebit selected
+  bool _ibanSameAsContract = true;
+  final TextEditingController _holderFirstCtrl =
+  TextEditingController(text: 'jacob clai');
+  final TextEditingController _holderLastCtrl =
+  TextEditingController(text: 'jacob');
+  final TextEditingController _holderTaxCtrl =
+  TextEditingController(text: '1234 5678 9654 2135 6874 1312 456');
+
+  // ── Invoice Delivery extras ──
+  // shown only when digital selected
+  final TextEditingController _invoiceEmailCtrl =
+  TextEditingController(text: 'example@amail.com');
+  // shown only when paper selected
+  InvoiceAddressMatch? _invoiceAddressMatch;
+  // new address for paper invoice "No" branch
+  final TextEditingController _invStreetCtrl = TextEditingController();
+  final TextEditingController _invCityCtrl =
+  TextEditingController(text: 'Milano');
+  final TextEditingController _invNumberCtrl =
+  TextEditingController(text: '20100');
+  final TextEditingController _invProvinceCtrl =
+  TextEditingController(text: 'RM');
+  String? _invZipProvince;
+
   @override
   void initState() {
     super.initState();
     _c.addListener(() {
       if (mounted) setState(() {});
     });
+    _firstNameCtrl = TextEditingController(text: _c.firstName);
+    _lastNameCtrl = TextEditingController(text: _c.lastName);
+    _emailCtrl = TextEditingController(text: _c.email);
+    _phoneCtrl = TextEditingController(text: _c.phone);
+    _podCtrl = TextEditingController(text: _c.podNumber);
+    _streetCtrl = TextEditingController(text: '123 Main Street');
+    _cityCtrl = TextEditingController(text: 'Milano');
+    _zipCtrl = TextEditingController(text: '20100');
   }
 
   @override
   void dispose() {
     _c.dispose();
+    _firstNameCtrl.dispose();
+    _lastNameCtrl.dispose();
+    _emailCtrl.dispose();
+    _phoneCtrl.dispose();
+    _podCtrl.dispose();
+    _streetCtrl.dispose();
+    _cityCtrl.dispose();
+    _zipCtrl.dispose();
+    _holderFirstCtrl.dispose();
+    _holderLastCtrl.dispose();
+    _holderTaxCtrl.dispose();
+    _invoiceEmailCtrl.dispose();
+    _invStreetCtrl.dispose();
+    _invCityCtrl.dispose();
+    _invNumberCtrl.dispose();
+    _invProvinceCtrl.dispose();
     super.dispose();
   }
 
@@ -40,7 +104,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F7),
+      backgroundColor: Colors.white,
       appBar: _buildAppBar(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
@@ -93,15 +157,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           height: 1.22,
         ),
       ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(1),
-        child: Divider(height: 1, thickness: 1, color: Colors.grey.shade200),
-      ),
     );
   }
 
   // ─────────────────────────────────────────────
-  //  OFFER CARD  (top card)
+  //  OFFER CARD
   // ─────────────────────────────────────────────
 
   Widget _buildOfferCard() {
@@ -109,7 +169,6 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Header row ──
           Row(
             children: [
               ClipRRect(
@@ -123,11 +182,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     width: 50.w,
                     height: 50.w,
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF1565C0), Color(0xFF42A5F5)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
+                      color: const Color(0xFFCE8AEB),
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Icon(Icons.bolt, color: Colors.white, size: 24.sp),
@@ -169,32 +224,29 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ],
           ),
           SizedBox(height: 10.h),
-
-          // ── Energy price band ──
           Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFF0EEFF),
+              color: const Color(0xFFCE8AEB),
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Text('Prezzo Energia : PUN GME + € 0.01/KWh',
                 style: TextStyle(
                     fontSize: 12.sp,
-                    color: const Color(0xFF5B3FD8),
-                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF000000),
+                    fontWeight: FontWeight.w400,
                     height: 1.22)),
           ),
           SizedBox(height: 10.h),
-
-          _buildInfoRow(Icons.credit_card_outlined,
-              const Color(0xFF5B7FD8), 'Metodo di Pagamento: Bollettino Postale'),
+          _buildInfoRow(Icons.credit_card_outlined, const Color(0xFF5B7FD8),
+              'Metodo di Pagamento: Bollettino Postale'),
           SizedBox(height: 7.h),
-          _buildInfoRow(Icons.check_circle_outline,
-              const Color(0xFF9B59B6), 'Compatibilità: Residenziale'),
+          _buildInfoRow(Icons.check_circle_outline, const Color(0xFF9B59B6),
+              'Compatibilità: Residenziale'),
           SizedBox(height: 12.h),
-
-          // ── Annual savings ──
+          _dividerLine(),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Text('€380',
@@ -222,11 +274,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       children: [
         Icon(icon, size: 15.sp, color: color),
         SizedBox(width: 6.w),
-        Text(text,
-            style: TextStyle(
-                fontSize: 12.sp,
-                color: const Color(0xFF555555),
-                height: 1.22)),
+        Expanded(
+          child: Text(text,
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: const Color(0xFF555555),
+                  height: 1.22)),
+        ),
       ],
     );
   }
@@ -245,25 +299,43 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             children: [
               _sectionTitle('Informazioni Personali'),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  if (_editingPersonalInfo) {
+                    _c.firstName = _firstNameCtrl.text;
+                    _c.lastName = _lastNameCtrl.text;
+                    _c.email = _emailCtrl.text;
+                    _c.phone = _phoneCtrl.text;
+                    _c.podNumber = _podCtrl.text;
+                  }
+                  setState(() => _editingPersonalInfo = !_editingPersonalInfo);
+                },
                 child: Container(
                   padding:
                   EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF5B3FD8),
+                    color: _editingPersonalInfo
+                        ? const Color(0xFF27AE60)
+                        : const Color(0xFF9400D3),
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.edit_rounded,
-                          color: Colors.white, size: 12.sp),
+                      Icon(
+                        _editingPersonalInfo
+                            ? Icons.check_rounded
+                            : Icons.edit_rounded,
+                        color: Colors.white,
+                        size: 12.sp,
+                      ),
                       SizedBox(width: 4.w),
-                      Text('Modifica',
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              height: 1.22)),
+                      Text(
+                        _editingPersonalInfo ? 'Salva' : 'Modifica',
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            height: 1.22),
+                      ),
                     ],
                   ),
                 ),
@@ -271,17 +343,69 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ],
           ),
           SizedBox(height: 14.h),
-          _personalRow('Nome', _c.firstName),
-          _dividerLine(),
-          _personalRow('Cognome', _c.lastName),
-          _dividerLine(),
-          _personalRow('Email', _c.email),
-          _dividerLine(),
-          _personalRow('Telefono', _c.phone),
-          _dividerLine(),
-          _personalRow('Numero POD', _c.podNumber),
+          if (_editingPersonalInfo) ...[
+            _buildEditField('Nome', _firstNameCtrl),
+            SizedBox(height: 10.h),
+            _buildEditField('Cognome', _lastNameCtrl),
+            SizedBox(height: 10.h),
+            _buildEditField('Email', _emailCtrl,
+                keyboardType: TextInputType.emailAddress),
+            SizedBox(height: 10.h),
+            _buildEditField('Numero POD', _podCtrl),
+            SizedBox(height: 10.h),
+            _buildEditField('Telefono', _phoneCtrl,
+                keyboardType: TextInputType.phone),
+          ] else ...[
+            _personalRow('Nome', _c.firstName),
+            _personalRow('Cognome', _c.lastName),
+            _personalRow('Email', _c.email),
+            _personalRow('Telefono', _c.phone),
+            _personalRow('Numero POD', _c.podNumber),
+          ],
         ],
       ),
+    );
+  }
+
+  Widget _buildEditField(
+      String label,
+      TextEditingController ctrl, {
+        TextInputType keyboardType = TextInputType.text,
+      }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label,
+            style: TextStyle(
+                fontSize: 12.sp,
+                color: const Color(0xFF9E9E9E),
+                fontWeight: FontWeight.w500,
+                height: 1.22)),
+        SizedBox(height: 6.h),
+        Container(
+          height: 44.h,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF8F8F8),
+            borderRadius: BorderRadius.circular(10.r),
+            border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
+          ),
+          child: TextField(
+            controller: ctrl,
+            keyboardType: keyboardType,
+            style: TextStyle(
+                fontSize: 13.sp,
+                color: const Color(0xFF1A1A2E),
+                fontWeight: FontWeight.w500,
+                height: 1.22),
+            decoration: InputDecoration(
+              contentPadding:
+              EdgeInsets.symmetric(horizontal: 14.w, vertical: 0),
+              border: InputBorder.none,
+              isDense: true,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -340,12 +464,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             decoration: BoxDecoration(
               color: const Color(0xFFF8F8F8),
               borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: Colors.grey.shade200, width: 1.2),
+              border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
             ),
             child: Row(
               children: [
                 Icon(Icons.location_on_outlined,
-                    color: const Color(0xFF5B3FD8), size: 20.sp),
+                    color: const Color(0xFF9400D3), size: 20.sp),
                 SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
@@ -366,14 +490,35 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     ],
                   ),
                 ),
-                Icon(Icons.edit_outlined,
-                    color: Colors.grey.shade400, size: 18.sp),
+                GestureDetector(
+                  onTap: () =>
+                      setState(() => _editingAddress = !_editingAddress),
+                  child: Icon(Icons.edit_outlined,
+                      color: _editingAddress
+                          ? const Color(0xFF9400D3)
+                          : Colors.grey.shade400,
+                      size: 18.sp),
+                ),
               ],
             ),
           ),
+
+          // ── Inline address edit form ──
+          AnimatedSize(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            child: _editingAddress
+                ? Padding(
+              padding: EdgeInsets.only(top: 12.h),
+              child: _buildAddressEditForm(),
+            )
+                : const SizedBox.shrink(),
+          ),
+
           SizedBox(height: 14.h),
 
-          Text('L\'indirizzo di residenza corrisponde all\'indirizzo di consegna?',
+          Text(
+              'L\'indirizzo di residenza corrisponde all\'indirizzo di consegna?',
               style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
@@ -381,21 +526,31 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   height: 1.4)),
           SizedBox(height: 10.h),
 
-          // ── Yes/No toggle row ──
           Row(
             children: [
               Expanded(
-                  child: _addressOption(
-                      "Sì, è lo stesso", AddressMatch.same)),
+                  child: _addressOption("Sì, è lo stesso", AddressMatch.same)),
               SizedBox(width: 10.w),
               Expanded(
                   child: _addressOption(
                       "No, è diverso", AddressMatch.different)),
             ],
           ),
+
+          // ── New residential form when "No" ──
+          AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            child: _c.addressMatch == AddressMatch.different
+                ? Padding(
+              padding: EdgeInsets.only(top: 12.h),
+              child: _buildNewResidentialForm(),
+            )
+                : const SizedBox.shrink(),
+          ),
+
           SizedBox(height: 12.h),
 
-          // ── Address verified button ──
           SizedBox(
             width: double.infinity,
             height: 46.h,
@@ -403,7 +558,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               onPressed: _c.addressMatch != null ? () {} : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: _c.addressMatch != null
-                    ? const Color(0xFF7B6EE8)
+                    ? const Color(0xFF9400D3)
                     : const Color(0xFFD0CCFF),
                 foregroundColor: Colors.white,
                 elevation: 0,
@@ -422,13 +577,268 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     );
   }
 
+  Widget _buildAddressEditForm() {
+    return Container(
+      padding: EdgeInsets.all(14.w),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F8F8),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Indirizzo di Fornitura',
+                  style: TextStyle(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF1A1A2E),
+                      height: 1.22)),
+              GestureDetector(
+                onTap: () {
+                  _c.address = _streetCtrl.text;
+                  _c.city = _cityCtrl.text;
+                  setState(() => _editingAddress = false);
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.check_rounded,
+                        color: const Color(0xFF27AE60), size: 14.sp),
+                    SizedBox(width: 3.w),
+                    Text('Salva',
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: const Color(0xFF27AE60),
+                            fontWeight: FontWeight.w600,
+                            height: 1.22)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 12.h),
+          Text('Indirizzo',
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: const Color(0xFF9E9E9E),
+                  height: 1.22)),
+          SizedBox(height: 6.h),
+          _addressTextField(_streetCtrl, hint: '123 Main Street'),
+          SizedBox(height: 10.h),
+          Text('Città',
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: const Color(0xFF9E9E9E),
+                  height: 1.22)),
+          SizedBox(height: 6.h),
+          _addressTextField(_cityCtrl, hint: 'Milano'),
+          SizedBox(height: 10.h),
+          Text('CAP',
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: const Color(0xFF9E9E9E),
+                  height: 1.22)),
+          SizedBox(height: 6.h),
+          _addressTextField(_zipCtrl,
+              hint: '20100', keyboardType: TextInputType.number),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNewResidentialForm() {
+    return Container(
+      padding: EdgeInsets.all(14.w),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F8F8),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFF8E1),
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: const Color(0xFFFFE082), width: 1),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.info_outline_rounded,
+                    color: const Color(0xFFF59E0B), size: 14.sp),
+                SizedBox(width: 8.w),
+                Expanded(
+                  child: Text(
+                    'Se "No" è selezionato, questa sezione scende automaticamente.',
+                    style: TextStyle(
+                        fontSize: 11.sp,
+                        color: const Color(0xFF92400E),
+                        height: 1.4),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 14.h),
+          Text('Nuovo Indirizzo Residenziale',
+              style: TextStyle(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF1A1A2E),
+                  height: 1.22)),
+          SizedBox(height: 12.h),
+          Text('Via e Numero',
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: const Color(0xFF9E9E9E),
+                  height: 1.22)),
+          SizedBox(height: 6.h),
+          _addressTextField(TextEditingController(),
+              hint: 'Esempio: Via delle Rose 10'),
+          SizedBox(height: 10.h),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Città',
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: const Color(0xFF9E9E9E),
+                            height: 1.22)),
+                    SizedBox(height: 6.h),
+                    _addressTextField(
+                        TextEditingController(text: 'Milano'),
+                        hint: 'Milano'),
+                  ],
+                ),
+              ),
+              SizedBox(width: 10.w),
+              SizedBox(
+                width: 90.w,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('CAP',
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: const Color(0xFF9E9E9E),
+                            height: 1.22)),
+                    SizedBox(height: 6.h),
+                    _addressTextField(
+                        TextEditingController(text: '20100'),
+                        hint: '20100',
+                        keyboardType: TextInputType.number),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10.h),
+          Row(
+            children: [
+              Text('Provincia',
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      color: const Color(0xFF9E9E9E),
+                      height: 1.22)),
+              Text(' *',
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      color: Colors.red,
+                      height: 1.22)),
+            ],
+          ),
+          SizedBox(height: 6.h),
+          Container(
+            height: 44.h,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.r),
+              border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: ButtonTheme(
+                alignedDropdown: true,
+                child: DropdownButton<String>(
+                  value: _supplyProvince,
+                  hint: Text('Seleziona Provincia',
+                      style: TextStyle(
+                          fontSize: 13.sp,
+                          color: Colors.grey.shade400,
+                          height: 1.22)),
+                  isExpanded: true,
+                  icon: Icon(Icons.keyboard_arrow_down_rounded,
+                      color: Colors.grey.shade400, size: 20.sp),
+                  items: const [
+                    'Milano', 'Roma', 'Napoli', 'Torino',
+                    'Palermo', 'Genova', 'Bologna', 'Firenze',
+                  ]
+                      .map((p) => DropdownMenuItem(
+                    value: p,
+                    child: Text(p,
+                        style: TextStyle(
+                            fontSize: 13.sp,
+                            color: const Color(0xFF1A1A2E),
+                            height: 1.22)),
+                  ))
+                      .toList(),
+                  onChanged: (v) => setState(() => _supplyProvince = v),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _addressTextField(
+      TextEditingController ctrl, {
+        String hint = '',
+        TextInputType keyboardType = TextInputType.text,
+      }) {
+    return Container(
+      height: 44.h,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.r),
+        border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
+      ),
+      child: TextField(
+        controller: ctrl,
+        keyboardType: keyboardType,
+        style: TextStyle(
+            fontSize: 13.sp,
+            color: const Color(0xFF1A1A2E),
+            fontWeight: FontWeight.w500,
+            height: 1.22),
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle:
+          TextStyle(fontSize: 13.sp, color: Colors.grey.shade400, height: 1.22),
+          contentPadding:
+          EdgeInsets.symmetric(horizontal: 14.w, vertical: 0),
+          border: InputBorder.none,
+          isDense: true,
+        ),
+      ),
+    );
+  }
+
   Widget _addressOption(String label, AddressMatch match) {
     final isSelected = _c.addressMatch == match;
     return GestureDetector(
       onTap: () => _c.selectAddressMatch(match),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: EdgeInsets.symmetric(vertical: 11.h),
+        padding: EdgeInsets.symmetric(vertical: 11.h, horizontal: 10.w),
         decoration: BoxDecoration(
           color: isSelected
               ? const Color(0xFFF0EEFF)
@@ -436,20 +846,46 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           borderRadius: BorderRadius.circular(10.r),
           border: Border.all(
             color: isSelected
-                ? const Color(0xFF5B3FD8)
-                : Colors.grey.shade300,
-            width: 1.3,
+                ? const Color(0xFF9400D3)
+                : const Color(0xFFE5E7EB),
+            width: 1.22,
           ),
         ),
-        child: Center(
-          child: Text(label,
-              style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+        child: Row(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 18.w,
+              height: 18.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isSelected
+                    ? const Color(0xFF9400D3)
+                    : Colors.transparent,
+                border: Border.all(
                   color: isSelected
-                      ? const Color(0xFF5B3FD8)
-                      : const Color(0xFF555555),
-                  height: 1.22)),
+                      ? const Color(0xFF9400D3)
+                      : Colors.grey.shade400,
+                  width: 1.5,
+                ),
+              ),
+              child: isSelected
+                  ? Icon(Icons.circle, color: Colors.white, size: 8.sp)
+                  : null,
+            ),
+            SizedBox(width: 6.w),
+            Flexible(
+              child: Text(label,
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight:
+                      isSelected ? FontWeight.w600 : FontWeight.w400,
+                      color: isSelected
+                          ? const Color(0xFF9400D3)
+                          : const Color(0xFF555555),
+                      height: 1.22)),
+            ),
+          ],
         ),
       ),
     );
@@ -491,8 +927,6 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   color: const Color(0xFF9E9E9E),
                   height: 1.5)),
           SizedBox(height: 14.h),
-
-          // ── Uploaded files chips ──
           if (_c.uploadedFiles.isNotEmpty) ...[
             Wrap(
               spacing: 8.w,
@@ -505,8 +939,8 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   decoration: BoxDecoration(
                     color: const Color(0xFFE8F8EF),
                     borderRadius: BorderRadius.circular(20.r),
-                    border: Border.all(
-                        color: const Color(0xFF27AE60), width: 1),
+                    border:
+                    Border.all(color: const Color(0xFF27AE60), width: 1),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -515,9 +949,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                           size: 12.sp, color: const Color(0xFF27AE60)),
                       SizedBox(width: 4.w),
                       Text(
-                        name.length > 16
-                            ? '${name.substring(0, 16)}...'
-                            : name,
+                        name.length > 16 ? '${name.substring(0, 16)}...' : name,
                         style: TextStyle(
                             fontSize: 11.sp,
                             color: const Color(0xFF27AE60),
@@ -536,8 +968,6 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ),
             SizedBox(height: 10.h),
           ],
-
-          // ── Upload / Scan buttons ──
           Row(
             children: [
               Expanded(
@@ -580,10 +1010,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         decoration: BoxDecoration(
           color: canUpload ? Colors.white : const Color(0xFFF5F5F5),
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(
-            color: canUpload ? Colors.grey.shade300 : Colors.grey.shade200,
-            width: 1.2,
-          ),
+          border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -591,7 +1018,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             Icon(icon,
                 size: 26.sp,
                 color: canUpload
-                    ? const Color(0xFF5B3FD8)
+                    ? const Color(0xFF9400D3)
                     : Colors.grey.shade400),
             SizedBox(height: 6.h),
             Text(label,
@@ -614,30 +1041,24 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     );
   }
 
-  // ── Pick file from gallery ──
   Future<void> _pickFile() async {
     try {
       final XFile? file = await _picker.pickImage(
         source: ImageSource.gallery,
         imageQuality: 85,
       );
-      if (file != null) {
-        _c.addUploadedFile(file.path);
-      }
+      if (file != null) _c.addUploadedFile(file.path);
     } catch (e) {
       debugPrint('File picker error: $e');
     }
   }
 
-  // ── Open scanner ──
   void _openScanner() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => _DocumentScannerScreen(
-          onScanned: (path) {
-            _c.addUploadedFile(path);
-          },
+          onScanned: (path) => _c.addUploadedFile(path),
         ),
       ),
     );
@@ -648,6 +1069,8 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   // ─────────────────────────────────────────────
 
   Widget _buildPaymentMethodCard() {
+    final isDirectDebit = _c.selectedPayment == PaymentMethod.directDebit;
+
     return _card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -661,12 +1084,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   height: 1.22)),
           SizedBox(height: 12.h),
 
+          // Full Name / Tax Code rows
           _personalRow('Nome Completo', _c.fullName),
           _dividerLine(),
           _personalRow('Codice Fiscale', _c.taxCode),
-
           SizedBox(height: 14.h),
 
+          // ── Payment options ──
           Text('Scegli il Metodo di Pagamento',
               style: TextStyle(
                   fontSize: 14.sp,
@@ -674,7 +1098,6 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   color: const Color(0xFF1A1A2E),
                   height: 1.22)),
           SizedBox(height: 10.h),
-
           _paymentOption(
             method: PaymentMethod.directDebit,
             title: 'Addebito Diretto (SDD)',
@@ -686,6 +1109,140 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             title: 'Bollettino Postale',
             subtitle: 'Riceverai il bollettino per pagare',
           ),
+
+          // ── Direct Debit extras (only when directDebit selected) ──
+          AnimatedSize(
+            duration: const Duration(milliseconds: 280),
+            curve: Curves.easeInOut,
+            child: isDirectDebit
+                ? Padding(
+              padding: EdgeInsets.only(top: 14.h),
+              child: _buildDirectDebitExtras(),
+            )
+                : const SizedBox.shrink(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// SS-1: IBAN checkbox + Holder Information card
+  Widget _buildDirectDebitExtras() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // ── Yes, IBAN checkbox ──
+        GestureDetector(
+          onTap: () => setState(() {
+            _ibanSameAsContract = !_ibanSameAsContract;
+          }),
+          child: Container(
+            width: double.infinity,
+            padding:
+            EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8F8F8),
+              borderRadius: BorderRadius.circular(10.r),
+              border: Border.all(color: const Color(0xFFE8E8E8), width: 1),
+            ),
+            child: Row(
+              children: [
+                // checkbox
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  width: 20.w,
+                  height: 20.w,
+                  decoration: BoxDecoration(
+                    color: _ibanSameAsContract
+                        ? const Color(0xFFE8F8EF)
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(4.r),
+                    border: Border.all(
+                      color: _ibanSameAsContract
+                          ? const Color(0xFF1FC16B)
+                          : const Color(0xFFD2D2D2),
+                      width: 1,
+                    ),
+                  ),
+                  child: _ibanSameAsContract
+                      ? Icon(Icons.check_rounded,
+                      size: 13.sp, color: const Color(0xFF1FC16B))
+                      : null,
+                ),
+                SizedBox(width: 10.w),
+                Expanded(
+                  child: Text(
+                    'Yes, IBAN Holder & Contract Holder are same',
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: const Color(0xFF1A1A2E),
+                        fontWeight: FontWeight.w500,
+                        height: 1.22),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        // ── Holder Information card — hidden when checkbox ticked ──
+        AnimatedSize(
+          duration: const Duration(milliseconds: 260),
+          curve: Curves.easeInOut,
+          child: _ibanSameAsContract
+              ? const SizedBox.shrink()
+              : Padding(
+            padding: EdgeInsets.only(top: 12.h),
+            child: _buildHolderInfoCard(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// SS-1 bottom half: Holder Information editable card
+  Widget _buildHolderInfoCard() {
+    return Container(
+      padding: EdgeInsets.all(14.w),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F8F8),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Holder information',
+                  style: TextStyle(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF1A1A2E),
+                      height: 1.22)),
+              Row(
+                children: [
+                  Icon(Icons.check_rounded,
+                      color: const Color(0xFF27AE60), size: 14.sp),
+                  SizedBox(width: 3.w),
+                  Text('Save',
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: const Color(0xFF27AE60),
+                          fontWeight: FontWeight.w600,
+                          height: 1.22)),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 12.h),
+          _buildEditField('Fast Name', _holderFirstCtrl),
+          SizedBox(height: 10.h),
+          _buildEditField('Last Name', _holderLastCtrl),
+          SizedBox(height: 10.h),
+          _buildEditField('Tax Code / Fiscal Code', _holderTaxCtrl,
+              keyboardType: TextInputType.number),
         ],
       ),
     );
@@ -709,9 +1266,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isSelected
-                ? const Color(0xFF5B3FD8)
-                : Colors.grey.shade200,
-            width: 1.3,
+                ? const Color(0xFF9400D3)
+                : const Color(0xFFE5E7EB),
+            width: 1.22,
           ),
         ),
         child: Row(
@@ -723,18 +1280,17 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isSelected
-                    ? const Color(0xFF5B3FD8)
+                    ? const Color(0xFF9400D3)
                     : Colors.transparent,
                 border: Border.all(
                   color: isSelected
-                      ? const Color(0xFF5B3FD8)
+                      ? const Color(0xFF9400D3)
                       : Colors.grey.shade400,
-                  width: 1.5,
+                  width: 1.22,
                 ),
               ),
               child: isSelected
-                  ? Icon(Icons.check_rounded,
-                  color: Colors.white, size: 12.sp)
+                  ? Icon(Icons.check_rounded, color: Colors.white, size: 12.sp)
                   : null,
             ),
             SizedBox(width: 12.w),
@@ -768,18 +1324,23 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   // ─────────────────────────────────────────────
 
   Widget _buildInvoiceDeliveryCard() {
+    final isDigital = _c.selectedInvoice == InvoiceMethod.digital;
+    final isPaper = _c.selectedInvoice == InvoiceMethod.paper;
+
     return _card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _sectionTitle('Metodo di Invio Fattura'),
           SizedBox(height: 2.h),
-          Text('Il nostro consiglio: invio via email per ricevere il servizio puntualmente!',
+          Text(
+              'Il nostro consiglio: invio via email per ricevere il servizio puntualmente!',
               style: TextStyle(
                   fontSize: 12.sp,
                   color: const Color(0xFF9E9E9E),
                   height: 1.5)),
           SizedBox(height: 12.h),
+
           _invoiceOption(
             method: InvoiceMethod.digital,
             title: 'Fattura Digitale',
@@ -790,6 +1351,336 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             method: InvoiceMethod.paper,
             title: 'Fattura Cartacea',
             subtitle: 'Riceverai il bollettino per pagare',
+          ),
+
+          // ── Digital extras: pre-filled note + email field ──
+          AnimatedSize(
+            duration: const Duration(milliseconds: 280),
+            curve: Curves.easeInOut,
+            child: isDigital
+                ? Padding(
+              padding: EdgeInsets.only(top: 14.h),
+              child: _buildDigitalInvoiceExtras(),
+            )
+                : const SizedBox.shrink(),
+          ),
+
+          // ── Paper extras: delivery address Yes/No + sub-forms ──
+          AnimatedSize(
+            duration: const Duration(milliseconds: 280),
+            curve: Curves.easeInOut,
+            child: isPaper
+                ? Padding(
+              padding: EdgeInsets.only(top: 14.h),
+              child: _buildPaperInvoiceExtras(),
+            )
+                : const SizedBox.shrink(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// SS-2: purple pre-filled note + email input
+  Widget _buildDigitalInvoiceExtras() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Purple info chip
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 11.h),
+          decoration: BoxDecoration(
+            color: const Color(0xFFEDE7F6),
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: Text(
+            'Pre-filled email from your profile',
+            style: TextStyle(
+                fontSize: 13.sp,
+                color: const Color(0xFF9400D3),
+                fontWeight: FontWeight.w500,
+                height: 1.22),
+          ),
+        ),
+        SizedBox(height: 12.h),
+
+        // Email label + field
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Email for invoice ',
+                style: TextStyle(
+                    fontSize: 13.sp,
+                    color: const Color(0xFF1A1A2E),
+                    fontWeight: FontWeight.w600,
+                    height: 1.22),
+              ),
+              TextSpan(
+                text: '*',
+                style: TextStyle(
+                    fontSize: 13.sp,
+                    color: Colors.red,
+                    height: 1.22),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 8.h),
+        _addressTextField(_invoiceEmailCtrl,
+            hint: 'example@amail.com',
+            keyboardType: TextInputType.emailAddress),
+      ],
+    );
+  }
+
+  /// SS-3/4/5: delivery address match question + sub-forms
+  Widget _buildPaperInvoiceExtras() {
+    final isYes = _invoiceAddressMatch == InvoiceAddressMatch.yes;
+    final isNo = _invoiceAddressMatch == InvoiceAddressMatch.no;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Does the shipping address match the delivery address?',
+            style: TextStyle(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF1A1A2E),
+                height: 1.4)),
+        SizedBox(height: 10.h),
+
+        // Yes / No toggle
+        Row(
+          children: [
+            Expanded(child: _invoiceAddressOption('Yes', InvoiceAddressMatch.yes)),
+            SizedBox(width: 10.w),
+            Expanded(child: _invoiceAddressOption('No', InvoiceAddressMatch.no)),
+          ],
+        ),
+
+        // ── Yes: pink address banner (SS-4) ──
+        AnimatedSize(
+          duration: const Duration(milliseconds: 260),
+          curve: Curves.easeInOut,
+          child: isYes
+              ? Padding(
+            padding: EdgeInsets.only(top: 12.h),
+            child: _buildInvoiceYesBanner(),
+          )
+              : const SizedBox.shrink(),
+        ),
+
+        // ── No: full address form (SS-5) ──
+        AnimatedSize(
+          duration: const Duration(milliseconds: 260),
+          curve: Curves.easeInOut,
+          child: isNo
+              ? Padding(
+            padding: EdgeInsets.only(top: 12.h),
+            child: _buildInvoiceNoForm(),
+          )
+              : const SizedBox.shrink(),
+        ),
+      ],
+    );
+  }
+
+  /// SS-4: pink address confirmation banner
+  Widget _buildInvoiceYesBanner() {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 11.h),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFCE4EC),
+        borderRadius: BorderRadius.circular(10.r),
+        border: Border.all(color: const Color(0xFFF48FB1), width: 1),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.location_on_outlined,
+              color: const Color(0xFFE91E63), size: 16.sp),
+          SizedBox(width: 8.w),
+          Expanded(
+            child: Text(
+              'The invoice will be sent to: Via Roma 42, 20121 Milan (MI)',
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: const Color(0xFFE91E63),
+                  fontWeight: FontWeight.w500,
+                  height: 1.4),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// SS-5: full new shipping address form + Conform Address button
+  Widget _buildInvoiceNoForm() {
+    return Container(
+      padding: EdgeInsets.all(14.w),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F8F8),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // info banner
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: const Color(0xFFE5E7EB), width: 1),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.info_outline_rounded,
+                    color: const Color(0xFF9E9E9E), size: 14.sp),
+                SizedBox(width: 8.w),
+                Expanded(
+                  child: Text(
+                    'Enter your shipping address',
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: const Color(0xFF555555),
+                        height: 1.4),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 14.h),
+
+          // Address
+          Text('Address',
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: const Color(0xFF9E9E9E),
+                  height: 1.22)),
+          SizedBox(height: 6.h),
+          _addressTextField(_invStreetCtrl, hint: 'example@amail.com'),
+          SizedBox(height: 10.h),
+
+          // City + Number row
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('City',
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: const Color(0xFF9E9E9E),
+                            height: 1.22)),
+                    SizedBox(height: 6.h),
+                    _addressTextField(_invCityCtrl, hint: 'Milano'),
+                  ],
+                ),
+              ),
+              SizedBox(width: 10.w),
+              SizedBox(
+                width: 100.w,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Number',
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: const Color(0xFF9E9E9E),
+                            height: 1.22)),
+                    SizedBox(height: 6.h),
+                    _addressTextField(_invNumberCtrl,
+                        hint: '20100',
+                        keyboardType: TextInputType.number),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10.h),
+
+          // Zip Code
+          Text('Zip Code',
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: const Color(0xFF9E9E9E),
+                  height: 1.22)),
+          SizedBox(height: 6.h),
+          Container(
+            height: 44.h,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.r),
+              border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: ButtonTheme(
+                alignedDropdown: true,
+                child: DropdownButton<String>(
+                  value: _invZipProvince,
+                  hint: Text('Select Province',
+                      style: TextStyle(
+                          fontSize: 13.sp,
+                          color: Colors.grey.shade400,
+                          height: 1.22)),
+                  isExpanded: true,
+                  icon: Icon(Icons.keyboard_arrow_down_rounded,
+                      color: Colors.grey.shade400, size: 20.sp),
+                  items: const [
+                    'Milano', 'Roma', 'Napoli', 'Torino',
+                    'Palermo', 'Genova', 'Bologna', 'Firenze',
+                  ]
+                      .map((p) => DropdownMenuItem(
+                    value: p,
+                    child: Text(p,
+                        style: TextStyle(
+                            fontSize: 13.sp,
+                            color: const Color(0xFF1A1A2E),
+                            height: 1.22)),
+                  ))
+                      .toList(),
+                  onChanged: (v) => setState(() => _invZipProvince = v),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 10.h),
+
+          // Province
+          Text('Province',
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: const Color(0xFF9E9E9E),
+                  height: 1.22)),
+          SizedBox(height: 6.h),
+          _addressTextField(_invProvinceCtrl, hint: 'RM'),
+          SizedBox(height: 16.h),
+
+          // Conform Address button
+          SizedBox(
+            width: double.infinity,
+            height: 48.h,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF9400D3),
+                foregroundColor: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r)),
+              ),
+              child: Text('Conform Address',
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      height: 1.22)),
+            ),
           ),
         ],
       ),
@@ -814,9 +1705,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isSelected
-                ? const Color(0xFF5B3FD8)
-                : Colors.grey.shade200,
-            width: 1.3,
+                ? const Color(0xFF9400D3)
+                : const Color(0xFFE5E7EB),
+            width: 1.22,
           ),
         ),
         child: Row(
@@ -828,18 +1719,17 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isSelected
-                    ? const Color(0xFF5B3FD8)
+                    ? const Color(0xFF9400D3)
                     : Colors.transparent,
                 border: Border.all(
                   color: isSelected
-                      ? const Color(0xFF5B3FD8)
+                      ? const Color(0xFF9400D3)
                       : Colors.grey.shade400,
-                  width: 1.5,
+                  width: 1.22,
                 ),
               ),
               child: isSelected
-                  ? Icon(Icons.check_rounded,
-                  color: Colors.white, size: 12.sp)
+                  ? Icon(Icons.check_rounded, color: Colors.white, size: 12.sp)
                   : null,
             ),
             SizedBox(width: 12.w),
@@ -868,6 +1758,63 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     );
   }
 
+  Widget _invoiceAddressOption(String label, InvoiceAddressMatch match) {
+    final isSelected = _invoiceAddressMatch == match;
+    return GestureDetector(
+      onTap: () => setState(() => _invoiceAddressMatch = match),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: EdgeInsets.symmetric(vertical: 11.h, horizontal: 10.w),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? const Color(0xFFF0EEFF)
+              : const Color(0xFFF8F8F8),
+          borderRadius: BorderRadius.circular(10.r),
+          border: Border.all(
+            color: isSelected
+                ? const Color(0xFF9400D3)
+                : const Color(0xFFE5E7EB),
+            width: 1.22,
+          ),
+        ),
+        child: Row(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 18.w,
+              height: 18.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isSelected
+                    ? const Color(0xFF9400D3)
+                    : Colors.transparent,
+                border: Border.all(
+                  color: isSelected
+                      ? const Color(0xFF9400D3)
+                      : Colors.grey.shade400,
+                  width: 1.5,
+                ),
+              ),
+              child: isSelected
+                  ? Icon(Icons.circle, color: Colors.white, size: 8.sp)
+                  : null,
+            ),
+            SizedBox(width: 6.w),
+            Text(label,
+                style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight:
+                    isSelected ? FontWeight.w600 : FontWeight.w400,
+                    color: isSelected
+                        ? const Color(0xFF9400D3)
+                        : const Color(0xFF555555),
+                    height: 1.22)),
+          ],
+        ),
+      ),
+    );
+  }
+
   // ─────────────────────────────────────────────
   //  ALMOST THERE BANNER
   // ─────────────────────────────────────────────
@@ -878,7 +1825,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFFE8F8EF),
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFFB2DFCC), width: 1.2),
+        border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -920,11 +1867,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       width: double.infinity,
       height: 54.h,
       child: ElevatedButton(
-        onPressed: () {
-          Get.to(()=> RequestSuccessScreen());
-        },
+        onPressed: () => Get.to(() => RequestSuccessScreen()),
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF5B3FD8),
+          backgroundColor: const Color(0xFF9400D3),
           foregroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -950,7 +1895,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.grey.shade200, width: 1.2),
+        border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -972,6 +1917,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             height: 1.22));
   }
 }
+
+// ─────────────────────────────────────────────
+//  INVOICE ADDRESS MATCH ENUM  (local to screen)
+// ─────────────────────────────────────────────
+
+enum InvoiceAddressMatch { yes, no }
 
 // ─────────────────────────────────────────────
 //  DOCUMENT SCANNER SCREEN
@@ -1021,8 +1972,7 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.flip_camera_ios_rounded,
-                color: Colors.white),
+            icon: const Icon(Icons.flip_camera_ios_rounded, color: Colors.white),
             onPressed: () => _scanCtrl.switchCamera(),
           ),
         ],
@@ -1033,7 +1983,6 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
       ),
       body: Stack(
         children: [
-          // ── Camera preview ──
           MobileScanner(
             controller: _scanCtrl,
             onDetect: (capture) {
@@ -1047,27 +1996,17 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
               }
             },
           ),
-
-          // ── Scan frame overlay ──
           Center(
             child: Container(
               width: 260.w,
               height: 180.h,
               decoration: BoxDecoration(
-                border: Border.all(
-                    color: const Color(0xFF5B3FD8), width: 2.5),
+                border: Border.all(color: const Color(0xFF9400D3), width: 2.5),
                 borderRadius: BorderRadius.circular(16.r),
               ),
-              child: Stack(
-                children: [
-                  // Corner accents
-                  ..._cornerAccents(),
-                ],
-              ),
+              child: Stack(children: _cornerAccents()),
             ),
           ),
-
-          // ── Labels ──
           Positioned(
             top: MediaQuery.of(context).size.height * 0.62,
             left: 0,
@@ -1091,18 +2030,13 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
               ],
             ),
           ),
-
-          // ── Manual capture button ──
           Positioned(
             bottom: 50.h,
             left: 0,
             right: 0,
             child: Center(
               child: GestureDetector(
-                onTap: () {
-                  // Manual capture: use image_picker camera
-                  _captureManual();
-                },
+                onTap: _captureManual,
                 child: Container(
                   width: 68.w,
                   height: 68.w,
@@ -1140,70 +2074,18 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
   }
 
   List<Widget> _cornerAccents() {
-    const c = Color(0xFF5B3FD8);
+    const c = Color(0xFF9400D3);
     const size = 20.0;
     const w = 3.0;
     return [
-      // TL
-      Positioned(
-          top: 0,
-          left: 0,
-          child: Container(
-              width: size,
-              height: w,
-              color: c)),
-      Positioned(
-          top: 0,
-          left: 0,
-          child: Container(
-              width: w,
-              height: size,
-              color: c)),
-      // TR
-      Positioned(
-          top: 0,
-          right: 0,
-          child: Container(
-              width: size,
-              height: w,
-              color: c)),
-      Positioned(
-          top: 0,
-          right: 0,
-          child: Container(
-              width: w,
-              height: size,
-              color: c)),
-      // BL
-      Positioned(
-          bottom: 0,
-          left: 0,
-          child: Container(
-              width: size,
-              height: w,
-              color: c)),
-      Positioned(
-          bottom: 0,
-          left: 0,
-          child: Container(
-              width: w,
-              height: size,
-              color: c)),
-      // BR
-      Positioned(
-          bottom: 0,
-          right: 0,
-          child: Container(
-              width: size,
-              height: w,
-              color: c)),
-      Positioned(
-          bottom: 0,
-          right: 0,
-          child: Container(
-              width: w,
-              height: size,
-              color: c)),
+      Positioned(top: 0, left: 0, child: Container(width: size, height: w, color: c)),
+      Positioned(top: 0, left: 0, child: Container(width: w, height: size, color: c)),
+      Positioned(top: 0, right: 0, child: Container(width: size, height: w, color: c)),
+      Positioned(top: 0, right: 0, child: Container(width: w, height: size, color: c)),
+      Positioned(bottom: 0, left: 0, child: Container(width: size, height: w, color: c)),
+      Positioned(bottom: 0, left: 0, child: Container(width: w, height: size, color: c)),
+      Positioned(bottom: 0, right: 0, child: Container(width: size, height: w, color: c)),
+      Positioned(bottom: 0, right: 0, child: Container(width: w, height: size, color: c)),
     ];
   }
 }
