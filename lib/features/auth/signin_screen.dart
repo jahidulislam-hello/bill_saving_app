@@ -236,7 +236,7 @@ class _SignInScreenState extends State<SignInScreen> {
               IconButton(
                 icon: Icon(Icons.arrow_back_ios_new,
                     size: 20.sp, color: AppColors.textPrimary),
-                onPressed: () => Navigator.maybePop(context),
+                onPressed: () => Get.back(),
               ),
               IconButton(
                 icon: Icon(Icons.close,

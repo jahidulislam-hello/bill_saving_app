@@ -105,7 +105,7 @@ class MyUtilitiesScreen extends StatelessWidget {
           Positioned(
             right: -10,
             bottom: -10,
-            child: Icon(Icons.bolt,
+            child: Icon(Icons.menu_book_outlined,
                 size: 110, color: Colors.white.withOpacity(0.05)),
           ),
           Column(
@@ -120,7 +120,7 @@ class MyUtilitiesScreen extends StatelessWidget {
               const Text(
                 'Analizziamo i tuoi consumi per\ntrovare tariffe migliori ogni mese.',
                 style: TextStyle(
-                    color: Colors.white60, fontSize: 13, height: 1.5),
+                    color: Color(0xFF64FBCB), fontSize: 13, height: 1.5),
               ),
               const SizedBox(height: 28),
               GestureDetector(

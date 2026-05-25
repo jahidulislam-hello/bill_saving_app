@@ -145,9 +145,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       backgroundColor: _bg,
       elevation: 0,
       leadingWidth: 40,
-      leading: const Padding(
-        padding: EdgeInsets.only(left: 12),
-        child: Icon(Icons.chevron_left, color: _textDark, size: 28),
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 12),
+        child: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.chevron_left, color: _textDark, size: 28),
+        ),
       ),
       title: const Text(
         'Complete Your Request',

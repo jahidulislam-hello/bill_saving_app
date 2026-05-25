@@ -312,7 +312,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                   /// Sign In Button
                   GestureDetector(
                     onTap: () {
-                      Get.offNamed(AppRoutes.signInScreen);
+                      Get.toNamed(AppRoutes.signInScreen);
                     },
                     child: Container(
                       height: 52.h,
@@ -344,7 +344,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                   /// Create Account Button
                   GestureDetector(
                     onTap: () {
-                      Get.offNamed(AppRoutes.signUpScreen);
+                      Get.toNamed(AppRoutes.signUpScreen);
                     },
                     child: Container(
                       height: 52.h,

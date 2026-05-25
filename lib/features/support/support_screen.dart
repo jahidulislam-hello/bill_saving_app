@@ -1,5 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:vyzi/features/profile/settings/faq_question.dart';
+import 'package:vyzi/features/profile/settings/fq.dart';
+import 'package:vyzi/features/profile/settings/fq_bill.dart';
+import 'package:vyzi/features/profile/settings/fq_utilities.dart';
 
 
 // ─────────────────────────────────────────────
@@ -38,7 +42,7 @@ class SupportoScreen extends StatelessWidget {
       iconBg: _T.purpleBg,
       title: 'Come iniziare',
       subtitle: 'Scopri come utilizzare l\'app passo dopo passo',
-      screen: const SupportFormScreen(),
+      screen: const FaqQuestion(),
     ),
     _SupportItem(
       icon: Icons.settings,
@@ -46,7 +50,7 @@ class SupportoScreen extends StatelessWidget {
       iconBg: _T.orangeBg,
       title: 'Utilità di Configurazione',
       subtitle: 'Gestisci l\'app e configura le tue utilità',
-      screen: const SupportFormScreen(),
+      screen: const FaqUtiliesScreen(),
     ),
     _SupportItem(
       icon: Icons.receipt_long,
@@ -54,7 +58,7 @@ class SupportoScreen extends StatelessWidget {
       iconBg: _T.orangeBg,
       title: 'Fatture',
       subtitle: 'Carica e controlla le tue fatture',
-      screen: const SupportFormScreen(),
+      screen: const FaqBillScreen(),
     ),
     _SupportItem(
       icon: Icons.headset_mic_outlined,
@@ -70,7 +74,7 @@ class SupportoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _T.bg,
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(context),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(18, 4, 18, 24),
         children: [
@@ -102,15 +106,18 @@ class SupportoScreen extends StatelessWidget {
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: _T.bg,
       elevation: 0,
       scrolledUnderElevation: 0,
       leadingWidth: 40,
-      leading: const Padding(
-        padding: EdgeInsets.only(left: 12),
-        child: Icon(Icons.chevron_left, color: _T.textDark, size: 28),
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 12),
+        child: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.chevron_left, color: _T.textDark, size: 28),
+        ),
       ),
       title: const Text(
         'Supporto',

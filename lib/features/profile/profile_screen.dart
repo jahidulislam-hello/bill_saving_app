@@ -6,6 +6,9 @@ import 'package:vyzi/features/profile/controller/profile_controller.dart';
 import 'package:vyzi/features/profile/invite_friends/invite_friends.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyzi/features/profile/settings/my_requests_profile.dart';
+import 'package:vyzi/features/profile/settings/my_utilities_profile_screen.dart';
+import 'package:vyzi/features/support/support_screen.dart';
 
 import 'personal_data_screen.dart';
 import 'settings/more_screen.dart';
@@ -532,6 +535,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ),
   );
 }
+    if (route == 'utilities') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => MyUtilitiesProfileScreen(),
+        ),
+      );
+    }
+    if (route == 'requests') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => MyRequestsProfile(),
+        ),
+      );
+    }
+    if (route == 'supports') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => SupportoScreen(),
+        ),
+      );
+    }
+
+
     // Add other routes as needed
   }
 }

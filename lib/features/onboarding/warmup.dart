@@ -20,19 +20,19 @@ class WarmupOnboarding extends StatelessWidget {
 
   final List<Map<String, String>> data = [
     {
-      "image": "assets/images/on1.png",
+      "image": "assets/images/001.png",
       "title": "Carica le tue bollette in secondi",
       "desc":
       "Basta scattare una foto o caricare un PDF della tua bolletta attuale. La nostra IA la analizzerà e troverà le migliori offerte in pochi minuti.",
     },
     {
-      "image": "assets/images/on2.png",
+      "image": "assets/images/002.png",
       "title": "Carica le tue bollette in secondi",
       "desc":
       "Basta scattare una foto o caricare un PDF della tua bolletta attuale. La nostra IA la analizzerà e troverà le migliori offerte in pochi minuti.",
     },
     {
-      "image": "assets/images/on3.png",
+      "image": "assets/images/003.png",
       "title": "Risparmia denaro e rimani aggiornato",
       "desc":
       "Ricevi notifiche istantanee su offerte migliori e monitora i tuoi risparmi. Monitoriamo il mercato così non devi farlo tu.",
@@ -68,7 +68,7 @@ class WarmupOnboarding extends StatelessWidget {
                             width: 555,
                             height: 551,
                             decoration: const BoxDecoration(
-                              color: Color(0xFFC8CCFD),
+                              color: Color(0xFFDEB0F1),
                               shape: BoxShape.circle,
                             ),
                           ),
@@ -145,7 +145,7 @@ class WarmupOnboarding extends StatelessWidget {
                               width: controller.currentIndex.value == index ? 20 : 6,
                               decoration: BoxDecoration(
                                 color: controller.currentIndex.value == index
-                                    ? Colors.deepPurple
+                                    ? Color(0xFF9400D3)
                                     : Colors.grey.shade300,
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -160,7 +160,7 @@ class WarmupOnboarding extends StatelessWidget {
                             height: 50,
                             width: 50,
                             decoration: const BoxDecoration(
-                              color: Colors.deepPurple,
+                              color: Color(0xFF9400D3),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
