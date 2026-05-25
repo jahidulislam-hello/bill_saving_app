@@ -1,17 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const _App());
-
-class _App extends StatelessWidget {
-  const _App();
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: RequestCallBackScreen(),
-    );
-  }
-}
 
 class RequestCallBackScreen extends StatefulWidget {
   const RequestCallBackScreen({super.key});
@@ -263,10 +251,12 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
       elevation: 0,
       scrolledUnderElevation: 0,
       leadingWidth: 40,
-      leading: const Padding(
-        padding: EdgeInsets.only(left: 12),
-        child:
-        Icon(Icons.arrow_back, color: Color(0xFF1A1A2E), size: 22),
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 12),
+        child: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF1A1A2E), size: 22),
+        ),
       ),
       title: const Text(
         'Richiedi Chiamata',

@@ -29,6 +29,9 @@ class AppImages{
   static String filter="$baseUrl/filter.png";
   static String home_logo="$baseUrl/home_logo.png";
   static String swapIcon="$baseUrl/switch.png";
+  static String faq="$baseUrl/f_01.png";
+  static String faqFive="$baseUrl/f_05.png";
+  static String faqOne="$baseUrl/f_04.png";
 
   static String errorPageImage = "$baseUrl/errorpage.png";
   static String visaImage = "$baseUrl/visa.png";

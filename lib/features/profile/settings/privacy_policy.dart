@@ -24,7 +24,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bg,
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(context),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -56,15 +56,18 @@ class PrivacyPolicyScreen extends StatelessWidget {
   }
 
   // ── AppBar ──
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: _bg,
       elevation: 0,
       scrolledUnderElevation: 0,
       leadingWidth: 40,
-      leading: const Padding(
-        padding: EdgeInsets.only(left: 14),
-        child: Icon(Icons.chevron_left, color: _textDark, size: 28),
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 14),
+        child: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.chevron_left, color: _textDark, size: 28),
+        ),
       ),
       title: const Text(
         'Informativa sulla Privacy',
