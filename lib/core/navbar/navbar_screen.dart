@@ -43,10 +43,10 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   /// Floating Action Button
   Widget _buildFloatingActionButton() {
     return SizedBox(
-      height: 50.h,
-      width: 50.w,
+      height: 56.h,
+      width: 56.w,
       child: FloatingActionButton(
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor:Color(0xFFF4E6FB),
         elevation: 2,
         onPressed: () {
           Get.to(() => SelectUtilityScreen());
@@ -56,7 +56,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30.r),
           child: Image.asset(
-            "assets/icons/flash.png",
+            "assets/images/VYZI.png",
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -97,7 +97,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
               passiveImage: "assets/images/rich.png",
             ),
           ),
-          SizedBox(width: 50.w), // Space for FAB
+          SizedBox(width:50.w), // Space for FAB
           Expanded(
             child: _buildNavItem(
               index: 2,
