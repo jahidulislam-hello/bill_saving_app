@@ -1,6 +1,6 @@
-
+import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
-import 'package:vyzi/core/utils/app_images.dart';
+import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/features/profile/agreements/agreements_screen.dart';
 import 'package:vyzi/features/profile/controller/profile_controller.dart';
 import 'package:vyzi/features/profile/invite_friends/invite_friends.dart';
@@ -46,21 +46,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // Account Management — 3 items
   final List<_MenuItem> _accountItems = const [
     _MenuItem(
-      assetIcon: 'assets/icons/1.png',
+      assetIcon: AppAssets.menuPersonal,
       title: 'Dati Personali',
       subtitle: 'Modifica le informazioni del tuo profilo',
       route: 'personal_data',
     ),
 
     _MenuItem(
-      assetIcon: 'assets/icons/2.png',
+      assetIcon: AppAssets.menuUtilities,
       title: 'Le tue utenze',
       subtitle: 'Visualizza i servizi attivi',
       route: 'utilities',
     ),
 
     _MenuItem(
-      assetIcon: 'assets/icons/3.png',
+      assetIcon: AppAssets.menuRequests,
       title: 'Le tue richieste',
       subtitle: 'Segui i tuoi passaggi',
       route: 'requests',
@@ -72,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 // Invite and Rewards — 1 item
   final List<_MenuItem> _inviteItems = const [
     _MenuItem(
-      assetIcon: 'assets/icons/4.png',
+      assetIcon: AppAssets.menuInvite,
       title: 'Invita e Guadagna',
       subtitle: 'Condividi il tuo link e guadagna 10',
       route: 'invite',
@@ -83,19 +83,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final List<_MenuItem> _otherItems = const [
 
     _MenuItem(
-      assetIcon: 'assets/icons/8.png',
+      assetIcon: AppAssets.menuSupport,
       title: 'Supporto',
       subtitle: 'Ricevi aiuto e contattaci',
       route: 'supports',
     ),
     _MenuItem(
-      assetIcon: 'assets/icons/5.png',
+      assetIcon: AppAssets.menuAgreements,
       title: 'Convenzioni',
       subtitle: 'Sconti esclusivi dei partner',
       route: 'agreements',
     ),
     _MenuItem(
-      assetIcon: 'assets/icons/6.png',
+      assetIcon: AppAssets.menuMore,
       title: 'Altro',
       subtitle: 'Privacy Legale',
       route: 'more',
@@ -151,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // ── Page header with divider ──
   Widget _buildPageHeader() {
     return Container(
-      color: Colors.white,
+      color: AppColors.background,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -162,21 +162,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Text(
                   'Profilo',
-                  style: TextStyle(
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFF1A1A2E),
-                    height: 1.22,
-                  ),
+                  style: AppStyles.h2.copyWith(color: AppColors.textDark),
                 ),
                 SizedBox(height: 2.h),
                 Text(
                   'Gestisci le impostazioni del tuo account',
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    color: const Color(0xFF9E9E9E),
-                    height: 1.22,
-                  ),
+                  style: AppStyles.body3,
                 ),
               ],
             ),
@@ -184,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Divider(
             height: 1,
             thickness: 1,
-            color: Colors.grey.shade200,
+            color: AppColors.divider,
           ),
         ],
       ),
@@ -196,7 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Container(
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF9400D3), Color(0xFF06B6D4)],
+          colors: AppColors.primaryGradient,
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -230,21 +221,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Text(
                         _controller.name,
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                          height: 1.22,
-                        ),
+                        style: AppStyles.h4.copyWith(color: Colors.white),
                       ),
                       SizedBox(height: 3.h),
                       Text(
                         _controller.email,
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          color: Colors.white.withOpacity(0.8),
-                          height: 1.22,
-                        ),
+                        style: AppStyles.body4.copyWith(color: Colors.white.withOpacity(0.8)),
                       ),
                     ],
                   ),
@@ -257,7 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Divider(
             height: 1.22,
              thickness: 1,
-            color: Color(0xFF2B7FFF),
+            color: AppColors.accentBlue,
           ),
 
           // Bottom: Account type + switch button
@@ -272,20 +254,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Text(
                       'Tipo di account',
-                      style: TextStyle(
-                        fontSize: 11.sp,
-                        color: Colors.white.withOpacity(0.7),
-                        height: 1.22,
-                      ),
+                      style: AppStyles.caption.copyWith(color: Colors.white.withOpacity(0.7)),
                     ),
                     SizedBox(height: 2.h),
                     Text(
                       _controller.accountType,
-                      style: TextStyle(
-                        fontSize: 15.sp,
+                      style: AppStyles.body1.copyWith(
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
-                        height: 1.22,
                       ),
                     ),
                   ],
@@ -305,10 +281,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: EdgeInsets.symmetric(
                         horizontal: 14.w, vertical: 8.h),
                     decoration: BoxDecoration(
-                      color: Color(0xFFF4E6FB),
+                      color: AppColors.lightPurple,
                       borderRadius: BorderRadius.circular(20.r),
                       border: Border.all(
-                        color: Color(0xFFDEB0F1),
+                        color: AppColors.borderPurple,
                         width: 1,
                       ),
                     ),
@@ -316,20 +292,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Image.asset(
-                          AppImages.swapIcon, // your image constant
+                          AppAssets.swapIcon,
                           width: 14.sp,
                           height: 14.sp,
-                          color: Colors.white,
+                          color: AppColors.primaryColor,
                         ),
                         SizedBox(width: 5.w),
                         Text(
                           _controller.accountType == 'Privato'
                               ? 'Passa ad Azienda'
                               : 'Passa a Privato',
-                          style: TextStyle(
+                          style: AppStyles.label.copyWith(
                             fontSize: 12.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF3E0059),
+                            color: AppColors.darkPurple,
                           ),
                         ),
                       ],
@@ -348,11 +323,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildSectionLabel(String label) {
     return Text(
       label,
-      style: TextStyle(
-        fontSize: 14.sp,
+      style: AppStyles.body2.copyWith(
         fontWeight: FontWeight.w600,
-        color: const Color(0xFF1A1A2E),
-        height: 1.22,
+        color: AppColors.textDark,
       ),
     );
   }
@@ -361,7 +334,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildMenuCard(List<_MenuItem> items) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
@@ -384,7 +357,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   thickness: 1,
                   indent: 14.w,
                   endIndent: 14.w,
-                  color: Colors.grey.shade100,
+                  color: AppColors.divider,
                 ),
             ],
           );
@@ -427,11 +400,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Text(
                     item.title,
-                    style: TextStyle(
-                      fontSize: 14.sp,
+                    style: AppStyles.body2.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: const Color(0xFF1A1A2E),
-                      height: 1.22,
+                      color: AppColors.textDark,
                     ),
                   ),
 
@@ -439,11 +410,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   Text(
                     item.subtitle,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: const Color(0xFF9E9E9E),
-                      height: 1.22,
-                    ),
+                    style: AppStyles.body4,
                   ),
                 ],
               ),
@@ -451,7 +418,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             Icon(
               Icons.chevron_right_rounded,
-              color: Colors.grey.shade400,
+              color: AppColors.neutral400,
               size: 20.sp,
             ),
           ],
@@ -464,7 +431,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildLogoutButton() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
@@ -483,15 +450,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.logout_rounded,
-                  color: const Color(0xFFE53935), size: 18.sp),
+                  color: AppColors.error, size: 18.sp),
               SizedBox(width: 8.w),
               Text(
                 'Disconnetti',
-                style: TextStyle(
-                  fontSize: 14.sp,
+                style: AppStyles.body2.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xFFE53935),
-                  height: 1.22,
+                  color: AppColors.error,
                 ),
               ),
             ],

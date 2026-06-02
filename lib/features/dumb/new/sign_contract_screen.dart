@@ -1,10 +1,11 @@
-// import 'package:flutter/material.dart';
+// import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:flutter/material.dart';
 //
 // class HowToSignContractScreen extends StatelessWidget {
 //   const HowToSignContractScreen({super.key});
 //
 //   // ── Design Tokens ──
-//   static const _purple = Color(0xFF9400D3);
+//   static const _purple = AppColors.primaryColor;
 //   static const _purpleBg = Color(0xFFEEEAFB);
 //   static const _bg = Color(0xFFF7F8FC);
 //   static const _cardBg = Colors.white;

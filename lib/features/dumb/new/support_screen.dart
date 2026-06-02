@@ -1,4 +1,5 @@
-// import 'package:flutter/material.dart';
+// import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:flutter/material.dart';
 //
 // // ─────────────────────────────────────────────
 // //  MODELS
@@ -228,7 +229,7 @@
 //                         ? FontWeight.w600
 //                         : FontWeight.w400,
 //                     color: isSelected
-//                         ? const Color(0xFF9400D3)
+//                         ? AppColors.primaryColor
 //                         : const Color(0xFF1A1A2E),
 //                   ),
 //                 ),
@@ -347,12 +348,12 @@
 //           duration: const Duration(milliseconds: 200),
 //           margin: const EdgeInsets.all(4),
 //           decoration: BoxDecoration(
-//             color: isSelected ? const Color(0xFF9400D3) : Colors.transparent,
+//             color: isSelected ? AppColors.primaryColor : Colors.transparent,
 //             borderRadius: BorderRadius.circular(9),
 //             boxShadow: isSelected
 //                 ? [
 // BoxShadow(
-//   color: const Color(0xFF9400D3).withOpacity(0.25),
+//   color: AppColors.primaryColor.withOpacity(0.25),
 //   blurRadius: 8,
 //   offset: const Offset(0, 2),
 // ),
@@ -403,7 +404,7 @@
 //                 borderRadius: BorderRadius.circular(12),
 //                 border: Border.all(
 //                   color: _controller.isDropdownOpen
-//                       ? const Color(0xFF9400D3)
+//                       ? AppColors.primaryColor
 //                       : const Color(0xFFE0E0E0),
 //                   width: 1.5,
 //                 ),
@@ -478,17 +479,17 @@
 //             border: OutlineInputBorder(
 //               borderRadius: BorderRadius.circular(12),
 // borderSide: const BorderSide(
-// color: Color(0xFF9400D3), width: 1.5),
+// color: AppColors.primaryColor, width: 1.5),
 //             ),
 //             enabledBorder: OutlineInputBorder(
 //               borderRadius: BorderRadius.circular(12),
 // borderSide: const BorderSide(
-// color: Color(0xFF9400D3), width: 1.5),
+// color: AppColors.primaryColor, width: 1.5),
 //             ),
 //             focusedBorder: OutlineInputBorder(
 //               borderRadius: BorderRadius.circular(12),
 // borderSide: const BorderSide(
-// color: Color(0xFF9400D3), width: 1.5),
+// color: AppColors.primaryColor, width: 1.5),
 //             ),
 //           ),
 //         ),
@@ -605,7 +606,7 @@
 //             fontSize: 14,
 //             fontWeight: FontWeight.w500,
 //             color: isLink
-//                 ? const Color(0xFF9400D3)
+//                 ? AppColors.primaryColor
 //                 : const Color(0xFF1A1A2E),
 //           ),
 //         ),

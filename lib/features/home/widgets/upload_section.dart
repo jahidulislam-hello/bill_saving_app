@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vyzi/core/utils/app_images.dart';
+import '../../../core/utils/app_assets.dart';
+import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/app_styles.dart';
 
 class UploadSection extends StatelessWidget {
   final VoidCallback onTap;
@@ -15,7 +17,7 @@ class UploadSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: DottedBorderPainter(
-        color: const Color(0xff9400D3),
+        color: AppColors.primaryColor,
         strokeWidth: 1.w,
         dashPattern: [8.w, 8.w],
         borderRadius: 12.r,
@@ -32,7 +34,7 @@ class UploadSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              AppImages.uploadIcon,
+              AppAssets.upload,
               width: 48.sp,
               height: 48.sp,
             ),
@@ -40,21 +42,13 @@ class UploadSection extends StatelessWidget {
             Text(
               "Carica la tua Prima\nBolletta",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 22.sp,
-                fontWeight: FontWeight.w700,
-                height: 1.2,
-              ),
+              style: AppStyles.h2.copyWith(height: 1.2),
             ),
             SizedBox(height: 12.h),
             Text(
               "Lasciaci analizzare il tuo piano\nattuale e trovare offerte migliori",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 14.sp,
-                height: 1.4,
-              ),
+              style: AppStyles.body2.copyWith(color: Colors.grey, height: 1.4),
             ),
             SizedBox(height: 24.h),
             GestureDetector(
@@ -65,16 +59,12 @@ class UploadSection extends StatelessWidget {
                   vertical: 14.h,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xff9400D3),
+                  color: AppColors.primaryColor,
                   borderRadius: BorderRadius.circular(14.r),
                 ),
                 child: Text(
                   "Inizia a Risparmiare",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: AppStyles.buttonText.copyWith(fontSize: 16.sp),
                 ),
               ),
             ),

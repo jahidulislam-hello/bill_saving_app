@@ -1,10 +1,17 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/request/request_success_screen.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:get/get.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'complete_request_controller.dart';
 
 class CompleteRequestScreen extends StatefulWidget {
@@ -315,7 +322,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   decoration: BoxDecoration(
                     color: _editingPersonalInfo
                         ? const Color(0xFF27AE60)
-                        : const Color(0xFF9400D3),
+                        : AppColors.primaryColor,
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Row(
@@ -469,7 +476,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             child: Row(
               children: [
                 Icon(Icons.location_on_outlined,
-                    color: const Color(0xFF9400D3), size: 20.sp),
+                    color: AppColors.primaryColor, size: 20.sp),
                 SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
@@ -495,7 +502,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       setState(() => _editingAddress = !_editingAddress),
                   child: Icon(Icons.edit_outlined,
                       color: _editingAddress
-                          ? const Color(0xFF9400D3)
+                          ? AppColors.primaryColor
                           : Colors.grey.shade400,
                       size: 18.sp),
                 ),
@@ -558,7 +565,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               onPressed: _c.addressMatch != null ? () {} : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: _c.addressMatch != null
-                    ? const Color(0xFF9400D3)
+                    ? AppColors.primaryColor
                     : const Color(0xFFD0CCFF),
                 foregroundColor: Colors.white,
                 elevation: 0,
@@ -846,7 +853,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           borderRadius: BorderRadius.circular(10.r),
           border: Border.all(
             color: isSelected
-                ? const Color(0xFF9400D3)
+                ? AppColors.primaryColor
                 : const Color(0xFFE5E7EB),
             width: 1.22,
           ),
@@ -860,11 +867,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isSelected
-                    ? const Color(0xFF9400D3)
+                    ? AppColors.primaryColor
                     : Colors.transparent,
                 border: Border.all(
                   color: isSelected
-                      ? const Color(0xFF9400D3)
+                      ? AppColors.primaryColor
                       : Colors.grey.shade400,
                   width: 1.5,
                 ),
@@ -881,7 +888,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       fontWeight:
                       isSelected ? FontWeight.w600 : FontWeight.w400,
                       color: isSelected
-                          ? const Color(0xFF9400D3)
+                          ? AppColors.primaryColor
                           : const Color(0xFF555555),
                       height: 1.22)),
             ),
@@ -1018,7 +1025,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             Icon(icon,
                 size: 26.sp,
                 color: canUpload
-                    ? const Color(0xFF9400D3)
+                    ? AppColors.primaryColor
                     : Colors.grey.shade400),
             SizedBox(height: 6.h),
             Text(label,
@@ -1266,7 +1273,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isSelected
-                ? const Color(0xFF9400D3)
+                ? AppColors.primaryColor
                 : const Color(0xFFE5E7EB),
             width: 1.22,
           ),
@@ -1280,11 +1287,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isSelected
-                    ? const Color(0xFF9400D3)
+                    ? AppColors.primaryColor
                     : Colors.transparent,
                 border: Border.all(
                   color: isSelected
-                      ? const Color(0xFF9400D3)
+                      ? AppColors.primaryColor
                       : Colors.grey.shade400,
                   width: 1.22,
                 ),
@@ -1398,7 +1405,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             'Pre-filled email from your profile',
             style: TextStyle(
                 fontSize: 13.sp,
-                color: const Color(0xFF9400D3),
+                color: AppColors.primaryColor,
                 fontWeight: FontWeight.w500,
                 height: 1.22),
           ),
@@ -1669,7 +1676,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF9400D3),
+                backgroundColor: AppColors.primaryColor,
                 foregroundColor: Colors.white,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -1705,7 +1712,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isSelected
-                ? const Color(0xFF9400D3)
+                ? AppColors.primaryColor
                 : const Color(0xFFE5E7EB),
             width: 1.22,
           ),
@@ -1719,11 +1726,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isSelected
-                    ? const Color(0xFF9400D3)
+                    ? AppColors.primaryColor
                     : Colors.transparent,
                 border: Border.all(
                   color: isSelected
-                      ? const Color(0xFF9400D3)
+                      ? AppColors.primaryColor
                       : Colors.grey.shade400,
                   width: 1.22,
                 ),
@@ -1772,7 +1779,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           borderRadius: BorderRadius.circular(10.r),
           border: Border.all(
             color: isSelected
-                ? const Color(0xFF9400D3)
+                ? AppColors.primaryColor
                 : const Color(0xFFE5E7EB),
             width: 1.22,
           ),
@@ -1786,11 +1793,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isSelected
-                    ? const Color(0xFF9400D3)
+                    ? AppColors.primaryColor
                     : Colors.transparent,
                 border: Border.all(
                   color: isSelected
-                      ? const Color(0xFF9400D3)
+                      ? AppColors.primaryColor
                       : Colors.grey.shade400,
                   width: 1.5,
                 ),
@@ -1806,7 +1813,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     fontWeight:
                     isSelected ? FontWeight.w600 : FontWeight.w400,
                     color: isSelected
-                        ? const Color(0xFF9400D3)
+                        ? AppColors.primaryColor
                         : const Color(0xFF555555),
                     height: 1.22)),
           ],
@@ -1869,7 +1876,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: ElevatedButton(
         onPressed: () => Get.to(() => RequestSuccessScreen()),
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF9400D3),
+          backgroundColor: AppColors.primaryColor,
           foregroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -2001,7 +2008,7 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
               width: 260.w,
               height: 180.h,
               decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xFF9400D3), width: 2.5),
+                border: Border.all(color: AppColors.primaryColor, width: 2.5),
                 borderRadius: BorderRadius.circular(16.r),
               ),
               child: Stack(children: _cornerAccents()),
@@ -2074,7 +2081,7 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
   }
 
   List<Widget> _cornerAccents() {
-    const c = Color(0xFF9400D3);
+    const c = AppColors.primaryColor;
     const size = 20.0;
     const w = 3.0;
     return [

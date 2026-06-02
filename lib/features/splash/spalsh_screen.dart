@@ -1,4 +1,5 @@
-import 'package:vyzi/core/utils/app_images.dart';
+import 'package:vyzi/core/utils/app_assets.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,17 +28,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFFFFFFFF),
-        ),
-        child: Center(
-          child: Image.asset(
-            AppImages.logo,
-            width: 180.w,
-            height: 180.h,
-          ),
+      backgroundColor: AppColors.background,
+      body: Center(
+        child: Image.asset(
+          AppAssets.logo,
+          width: 180.w,
+          height: 180.h,
         ),
       ),
     );

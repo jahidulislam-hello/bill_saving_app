@@ -1,4 +1,5 @@
-// import 'package:flutter/material.dart';
+// import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:flutter/material.dart';
 //
 // // ─────────────────────────────────────────────
 // //  MODELS
@@ -234,7 +235,7 @@
 //       decoration: BoxDecoration(
 //         borderRadius: BorderRadius.circular(20),
 //         gradient: const LinearGradient(
-//           colors: [Color(0xFF3949AB), Color(0xFF9400D3)],
+//           colors: [Color(0xFF3949AB), AppColors.primaryColor],
 //           begin: Alignment.topLeft,
 //           end: Alignment.bottomRight,
 //         ),
@@ -339,13 +340,13 @@
 //                       Icon(
 //                         Icons.swap_horiz_rounded,
 //                         size: 15,
-// color: const Color(0xFF9400D3),
+// color: AppColors.primaryColor,
 // ),
 // const SizedBox(width: 5),
 // Text(
 // _controller.switchLabel,
 // style: const TextStyle(
-//   color: Color(0xFF9400D3),
+//   color: AppColors.primaryColor,
 //                           fontSize: 12,
 //                           fontWeight: FontWeight.w600,
 //                         ),

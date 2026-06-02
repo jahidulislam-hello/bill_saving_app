@@ -1,6 +1,9 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'sign_contract_controller.dart';
 
 class SignContractScreen extends StatefulWidget {
@@ -114,7 +117,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
             padding:
             EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
             decoration: BoxDecoration(
-              color: const Color(0xFF9400D3),
+              color: AppColors.primaryColor,
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
@@ -327,13 +330,13 @@ class _SignContractScreenState extends State<SignContractScreen> {
                   style: TextStyle(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w600,
-                    color: const Color(0xFF9400D3),
+                    color: AppColors.primaryColor,
                     height: 1.22,
                   ),
                 ),
                 SizedBox(width: 4.w),
                 Icon(Icons.arrow_forward_rounded,
-                    color: const Color(0xFF9400D3), size: 14.sp),
+                    color: AppColors.primaryColor, size: 14.sp),
               ],
             ),
           ],
@@ -508,7 +511,7 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF9400D3),
+                  backgroundColor: AppColors.primaryColor,
                   foregroundColor: Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -563,7 +566,7 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w800,
-                      color: const Color(0xFF9400D3),
+                      color: AppColors.primaryColor,
                       height: 1.22,
                     ),
                   ),
@@ -571,7 +574,7 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
               ),
               SizedBox(width: 10.w),
               Icon(step.icon,
-                  color: const Color(0xFF9400D3), size: 18.sp),
+                  color: AppColors.primaryColor, size: 18.sp),
               SizedBox(width: 6.w),
               Text(
                 step.title,
@@ -627,7 +630,7 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
           height: 8.h,
           decoration: BoxDecoration(
             color: isActive
-                ? const Color(0xFF9400D3)
+                ? AppColors.primaryColor
                 : Colors.grey.shade300,
             borderRadius: BorderRadius.circular(4.r),
           ),
@@ -732,7 +735,7 @@ class _EmailIllustration extends StatelessWidget {
                 width: 22.w,
                 height: 22.w,
                 decoration: const BoxDecoration(
-                  color: Color(0xFF9400D3),
+                  color: AppColors.primaryColor,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -742,7 +745,7 @@ class _EmailIllustration extends StatelessWidget {
                 width: 36.w,
                 height: 42.h,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF9400D3),
+                  color: AppColors.primaryColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(14.r),
                     topRight: Radius.circular(14.r),
@@ -854,7 +857,7 @@ class _SignIllustration extends StatelessWidget {
                       height: 24.h,
                       width: 70.w,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF9400D3),
+                        color: AppColors.primaryColor,
                         borderRadius: BorderRadius.circular(6.r),
                       ),
                       child: Center(
@@ -924,7 +927,7 @@ class _DoneIllustration extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w700,
-                color: const Color(0xFF9400D3),
+                color: AppColors.primaryColor,
                 height: 1.22,
               ),
             ),

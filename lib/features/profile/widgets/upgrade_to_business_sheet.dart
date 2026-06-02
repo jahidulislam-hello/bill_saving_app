@@ -1,3 +1,4 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // ─────────────────────────────────────────────
@@ -27,7 +28,7 @@ class _UpgradeToBusinessSheet extends StatefulWidget {
 
 class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
   // ── Tokens ──
-  static const _purple = Color(0xFF9400D3);
+  static const _purple = AppColors.primaryColor;
   static const _textDark = Color(0xFF1A1A2E);
   static const _textMid = Color(0xFF636E72);
   static const _textLight = Color(0xFFB2BEC3);
@@ -394,7 +395,7 @@ class _RoleDropdownMenu extends StatelessWidget {
     required this.onSelect,
   });
 
-  static const _purple = Color(0xFF9400D3);
+  static const _purple = AppColors.primaryColor;
   static const _purpleBg = Color(0xFFEEEAFB);
   static const _textDark = Color(0xFF1A1A2E);
   static const _textMid = Color(0xFF636E72);

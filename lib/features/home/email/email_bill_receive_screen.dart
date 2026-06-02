@@ -1,5 +1,8 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/home/email/email_bill_receive_controller.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:get/get.dart';
 
 
@@ -39,8 +42,8 @@ class EmailBillReceivedScreen extends StatelessWidget {
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
                         colors: [
-                          Color(0xFF9400D3),
-                          Color(0xFF9400D3),
+                          AppColors.primaryColor,
+                          AppColors.primaryColor,
                         ],
                       ),
                     ),
@@ -132,7 +135,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
                         value: controller.progress.value / 100,
                         minHeight: 8,
                         backgroundColor: Colors.grey.shade300,
-                        color: const Color(0xFF9400D3),
+                        color: AppColors.primaryColor,
                       ),
                     )),
 
@@ -171,7 +174,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: controller.goToRequests,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF9400D3),
+                    backgroundColor: AppColors.primaryColor,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),

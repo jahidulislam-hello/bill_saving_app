@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../utils/app_colors.dart';
+import '../utils/app_styles.dart';
 
 enum AppBarTitleAlignment {
   left,
@@ -92,6 +94,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Container(
         height: height ?? 60.h,
         padding: padding ?? EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        decoration: BoxDecoration(
+          color: backgroundColor ?? Colors.transparent,
+          gradient: gradient,
+          border: border,
+          borderRadius: borderRadius,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -168,7 +176,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Icon(
           leadingIcon ?? Icons.arrow_back,
           size: leadingIconSize ?? 24.sp,
-          color: leadingIconColor ?? const Color(0xFF2E3E5C),
+          color: leadingIconColor ?? AppColors.textPrimary,
         ),
       ),
     );
@@ -188,12 +196,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     if (title == null) return const SizedBox.shrink();
 
-    final defaultStyle = TextStyle(
-      fontSize: 20.sp,
-      fontWeight: FontWeight.w600,
-      color: const Color(0xFF2E3E5C),
-      fontFamily: 'Open Sans',
-    );
+    final defaultStyle = AppStyles.headLine2;
 
     return titleAlignment == AppBarTitleAlignment.center
         ? Center(
@@ -269,12 +272,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           fit: BoxFit.contain,
           width: iconSize,
           height: iconSize,
-          color: action.iconColor ?? const Color(0xFF2E3E5C),
+          color: action.iconColor ?? AppColors.textPrimary,
         )
             : Icon(
           action.icon ?? Icons.more_vert,
           size: iconSize,
-          color: action.iconColor ?? const Color(0xFF2E3E5C),
+          color: action.iconColor ?? AppColors.textPrimary,
         ),
       );
     }
@@ -312,7 +315,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             : Icon(
           action.icon ?? Icons.more_vert,
           size: iconSize,
-          color: action.iconColor ?? const Color(0xFF2E3E5C),
+          color: action.iconColor ?? AppColors.textPrimary,
         ),
       ),
     );

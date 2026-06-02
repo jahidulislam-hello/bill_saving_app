@@ -1,4 +1,5 @@
-// import 'package:flutter/material.dart';
+// import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:flutter/material.dart';
 //
 // // ─────────────────────────────────────────────
 // //  MODELS
@@ -284,7 +285,7 @@
 //       decoration: BoxDecoration(
 //         borderRadius: BorderRadius.circular(20),
 //         gradient: const LinearGradient(
-//           colors: [Color(0xFF9400D3), Color(0xFF9400D3), Color(0xFF9400D3)],
+//           colors: [AppColors.primaryColor, AppColors.primaryColor, AppColors.primaryColor],
 //           begin: Alignment.topLeft,
 //           end: Alignment.bottomRight,
 //         ),
@@ -606,7 +607,7 @@
 //         child: ElevatedButton(
 //           onPressed: _controller.selectOffer,
 //           style: ElevatedButton.styleFrom(
-//             backgroundColor: const Color(0xFF9400D3),
+//             backgroundColor: AppColors.primaryColor,
 //             foregroundColor: Colors.white,
 //             elevation: 0,
 //             shape: RoundedRectangleBorder(
