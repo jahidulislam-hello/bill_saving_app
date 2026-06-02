@@ -1,8 +1,10 @@
+import 'package:vyzi/core/appbar/custom_appbar.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/core/utils/app_assets.dart';
+import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/features/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-
 
 class PersonalDataScreen extends StatefulWidget {
   final ProfileController controller;
@@ -28,7 +30,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F7),
-      appBar: _buildAppBar(),
+      appBar: const CustomAppBar(title: 'Dati Personali', showBackButton: true),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,11 +40,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 20.h),
               child: Text(
                 'Aggiorna le informazioni del tuo account e come\nti contattiamo.',
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  color: const Color(0xFF555555),
-                  height: 1.5,
-                ),
+                style: AppStyles.body3.copyWith(height: 1.5, color: const Color(0xFF555555)),
               ),
             ),
 
@@ -80,33 +78,6 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
     );
   }
 
-  // ── AppBar ──
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back_rounded,
-            color: const Color(0xFF1A1A2E), size: 22.sp),
-        onPressed: () => Navigator.pop(context),
-      ),
-      title: Text(
-        'Dati Personali',
-        style: TextStyle(
-          fontSize: 17.sp,
-          fontWeight: FontWeight.w700,
-          color: const Color(0xFF1A1A2E),
-          height: 1.22,
-        ),
-      ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(1),
-        child: Divider(
-            height: 1, thickness: 1, color: Colors.grey.shade200),
-      ),
-    );
-  }
-
   // ── Avatar card ──
   Widget _buildAvatarCard() {
     return Container(
@@ -130,15 +101,11 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                 child: ClipOval(
                   child: _c.avatarAsset.isNotEmpty
                       ? Image.asset(_c.avatarAsset, fit: BoxFit.cover)
-                      : Image.network(
-                    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200',
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Icon(
+                      : Icon(
                       Icons.person_rounded,
                       size: 48.sp,
                       color: Colors.grey.shade400,
                     ),
-                  ),
                 ),
               ),
               // Edit icon badge
@@ -149,7 +116,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                   width: 26.w,
                   height: 26.w,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1A1A2E),
+                    color: AppColors.darkBlue,
                     shape: BoxShape.circle,
                     border:
                     Border.all(color: Colors.white, width: 2),
@@ -165,33 +132,19 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
 
           Text(
             _c.name,
-            style: TextStyle(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF1A1A2E),
-              height: 1.22,
-            ),
+            style: AppStyles.h2.copyWith(fontSize: 17.sp),
           ),
           SizedBox(height: 3.h),
           Text(
             _c.memberSince,
-            style: TextStyle(
-              fontSize: 12.sp,
-              color: const Color(0xFF9E9E9E),
-              height: 1.22,
-            ),
+            style: AppStyles.body4,
           ),
           SizedBox(height: 10.h),
           GestureDetector(
             onTap: () {},
             child: Text(
               'Cambia foto',
-              style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF9400D3),
-                height: 1.22,
-              ),
+              style: AppStyles.body3.copyWith(fontWeight: FontWeight.w600, color: AppColors.primaryColor),
             ),
           ),
         ],
@@ -265,27 +218,16 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w500,
-            color: const Color(0xFF1A1A2E),
-            height: 1.22,
-          ),
+          style: AppStyles.label.copyWith(fontSize: 13.sp, color: AppColors.darkBlue),
         ),
         SizedBox(height: 6.h),
         TextField(
           controller: controller,
           keyboardType: keyboardType,
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: const Color(0xFF1A1A2E),
-          ),
+          style: AppStyles.body2,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(
-              fontSize: 14.sp,
-              color: const Color(0xFFBDBDBD),
-            ),
+            hintStyle: AppStyles.hintStyle,
             filled: true,
             fillColor: const Color(0xFFF8F8F8),
             contentPadding: EdgeInsets.symmetric(
@@ -298,7 +240,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
               borderSide: const BorderSide(
-                  color: Color(0xFF9400D3), width: 1.5),
+                  color: AppColors.primaryColor, width: 1.5),
             ),
           ),
         ),
@@ -318,7 +260,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(Icons.shield_outlined,
-              color: const Color(0xFF9400D3), size: 20.sp),
+              color: AppColors.primaryColor, size: 20.sp),
           SizedBox(width: 10.w),
           Expanded(
             child: Column(
@@ -326,21 +268,12 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               children: [
                 Text(
                   'Privacy Prima di Tutto',
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFF1A1A2E),
-                    height: 1.22,
-                  ),
+                  style: AppStyles.h4.copyWith(fontSize: 13.sp),
                 ),
                 SizedBox(height: 4.h),
                 Text(
                   'I tuoi dati sono crittografati e gestiti secondo i nostri standard di protezione premium. Non condividiamo mai i tuoi dati personali con fornitori terzi senza il tuo consenso.',
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: const Color(0xFF9400D3),
-                    height: 1.5,
-                  ),
+                  style: AppStyles.body4.copyWith(color: AppColors.primaryColor, height: 1.5),
                 ),
               ],
             ),
@@ -366,7 +299,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               if (mounted) Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF1A1A2E),
+              backgroundColor: AppColors.darkBlue,
               foregroundColor: Colors.white,
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -384,10 +317,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             )
                 : Text(
               'Salva Modifiche',
-              style: TextStyle(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w600,
-              ),
+              style: AppStyles.buttonText.copyWith(fontSize: 15.sp),
             ),
           ),
         ),
@@ -405,11 +335,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             },
             child: Text(
               'Annulla e scarta',
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: const Color(0xFF9E9E9E),
-                fontWeight: FontWeight.w500,
-              ),
+              style: AppStyles.body2.copyWith(color: const Color(0xFF9E9E9E), fontWeight: FontWeight.w500),
             ),
           ),
         ),

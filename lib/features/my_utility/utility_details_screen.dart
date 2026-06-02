@@ -1,6 +1,10 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:get/get.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/my_utility/utility_details_controller.dart';
 
 
@@ -256,7 +260,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.location_on_outlined,
-                        color: const Color(0xFF9400D3),
+                        color: AppColors.primaryColor,
                         size: 20.sp,
                       ),
                       SizedBox(width: 6.w),
@@ -378,7 +382,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                                 "ANNUAL CONSUMPTION",
                                 style: TextStyle(
                                   color:
-                                  const Color(0xFF9400D3),
+                                  AppColors.primaryColor,
                                   fontSize: 9.sp,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 1,
@@ -580,7 +584,7 @@ class UtilityDetailsScreen extends StatelessWidget {
             ),
             child: Icon(
               icon,
-              color: const Color(0xFF9400D3),
+              color: AppColors.primaryColor,
             ),
           ),
 

@@ -1,8 +1,12 @@
 
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:get/get.dart';
 
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'single_utility_card.dart';
 
 class UtilitiesSection extends StatelessWidget {
@@ -37,7 +41,7 @@ class UtilitiesSection extends StatelessWidget {
               Text(
                 "Visualizza Tutto",
                 style: TextStyle(
-                  color: Color(0xff9400D3),
+                  color: AppColors.primaryColor,
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
                 ),

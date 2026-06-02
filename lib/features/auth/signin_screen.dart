@@ -1,14 +1,15 @@
+import 'package:vyzi/core/appbar/custom_appbar.dart';
+import 'package:vyzi/core/utils/app_assets.dart';
+import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/widgets/custom_text_filled.dart';
-
 import 'package:vyzi/core/widgets/primary_button.dart';
 import 'package:vyzi/core/widgets/social_button.dart';
 import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
 
 
 class SignInScreen extends StatefulWidget {
@@ -23,11 +24,8 @@ class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool _agreeToTerms = false;
-
   @override
   void dispose() {
-
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -36,8 +34,17 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _buildAppBar(),
+      backgroundColor: AppColors.background,
+      appBar: CustomAppBar(
+        showBackButton: true,
+        onLeadingPressed: () => Get.back(),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.close, size: 22.sp, color: AppColors.textPrimary),
+            onPressed: () => Navigator.maybePop(context),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -51,12 +58,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 // ── Title ──────────────────────────
                 Text(
                   'Accedi al tuo account',
-                  style: TextStyle(
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
-                    fontFamily: 'Open Sans',
-                  ),
+                  style: AppStyles.h2,
                 ),
 
                 SizedBox(height: 20.h),
@@ -99,19 +101,14 @@ class _SignInScreenState extends State<SignInScreen> {
                     Center(
                       child: RichText(
                         text: TextSpan(
-                          style: TextStyle(
-                            fontSize: 13.sp,
-                            color: AppColors.textSecondary,
-                            fontFamily: 'Open Sans',
-                          ),
+                          style: AppStyles.body3,
                           children: [
                             const TextSpan(text: 'Hai dimenticato la password?    '),
                             TextSpan(
                               text: 'Reimposta ora',
-                              style: TextStyle(
+                              style: AppStyles.body3.copyWith(
                                 color: AppColors.primaryColor,
                                 fontWeight: FontWeight.w500,
-                                fontSize: 13.sp,
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
@@ -129,7 +126,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
                 // ── Register Button ────────────────
                 PrimaryButton(
-
                   title: 'Accedi',
                   onPress: () {
                       Get.offNamed(AppRoutes.navbarScreen);
@@ -141,19 +137,15 @@ class _SignInScreenState extends State<SignInScreen> {
                 // ── Divider ────────────────────────
                 Row(
                   children: [
-                    const Expanded(child: Divider(color: Color(0xFFEEEEEE))),
+                    const Expanded(child: Divider(color: AppColors.divider)),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: Text(
                         'Oppure accedi con',
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          color: AppColors.textSecondary,
-                          fontFamily: 'Open Sans',
-                        ),
+                        style: AppStyles.caption,
                       ),
                     ),
-                    const Expanded(child: Divider(color: Color(0xFFEEEEEE))),
+                    const Expanded(child: Divider(color: AppColors.divider)),
                   ],
                 ),
 
@@ -190,19 +182,14 @@ class _SignInScreenState extends State<SignInScreen> {
                 Center(
                   child: RichText(
                     text: TextSpan(
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        color: AppColors.textSecondary,
-                        fontFamily: 'Open Sans',
-                      ),
+                      style: AppStyles.body3,
                       children: [
                         const TextSpan(text: 'Non hai un account?'),
                         TextSpan(
                           text: 'Registrati ora',
-                          style: TextStyle(
+                          style: AppStyles.body3.copyWith(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.w500,
-                            fontSize: 13.sp,
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
@@ -223,32 +210,6 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // ── Custom AppBar ──────────────────────────
-  PreferredSizeWidget _buildAppBar() {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(56.h),
-      child: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: Icon(Icons.arrow_back_ios_new,
-                    size: 20.sp, color: AppColors.textPrimary),
-                onPressed: () => Get.back(),
-              ),
-              IconButton(
-                icon: Icon(Icons.close,
-                    size: 22.sp, color: AppColors.textPrimary),
-                onPressed: () => Navigator.maybePop(context),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   // ── Labeled field wrapper ──────────────────
   Widget _labeledField({required String label, required Widget child}) {
@@ -258,11 +219,7 @@ class _SignInScreenState extends State<SignInScreen> {
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: AppColors.textSecondary,
-            fontFamily: 'Open Sans',
-          ),
+          style: AppStyles.caption,
         ),
         SizedBox(height: 4.h),
         child,
@@ -273,7 +230,7 @@ class _SignInScreenState extends State<SignInScreen> {
   // ── Brand Logos ────────────────────────────
   Widget _facebookLogo() {
     return Image.asset(
-      'assets/icons/facebook.png',
+      AppAssets.facebook,
       width: 24.w,
       height: 24.h,
     );
@@ -281,7 +238,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _appleLogo() {
     return Image.asset(
-      'assets/icons/apple.png',
+      AppAssets.apple,
       width: 24.w,
       height: 24.h,
     );
@@ -289,7 +246,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _googleLogo() {
     return Image.asset(
-      'assets/icons/gogle.png',
+      AppAssets.google,
       width: 24.w,
       height: 24.h,
     );

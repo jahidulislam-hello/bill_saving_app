@@ -1,6 +1,9 @@
-// import 'package:vyzi/features/onboarding/onboarding_screen.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/onboarding/onboarding_screen.dart';
+// import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:flutter/material.dart';
+// import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //
 //
 // class WarmupOnboarding extends StatefulWidget {
@@ -14,7 +17,7 @@
 //   final PageController _pageController = PageController();
 //   int _currentPage = 0;
 //
-//   static const Color _purple = Color(0xFF9400D3);
+//   static const Color _purple = AppColors.primaryColor;
 //   static const Color _bgTop = Color(0xFFC8CCFD);
 //   static const Color _bgBottom = Colors.white;
 //
@@ -448,7 +451,7 @@
 //                         Text('View All',
 //                             style: TextStyle(
 //                                 fontSize: 8.sp,
-//                                 color: const Color(0xFF9400D3),
+//                                 color: AppColors.primaryColor,
 //                                 fontWeight: FontWeight.w500)),
 //                       ],
 //                     ),
@@ -483,13 +486,13 @@
 //               child: Row(
 //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
 //                 children: [
-//                   Icon(Icons.home_rounded, color: const Color(0xFF9400D3), size: 18.sp),
+//                   Icon(Icons.home_rounded, color: AppColors.primaryColor, size: 18.sp),
 //                   Icon(Icons.receipt_long_outlined, color: Colors.grey, size: 18.sp),
 //                   Container(
 //                     width: 32.w,
 //                     height: 32.w,
 //                     decoration: const BoxDecoration(
-//                       color: Color(0xFF9400D3),
+//                       color: AppColors.primaryColor,
 //                       shape: BoxShape.circle,
 //                     ),
 //                     child: Icon(Icons.add, color: Colors.white, size: 18.sp),
@@ -657,7 +660,7 @@
 //               height: 100.h,
 //               decoration: const BoxDecoration(
 //                 gradient: LinearGradient(
-//                   colors: [Color(0xFF2D1B69), Color(0xFF9400D3)],
+//                   colors: [Color(0xFF2D1B69), AppColors.primaryColor],
 //                   begin: Alignment.topLeft,
 //                   end: Alignment.bottomRight,
 //                 ),
@@ -839,7 +842,7 @@
 //           width: 18.w,
 //           height: 18.w,
 //           decoration: BoxDecoration(
-//             color: const Color(0xFF9400D3),
+//             color: AppColors.primaryColor,
 //             shape: BoxShape.circle,
 //           ),
 //           child: Center(

@@ -1,10 +1,11 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class SignContractScreen extends StatelessWidget {
   const SignContractScreen({super.key});
 
   // ── Design Tokens ──
-  static const _purple = Color(0xFF9400D3);
+  static const _purple = AppColors.primaryColor;
   static const _purpleBg = Color(0xFFEEEAFB);
   static const _purpleLight = Color(0xFFF5F2FF);
   static const _bg = Color(0xFFF7F8FC);

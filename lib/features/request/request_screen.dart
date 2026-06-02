@@ -1,5 +1,7 @@
 import 'package:vyzi/core/utils/app_colors.dart';
-import 'package:vyzi/core/utils/app_images.dart';
+import 'package:vyzi/core/utils/app_assets.dart';
+import 'package:vyzi/core/utils/app_styles.dart';
+import 'package:vyzi/core/widgets/primary_button.dart';
 import 'package:vyzi/features/request/request_details_screen.dart';
 import 'package:vyzi/features/request/offer_details.dart';
 import 'package:flutter/material.dart';
@@ -123,21 +125,14 @@ class _RequestScreenState extends State<RequestScreen>
                 padding: EdgeInsets.symmetric(vertical: 10.h),
                 child: Text(
                   title,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight:
-                    isSelected ? FontWeight.w600 : FontWeight.w400,
-                    color: isSelected
-                        ? const Color(0xFF1A1A2E)
-                        : Colors.black45,
-                  ),
+                  style: isSelected ? AppStyles.h4 : AppStyles.body2.copyWith(color: Colors.black45),
                 ),
               ),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 250),
                 height: 2.h,
                 color: isSelected
-                    ? const Color(0xFF9400D3)
+                    ? AppColors.primaryColor
                     : Colors.transparent,
               ),
             ],
@@ -182,7 +177,7 @@ class _RequestScreenState extends State<RequestScreen>
           Row(
             children: [
               Image.asset(
-                AppImages.filter,
+                'assets/images/filter.png',
                 width: 20.w,
                 height: 20.h,
                 fit: BoxFit.contain,
@@ -190,11 +185,7 @@ class _RequestScreenState extends State<RequestScreen>
               SizedBox(width: 4.w),
               Text(
                 'Metodo di Pagamento:',
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFF1A1A2E),
-                ),
+                style: AppStyles.h4.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -227,24 +218,21 @@ class _RequestScreenState extends State<RequestScreen>
         EdgeInsets.symmetric(horizontal: 14.w, vertical: 7.h),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFF9400D3)
+              ? AppColors.primaryColor
               : Colors.transparent,
           borderRadius: BorderRadius.circular(8.r),
           border: Border.all(
             color: isSelected
-                ? const Color(0xFF9400D3)
+                ? AppColors.primaryColor
                 : const Color(0xFFDDDDDD),
             width: 1.2,
           ),
         ),
         child: Text(
           label,
-          style: TextStyle(
-            fontSize: 12.sp,
-            fontWeight:
-            isSelected ? FontWeight.w600 : FontWeight.w400,
-            color: isSelected ? Colors.white : const Color(0xFF555555),
-          ),
+          style: isSelected 
+              ? AppStyles.body4.copyWith(color: Colors.white, fontWeight: FontWeight.w600)
+              : AppStyles.body4.copyWith(color: const Color(0xFF555555)),
         ),
       ),
     );
@@ -259,18 +247,11 @@ class _RequestScreenState extends State<RequestScreen>
         children: [
           Text(
             'Migliori Offerte per Te',
-            style: TextStyle(
-              fontSize: 15.sp,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF1A1A2E),
-            ),
+            style: AppStyles.h4.copyWith(fontSize: 15.sp),
           ),
           Text(
             '${_controller.offers.length} trovate',
-            style: TextStyle(
-              fontSize: 12.sp,
-              color: const Color(0xFF9E9E9E),
-            ),
+            style: AppStyles.body4,
           ),
         ],
       ),
@@ -337,11 +318,7 @@ class _RequestScreenState extends State<RequestScreen>
                     children: [
                       Text(
                         offer.title,
-                        style: TextStyle(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF1A1A2E),
-                        ),
+                        style: AppStyles.h4.copyWith(fontSize: 15.sp),
                       ),
                       SizedBox(height: 2.h),
     Container(
@@ -355,10 +332,7 @@ class _RequestScreenState extends State<RequestScreen>
           ),
        child: Text(
         offer.subtitle,
-        style: TextStyle(
-           fontSize: 12.sp,
-             color: const Color(0xFF9E9E9E),
-          ),
+        style: AppStyles.body4,
           ),
     ),
                     ],
@@ -375,11 +349,7 @@ class _RequestScreenState extends State<RequestScreen>
                     ),
                     child: Text(
                       'Miglior Valore',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: AppStyles.body4.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -400,11 +370,7 @@ class _RequestScreenState extends State<RequestScreen>
               ),
               child: Text(
                 'Prezzo Energia : PUN GME + € 0.01/KWh',
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: const Color(0xFF9400D3),
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppStyles.body4.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.w500),
               ),
             ),
           ),
@@ -416,7 +382,7 @@ class _RequestScreenState extends State<RequestScreen>
             padding: EdgeInsets.symmetric(horizontal: 14.w),
             child: _buildInfoRow(
               icon: Image.asset(
-                AppImages.pay,
+                'assets/images/pay.png',
                 width: 24.w,
                 height: 24.h,
                 fit: BoxFit.contain,
@@ -435,7 +401,7 @@ class _RequestScreenState extends State<RequestScreen>
          children: [
           _buildInfoRow(
           icon: Image.asset(
-            AppImages.compat,
+            'assets/images/compat.png',
             width: 24.w,
             height: 24.h,
             fit: BoxFit.contain,
@@ -471,11 +437,7 @@ class _RequestScreenState extends State<RequestScreen>
                 SizedBox(width: 8.w),
                 Text(
                   'Risparmio Annuale',
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    color: const Color(0xFF1A1A2E),
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppStyles.body3.copyWith(color: const Color(0xFF1A1A2E), fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -486,29 +448,12 @@ class _RequestScreenState extends State<RequestScreen>
           // ── CTA Button ──
           Padding(
             padding: EdgeInsets.fromLTRB(14.w, 0, 14.w, 14.h),
-            child: SizedBox(
-              width: double.infinity,
+            child: PrimaryButton(
+              title: 'Vai ai Dettagli e procedi',
               height: 46.h,
-              child: ElevatedButton(
-                onPressed: () {
-                  Get.to(()=> OfferDetailsScreen());
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF9400D3),
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                ),
-                child: Text(
-                  'Vai ai Dettagli e procedi',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+              onPress: () {
+                Get.to(()=> OfferDetailsScreen());
+              },
             ),
           ),
         ],
@@ -529,10 +474,7 @@ class _RequestScreenState extends State<RequestScreen>
 
         Text(
           text,
-          style: TextStyle(
-            fontSize: 12.sp,
-            color: const Color(0xFF555555),
-          ),
+          style: AppStyles.body4.copyWith(color: const Color(0xFF555555)),
         ),
       ],
     );
@@ -561,13 +503,6 @@ class _RequestScreenState extends State<RequestScreen>
           color: AppColors.neutral200,
           width: 1.22,
         ),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withOpacity(0.05),
-        //     blurRadius: 8,
-        //     offset: const Offset(0, 2),
-        //   ),
-        // ],
       ),
       padding: EdgeInsets.all(14.w),
       child: Column(
@@ -597,30 +532,19 @@ class _RequestScreenState extends State<RequestScreen>
                   children: [
                     Text(
                       request.title,
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF1A1A2E),
-                      ),
+                      style: AppStyles.h4.copyWith(fontSize: 15.sp),
                     ),
                     SizedBox(height: 2.h),
                     Text(
                       request.subtitle,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: const Color(0xFF9E9E9E),
-                      ),
+                      style: AppStyles.body4,
                     ),
                     // Extended description for readyToSign / completed
                     if (request.status != RequestStatus.processing) ...[
                       SizedBox(height: 4.h),
                       Text(
                         'Il tuo prezzo attuale è nel top 10% del mercato.',
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          color: const Color(0xFF555555),
-                          height: 1.4,
-                        ),
+                        style: AppStyles.body4.copyWith(color: const Color(0xFF555555)),
                       ),
                     ],
                   ],
@@ -642,10 +566,7 @@ class _RequestScreenState extends State<RequestScreen>
               _buildStatusChip(request.status),
               Text(
                 request.date,
-                style: TextStyle(
-                  fontSize: 11.sp,
-                  color: const Color(0xFF9810FA),
-                ),
+                style: AppStyles.body4.copyWith(color: const Color(0xFF9810FA), fontSize: 11.sp),
               ),
             ],
           ),
@@ -671,11 +592,7 @@ class _RequestScreenState extends State<RequestScreen>
                 ),
                 child: Text(
                   'Visualizza Alternative',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF9810FA),
-                  ),
+                  style: AppStyles.body2.copyWith(fontWeight: FontWeight.w600, color: const Color(0xFF9810FA)),
                 ),
               ),
             ),
@@ -732,11 +649,7 @@ class _RequestScreenState extends State<RequestScreen>
           ],
           Text(
             label,
-            style: TextStyle(
-              color: fg,
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w600,
-            ),
+            style: AppStyles.body4.copyWith(color: fg, fontWeight: FontWeight.w600, fontSize: 11.sp),
           ),
         ],
       ),

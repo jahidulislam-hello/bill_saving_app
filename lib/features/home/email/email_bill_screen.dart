@@ -1,7 +1,11 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/services.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:get/get.dart';
 
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'email_bill_controller.dart';
 
 class EmailBillScreen extends StatelessWidget {
@@ -168,7 +172,7 @@ class EmailBillScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: controller.onEmailSent,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF9400D3),
+                  backgroundColor: AppColors.primaryColor,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

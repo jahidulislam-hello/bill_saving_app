@@ -1,46 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../utils/app_colors.dart';
+import '../utils/app_styles.dart';
 
 
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     super.key,
     required this.title,
-    this.backgroundColor = const Color(0xFF9400D3),
+    this.backgroundColor,
     this.borderColor = Colors.transparent,
     required this.onPress,
-    this.textStyle = const TextStyle(
-      color: Colors.white,
-      fontSize: 20,
-      fontWeight: FontWeight.w500,
-      fontFamily: 'Open Sans',
-    ),
+    this.textStyle,
     this.prefixWidget,
     this.borderRadius,
+    this.height,
+    this.width,
   });
 
   final String title;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final Color? borderColor;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
   final VoidCallback onPress;
   final Widget? prefixWidget;
   final double? borderRadius;
+  final double? height;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
     final double radius = borderRadius ?? 12.r;
+    final Color effectiveBackgroundColor = backgroundColor ?? AppColors.primaryColor;
+    final TextStyle effectiveTextStyle = textStyle ?? AppStyles.buttonText;
+    
     return Material(
-      color: backgroundColor,
+      color: effectiveBackgroundColor,
       borderRadius: BorderRadius.circular(radius),
       elevation: 0,
       child: InkWell(
-        splashColor: Colors.white.withValues(alpha: 0.2),
+        splashColor: Colors.white.withOpacity(0.2),
         borderRadius: BorderRadius.circular(radius),
         onTap: onPress,
         child: Container(
-          width: double.infinity,
-          height: 52.h,
+          width: width ?? double.infinity,
+          height: height ?? 52.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(radius),
             border: borderColor != null && borderColor != Colors.transparent
@@ -54,7 +58,7 @@ class PrimaryButton extends StatelessWidget {
                 prefixWidget!,
                 SizedBox(width: 10.w),
               ],
-              Text(title, style: textStyle),
+              Text(title, style: effectiveTextStyle),
             ],
           ),
         ),

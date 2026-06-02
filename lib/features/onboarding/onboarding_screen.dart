@@ -132,7 +132,6 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                           },
                           child: Container(
                             margin: EdgeInsets.only(bottom: 24.h),
-                            padding: EdgeInsets.all(16.w),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12.r),
@@ -150,6 +149,9 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                                 ),
                               ],
                             ),
+
+
+                            padding: EdgeInsets.all(16.w),
                             child: Column(
                               children: [
                                 Row(

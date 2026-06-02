@@ -1,3 +1,6 @@
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/core/utils/app_assets.dart';
+import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/core/widgets/primary_button.dart';
 import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -20,19 +23,19 @@ class WarmupOnboarding extends StatelessWidget {
 
   final List<Map<String, String>> data = [
     {
-      "image": "assets/images/001.png",
+      "image": AppAssets.onboarding1,
       "title": "Carica le tue bollette in secondi",
       "desc":
       "Basta scattare una foto o caricare un PDF della tua bolletta attuale. La nostra IA la analizzerà e troverà le migliori offerte in pochi minuti.",
     },
     {
-      "image": "assets/images/002.png",
+      "image": AppAssets.onboarding2,
       "title": "Carica le tue bollette in secondi",
       "desc":
       "Basta scattare una foto o caricare un PDF della tua bolletta attuale. La nostra IA la analizzerà e troverà le migliori offerte in pochi minuti.",
     },
     {
-      "image": "assets/images/003.png",
+      "image": AppAssets.onboarding3,
       "title": "Risparmia denaro e rimani aggiornato",
       "desc":
       "Ricevi notifiche istantanee su offerte migliori e monitora i tuoi risparmi. Monitoriamo il mercato così non devi farlo tu.",
@@ -68,7 +71,7 @@ class WarmupOnboarding extends StatelessWidget {
                             width: 555,
                             height: 551,
                             decoration: const BoxDecoration(
-                              color: Color(0xFFDEB0F1),
+                              color: AppColors.lightPurple,
                               shape: BoxShape.circle,
                             ),
                           ),
@@ -101,21 +104,13 @@ class WarmupOnboarding extends StatelessWidget {
                         Text(
                           item["title"]!,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            height: 1.3,
-                          ),
+                          style: AppStyles.h3,
                         ),
                         const SizedBox(height: 12),
                         Text(
                           item["desc"]!,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                            height: 1.5,
-                          ),
+                          style: AppStyles.body2.copyWith(color: Colors.grey, height: 1.5),
                         ),
                       ],
                     ),
@@ -145,7 +140,7 @@ class WarmupOnboarding extends StatelessWidget {
                               width: controller.currentIndex.value == index ? 20 : 6,
                               decoration: BoxDecoration(
                                 color: controller.currentIndex.value == index
-                                    ? Color(0xFF9400D3)
+                                    ? AppColors.primaryColor
                                     : Colors.grey.shade300,
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -160,7 +155,7 @@ class WarmupOnboarding extends StatelessWidget {
                             height: 50,
                             width: 50,
                             decoration: const BoxDecoration(
-                              color: Color(0xFF9400D3),
+                              color: AppColors.primaryColor,
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(

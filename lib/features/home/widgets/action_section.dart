@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vyzi/core/utils/app_images.dart';
+import 'package:vyzi/core/utils/app_assets.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/core/utils/app_styles.dart';
 
 import 'action_card.dart';
 
@@ -11,26 +13,26 @@ class ActionSection extends StatelessWidget {
     {
       "title": "Cambia Fornitore",
       "subtitle": "Controlla il mercato e scopri quanto puoi risparmiare!",
-      "image": AppImages.h_1,
+      "image": AppAssets.actionChange,
       "showBadge": false,
     },
     {
       "title": "Trasferimento di Proprietà",
       "subtitle": "2-in-1: Trasferisci la proprietà e cambia fornitore!",
-      "image": AppImages.h_2,
+      "image": AppAssets.actionTransfer,
       "showBadge": false,
     },
     {
       "title": "Attiva Utenza",
       "subtitle": "Completa la tua richiesta e attiva il servizio ora!",
-      "image": AppImages.h_3,
+      "image": AppAssets.actionActivate,
       "showBadge": true,
       "badgeText": "Nuovo",
     },
     {
       "title": "Controllo Fattura",
       "subtitle": "Controlla se le tue fatture sono corrette e trova risparmi!",
-      "image": AppImages.h_4,
+      "image": AppAssets.actionControl,
       "showBadge": false,
     },
   ];
@@ -40,19 +42,18 @@ class ActionSection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(color: const Color(0xFFE8E8E8)),
+        border: Border.all(color: AppColors.neutral200),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Cosa vuoi fare oggi?",
-            style: TextStyle(
-              fontSize: 20.sp,
+            style: AppStyles.h3.copyWith(
               fontWeight: FontWeight.w800,
-              color: const Color(0xFF1A1A2E),
+              color: AppColors.textDark,
             ),
           ),
 

@@ -1,4 +1,6 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyUtilitiesProfileScreen extends StatelessWidget {
@@ -77,7 +79,7 @@ class MyUtilitiesProfileScreen extends StatelessWidget {
                             child: Icon(
                               Icons.bolt_rounded,
                               size: 48.sp,
-                              color: const Color(0xFF9400D3).withOpacity(0.4),
+                              color: AppColors.primaryColor.withOpacity(0.4),
                             ),
                           ),
                         ),
@@ -116,7 +118,7 @@ class MyUtilitiesProfileScreen extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF9400D3),
+                                backgroundColor: AppColors.primaryColor,
                                 foregroundColor: Colors.white,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(

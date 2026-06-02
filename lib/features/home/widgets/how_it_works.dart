@@ -1,4 +1,6 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HowItWorksCard extends StatelessWidget {
@@ -23,7 +25,7 @@ class HowItWorksCard extends StatelessWidget {
             children: [
               Icon(
                 Icons.lightbulb_outline,
-                color: const Color(0xff9400D3),
+                color: AppColors.primaryColor,
                 size: 22.sp,
               ),
               SizedBox(width: 8.w),
@@ -185,7 +187,7 @@ class HowItWorksCard extends StatelessWidget {
     return ShaderMask(
       blendMode: BlendMode.srcIn,
       shaderCallback: (bounds) => const LinearGradient(
-        colors: [Color(0xff9400D3), Color(0xff06B6D4)],
+        colors: [AppColors.primaryColor, Color(0xff06B6D4)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ).createShader(

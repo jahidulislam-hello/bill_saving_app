@@ -1,3 +1,4 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const _App());
@@ -27,7 +28,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
   static const _bg = Colors.white;
   static const _inputBg = Color(0xFFF4F5F7);
   static const _infoBg = Color(0xFFEEEAFB);
-  static const _infoText = Color(0xFF9400D3);
+  static const _infoText = AppColors.primaryColor;
   static const _btnBg = Color(0xFF1A1A2E);
   static const _borderColor = Color(0xFFE8E8E8);
 
@@ -155,7 +156,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide:
-                  const BorderSide(color: Color(0xFF9400D3), width: 1.5),
+                  const BorderSide(color: AppColors.primaryColor, width: 1.5),
                 ),
               ),
             ),
@@ -184,7 +185,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
                   )
                       : BorderRadius.circular(10),
                   border: _dropdownOpen
-                      ? Border.all(color: const Color(0xFF9400D3), width: 1.5)
+                      ? Border.all(color: AppColors.primaryColor, width: 1.5)
                       : Border.all(color: Colors.transparent),
                 ),
                 child: Row(
@@ -374,3 +375,4 @@ class _DropdownMenu extends StatelessWidget {
     );
   }
 }
+

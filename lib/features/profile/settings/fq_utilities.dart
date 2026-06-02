@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vyzi/core/utils/app_images.dart';
+import 'package:vyzi/core/appbar/custom_appbar.dart';
+import 'package:vyzi/core/utils/app_assets.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/core/utils/app_styles.dart';
 
 class FaqUtiliesScreen extends StatefulWidget {
   const FaqUtiliesScreen({super.key});
@@ -17,61 +20,41 @@ class _FaqScreenState extends State<FaqUtiliesScreen> {
     {
       'question': 'How does the switching process work?',
       'answer':
-      'Switching is simple and hassle-free. Once you select an offer and complete your request, we handle everything with your current supplier. The entire process typically takes 2–4 weeks with no interruption to your service.',
+          'Switching is simple and hassle-free. Once you select an offer and complete your request, we handle everything with your current supplier. The entire process typically takes 2–4 weeks with no interruption to your service.',
     },
     {
       'question': 'Will my service be interrupted?',
       'answer':
-      'No. Your gas or electricity supply will never be interrupted during the switch. The changeover happens seamlessly in the background — you won\'t notice a thing.',
+          'No. Your gas or electricity supply will never be interrupted during the switch. The changeover happens seamlessly in the background — you won\'t notice a thing.',
     },
     {
       'question': 'What if I\'m still under contract?',
       'answer':
-      'If you are still within a fixed-term contract, switching early may incur exit fees from your current supplier. We recommend checking your existing contract terms before proceeding.',
+          'If you are still within a fixed-term contract, switching early may incur exit fees from your current supplier. We recommend checking your existing contract terms before proceeding.',
     },
     {
       'question': 'How long does it take to receive my contract?',
       'answer':
-      'After activating your offer, you will receive your contract via email within 24 hours. Please review and sign it digitally to complete the process.',
+          'After activating your offer, you will receive your contract via email within 24 hours. Please review and sign it digitally to complete the process.',
     },
     {
       'question': 'Can I switch both gas and electricity?',
       'answer':
-      'Yes! You can switch gas, electricity, or both at the same time. Many of our offers are dual-fuel, which can save you even more on your annual bills.',
+          'Yes! You can switch gas, electricity, or both at the same time. Many of our offers are dual-fuel, which can save you even more on your annual bills.',
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
+      appBar: const CustomAppBar(
+        title: 'FAQ (How to get started)',
+      ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── AppBar row ──
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back_ios_new_rounded,
-                        color: const Color(0xFF1A1A2E), size: 18.sp),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  Text(
-                    'FAQ (How to get started)',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF1A1A2E),
-                      height: 1.22,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -80,13 +63,12 @@ class _FaqScreenState extends State<FaqUtiliesScreen> {
                   children: [
                     // ── Hero Image ──
                     Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 8.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16.r),
-                        child:Image.asset(
-                          AppImages.faqFive,
-
+                        child: Image.asset(
+                          AppAssets.faqThree,
                           width: double.infinity,
                           height: 320.h,
                           fit: BoxFit.cover,
@@ -102,11 +84,8 @@ class _FaqScreenState extends State<FaqUtiliesScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: Text(
                         'Frequently Asked Questions',
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF1A1A2E),
-                          height: 1.22,
+                        style: AppStyles.h4.copyWith(
+                          color: AppColors.textDark,
                         ),
                       ),
                     ),
@@ -150,12 +129,12 @@ class _FaqScreenState extends State<FaqUtiliesScreen> {
         curve: Curves.easeInOut,
         margin: EdgeInsets.only(bottom: 10.h),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.background,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isExpanded
-                ? const Color(0xFF9400D3).withOpacity(0.3)
-                : const Color(0xFFE5E7EB),
+                ? AppColors.primaryColor.withOpacity(0.3)
+                : AppColors.neutral200,
             width: 1.2,
           ),
           boxShadow: [
@@ -171,18 +150,15 @@ class _FaqScreenState extends State<FaqUtiliesScreen> {
           children: [
             // ── Question row ──
             Padding(
-              padding:
-              EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
               child: Row(
                 children: [
                   Expanded(
                     child: Text(
                       faq['question']!,
-                      style: TextStyle(
-                        fontSize: 13.sp,
+                      style: AppStyles.body3.copyWith(
                         fontWeight: FontWeight.w500,
-                        color: const Color(0xFF1A1A2E),
-                        height: 1.4,
+                        color: AppColors.textDark,
                       ),
                     ),
                   ),
@@ -193,8 +169,8 @@ class _FaqScreenState extends State<FaqUtiliesScreen> {
                     child: Icon(
                       Icons.keyboard_arrow_down_rounded,
                       color: isExpanded
-                          ? const Color(0xFF9400D3)
-                          : const Color(0xFF9E9E9E),
+                          ? AppColors.primaryColor
+                          : AppColors.neutral500,
                       size: 20.sp,
                     ),
                   ),
@@ -206,22 +182,20 @@ class _FaqScreenState extends State<FaqUtiliesScreen> {
             AnimatedCrossFade(
               firstChild: const SizedBox.shrink(),
               secondChild: Padding(
-                padding: EdgeInsets.only(
-                    left: 16.w, right: 16.w, bottom: 16.h),
+                padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Divider(
                         height: 1,
                         thickness: 1,
-                        color: Colors.grey.shade100),
+                        color: AppColors.divider),
                     SizedBox(height: 12.h),
                     Text(
                       faq['answer']!,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: const Color(0xFF555555),
+                      style: AppStyles.body4.copyWith(
                         height: 1.6,
+                        color: AppColors.neutral900,
                       ),
                     ),
                   ],
@@ -256,13 +230,12 @@ class _FaqScreenState extends State<FaqUtiliesScreen> {
           children: [
             Icon(Icons.home_work_outlined,
                 size: 52.sp,
-                color: const Color(0xFF9400D3).withOpacity(0.5)),
+                color: AppColors.primaryColor.withOpacity(0.5)),
             SizedBox(height: 8.h),
             Text(
               'Utility Services',
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: const Color(0xFF9400D3).withOpacity(0.7),
+              style: AppStyles.body2.copyWith(
+                color: AppColors.primaryColor.withOpacity(0.7),
                 fontWeight: FontWeight.w500,
               ),
             ),

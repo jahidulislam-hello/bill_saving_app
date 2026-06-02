@@ -1,6 +1,9 @@
 
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'invite_controller.dart';
 
 class InviteScreen extends StatefulWidget {
@@ -255,7 +258,7 @@ class _InviteScreenState extends State<InviteScreen> {
                         : Icon(
                       Icons.copy_rounded,
                       key: const ValueKey('copy'),
-                      color: const Color(0xFF9400D3),
+                      color: AppColors.primaryColor,
                       size: 20.sp,
                     ),
                   ),
@@ -282,7 +285,7 @@ class _InviteScreenState extends State<InviteScreen> {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF9400D3),
+                backgroundColor: AppColors.primaryColor,
                 foregroundColor: Colors.white,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -517,7 +520,7 @@ class _InviteScreenState extends State<InviteScreen> {
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w700,
-                color: const Color(0xFF9400D3),
+                color: AppColors.primaryColor,
                 height: 1.22,
               ),
             ),

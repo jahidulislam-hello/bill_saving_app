@@ -1,6 +1,7 @@
-
 import 'package:vyzi/core/appbar/custom_appbar.dart';
-import 'package:vyzi/core/utils/app_icons.dart';
+import 'package:vyzi/core/utils/app_assets.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyzi/features/support/support_screen.dart';
@@ -9,18 +10,13 @@ import 'faq_question.dart';
 import 'privacy_policy.dart';
 import 'terms_condition.dart';
 
-
-
 class MoreScreen extends StatelessWidget {
-
-
   MoreScreen({super.key});
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -35,7 +31,7 @@ class MoreScreen extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: const Color(0x1A333333),
+                    color: AppColors.neutralAlpha10,
                     width: 1.22,
                   ),
                 ),
@@ -43,13 +39,13 @@ class MoreScreen extends StatelessWidget {
                   children: [
                     SettingTile(
                       iconWidget: Image.asset(
-                        AppIcons.privacy,
+                        AppAssets.privacy,
                         width: 24,
                         height: 24,
                       ),
                       title: "Informativa sulla Privacy",
                       trailingIcon: Image.asset(
-                        AppIcons.arrow,
+                        AppAssets.arrowRight,
                         width: 24,
                         height: 24,
                       ),
@@ -57,10 +53,10 @@ class MoreScreen extends StatelessWidget {
                         Get.to(() => PrivacyPolicyScreen());
                       },
                     ),
-                    const Divider(height: 1, color: Color(0x1A333333)),
+                    const Divider(height: 1, color: AppColors.neutralAlpha10),
                     SettingTile(
                       iconWidget: Image.asset(
-                        AppIcons.about,
+                        AppAssets.terms,
                         width: 24,
                         height: 24,
                       ),
@@ -69,16 +65,16 @@ class MoreScreen extends StatelessWidget {
                         Get.to(() => TermsCondition());
                       },
                     ),
-                    const Divider(height: 1, color: Color(0x1A333333)),
+                    const Divider(height: 1, color: AppColors.neutralAlpha10),
                     SettingTile(
                       iconWidget: Image.asset(
-                        AppIcons.terms,
+                        AppAssets.about,
                         width: 24,
                         height: 24,
                       ),
                       title: "Su Easy Saving",
                       trailingIcon: Image.asset(
-                        AppIcons.arrow,
+                        AppAssets.arrowRight,
                         width: 24,
                         height: 24,
                       ),
@@ -86,16 +82,16 @@ class MoreScreen extends StatelessWidget {
                         Get.to(() => AboutUs());
                       },
                     ),
-                    const Divider(height: 1, color: Color(0x1A333333)),
+                    const Divider(height: 1, color: AppColors.neutralAlpha10),
                     SettingTile(
                       iconWidget: Image.asset(
-                        AppIcons.terms,
+                        AppAssets.menuSupport,
                         width: 24,
                         height: 24,
                       ),
                       title: "Faq",
                       trailingIcon: Image.asset(
-                        AppIcons.arrow,
+                        AppAssets.arrowRight,
                         width: 24,
                         height: 24,
                       ),
@@ -103,16 +99,16 @@ class MoreScreen extends StatelessWidget {
                         Get.to(() => SupportoScreen());
                       },
                     ),
-                    const Divider(height: 1, color: Color(0x1A333333)),
+                    const Divider(height: 1, color: AppColors.neutralAlpha10),
                     SettingTile(
                       iconWidget: Image.asset(
-                        AppIcons.delete,
+                        AppAssets.close,
                         width: 24,
                         height: 24,
                       ),
                       title: "Elimina Account",
                       trailingIcon: Image.asset(
-                        AppIcons.arrow,
+                        AppAssets.arrowRight,
                         width: 24,
                         height: 24,
                       ),
@@ -162,10 +158,7 @@ class SettingTile extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppStyles.body2.copyWith(fontWeight: FontWeight.w500),
               ),
             ),
             trailingIcon ?? const Icon(Icons.arrow_forward_ios, size: 16),

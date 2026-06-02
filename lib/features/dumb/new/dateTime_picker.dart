@@ -1,4 +1,6 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 
 // ─────────────────────────────────────────────
@@ -505,7 +507,7 @@ class _DemoScreenState extends State<DemoScreen> {
                 if (result != null) setState(() => _picked = result);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF9400D3),
+                backgroundColor: AppColors.primaryColor,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(
                     horizontal: 28, vertical: 14),

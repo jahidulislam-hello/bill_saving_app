@@ -1,4 +1,5 @@
-import 'package:vyzi/core/utils/app_images.dart';
+import 'package:vyzi/core/utils/app_assets.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/home/controller/home_controller.dart';
 import 'package:vyzi/features/home/widgets/action_section.dart';
 import 'package:vyzi/features/home/widgets/home_header.dart';
@@ -20,7 +21,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: AppColors.background,
       body: Obx(
             () => SingleChildScrollView(
           child: Column(
@@ -50,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                             Expanded(
                               child: SummaryCard(
                                 icon: Image.asset(
-                                  AppImages.down,
+                                  AppAssets.down,
                                   width: 16.sp,
                                   height: 16.sp,
                                 ),
@@ -64,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                             Expanded(
                               child: SummaryCard(
                                 icon: Image.asset(
-                                  AppImages.cir,
+                                  AppAssets.cir,
                                   width: 26.sp,
                                   height: 26.sp,
                                 ),
@@ -92,7 +93,7 @@ class HomeScreen extends StatelessWidget {
                             Expanded(
                               child: SummaryCard(
                                 icon: Image.asset(
-                                  AppImages.down,
+                                  AppAssets.down,
                                   width: 12.sp,
                                   height: 12.sp,
                                 ),
@@ -106,7 +107,7 @@ class HomeScreen extends StatelessWidget {
                             Expanded(
                               child: SummaryCard(
                                 icon: Image.asset(
-                                  AppImages.cir,
+                                  AppAssets.cir,
                                   width: 12.sp,
                                   height: 12.sp,
                                 ),

@@ -1,4 +1,5 @@
-// import 'package:flutter/material.dart';
+// import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:flutter/material.dart';
 //
 // class EditInformation extends StatelessWidget {
 //   @override
@@ -348,7 +349,7 @@
 //                                   height: 22,
 //                                   clipBehavior: Clip.antiAlias,
 //                                   decoration: ShapeDecoration(
-//                                     color: const Color(0xFF9400D3),
+//                                     color: AppColors.primaryColor,
 //                                     shape: RoundedRectangleBorder(
 //                                       borderRadius: BorderRadius.circular(16),
 //                                     ),
@@ -991,7 +992,7 @@
 //                         height: 52,
 //                         clipBehavior: Clip.antiAlias,
 //                         decoration: ShapeDecoration(
-//                           color: const Color(0xFF9400D3),
+//                           color: AppColors.primaryColor,
 //                           shape: RoundedRectangleBorder(
 //                             borderRadius: BorderRadius.circular(12),
 //                           ),
@@ -1081,7 +1082,7 @@
 //                 borderRadius: BorderRadius.circular(100),
 //               ),
 //             ),
-//             child: const Icon(Icons.upload_file, size: 16, color: Color(0xFF9400D3)),
+//             child: const Icon(Icons.upload_file, size: 16, color: AppColors.primaryColor),
 //           ),
 //           const SizedBox(height: 12),
 //           Text(

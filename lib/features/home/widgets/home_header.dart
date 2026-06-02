@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vyzi/core/utils/app_images.dart';
+import 'package:vyzi/core/utils/app_assets.dart';
+import 'package:vyzi/core/utils/app_styles.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -12,7 +13,7 @@ class HomeHeader extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/home_bg.png"),
+          image: AssetImage(AppAssets.homeBg),
           fit: BoxFit.cover,
         ),
       ),
@@ -26,7 +27,7 @@ class HomeHeader extends StatelessWidget {
                 children: [
 
                   Image.asset(
-                    AppImages.home_logo,
+                    AppAssets.homeLogo,
                     width: 48.w,
                     height: 48.h,
                     fit: BoxFit.contain,
@@ -34,7 +35,7 @@ class HomeHeader extends StatelessWidget {
 
                   const Spacer(),
                   Image.asset(
-                    AppImages.notification,
+                    AppAssets.notification,
                     width: 24.w,
                     height: 24.h,
                     fit: BoxFit.contain,
@@ -44,19 +45,12 @@ class HomeHeader extends StatelessWidget {
               SizedBox(height: 8.h),
               Text(
                 "Ciao, Ja! 👋",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: AppStyles.h1.copyWith(color: Colors.white),
               ),
               SizedBox(height: 8.h),
               Text(
                 "Pronto a risparmiare sulle tue utenze?",
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 14.sp,
-                ),
+                style: AppStyles.body2.copyWith(color: Colors.white70),
               ),
             ],
           ),
