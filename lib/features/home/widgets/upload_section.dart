@@ -17,7 +17,7 @@ class UploadSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: DottedBorderPainter(
-        color: AppColors.primaryColor,
+        color: const Color(0xFF5A1ABE),
         strokeWidth: 1.w,
         dashPattern: [8.w, 8.w],
         borderRadius: 12.r,
@@ -29,43 +29,70 @@ class UploadSection extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12.r),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
           children: [
-            Image.asset(
-              AppAssets.upload,
-              width: 48.sp,
-              height: 48.sp,
+            Expanded(
+              flex: 3,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    AppAssets.upload,
+                    width: 32.sp,
+                    height: 32.sp,
+                  ),
+                  SizedBox(height: 12.h),
+                  Text(
+                    "Carica la tua Prima\nBolletta",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w900,
+                      height: 1.2,
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    "Lasciaci analizzare il tuo piano\nattuale e trovare offerte migliori",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      height: 1.4,
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  GestureDetector(
+                    onTap: onTap,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 10.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(14.r),
+                      ),
+                      child: Text(
+                        "Inizia a Risparmiare",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: 16.h),
-            Text(
-              "Carica la tua Prima\nBolletta",
-              textAlign: TextAlign.center,
-              style: AppStyles.h2.copyWith(height: 1.2),
-            ),
-            SizedBox(height: 12.h),
-            Text(
-              "Lasciaci analizzare il tuo piano\nattuale e trovare offerte migliori",
-              textAlign: TextAlign.center,
-              style: AppStyles.body2.copyWith(color: Colors.grey, height: 1.4),
-            ),
-            SizedBox(height: 24.h),
-            GestureDetector(
-              onTap: onTap,
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 32.w,
-                  vertical: 14.h,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.circular(14.r),
-                ),
-                child: Text(
-                  "Inizia a Risparmiare",
-                  style: AppStyles.buttonText.copyWith(fontSize: 16.sp),
-                ),
+            SizedBox(width: 8.w),
+            Expanded(
+              flex: 2,
+              child: Image.asset(
+                AppAssets.homeNew,
+                fit: BoxFit.contain,
               ),
             ),
           ],

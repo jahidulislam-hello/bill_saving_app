@@ -162,20 +162,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Text(
                   'Profilo',
-                  style: AppStyles.h2.copyWith(color: AppColors.textDark),
+                  style: AppStyles.h2.copyWith(color: AppColors.textDark, fontWeight: FontWeight.w900),
                 ),
                 SizedBox(height: 2.h),
                 Text(
                   'Gestisci le impostazioni del tuo account',
-                  style: AppStyles.body3,
+                  style: AppStyles.body3.copyWith(fontWeight: FontWeight.w700),
                 ),
               ],
             ),
           ),
-          Divider(
+          const Divider(
             height: 1,
             thickness: 1,
-            color: AppColors.divider,
+            color: Color(0xFFE8E8E8),
           ),
         ],
       ),
@@ -192,6 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: Colors.white24, width: 1),
       ),
       child: Column(
         children: [
@@ -221,12 +222,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Text(
                         _controller.name,
-                        style: AppStyles.h4.copyWith(color: Colors.white),
+                        style: AppStyles.h4.copyWith(color: Colors.white, fontWeight: FontWeight.w900),
                       ),
                       SizedBox(height: 3.h),
                       Text(
                         _controller.email,
-                        style: AppStyles.body4.copyWith(color: Colors.white.withOpacity(0.8)),
+                        style: AppStyles.body4.copyWith(color: Colors.white.withOpacity(0.9), fontWeight: FontWeight.w700),
                       ),
                     ],
                   ),
@@ -236,10 +237,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
 
           // Divider inside card
-          Divider(
+          const Divider(
             height: 1.22,
              thickness: 1,
-            color: AppColors.accentBlue,
+            color: Colors.white24,
           ),
 
           // Bottom: Account type + switch button
@@ -254,13 +255,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Text(
                       'Tipo di account',
-                      style: AppStyles.caption.copyWith(color: Colors.white.withOpacity(0.7)),
+                      style: AppStyles.caption.copyWith(color: Colors.white.withOpacity(0.85), fontWeight: FontWeight.w700),
                     ),
                     SizedBox(height: 2.h),
                     Text(
                       _controller.accountType,
                       style: AppStyles.body1.copyWith(
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w900,
                         color: Colors.white,
                       ),
                     ),
@@ -281,12 +282,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: EdgeInsets.symmetric(
                         horizontal: 14.w, vertical: 8.h),
                     decoration: BoxDecoration(
-                      color: AppColors.lightPurple,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(20.r),
-                      border: Border.all(
-                        color: AppColors.borderPurple,
-                        width: 1,
-                      ),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -304,7 +301,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               : 'Passa a Privato',
                           style: AppStyles.label.copyWith(
                             fontSize: 12.sp,
-                            color: AppColors.darkPurple,
+                            color: AppColors.primaryColor,
+                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ],
@@ -324,7 +322,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Text(
       label,
       style: AppStyles.body2.copyWith(
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w900,
         color: AppColors.textDark,
       ),
     );
@@ -336,6 +334,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       decoration: BoxDecoration(
         color: AppColors.background,
         borderRadius: BorderRadius.circular(14.r),
+        border: Border.all(color: const Color(0xFFCCB8EB), width: 1.22),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -357,7 +356,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   thickness: 1,
                   indent: 14.w,
                   endIndent: 14.w,
-                  color: AppColors.divider,
+                  color: const Color(0xFFE8E8E8),
                 ),
             ],
           );
@@ -401,7 +400,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Text(
                     item.title,
                     style: AppStyles.body2.copyWith(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w900,
                       color: AppColors.textDark,
                     ),
                   ),
@@ -410,7 +409,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   Text(
                     item.subtitle,
-                    style: AppStyles.body4,
+                    style: AppStyles.body4.copyWith(fontWeight: FontWeight.w700),
                   ),
                 ],
               ),
@@ -418,7 +417,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             Icon(
               Icons.chevron_right_rounded,
-              color: AppColors.neutral400,
+              color: Colors.black,
               size: 20.sp,
             ),
           ],
@@ -433,6 +432,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       decoration: BoxDecoration(
         color: AppColors.background,
         borderRadius: BorderRadius.circular(14.r),
+        border: Border.all(color: const Color(0xFFCCB8EB), width: 1.22),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -455,7 +455,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Text(
                 'Disconnetti',
                 style: AppStyles.body2.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w900,
                   color: AppColors.error,
                 ),
               ),

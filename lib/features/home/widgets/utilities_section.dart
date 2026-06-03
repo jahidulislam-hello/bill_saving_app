@@ -1,12 +1,8 @@
-
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:get/get.dart';
 
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'single_utility_card.dart';
 
 class UtilitiesSection extends StatelessWidget {
@@ -24,7 +20,7 @@ class UtilitiesSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(color: const Color(0xFFE8E8E8)),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
       ),
       child: Column(
         children: [
@@ -34,7 +30,8 @@ class UtilitiesSection extends StatelessWidget {
                 "Le tue Utenze",
                 style: TextStyle(
                   fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.black,
                 ),
               ),
               const Spacer(),
@@ -43,7 +40,7 @@ class UtilitiesSection extends StatelessWidget {
                 style: TextStyle(
                   color: AppColors.primaryColor,
                   fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ],

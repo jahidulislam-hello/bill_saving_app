@@ -1,11 +1,7 @@
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
-import 'package:flutter/services.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:get/get.dart';
 
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'email_bill_controller.dart';
 
 class EmailBillScreen extends StatelessWidget {
@@ -23,7 +19,7 @@ class EmailBillScreen extends StatelessWidget {
         leading: const BackButton(color: Colors.black),
         title: const Text(
           "Invia la tua Bolletta via Email",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w900),
         ),
         centerTitle: false,
       ),
@@ -39,19 +35,14 @@ class EmailBillScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: Colors.grey.shade300),
+                border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
               ),
               child: Column(
                 children: [
-
                      Image.asset(
                       'assets/images/send_mail.png',
                       fit: BoxFit.contain,
-
-
                     ),
-
-
                 ],
               ),
             ),
@@ -65,6 +56,7 @@ class EmailBillScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0xFFEDEDED),
                 borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,21 +64,22 @@ class EmailBillScreen extends StatelessWidget {
                   const Text(
                     "Istruzioni",
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w900,
                       fontSize: 15,
+                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 6),
                   const Text(
                     "Puoi inviarci la bolletta quando preferisci, allegandola all'indirizzo qui sotto.",
-                    style: TextStyle(fontSize: 13, color: Colors.black54),
+                    style: TextStyle(fontSize: 13, color: Colors.black, fontWeight: FontWeight.w700),
                   ),
 
                   const SizedBox(height: 14),
 
                   const Text(
                     "Casella Email",
-                    style: TextStyle(fontWeight: FontWeight.w500),
+                    style: TextStyle(fontWeight: FontWeight.w900, color: Colors.black),
                   ),
 
                   const SizedBox(height: 8),
@@ -97,7 +90,7 @@ class EmailBillScreen extends StatelessWidget {
                         horizontal: 12, vertical: 14),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.blue.shade200),
+                      border: Border.all(color: const Color(0xFF5A1ABE), width: 1.2),
                       color: Colors.white,
                     ),
                     child: Row(
@@ -106,8 +99,8 @@ class EmailBillScreen extends StatelessWidget {
                           child: Text(
                             controller.email.value,
                             style: const TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF5A1ABE),
+                              fontWeight: FontWeight.w900,
                             ),
                           ),
                         ),
@@ -117,12 +110,12 @@ class EmailBillScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
+                              color: const Color(0xFF5A1ABE),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: const Text(
                               "Copia",
-                              style: TextStyle(fontSize: 12),
+                              style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w900),
                             ),
                           ),
                         )
@@ -136,11 +129,11 @@ class EmailBillScreen extends StatelessWidget {
                   const Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("• "),
+                      Text("• ", style: TextStyle(fontWeight: FontWeight.w900)),
                       Expanded(
                         child: Text(
                           "Se invii foto della bolletta, assicurati di allegare le prime 3 pagine.",
-                          style: TextStyle(fontSize: 13),
+                          style: TextStyle(fontSize: 13, color: Colors.black, fontWeight: FontWeight.w700),
                         ),
                       ),
                     ],
@@ -151,11 +144,11 @@ class EmailBillScreen extends StatelessWidget {
                   const Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("• "),
+                      Text("• ", style: TextStyle(fontWeight: FontWeight.w900)),
                       Expanded(
                         child: Text(
                           "Puoi anche inviare eventuali nuove condizioni economiche o documenti utili per l'analisi",
-                          style: TextStyle(fontSize: 13),
+                          style: TextStyle(fontSize: 13, color: Colors.black, fontWeight: FontWeight.w700),
                         ),
                       ),
                     ],
@@ -172,13 +165,14 @@ class EmailBillScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: controller.onEmailSent,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
+                  backgroundColor: const Color(0xFF5A1ABE),
+                  foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text("Ho inviato l'email"),
+                child: const Text("Ho inviato l'email", style: TextStyle(fontWeight: FontWeight.w900)),
               ),
             ),
 
@@ -191,11 +185,13 @@ class EmailBillScreen extends StatelessWidget {
                 onPressed: () => Get.back(),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 14),
+                  side: const BorderSide(color: Color(0xFF5A1ABE)),
+                  foregroundColor: const Color(0xFF5A1ABE),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text("Torna Indietro"),
+                child: const Text("Torna Indietro", style: TextStyle(fontWeight: FontWeight.w900)),
               ),
             ),
 

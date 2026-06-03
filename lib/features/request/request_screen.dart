@@ -125,7 +125,7 @@ class _RequestScreenState extends State<RequestScreen>
                 padding: EdgeInsets.symmetric(vertical: 10.h),
                 child: Text(
                   title,
-                  style: isSelected ? AppStyles.h4 : AppStyles.body2.copyWith(color: Colors.black45),
+                  style: isSelected ? AppStyles.h4 : AppStyles.body2.copyWith(color: Colors.black),
                 ),
               ),
               AnimatedContainer(
@@ -185,7 +185,7 @@ class _RequestScreenState extends State<RequestScreen>
               SizedBox(width: 4.w),
               Text(
                 'Metodo di Pagamento:',
-                style: AppStyles.h4.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500),
+                style: AppStyles.h4.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w700),
               ),
             ],
           ),
@@ -222,17 +222,15 @@ class _RequestScreenState extends State<RequestScreen>
               : Colors.transparent,
           borderRadius: BorderRadius.circular(8.r),
           border: Border.all(
-            color: isSelected
-                ? AppColors.primaryColor
-                : const Color(0xFFDDDDDD),
+            color: const Color(0xFF5A1ABE),
             width: 1.2,
           ),
         ),
         child: Text(
           label,
           style: isSelected 
-              ? AppStyles.body4.copyWith(color: Colors.white, fontWeight: FontWeight.w600)
-              : AppStyles.body4.copyWith(color: const Color(0xFF555555)),
+              ? AppStyles.body4.copyWith(color: Colors.white, fontWeight: FontWeight.w800)
+              : AppStyles.body4.copyWith(color: Colors.black, fontWeight: FontWeight.w700),
         ),
       ),
     );
@@ -251,7 +249,7 @@ class _RequestScreenState extends State<RequestScreen>
           ),
           Text(
             '${_controller.offers.length} trovate',
-            style: AppStyles.body4,
+            style: AppStyles.body4.copyWith(fontWeight: FontWeight.w800),
           ),
         ],
       ),
@@ -266,7 +264,7 @@ class _RequestScreenState extends State<RequestScreen>
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: AppColors.neutral200,
+          color: const Color(0xFF5A1ABE),
           width: 1.22,
         ),
         boxShadow: [
@@ -326,13 +324,13 @@ class _RequestScreenState extends State<RequestScreen>
       decoration: BoxDecoration(
          borderRadius: BorderRadius.circular(8.r),
           border: Border.all(
-          color: AppColors.neutralAlpha10,
+          color: const Color(0xFF5A1ABE),
           width: 1.22,
            ),
           ),
        child: Text(
         offer.subtitle,
-        style: AppStyles.body4,
+        style: AppStyles.body4.copyWith(fontWeight: FontWeight.w700),
           ),
     ),
                     ],
@@ -349,7 +347,7 @@ class _RequestScreenState extends State<RequestScreen>
                     ),
                     child: Text(
                       'Miglior Valore',
-                      style: AppStyles.body4.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                      style: AppStyles.body4.copyWith(color: Colors.white, fontWeight: FontWeight.w800),
                     ),
                   ),
                 ],
@@ -370,7 +368,7 @@ class _RequestScreenState extends State<RequestScreen>
               ),
               child: Text(
                 'Prezzo Energia : PUN GME + € 0.01/KWh',
-                style: AppStyles.body4.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.w500),
+                style: AppStyles.body4.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.w800),
               ),
             ),
           ),
@@ -413,7 +411,7 @@ class _RequestScreenState extends State<RequestScreen>
         Divider(
           height: 1,
            thickness: 1,
-         color: AppColors.neutral100,
+         color: Colors.grey,
       ),
        ],
     ),
@@ -430,14 +428,14 @@ class _RequestScreenState extends State<RequestScreen>
                   '€${offer.savings.toStringAsFixed(0)}',
                   style: TextStyle(
                     fontSize: 26.sp,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w900,
                     color: const Color(0xFF4CAF50),
                   ),
                 ),
                 SizedBox(width: 8.w),
                 Text(
                   'Risparmio Annuale',
-                  style: AppStyles.body3.copyWith(color: const Color(0xFF1A1A2E), fontWeight: FontWeight.w500),
+                  style: AppStyles.body3.copyWith(color: const Color(0xFF1A1A2E), fontWeight: FontWeight.w700),
                 ),
               ],
             ),
@@ -474,7 +472,7 @@ class _RequestScreenState extends State<RequestScreen>
 
         Text(
           text,
-          style: AppStyles.body4.copyWith(color: const Color(0xFF555555)),
+          style: AppStyles.body4.copyWith(color: Colors.black, fontWeight: FontWeight.w700),
         ),
       ],
     );
@@ -500,7 +498,7 @@ class _RequestScreenState extends State<RequestScreen>
         color: Colors.white,
         borderRadius: BorderRadius.circular(14.r),
         border: Border.all(
-          color: AppColors.neutral200,
+          color: const Color(0xFF5A1ABE),
           width: 1.22,
         ),
       ),
@@ -537,14 +535,14 @@ class _RequestScreenState extends State<RequestScreen>
                     SizedBox(height: 2.h),
                     Text(
                       request.subtitle,
-                      style: AppStyles.body4,
+                      style: AppStyles.body4.copyWith(fontWeight: FontWeight.w700),
                     ),
                     // Extended description for readyToSign / completed
                     if (request.status != RequestStatus.processing) ...[
                       SizedBox(height: 4.h),
                       Text(
                         'Il tuo prezzo attuale è nel top 10% del mercato.',
-                        style: AppStyles.body4.copyWith(color: const Color(0xFF555555)),
+                        style: AppStyles.body4.copyWith(color: Colors.black, fontWeight: FontWeight.w600),
                       ),
                     ],
                   ],
@@ -566,7 +564,7 @@ class _RequestScreenState extends State<RequestScreen>
               _buildStatusChip(request.status),
               Text(
                 request.date,
-                style: AppStyles.body4.copyWith(color: const Color(0xFF9810FA), fontSize: 11.sp),
+                style: AppStyles.body4.copyWith(color: const Color(0xFF9810FA), fontSize: 11.sp, fontWeight: FontWeight.w800),
               ),
             ],
           ),
@@ -585,14 +583,14 @@ class _RequestScreenState extends State<RequestScreen>
 
 
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFFE9D4FF)),
+                  side: const BorderSide(color: Color(0xFF5A1ABE)),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                 ),
                 child: Text(
                   'Visualizza Alternative',
-                  style: AppStyles.body2.copyWith(fontWeight: FontWeight.w600, color: const Color(0xFF9810FA)),
+                  style: AppStyles.body2.copyWith(fontWeight: FontWeight.w800, color: const Color(0xFF9810FA)),
                 ),
               ),
             ),
@@ -649,7 +647,7 @@ class _RequestScreenState extends State<RequestScreen>
           ],
           Text(
             label,
-            style: AppStyles.body4.copyWith(color: fg, fontWeight: FontWeight.w600, fontSize: 11.sp),
+            style: AppStyles.body4.copyWith(color: fg, fontWeight: FontWeight.w900, fontSize: 11.sp),
           ),
         ],
       ),

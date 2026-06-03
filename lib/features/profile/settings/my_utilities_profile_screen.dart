@@ -1,6 +1,5 @@
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyUtilitiesProfileScreen extends StatelessWidget {
@@ -21,7 +20,7 @@ class MyUtilitiesProfileScreen extends StatelessWidget {
                 'My Utilities',
                 style: TextStyle(
                   fontSize: 22.sp,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w900,
                   color: const Color(0xFF1A1A2E),
                   height: 1.2,
                 ),
@@ -31,8 +30,8 @@ class MyUtilitiesProfileScreen extends StatelessWidget {
                 'Manage your active utility services',
                 style: TextStyle(
                   fontSize: 13.sp,
-                  color: const Color(0xFF9E9E9E),
-                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700,
                   height: 1.4,
                 ),
               ),
@@ -44,6 +43,7 @@ class MyUtilitiesProfileScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20.r),
+                  border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.05),
@@ -96,7 +96,7 @@ class MyUtilitiesProfileScreen extends StatelessWidget {
                             'No Active Utilities',
                             style: TextStyle(
                               fontSize: 17.sp,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w900,
                               color: const Color(0xFF1A1A2E),
                               height: 1.22,
                             ),
@@ -107,7 +107,8 @@ class MyUtilitiesProfileScreen extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 13.sp,
-                              color: const Color(0xFF9E9E9E),
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
                               height: 1.5,
                             ),
                           ),
@@ -129,7 +130,7 @@ class MyUtilitiesProfileScreen extends StatelessWidget {
                                 'Start Saving',
                                 style: TextStyle(
                                   fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w800,
                                   height: 1.22,
                                 ),
                               ),

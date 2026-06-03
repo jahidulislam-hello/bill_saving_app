@@ -110,7 +110,7 @@ class WarmupOnboarding extends StatelessWidget {
                         Text(
                           item["desc"]!,
                           textAlign: TextAlign.center,
-                          style: AppStyles.body2.copyWith(color: Colors.grey, height: 1.5),
+                          style: AppStyles.body2.copyWith(color: Colors.black, height: 1.5),
                         ),
                       ],
                     ),

@@ -44,7 +44,7 @@ class ActionSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.background,
         borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(color: AppColors.neutral200),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +52,7 @@ class ActionSection extends StatelessWidget {
           Text(
             "Cosa vuoi fare oggi?",
             style: AppStyles.h3.copyWith(
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w900,
               color: AppColors.textDark,
             ),
           ),

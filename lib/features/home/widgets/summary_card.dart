@@ -4,16 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class SummaryCard extends StatelessWidget {
   final Widget icon;
   final Color iconColor;
+  final Color iconBgColor;
   final String title;
   final String value;
+  final Color valueColor;
   final String subtitle;
 
   const SummaryCard({
     super.key,
     required this.icon,
     required this.iconColor,
+    required this.iconBgColor,
     required this.title,
     required this.value,
+    required this.valueColor,
     required this.subtitle,
   });
 
@@ -22,10 +26,11 @@ class SummaryCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: Color(0xFFEFEFEF),
+        color: const Color(0xFFEFEFEF),
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: Color(0xFFE8E8E8),
+          color: const Color(0xFF5A1ABE),
+          width: 1.22,
         ),
       ),
       child: Column(
@@ -33,13 +38,28 @@ class SummaryCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              icon,
+              Container(
+                width: 24.sp,
+                height: 24.sp,
+                decoration: BoxDecoration(
+                  color: iconBgColor,
+                  borderRadius: BorderRadius.circular(50.r),
+                ),
+                child: Center(
+                  child: SizedBox(
+                    width: 12.sp,
+                    height: 12.sp,
+                    child: icon,
+                  ),
+                ),
+              ),
               SizedBox(width: 8.w),
               Text(
                 title,
                 style: TextStyle(
-                  color: Colors.grey.shade700,
+                  color: Colors.black,
                   fontSize: 13.sp,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ],
@@ -51,7 +71,8 @@ class SummaryCard extends StatelessWidget {
             value,
             style: TextStyle(
               fontSize: 28.sp,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w900,
+              color: valueColor,
             ),
           ),
 
@@ -60,8 +81,9 @@ class SummaryCard extends StatelessWidget {
           Text(
             subtitle,
             style: TextStyle(
-              color: Colors.grey,
+              color: Colors.black,
               fontSize: 12.sp,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ],

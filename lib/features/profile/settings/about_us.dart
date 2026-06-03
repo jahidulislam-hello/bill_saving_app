@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 
@@ -6,7 +5,7 @@ class AboutUs extends StatelessWidget {
   const AboutUs({super.key});
 
   static const _textDark = Color(0xFF1A1A2E);
-  static const _textMid = Color(0xFF4A4A68);
+  static const _textMid = Colors.black;
   static const _bg = Colors.white;
 
   static const _policyPoints = [
@@ -46,7 +45,7 @@ class AboutUs extends StatelessWidget {
               style: TextStyle(
                 color: _textDark,
                 fontSize: 18,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w900,
                 letterSpacing: -0.2,
               ),
             ),
@@ -79,7 +78,7 @@ class AboutUs extends StatelessWidget {
         style: TextStyle(
           color: _textDark,
           fontSize: 17,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w900,
         ),
       ),
     );
@@ -112,6 +111,7 @@ class AboutUs extends StatelessWidget {
                 fontSize: 13,
                 height: 1.65,
                 letterSpacing: 0.1,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
@@ -120,4 +120,3 @@ class AboutUs extends StatelessWidget {
     );
   }
 }
-

@@ -40,7 +40,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 20.h),
               child: Text(
                 'Aggiorna le informazioni del tuo account e come\nti contattiamo.',
-                style: AppStyles.body3.copyWith(height: 1.5, color: const Color(0xFF555555)),
+                style: AppStyles.body3.copyWith(height: 1.5, color: Colors.black),
               ),
             ),
 
@@ -335,7 +335,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             },
             child: Text(
               'Annulla e scarta',
-              style: AppStyles.body2.copyWith(color: const Color(0xFF9E9E9E), fontWeight: FontWeight.w500),
+              style: AppStyles.body2.copyWith(color: Colors.black, fontWeight: FontWeight.w700),
             ),
           ),
         ),

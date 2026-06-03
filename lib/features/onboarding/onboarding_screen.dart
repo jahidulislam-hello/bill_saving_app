@@ -84,7 +84,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       "VYZI",
                       style: TextStyle(
                         fontSize: 24.sp,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w900,
                         color: const Color(0xFF122A72),
                         letterSpacing: 1,
                       ),
@@ -97,8 +97,8 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20.sp,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF333333),
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black,
                       ),
                     ),
 
@@ -108,8 +108,8 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       "Choose how to register on VYZI",
                       style: TextStyle(
                         fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xFF7B7B7B),
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
                       ),
                     ),
 
@@ -136,9 +136,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12.r),
                               border: Border.all(
-                                color: isSelected
-                                    ? const Color(0xFFB400FF)
-                                    : const Color(0xFFD9C7EB),
+                                color: const Color(0xFF5A1ABE),
                                 width: 2,
                               ),
                               boxShadow: [
@@ -186,9 +184,9 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                                             style: TextStyle(
                                               fontSize: 18.sp,
                                               fontWeight:
-                                              FontWeight.w700,
+                                              FontWeight.w900,
                                               color:
-                                              const Color(0xFF333333),
+                                              Colors.black,
                                             ),
                                           ),
 
@@ -199,8 +197,9 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                                             style: TextStyle(
                                               fontSize: 10.sp,
                                               height: 1.4,
+                                              fontWeight: FontWeight.w600,
                                               color:
-                                              const Color(0xFF7C7C7C),
+                                              Colors.black,
                                             ),
                                           ),
                                         ],
@@ -213,13 +212,11 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
-                                          color: isSelected
-                                              ? const Color(0xFFB400FF)
-                                              : const Color(0xFFC8C8C8),
+                                          color: const Color(0xFF5A1ABE),
                                           width: 2,
                                         ),
                                         color: isSelected
-                                            ? const Color(0xFFB400FF)
+                                            ? const Color(0xFF5A1ABE)
                                             : Colors.transparent,
                                       ),
                                       child: isSelected
@@ -273,10 +270,9 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                                               item["points"][i],
                                               style: TextStyle(
                                                 fontSize: 12.sp,
-                                                color: const Color(
-                                                    0xFF666666),
+                                                color: Colors.black,
                                                 fontWeight:
-                                                FontWeight.w500,
+                                                FontWeight.w700,
                                               ),
                                             ),
                                           ),
@@ -320,12 +316,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       height: 52.h,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xFF9C00FF),
-                            Color(0xFFC300FF),
-                          ],
-                        ),
+                        color: const Color(0xFF5A1ABE),
                         borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Center(
@@ -333,7 +324,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                           "Sign in",
                           style: TextStyle(
                             fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w800,
                             color: Colors.white,
                           ),
                         ),
@@ -354,7 +345,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12.r),
                         border: Border.all(
-                          color: const Color(0xFFB400FF),
+                          color: const Color(0xFF5A1ABE),
                           width: 1.6,
                         ),
                         color: Colors.white,
@@ -364,8 +355,8 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                           "Create an Account",
                           style: TextStyle(
                             fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFFB400FF),
+                            fontWeight: FontWeight.w800,
+                            color: const Color(0xFF5A1ABE),
                           ),
                         ),
                       ),

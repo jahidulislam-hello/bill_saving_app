@@ -86,6 +86,7 @@ class _FaqScreenState extends State<FaqScreen> {
                         'Frequently Asked Questions',
                         style: AppStyles.h4.copyWith(
                           color: AppColors.textDark,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
                     ),
@@ -132,9 +133,7 @@ class _FaqScreenState extends State<FaqScreen> {
           color: AppColors.background,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: isExpanded
-                ? AppColors.primaryColor.withOpacity(0.3)
-                : AppColors.neutral200,
+            color: const Color(0xFF5A1ABE),
             width: 1.2,
           ),
           boxShadow: [
@@ -157,8 +156,8 @@ class _FaqScreenState extends State<FaqScreen> {
                     child: Text(
                       faq['question']!,
                       style: AppStyles.body3.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.textDark,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -168,9 +167,7 @@ class _FaqScreenState extends State<FaqScreen> {
                     duration: const Duration(milliseconds: 220),
                     child: Icon(
                       Icons.keyboard_arrow_down_rounded,
-                      color: isExpanded
-                          ? AppColors.primaryColor
-                          : AppColors.neutral500,
+                      color: Colors.black,
                       size: 20.sp,
                     ),
                   ),
@@ -195,7 +192,8 @@ class _FaqScreenState extends State<FaqScreen> {
                       faq['answer']!,
                       style: AppStyles.body4.copyWith(
                         height: 1.6,
-                        color: AppColors.neutral900,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
@@ -236,7 +234,7 @@ class _FaqScreenState extends State<FaqScreen> {
               'Utility Services',
               style: AppStyles.body2.copyWith(
                 color: AppColors.primaryColor.withOpacity(0.7),
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w900,
               ),
             ),
           ],

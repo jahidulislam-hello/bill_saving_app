@@ -1,10 +1,7 @@
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:get/get.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/my_utility/utility_details_controller.dart';
 
 
@@ -27,16 +24,16 @@ class UtilityDetailsScreen extends StatelessWidget {
           },
           icon: Icon(
             Icons.arrow_back_ios_new,
-            color: const Color(0xFF1F1F1F),
+            color: Colors.black,
             size: 20.sp,
           ),
         ),
         title: Text(
           "Utility Details",
           style: TextStyle(
-            color: const Color(0xFF1F1F1F),
+            color: Colors.black,
             fontSize: 20.sp,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w900,
           ),
         ),
       ),
@@ -109,7 +106,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 9.sp,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w900,
                                 letterSpacing: 1,
                               ),
                             ),
@@ -123,7 +120,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                         "Next e-Business\nSunlight",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 30.sp,
+                          fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
                           height: 1.2,
                         ),
@@ -134,9 +131,9 @@ class UtilityDetailsScreen extends StatelessWidget {
                       Text(
                         "Business Electricity Supply",
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.90),
+                          color: Color(0xFF1FC16B),
                           fontSize: 15.sp,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
 
@@ -153,9 +150,9 @@ class UtilityDetailsScreen extends StatelessWidget {
                                   "MATERIAL PRICE",
                                   style: TextStyle(
                                     color:
-                                    Colors.white.withOpacity(0.75),
+                                    Colors.white.withOpacity(0.85),
                                     fontSize: 9.sp,
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w900,
                                     letterSpacing: 1,
                                   ),
                                 ),
@@ -170,7 +167,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                                           const Color(0xFF00FF84),
                                           fontSize: 32.sp,
                                           fontWeight:
-                                          FontWeight.w700,
+                                          FontWeight.w900,
                                         ),
                                       ),
                                       TextSpan(
@@ -178,6 +175,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 14.sp,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
                                     ],
@@ -195,9 +193,9 @@ class UtilityDetailsScreen extends StatelessWidget {
                                   "ACTIVATION",
                                   style: TextStyle(
                                     color:
-                                    Colors.white.withOpacity(0.75),
+                                    Colors.white.withOpacity(0.85),
                                     fontSize: 9.sp,
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w900,
                                     letterSpacing: 1,
                                   ),
                                 ),
@@ -207,7 +205,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 25.sp,
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
                               ],
@@ -230,6 +228,7 @@ class UtilityDetailsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0xFFEFEFEF),
                 borderRadius: BorderRadius.circular(18.r),
+                border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,7 +250,7 @@ class UtilityDetailsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(22.r),
-                border: Border.all(color: const Color(0xFFD2D2D2)),
+                border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,7 +267,8 @@ class UtilityDetailsScreen extends StatelessWidget {
                         "Supply Information",
                         style: TextStyle(
                           fontSize: 18.sp,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black,
                         ),
                       ),
                     ],
@@ -279,8 +279,9 @@ class UtilityDetailsScreen extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(14.w),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF3F3F3),
+                      color: const Color(0xFFEFE8F9),
                       borderRadius: BorderRadius.circular(18.r),
+                      border: Border.all(color: const Color(0xFFD2D2D2), width: 1),
                     ),
                     child: Row(
                       children: [
@@ -292,9 +293,9 @@ class UtilityDetailsScreen extends StatelessWidget {
                               Text(
                                 "POD CODE",
                                 style: TextStyle(
-                                  color: const Color(0xFF9B9B9B),
+                                  color: Colors.black,
                                   fontSize: 9.sp,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w900,
                                   letterSpacing: 1,
                                 ),
                               ),
@@ -303,7 +304,8 @@ class UtilityDetailsScreen extends StatelessWidget {
                                 "IT001E12345678",
                                 style: TextStyle(
                                   fontSize: 20.sp,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.black,
                                 ),
                               ),
                             ],
@@ -318,19 +320,22 @@ class UtilityDetailsScreen extends StatelessWidget {
                             color: Colors.white,
                             borderRadius:
                             BorderRadius.circular(12.r),
+                            border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
                           ),
                           child: Row(
                             children: [
                               Icon(
                                 Icons.copy_outlined,
                                 size: 14.sp,
-                                color: Colors.grey,
+                                color: Colors.black,
                               ),
                               SizedBox(width: 5.w),
                               Text(
                                 "Copy",
                                 style: TextStyle(
                                   fontSize: 12.sp,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.black,
                                 ),
                               ),
                             ],
@@ -361,7 +366,7 @@ class UtilityDetailsScreen extends StatelessWidget {
 
                   SizedBox(height: 18.h),
 
-                  Divider(color: Colors.grey.shade300),
+                  Divider(color:  Colors.grey),
 
                   SizedBox(height: 18.h),
 
@@ -370,6 +375,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: const Color(0xFFF7F7F7),
                       borderRadius: BorderRadius.circular(18.r),
+                      border: Border.all(color: const Color(0xFFD2D2D2), width: 1),
                     ),
                     child: Row(
                       children: [
@@ -384,7 +390,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                                   color:
                                   AppColors.primaryColor,
                                   fontSize: 9.sp,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w900,
                                   letterSpacing: 1,
                                 ),
                               ),
@@ -393,7 +399,8 @@ class UtilityDetailsScreen extends StatelessWidget {
                                 "2,800 kWh",
                                 style: TextStyle(
                                   fontSize: 28.sp,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.black,
                                 ),
                               ),
                             ],
@@ -401,7 +408,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                         ),
                         Icon(
                           Icons.bar_chart,
-                          color: Colors.blueGrey.shade200,
+                          color: AppColors.primaryColor,
                           size: 34.sp,
                         ),
                       ],
@@ -459,7 +466,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                         color: Colors.white,
                         borderRadius:
                         BorderRadius.circular(16.r),
-                        border: Border.all(color: const Color(0xFFE8E8E8)),
+                        border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
                       ),
                       child: ExpansionTile(
                         tilePadding: EdgeInsets.symmetric(
@@ -469,7 +476,8 @@ class UtilityDetailsScreen extends StatelessWidget {
                           item.question,
                           style: TextStyle(
                             fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
                           ),
                         ),
                         children: [
@@ -482,7 +490,8 @@ class UtilityDetailsScreen extends StatelessWidget {
                               item.answer,
                               style: TextStyle(
                                 fontSize: 13.sp,
-                                color: Colors.grey.shade700,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -505,9 +514,9 @@ class UtilityDetailsScreen extends StatelessWidget {
     return Text(
       title,
       style: TextStyle(
-        fontSize: 22.sp,
+        fontSize: 18.sp,
         fontWeight: FontWeight.w700,
-        color: const Color(0xFF1F1F1F),
+        color: Colors.black,
       ),
     );
   }
@@ -518,8 +527,9 @@ class UtilityDetailsScreen extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            color: Colors.grey.shade600,
-            fontSize: 15.sp,
+            color: Colors.black,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w500,
           ),
         ),
         const Spacer(),
@@ -527,7 +537,8 @@ class UtilityDetailsScreen extends StatelessWidget {
           value,
           style: TextStyle(
             fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
           ),
         ),
       ],
@@ -545,7 +556,8 @@ class UtilityDetailsScreen extends StatelessWidget {
           title,
           style: TextStyle(
             fontSize: 11.sp,
-            color: Colors.grey,
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
           ),
         ),
         SizedBox(height: 6.h),
@@ -553,7 +565,8 @@ class UtilityDetailsScreen extends StatelessWidget {
           value,
           style: TextStyle(
             fontSize: 15.sp,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
           ),
         ),
       ],
@@ -571,7 +584,7 @@ class UtilityDetailsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFFEFEFEF),
         borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(color: const Color(0xFFE8E8E8)),
+        border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
       ),
       child: Row(
         children: [
@@ -581,6 +594,7 @@ class UtilityDetailsScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12.r),
+              border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
             ),
             child: Icon(
               icon,
@@ -598,7 +612,8 @@ class UtilityDetailsScreen extends StatelessWidget {
                   title,
                   style: TextStyle(
                     fontSize: 16.sp,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black,
                   ),
                 ),
                 SizedBox(height: 4.h),
@@ -606,7 +621,8 @@ class UtilityDetailsScreen extends StatelessWidget {
                   subtitle,
                   style: TextStyle(
                     fontSize: 13.sp,
-                    color: Colors.grey.shade600,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
@@ -618,7 +634,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                 ? Icons.open_in_new
                 : Icons.arrow_forward_ios,
             size: 16.sp,
-            color: Colors.grey,
+            color: Colors.black,
           ),
         ],
       ),

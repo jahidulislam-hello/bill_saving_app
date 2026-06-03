@@ -1,9 +1,6 @@
-
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'invite_controller.dart';
 
 class InviteScreen extends StatefulWidget {
@@ -67,7 +64,7 @@ class _InviteScreenState extends State<InviteScreen> {
                 'Statistiche Inviti',
                 style: TextStyle(
                   fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w900,
                   color: const Color(0xFF1A1A2E),
                   height: 1.22,
                 ),
@@ -114,14 +111,14 @@ class _InviteScreenState extends State<InviteScreen> {
         'Invita i tuoi amici',
         style: TextStyle(
           fontSize: 17.sp,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w800,
           color: const Color(0xFF1A1A2E),
           height: 1.22,
         ),
       ),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1),
-        child: Divider(height: 1, thickness: 1, color: Colors.grey.shade200),
+        child: Divider(height: 1, thickness: 1, color: const Color(0xFF5A1ABE)),
       ),
     );
   }
@@ -158,7 +155,7 @@ class _InviteScreenState extends State<InviteScreen> {
             'Condividi il risparmio',
             style: TextStyle(
               fontSize: 22.sp,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w900,
               color: const Color(0xFF1A1A2E),
               height: 1.22,
             ),
@@ -173,7 +170,8 @@ class _InviteScreenState extends State<InviteScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 13.sp,
-                color: const Color(0xFF9E9E9E),
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
                 height: 1.5,
               ),
             ),
@@ -192,6 +190,7 @@ class _InviteScreenState extends State<InviteScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -209,8 +208,8 @@ class _InviteScreenState extends State<InviteScreen> {
             'Link di invito personale',
             style: TextStyle(
               fontSize: 12.sp,
-              color: const Color(0xFF9E9E9E),
-              fontWeight: FontWeight.w500,
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
               height: 1.22,
             ),
           ),
@@ -225,7 +224,7 @@ class _InviteScreenState extends State<InviteScreen> {
               color: const Color(0xFFF8F8FB),
               borderRadius: BorderRadius.circular(10.r),
               border: Border.all(
-                color: Colors.grey.shade200,
+                color: const Color(0xFF5A1ABE),
                 width: 1.2,
               ),
             ),
@@ -237,7 +236,7 @@ class _InviteScreenState extends State<InviteScreen> {
                     style: TextStyle(
                       fontSize: 13.sp,
                       color: const Color(0xFF1A1A2E),
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       height: 1.22,
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -280,7 +279,7 @@ class _InviteScreenState extends State<InviteScreen> {
                 'Condividi link',
                 style: TextStyle(
                   fontSize: 15.sp,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w800,
                   height: 1.22,
                 ),
               ),
@@ -343,6 +342,7 @@ class _InviteScreenState extends State<InviteScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14.r),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -369,11 +369,11 @@ class _InviteScreenState extends State<InviteScreen> {
           SizedBox(height: 10.h),
 
           // Top label
-          Text(
-            topLabel,
+          Text(topLabel,
             style: TextStyle(
               fontSize: 12.sp,
-              color: const Color(0xFF9E9E9E),
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
               height: 1.22,
             ),
           ),
@@ -385,7 +385,7 @@ class _InviteScreenState extends State<InviteScreen> {
             amount,
             style: TextStyle(
               fontSize: 26.sp,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w900,
               color: const Color(0xFF1A1A2E),
               height: 1.22,
             ),
@@ -398,7 +398,8 @@ class _InviteScreenState extends State<InviteScreen> {
             bottomLabel,
             style: TextStyle(
               fontSize: 11.sp,
-              color: const Color(0xFF9E9E9E),
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
               height: 1.4,
             ),
           ),
@@ -416,6 +417,7 @@ class _InviteScreenState extends State<InviteScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14.r),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -439,7 +441,7 @@ class _InviteScreenState extends State<InviteScreen> {
             height: 1,
             thickness: 1,
             indent: 58.w,
-            color: Colors.grey.shade100,
+            color: const Color(0xFF5A1ABE),
           ),
           _buildStatRow(
             icon: Icons.check_circle_outline_rounded,
@@ -489,7 +491,7 @@ class _InviteScreenState extends State<InviteScreen> {
                   title,
                   style: TextStyle(
                     fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     color: const Color(0xFF1A1A2E),
                     height: 1.22,
                   ),
@@ -499,7 +501,8 @@ class _InviteScreenState extends State<InviteScreen> {
                   subtitle,
                   style: TextStyle(
                     fontSize: 12.sp,
-                    color: const Color(0xFF9E9E9E),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
                     height: 1.22,
                   ),
                 ),
@@ -519,7 +522,7 @@ class _InviteScreenState extends State<InviteScreen> {
               value.toString(),
               style: TextStyle(
                 fontSize: 14.sp,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w900,
                 color: AppColors.primaryColor,
                 height: 1.22,
               ),
@@ -539,6 +542,7 @@ class _InviteScreenState extends State<InviteScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -559,7 +563,7 @@ class _InviteScreenState extends State<InviteScreen> {
                 'Guadagni Totali',
                 style: TextStyle(
                   fontSize: 15.sp,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w900,
                   color: const Color(0xFF1A1A2E),
                   height: 1.22,
                 ),
@@ -587,7 +591,7 @@ class _InviteScreenState extends State<InviteScreen> {
                       _controller.earningsStatus,
                       style: TextStyle(
                         fontSize: 11.sp,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         color: const Color(0xFF27AE60),
                         height: 1.22,
                       ),
@@ -605,7 +609,7 @@ class _InviteScreenState extends State<InviteScreen> {
             '€${_controller.totalEarnings.toStringAsFixed(2)}',
             style: TextStyle(
               fontSize: 32.sp,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w900,
               color: const Color(0xFF1A1A2E),
               height: 1.22,
             ),
@@ -617,7 +621,8 @@ class _InviteScreenState extends State<InviteScreen> {
             _controller.earningsType,
             style: TextStyle(
               fontSize: 12.sp,
-              color: const Color(0xFF9E9E9E),
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
               height: 1.22,
             ),
           ),
@@ -642,7 +647,7 @@ class _InviteScreenState extends State<InviteScreen> {
             Container(
               height: 6.h,
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: Colors.black12,
                 borderRadius: BorderRadius.circular(10.r),
               ),
             ),
@@ -673,7 +678,7 @@ class _InviteScreenState extends State<InviteScreen> {
                 _controller.progressAmount,
                 style: TextStyle(
                   fontSize: 11.sp,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w800,
                   color: const Color(0xFFFF9900),
                   height: 1.22,
                 ),

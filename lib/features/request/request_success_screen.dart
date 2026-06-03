@@ -2,19 +2,17 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../dumb/new_complete.dart';
-
 class RequestSuccessScreen extends StatelessWidget {
   const RequestSuccessScreen({super.key});
 
-  static const _purple = Color(0xFF9400D3);
-  static const _textDark = Color(0xFF1A1A2E);
-  static const _textGrey = Color(0xFF7A7A9A);
+  static const _purple = Color(0xFF5A1ABE);
+  static const _textDark = Colors.black;
+  static const _textGrey = Colors.black;
   static const _cardBg = Color(0xFFF4F5FB);
   static const _infoBg = Color(0xFFEFF2FF);
-  static const _infoBorder = Color(0xFFD0D8FF);
+  static const _infoBorder = Color(0xFF5A1ABE);
   static const _bg = Colors.white;
-  static const _iconGrey = Color(0xFFB0B4C8);
+  static const _iconGrey = Colors.black;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +32,7 @@ class RequestSuccessScreen extends StatelessWidget {
                 style: TextStyle(
                   color: _textDark,
                   fontSize: 22,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w900,
                   letterSpacing: -0.3,
                 ),
               ),
@@ -46,6 +44,7 @@ class RequestSuccessScreen extends StatelessWidget {
                   color: _textGrey,
                   fontSize: 14,
                   height: 1.5,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               const SizedBox(height: 32),
@@ -86,6 +85,7 @@ class RequestSuccessScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: _cardBg,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _infoBorder, width: 1.2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +95,7 @@ class RequestSuccessScreen extends StatelessWidget {
             style: TextStyle(
               color: _textDark,
               fontSize: 15,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w900,
             ),
           ),
           const SizedBox(height: 14),
@@ -137,6 +137,7 @@ class RequestSuccessScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: _infoBorder, width: 1),
             ),
             child: Icon(icon, color: _iconGrey, size: 18),
           ),
@@ -150,7 +151,7 @@ class RequestSuccessScreen extends StatelessWidget {
                   style: const TextStyle(
                     color: _textDark,
                     fontSize: 13,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     height: 1.3,
                   ),
                 ),
@@ -161,6 +162,7 @@ class RequestSuccessScreen extends StatelessWidget {
                     color: _textGrey,
                     fontSize: 12,
                     height: 1.45,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
@@ -179,7 +181,7 @@ class RequestSuccessScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: _infoBg,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: _infoBorder),
+        border: Border.all(color: _infoBorder, width: 1.2),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,7 +206,7 @@ class RequestSuccessScreen extends StatelessWidget {
                   style: TextStyle(
                     color: _textDark,
                     fontSize: 13,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     height: 1.3,
                   ),
                 ),
@@ -215,6 +217,7 @@ class RequestSuccessScreen extends StatelessWidget {
                     color: _textGrey,
                     fontSize: 12,
                     height: 1.45,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
@@ -232,7 +235,7 @@ class RequestSuccessScreen extends StatelessWidget {
       height: 52,
       child: ElevatedButton(
         onPressed: () {
-          Get.to(()=> ());
+          // Navigate to requests tab or details
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: _purple,
@@ -242,7 +245,7 @@ class RequestSuccessScreen extends StatelessWidget {
         ),
         child: const Text(
           'Visualizza la Mia Richiesta',
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
         ),
       ),
     );
@@ -260,7 +263,7 @@ class RequestSuccessScreen extends StatelessWidget {
         ),
         child: const Text(
           'Torna alla Home',
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
         ),
       ),
     );

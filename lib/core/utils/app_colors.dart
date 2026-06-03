@@ -12,12 +12,12 @@ class AppColors {
   
   static const Color primaryButton = primaryColor;
   static const Color fillColor = Color(0xFFFFFFFF);
-  static const Color hintColor = Color(0xFFAAAAAA);
+  static const Color hintColor = Color(0xFF000000);
   static const Color borderColor = primaryColor;
   static const Color dividerColor = Color(0xFFE0E0E0);
   static const Color textPrimary = Color(0xFF000000);
   static const Color textSecondary = Color(0xFF000000);
-  static const Color textTitle = Color(0xFF333333);
+  static const Color textTitle = Color(0xFF000000);
 
   static const Color purple = primaryColor;
   static const Color lightPurple = Color(0xFFF4E6FB);
@@ -25,7 +25,7 @@ class AppColors {
   static const Color darkPurple = Color(0xFF3E0059);
   
   static const Color blue = Color(0xFF06B6D4);
-  static const Color darkBlue = Color(0xFF1A1A2E);
+  static const Color darkBlue = primaryColor;
   static const Color accentBlue = Color(0xFF2B7FFF);
   static const Color linkBlue = Color(0xFF2980B9);
   static const Color linkGreen = Color(0xFF27AE60);
@@ -37,11 +37,11 @@ class AppColors {
   static const Color bg = Color(0xFFF7F8FC);
   static const Color cardBg = Colors.white;
   
-  static const Color textDark = Color(0xFF1A1A2E);
-  static const Color textDarkest = Color(0xFF333333);
-  static const Color textMid = Color(0xFF636E72);
-  static const Color textLight = Color(0xFFB2BEC3);
-  static const Color divider = Color(0xFFF0F0F5);
+  static const Color textDark = Color(0xFF000000);
+  static const Color textDarkest = Color(0xFF000000);
+  static const Color textMid = Color(0xFF000000);
+  static const Color textLight = Color(0xFF000000);
+  static const Color divider = Color(0xFFE8E8E8);
 
   // ─── Primary ───────────────────────────────────────────────────────────────
   static const Color primary50 = Color(0xFFF5F7FF);
@@ -61,19 +61,19 @@ class AppColors {
 
   // ─── Neutral ───────────────────────────────────────────────────────────────
   static const Color neutral50 = Color(0xFFFFFFFF);
-  static const Color neutral100 = Color(0xFFEFEFEF);
-  static const Color neutral200 = Color(0xFFE8E8E8);
-  static const Color neutral300 = Color(0xFFD2D2D2);
-  static const Color neutral400 = Color(0xFFBBBBBB);
-  static const Color neutral500 = Color(0xFFA4A4A4);
-  static const Color neutral600 = Color(0xFF8E8E8E);
-  static const Color neutral700 = Color(0xFF777777);
-  static const Color neutral800 = Color(0xFF606060);
-  static const Color neutral900 = Color(0xFF4A4A4A);
-  static const Color neutral1000 = Color(0xFF333333);
+  static const Color neutral100 = Color(0xFF000000);
+  static const Color neutral200 = Color(0xFF000000);
+  static const Color neutral300 = Color(0xFF000000);
+  static const Color neutral400 = Color(0xFF000000);
+  static const Color neutral500 = Color(0xFF000000);
+  static const Color neutral600 = Color(0xFF000000);
+  static const Color neutral700 = Color(0xFF000000);
+  static const Color neutral800 = Color(0xFF000000);
+  static const Color neutral900 = Color(0xFF000000);
+  static const Color neutral1000 = Color(0xFF000000);
 
   /// Neutral Alpha
-  static const Color neutralAlpha10 = Color(0x1A333333);
+  static const Color neutralAlpha10 = Color(0x1A000000);
 
   // ─── Red ───────────────────────────────────────────────────────────────────
   static const Color red100 = Color(0xFFFB3748);

@@ -12,6 +12,7 @@ class PriceCalculationDialog extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(28),
+          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.18),
@@ -39,20 +40,20 @@ class PriceCalculationDialog extends StatelessWidget {
                       'Price Calculation',
                       style: TextStyle(
                         fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF0D0D1A),
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black,
                         letterSpacing: 0.1,
                       ),
                     ),
                     const SizedBox(height: 8),
 
                     // Subtitle
-                    Text(
+                    const Text(
                       'The price is calculated as:',
                       style: TextStyle(
                         fontSize: 13.5,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
                       ),
                     ),
                     const SizedBox(height: 18),
@@ -62,13 +63,13 @@ class PriceCalculationDialog extends StatelessWidget {
                     const SizedBox(height: 18),
 
                     // Footer note
-                    Text(
+                    const Text(
                       'This transparent formula tracks the\nofficial energy market index.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
                         height: 1.55,
                       ),
                     ),
@@ -81,7 +82,7 @@ class PriceCalculationDialog extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () => Navigator.pop(context),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF1A2B6B),
+                          backgroundColor: const Color(0xFF5A1ABE),
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -89,7 +90,7 @@ class PriceCalculationDialog extends StatelessWidget {
                           ),
                           textStyle: const TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w900,
                             letterSpacing: 0.3,
                           ),
                         ),
@@ -108,7 +109,6 @@ class PriceCalculationDialog extends StatelessWidget {
 }
 
 /// Top hero banner — shows your asset image.
-/// Falls back to a clean white background with the navy icon if asset is missing.
 class _HeroBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -117,49 +117,24 @@ class _HeroBanner extends StatelessWidget {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        // ── Asset image (replace path with yours) ──
+        // ── Asset image ──
         Container(
           height: 130,
           width: double.infinity,
           padding: const EdgeInsets.only(top: 20),
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Color(0xFF5A1ABE), width: 1)),
+          ),
           child: Image.asset(
-            // 🔑 Replace with your actual asset, e.g.:
-            // 'assets/images/price_banner.png'
             'assets/images/price_calculate.png',
             height: 64,
             errorBuilder: (_, __, ___) {
-              // Fallback: light grey background matching the screenshot
               return Container(
                 color: const Color(0xFFF2F4F8),
               );
             },
           ),
         ),
-
-        // ── Icon badge — sits on the bottom edge of the banner ──
-        // Positioned(
-        //   bottom: -28,
-        //   child: Container(
-        //     width: 58,
-        //     height: 58,
-        //     decoration: BoxDecoration(
-        //       color: const Color(0xFF1A2B6B),
-        //       shape: BoxShape.circle,
-        //       boxShadow: [
-        //         BoxShadow(
-        //           color: const Color(0xFF1A2B6B).withOpacity(0.35),
-        //           blurRadius: 16,
-        //           offset: const Offset(0, 6),
-        //         ),
-        //       ],
-        //     ),
-        //     child: const Icon(
-        //       Icons.tune_rounded,
-        //       color: Colors.white,
-        //       size: 26,
-        //     ),
-        //   ),
-        // ),
       ],
     );
   }
@@ -174,39 +149,40 @@ class _FormulaCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFFF2F4F8),
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
       ),
-      child: Column(
+      child: const Column(
         children: [
           // PUN GME
-          const Text(
+          Text(
             'PUN GME',
             style: TextStyle(
               fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF0D0D1A),
+              fontWeight: FontWeight.w900,
+              color: Colors.black,
               letterSpacing: 0.5,
             ),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6),
 
           // Plus sign
           Text(
             '+',
             style: TextStyle(
               fontSize: 18,
-              fontWeight: FontWeight.w400,
-              color: Colors.grey.shade500,
+              fontWeight: FontWeight.w900,
+              color: Colors.black,
             ),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6),
 
           // Value
-          const Text(
+          Text(
             '0,01 €/KWh',
             style: TextStyle(
               fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF0D0D1A),
+              fontWeight: FontWeight.w900,
+              color: Colors.black,
               letterSpacing: 0.5,
             ),
           ),
@@ -215,4 +191,3 @@ class _FormulaCard extends StatelessWidget {
     );
   }
 }
-

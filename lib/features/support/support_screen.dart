@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:vyzi/features/profile/settings/faq_question.dart';
 import 'package:vyzi/features/profile/settings/fq.dart';
@@ -12,9 +11,9 @@ import 'package:vyzi/features/profile/settings/fq_utilities.dart';
 class _T {
   static const bg = Colors.white;
   static const textDark = Color(0xFF1A1A2E);
-  static const textMid = Color(0xFF636E72);
-  static const textLight = Color(0xFFB2BEC3);
-  static const purple = Color(0xFF6C5CE7);
+  static const textMid = Colors.black;
+  static const textLight = Colors.black;
+  static const purple = Color(0xFF5A1ABE);
   static const purpleBg = Color(0xFFEEEAFB);
   static const green = Color(0xFF00C896);
   static const orange = Color(0xFFE67E22);
@@ -24,8 +23,8 @@ class _T {
   static const blue = Color(0xFF2980B9);
   static const cardBg = Colors.white;
   static const inputBg = Color(0xFFF4F5F7);
-  static const darkBtn = Color(0xFF1A1A2E);
-  static const segmentActive = Color(0xFF6C5CE7);
+  static const darkBtn = Color(0xFF5A1ABE);
+  static const segmentActive = Color(0xFF5A1ABE);
   static const segmentActiveBg = Color(0xFFEEEAFB);
 }
 
@@ -84,7 +83,7 @@ class SupportoScreen extends StatelessWidget {
             style: TextStyle(
               color: _T.textDark,
               fontSize: 22,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w900,
               letterSpacing: -0.3,
             ),
           ),
@@ -95,6 +94,7 @@ class SupportoScreen extends StatelessWidget {
               color: _T.textMid,
               fontSize: 13,
               height: 1.5,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: 20),
@@ -122,7 +122,7 @@ class SupportoScreen extends StatelessWidget {
       title: const Text(
         'Supporto',
         style: TextStyle(
-            color: _T.textDark, fontSize: 17, fontWeight: FontWeight.w700),
+            color: _T.textDark, fontSize: 17, fontWeight: FontWeight.w900),
       ),
     );
   }
@@ -137,6 +137,7 @@ class SupportoScreen extends StatelessWidget {
             height: 140,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
               image: const DecorationImage(
                 image: NetworkImage(
                   'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600',
@@ -162,7 +163,7 @@ class SupportoScreen extends StatelessWidget {
                   style: TextStyle(
                     color: _T.green,
                     fontSize: 10,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w900,
                     letterSpacing: 1.2,
                   ),
                 ),
@@ -172,7 +173,7 @@ class SupportoScreen extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w900,
                     height: 1.3,
                   ),
                 ),
@@ -218,7 +219,7 @@ class _SupportTile extends StatelessWidget {
         decoration: BoxDecoration(
           color: _T.cardBg,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: const Color(0xFFEEEEEE), width: 1.22),
+          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
         ),
         child: Row(
           children: [
@@ -240,16 +241,16 @@ class _SupportTile extends StatelessWidget {
                       style: const TextStyle(
                           color: _T.textDark,
                           fontSize: 14,
-                          fontWeight: FontWeight.w700)),
+                          fontWeight: FontWeight.w900)),
                   const SizedBox(height: 3),
                   Text(item.subtitle,
                       style: const TextStyle(
-                          color: _T.textMid, fontSize: 12, height: 1.4)),
+                          color: _T.textMid, fontSize: 12, height: 1.4, fontWeight: FontWeight.w700)),
                 ],
               ),
             ),
             const SizedBox(width: 8),
-            Icon(Icons.chevron_right, color: Colors.grey.shade400, size: 22),
+            const Icon(Icons.chevron_right, color: Colors.black, size: 22),
           ],
         ),
       ),
@@ -360,6 +361,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
               color: _T.textMid,
               fontSize: 13,
               height: 1.55,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: 20),
@@ -373,7 +375,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
               style: TextStyle(
                   color: _T.textDark,
                   fontSize: 13,
-                  fontWeight: FontWeight.w600)),
+                  fontWeight: FontWeight.w900)),
           const SizedBox(height: 8),
           GestureDetector(
             key: _dropdownKey,
@@ -384,9 +386,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
               decoration: BoxDecoration(
                 color: _T.inputBg,
                 borderRadius: BorderRadius.circular(10),
-                border: _dropdownOpen
-                    ? Border.all(color: _T.purple, width: 1.5)
-                    : Border.all(color: Colors.transparent),
+                border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -394,18 +394,16 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
                   Text(
                     _selectedTopic ?? 'Richiesta Fatturazione',
                     style: TextStyle(
-                      color: _selectedTopic != null
-                          ? _T.textDark
-                          : _T.textMid,
+                      color: Colors.black,
                       fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   AnimatedRotation(
                     turns: _dropdownOpen ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
                     child: const Icon(Icons.keyboard_arrow_down,
-                        color: _T.textLight, size: 22),
+                        color: Colors.black, size: 22),
                   ),
                 ],
               ),
@@ -418,23 +416,23 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
               style: TextStyle(
                   color: _T.textDark,
                   fontSize: 13,
-                  fontWeight: FontWeight.w600)),
+                  fontWeight: FontWeight.w900)),
           const SizedBox(height: 8),
           TextField(
             controller: _messageCtrl,
             maxLines: 5,
             style: const TextStyle(
-                color: _T.textDark, fontSize: 14, height: 1.5),
+                color: _T.textDark, fontSize: 14, height: 1.5, fontWeight: FontWeight.w700),
             decoration: InputDecoration(
               hintText: 'Descrivi il tuo problema o domanda...',
               hintStyle:
-              const TextStyle(color: _T.textLight, fontSize: 13),
+              const TextStyle(color: Colors.black45, fontSize: 13),
               filled: true,
               fillColor: _T.inputBg,
               contentPadding: const EdgeInsets.all(14),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide.none,
+                borderSide: const BorderSide(color: Color(0xFF5A1ABE), width: 1),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -460,13 +458,13 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
               ),
               child: const Text('Invia Richiesta',
                   style: TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w700)),
+                      fontSize: 15, fontWeight: FontWeight.w900)),
             ),
           ),
           const SizedBox(height: 28),
 
           // ── Divider ──
-          const Divider(color: Color(0xFFEEEEEE), height: 1),
+          const Divider(color: Color(0xFF5A1ABE), height: 1),
           const SizedBox(height: 24),
 
           // ── Other Ways to Contact ──
@@ -474,7 +472,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
               style: TextStyle(
                   color: _T.textDark,
                   fontSize: 16,
-                  fontWeight: FontWeight.w800)),
+                  fontWeight: FontWeight.w900)),
           const SizedBox(height: 16),
           _contactRow('Telefono', '1-800-UTILITY', _T.blue),
           const SizedBox(height: 14),
@@ -503,7 +501,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
           style: TextStyle(
               color: _T.textDark,
               fontSize: 17,
-              fontWeight: FontWeight.w700)),
+              fontWeight: FontWeight.w900)),
     );
   }
 
@@ -514,6 +512,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
       decoration: BoxDecoration(
         color: _T.inputBg,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
       ),
       child: Row(
         children: List.generate(_tabs.length, (i) {
@@ -533,11 +532,11 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
                   _tabs[i],
                   style: TextStyle(
                     color:
-                    isActive ? _T.segmentActive : _T.textMid,
+                    isActive ? _T.segmentActive : Colors.black,
                     fontSize: 13,
                     fontWeight: isActive
-                        ? FontWeight.w700
-                        : FontWeight.w500,
+                        ? FontWeight.w900
+                        : FontWeight.w700,
                   ),
                 ),
               ),
@@ -553,12 +552,12 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label,
-            style: const TextStyle(color: _T.textMid, fontSize: 13)),
+            style: const TextStyle(color: Colors.black, fontSize: 13, fontWeight: FontWeight.w700)),
         Text(value,
             style: TextStyle(
                 color: valueColor,
                 fontSize: 13,
-                fontWeight: FontWeight.w600)),
+                fontWeight: FontWeight.w900)),
       ],
     );
   }
@@ -597,7 +596,7 @@ class _TopicDropdownMenu extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: const Color(0xFFEEEEEE), width: 1.22),
+          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.10),
@@ -630,11 +629,11 @@ class _TopicDropdownMenu extends StatelessWidget {
                       item,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: isSelected ? _T.purple : _T.textDark,
+                        color: isSelected ? _T.purple : Colors.black,
                         fontSize: 14,
                         fontWeight: isSelected
-                            ? FontWeight.w700
-                            : FontWeight.w500,
+                            ? FontWeight.w900
+                            : FontWeight.w700,
                         height: 1.22,
                       ),
                     ),
@@ -644,7 +643,7 @@ class _TopicDropdownMenu extends StatelessWidget {
                   const Divider(
                       height: 1,
                       thickness: 1,
-                      color: Color(0xFFF0F0F0)),
+                      color: Color(0xFF5A1ABE)),
               ],
             );
           }),

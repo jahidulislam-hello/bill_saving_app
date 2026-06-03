@@ -45,12 +45,12 @@ class HomeHeader extends StatelessWidget {
               SizedBox(height: 8.h),
               Text(
                 "Ciao, Ja! 👋",
-                style: AppStyles.h1.copyWith(color: Colors.white),
+                style: AppStyles.h1.copyWith(color: Colors.white, fontWeight: FontWeight.w900),
               ),
               SizedBox(height: 8.h),
               Text(
                 "Pronto a risparmiare sulle tue utenze?",
-                style: AppStyles.body2.copyWith(color: Colors.white70),
+                style: AppStyles.body2.copyWith(color: Colors.white, fontWeight: FontWeight.w800),
               ),
             ],
           ),

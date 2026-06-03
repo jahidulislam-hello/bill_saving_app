@@ -64,6 +64,7 @@ class AppAssets {
   static const String actionTransfer = '$_imagePath/h_2.png';
   static const String actionActivate = '$_imagePath/h_3.png';
   static const String actionControl = '$_imagePath/h_4.png';
+  static const String homeNew = '$_imagePath/home_new.png';
 
   // ─── Profile Menu Icons ────────────────────────────────────────────────────
   static const String menuPersonal = '$_iconPath/1.png';

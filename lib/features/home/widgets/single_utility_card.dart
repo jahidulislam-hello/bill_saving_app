@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/utils/app_assets.dart';
@@ -28,6 +27,7 @@ class UtilityCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.bg,
           borderRadius: BorderRadius.circular(14.r),
+          border: Border.all(color: const Color(0xFFD2D2D2), width: 1),
         ),
         child: Row(
           children: [
@@ -45,18 +45,18 @@ class UtilityCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: AppStyles.h4,
+                  style: AppStyles.h4.copyWith(fontWeight: FontWeight.w900),
                 ),
                 Text(
                   subtitle,
-                  style: AppStyles.body3,
+                  style: AppStyles.body3.copyWith(fontWeight: FontWeight.w700),
                 ),
               ],
             ),
             const Spacer(),
             Text(
               price,
-              style: AppStyles.h4.copyWith(fontWeight: FontWeight.bold),
+              style: AppStyles.h4.copyWith(fontWeight: FontWeight.w900),
             ),
           ],
         ),
