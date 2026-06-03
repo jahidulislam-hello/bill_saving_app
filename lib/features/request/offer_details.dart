@@ -159,7 +159,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         style: TextStyle(
           color: AppColors.textDark,
           fontSize: 17,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w900,
         ),
       ),
       actions: [
@@ -187,6 +187,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
       decoration: BoxDecoration(
         color: AppColors.cardBg,
         borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.divider, width: 1.2),
         boxShadow: [
           BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -220,11 +221,11 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                     style: const TextStyle(
                         color: AppColors.textDark,
                         fontSize: 15,
-                        fontWeight: FontWeight.w700)),
+                        fontWeight: FontWeight.w900)),
                 const SizedBox(height: 3),
                 Text(_ctrl.planName,
                     style:
-                    const TextStyle(color: AppColors.textMid, fontSize: 12)),
+                    const TextStyle(color: AppColors.textMid, fontSize: 12, fontWeight: FontWeight.w700)),
               ],
             ),
           ),
@@ -240,7 +241,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 11,
-                  fontWeight: FontWeight.w700),
+                  fontWeight: FontWeight.w900),
             ),
           ),
         ],
@@ -266,9 +267,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
           const Text(
             'MASSIMO BENEFICIO POTENZIALE',
             style: TextStyle(
-              color: Colors.white60,
+              color: Colors.white,
               fontSize: 11,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w900,
               letterSpacing: 1.2,
             ),
           ),
@@ -289,7 +290,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
             style: const TextStyle(
               color: AppColors.green,
               fontSize: 16,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w900,
             ),
           ),
         ],
@@ -331,7 +332,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                         style: const TextStyle(
                           color: AppColors.textDarkest,
                           fontSize: 13,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     ),
@@ -354,7 +355,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                       style: const TextStyle(
                         color: AppColors.textDark,
                         fontSize: 13,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         height: 1.35,
                       ),
                     ),
@@ -368,7 +369,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                           style: TextStyle(
                             color: row.linkColor,
                             fontSize: 11,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
@@ -412,7 +413,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
               style: TextStyle(
                   color: AppColors.textDark,
                   fontSize: 14,
-                  fontWeight: FontWeight.w600),
+                  fontWeight: FontWeight.w800),
             ),
           ),
           const Icon(Icons.chevron_right, color: AppColors.textLight, size: 22),
@@ -440,7 +441,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
             style: TextStyle(
                 color: AppColors.textMid,
                 fontSize: 13,
-                fontWeight: FontWeight.w500),
+                fontWeight: FontWeight.w700),
           ),
         ],
       ),
@@ -474,7 +475,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
           ),
           child: const Text(
             'Seleziona questa Offerta',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
           ),
         ),
       ),
@@ -560,7 +561,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
       title: const Text(
         'Info Offerta',
         style: TextStyle(
-            color: AppColors.textDark, fontSize: 17, fontWeight: FontWeight.w700),
+            color: AppColors.textDark, fontSize: 17, fontWeight: FontWeight.w900),
       ),
     );
   }
@@ -572,6 +573,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFFF9F9F9),
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.divider, width: 1.2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -581,7 +583,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
             style: TextStyle(
                 color: AppColors.textDark,
                 fontSize: 16,
-                fontWeight: FontWeight.w800),
+                fontWeight: FontWeight.w900),
           ),
           const SizedBox(height: 16),
           ..._features.map((f) => _featureItem(f.$1, f.$2)),
@@ -615,12 +617,13 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
                     style: const TextStyle(
                         color: AppColors.textDark,
                         fontSize: 14,
-                        fontWeight: FontWeight.w700)),
+                        fontWeight: FontWeight.w900)),
                 const SizedBox(height: 3),
                 Text(subtitle,
                     style: const TextStyle(
                         color: AppColors.textMid,
                         fontSize: 12,
+                        fontWeight: FontWeight.w700,
                         height: 1.5)),
               ],
             ),
@@ -640,7 +643,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
           style: TextStyle(
               color: AppColors.textDark,
               fontSize: 16,
-              fontWeight: FontWeight.w800),
+              fontWeight: FontWeight.w900),
         ),
         const SizedBox(height: 14),
         Container(
@@ -649,12 +652,14 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
           decoration: BoxDecoration(
             color: const Color(0xFFF9F9F9),
             borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: AppColors.divider, width: 1.2),
           ),
           child: const Text(
             'EnergyPlus è un fornitore di energia affidabile impegnato a fornire un servizio eccellente e tariffe competitive. Si specializzano in soluzioni di energia rinnovabile e hanno una comprovata esperienza di soddisfazione del cliente.',
             style: TextStyle(
               color: AppColors.textMid,
               fontSize: 13,
+              fontWeight: FontWeight.w700,
               height: 1.65,
             ),
           ),
@@ -673,13 +678,14 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
           style: TextStyle(
               color: AppColors.textDark,
               fontSize: 16,
-              fontWeight: FontWeight.w800),
+              fontWeight: FontWeight.w900),
         ),
         const SizedBox(height: 12),
         Container(
           decoration: BoxDecoration(
             color: const Color(0xFFF9F9F9),
             borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: AppColors.divider, width: 1.2),
           ),
           child: Column(
             children: List.generate(_faqs.length, (i) {
@@ -707,7 +713,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
                               style: const TextStyle(
                                   color: AppColors.textDark,
                                   fontSize: 13,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w700,
                                   height: 1.4),
                             ),
                           ),
@@ -731,6 +737,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
                         style: const TextStyle(
                             color: AppColors.textMid,
                             fontSize: 12,
+                            fontWeight: FontWeight.w600,
                             height: 1.55),
                       ),
                     ),

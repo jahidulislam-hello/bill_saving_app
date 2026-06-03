@@ -1,6 +1,5 @@
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 
 // ─────────────────────────────────────────────
@@ -209,6 +208,7 @@ class _DateTimePickerPopupState extends State<DateTimePickerPopup>
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: const Color(0xFF5A1ABE), width: 1.5),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.12),
@@ -243,8 +243,9 @@ class _DateTimePickerPopupState extends State<DateTimePickerPopup>
               height: _itemH,
               margin: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
-                color: const Color(0xFFF2F2F7),
+                color: const Color(0xFFF0EEFF),
                 borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
               ),
             ),
           ),
@@ -347,8 +348,8 @@ class _DateTimePickerPopupState extends State<DateTimePickerPopup>
         label,
         style: TextStyle(
           fontSize: selected ? 17 : 15,
-          fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
-          color: selected ? const Color(0xFF1A1A2E) : const Color(0xFF9E9E9E),
+          fontWeight: selected ? FontWeight.w900 : FontWeight.w700,
+          color: selected ? Colors.black : Colors.black54,
           fontStyle: isToday && !selected ? FontStyle.italic : FontStyle.normal,
         ),
       ),
@@ -413,8 +414,8 @@ class _DateTimePickerPopupState extends State<DateTimePickerPopup>
         text,
         style: TextStyle(
           fontSize: selected ? 20 : 16,
-          fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
-          color: selected ? const Color(0xFF1A1A2E) : const Color(0xFF9E9E9E),
+          fontWeight: selected ? FontWeight.w900 : FontWeight.w700,
+          color: selected ? Colors.black : Colors.black54,
         ),
       ),
     );
@@ -426,8 +427,8 @@ class _DateTimePickerPopupState extends State<DateTimePickerPopup>
         text,
         style: TextStyle(
           fontSize: selected ? 18 : 15,
-          fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-          color: selected ? const Color(0xFF1A1A2E) : const Color(0xFF9E9E9E),
+          fontWeight: selected ? FontWeight.w900 : FontWeight.w700,
+          color: selected ? Colors.black : Colors.black54,
         ),
       ),
     );
@@ -441,12 +442,12 @@ class _DateTimePickerPopupState extends State<DateTimePickerPopup>
         width: 56,
         height: 56,
         decoration: BoxDecoration(
-          color: const Color(0xFFF8D7E8),
+          color: const Color(0xFF5A1ABE),
           borderRadius: BorderRadius.circular(16),
         ),
         child: const Icon(
           Icons.check_rounded,
-          color: Color(0xFFD05C8A),
+          color: Colors.white,
           size: 26,
         ),
       ),
@@ -495,7 +496,7 @@ class _DemoScreenState extends State<DemoScreen> {
                 child: Text(
                   'Selected: ${_picked!.toString().substring(0, 16)}',
                   style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w500),
+                      fontSize: 15, fontWeight: FontWeight.w700),
                 ),
               ),
             ElevatedButton(
@@ -507,14 +508,14 @@ class _DemoScreenState extends State<DemoScreen> {
                 if (result != null) setState(() => _picked = result);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
+                backgroundColor: const Color(0xFF5A1ABE),
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(
                     horizontal: 28, vertical: 14),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
               ),
-              child: const Text('Open Date Time Picker'),
+              child: const Text('Open Date Time Picker', style: TextStyle(fontWeight: FontWeight.w900)),
             ),
           ],
         ),

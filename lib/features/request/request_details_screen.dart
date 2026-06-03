@@ -7,7 +7,7 @@ class RequestDetailsScreen extends StatelessWidget {
   const RequestDetailsScreen({super.key});
 
   // ── Design Tokens ──
-  static const _purple = Color(0xFF6C5CE7);
+  static const _purple = Color(0xFF5A1ABE);
   static const _purpleBg = Color(0xFFF0EEFB);
   static const _green = Color(0xFF00B894);
   static const _lao = Color(0xFF64FBCB1A);
@@ -16,14 +16,14 @@ class RequestDetailsScreen extends StatelessWidget {
   static const _orangeBg = Color(0xFFFFF8E1);
   static const _grey = Color(0xFFB2BEC3);
   static const _greyBg = Color(0xFFF5F6FA);
-  static const _textDark = Color(0xFF2D3436);
-  static const _textMid = Color(0xFF636E72);
-  static const _textLight = Color(0xFFB2BEC3);
+  static const _textDark = Color(0xFF000000);
+  static const _textMid = Color(0xFF000000);
+  static const _textLight = Color(0xFF000000);
   static const _cardBg = Colors.white;
   static const _bg = Color(0xFFFFFFFF);
-  static const _divider = Color(0xFFEEEEEE);
+  static const _divider = Color(0xFF5A1ABE);
   static const _infoBg = Color(0xFFEFF2FF);
-  static const _infoBorder = Color(0xFFD0D8FF);
+  static const _infoBorder = Color(0xFF5A1ABE);
   static const _yellowBadgeBg = Color(0xFFFFF8E1);
   static const _yellowBadgeText = Color(0xFFFFAB00);
 
@@ -65,7 +65,7 @@ class RequestDetailsScreen extends StatelessWidget {
         style: TextStyle(
           color: _textDark,
           fontSize: 17,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w900,
         ),
       ),
     );
@@ -81,6 +81,7 @@ class RequestDetailsScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: _greenBg,
           borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.05),
@@ -108,7 +109,7 @@ class RequestDetailsScreen extends StatelessWidget {
               style: TextStyle(
                 color: _textDark,
                 fontSize: 18,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w900,
                 letterSpacing: -0.2,
               ),
             ),
@@ -120,6 +121,7 @@ class RequestDetailsScreen extends StatelessWidget {
                 color: _textMid,
                 fontSize: 13,
                 height: 1.55,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
@@ -135,6 +137,7 @@ class RequestDetailsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: _cardBg,
         borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
         boxShadow: [
           BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -158,7 +161,7 @@ class RequestDetailsScreen extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 6,
                     color: Color(0xFF009966),
-                    fontWeight: FontWeight.w700),
+                    fontWeight: FontWeight.w800),
               ),
             ),
           ),
@@ -176,7 +179,7 @@ class RequestDetailsScreen extends StatelessWidget {
                       style: TextStyle(
                           color: _textMid,
                           fontSize: 12,
-                          fontWeight: FontWeight.w500),
+                          fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(width: 12),
                     const Text(
@@ -184,7 +187,7 @@ class RequestDetailsScreen extends StatelessWidget {
                       style: TextStyle(
                           color: _textMid,
                           fontSize: 12,
-                          fontWeight: FontWeight.w500),
+                          fontWeight: FontWeight.w700),
                     ),
                   ],
                 ),
@@ -194,7 +197,7 @@ class RequestDetailsScreen extends StatelessWidget {
                   style: TextStyle(
                     color: _textDark,
                     fontSize: 14,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
               ],
@@ -212,6 +215,7 @@ class RequestDetailsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: _cardBg,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
         boxShadow: [
           BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -233,9 +237,9 @@ class RequestDetailsScreen extends StatelessWidget {
                   Text(
                     'DATA DI INVIO',
                     style: TextStyle(
-                      color: _textLight,
+                      color: Colors.black,
                       fontSize: 10,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w900,
                       letterSpacing: 0.8,
                     ),
                   ),
@@ -245,7 +249,7 @@ class RequestDetailsScreen extends StatelessWidget {
                     style: TextStyle(
                       color: _textDark,
                       fontSize: 16,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                 ],
@@ -267,7 +271,7 @@ class RequestDetailsScreen extends StatelessWidget {
                       style: TextStyle(
                         color: _yellowBadgeText,
                         fontSize: 12,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ],
@@ -381,9 +385,9 @@ class RequestDetailsScreen extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      color: isActive ? _textDark : _textLight,
+                      color: Colors.black,
                       fontSize: 14,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
 
@@ -392,9 +396,10 @@ class RequestDetailsScreen extends StatelessWidget {
                   Text(
                     subtitle,
                     style: TextStyle(
-                      color: isActive ? _textMid : _textLight,
+                      color: Colors.black,
                       fontSize: 12,
                       height: 1.4,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
@@ -413,7 +418,7 @@ class RequestDetailsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: _infoBg,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: _infoBorder),
+        border: Border.all(color: const Color(0xFF5A1ABE)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -424,7 +429,7 @@ class RequestDetailsScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
-              border: Border.all(color: _infoBorder),
+              border: Border.all(color: const Color(0xFF5A1ABE)),
             ),
             child: const Icon(Icons.info_outline, color: _purple, size: 16),
           ),
@@ -436,7 +441,7 @@ class RequestDetailsScreen extends StatelessWidget {
                 color: _purple,
                 fontSize: 13,
                 height: 1.5,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),

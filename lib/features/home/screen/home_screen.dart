@@ -52,12 +52,12 @@ class HomeScreen extends StatelessWidget {
                               child: SummaryCard(
                                 icon: Image.asset(
                                   AppAssets.down,
-                                  width: 16.sp,
-                                  height: 16.sp,
                                 ),
                                 iconColor: Colors.green,
+                                iconBgColor: const Color(0x6684EBB4),
                                 title: "Risparmi\nPotenziali",
                                 value: "€128,50",
+                                valueColor: const Color(0xFF1FC16B),
                                 subtitle: "all'anno",
                               ),
                             ),
@@ -66,12 +66,12 @@ class HomeScreen extends StatelessWidget {
                               child: SummaryCard(
                                 icon: Image.asset(
                                   AppAssets.cir,
-                                  width: 26.sp,
-                                  height: 26.sp,
                                 ),
                                 iconColor: Colors.blue,
+                                iconBgColor: const Color(0x80CE8AEB),
                                 title: "Richiesta Attiva",
                                 value: "00",
+                                valueColor: const Color(0xFF5A1ABE),
                                 subtitle: "in corso",
                               ),
                             ),
@@ -94,12 +94,12 @@ class HomeScreen extends StatelessWidget {
                               child: SummaryCard(
                                 icon: Image.asset(
                                   AppAssets.down,
-                                  width: 12.sp,
-                                  height: 12.sp,
                                 ),
                                 iconColor: Colors.green,
+                                iconBgColor: const Color(0x6684EBB4),
                                 title: "Risparmi\nPotenziali",
                                 value: "€128,50",
+                                valueColor: const Color(0xFF1FC16B),
                                 subtitle: "all'anno",
                               ),
                             ),
@@ -108,12 +108,12 @@ class HomeScreen extends StatelessWidget {
                               child: SummaryCard(
                                 icon: Image.asset(
                                   AppAssets.cir,
-                                  width: 12.sp,
-                                  height: 12.sp,
                                 ),
                                 iconColor: Colors.blue,
+                                iconBgColor: const Color(0x80CE8AEB),
                                 title: "Richiesta Attiva",
                                 value: "00",
+                                valueColor: const Color(0xFF5A1ABE),
                                 subtitle: "in corso",
                               ),
                             ),

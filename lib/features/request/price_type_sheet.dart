@@ -13,6 +13,7 @@ class PriceTypeSheet extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.15),
@@ -41,21 +42,21 @@ class PriceTypeSheet extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF1A1A2E),
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black,
                         height: 1.3,
                       ),
                     ),
                     const SizedBox(height: 4),
 
                     // Subtitle
-                    Text(
+                    const Text(
                       'What does it mean?',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -71,7 +72,7 @@ class PriceTypeSheet extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () => Navigator.pop(context),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF1A2B6B),
+                          backgroundColor: const Color(0xFF5A1ABE),
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -79,7 +80,7 @@ class PriceTypeSheet extends StatelessWidget {
                           ),
                           textStyle: const TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w900,
                             letterSpacing: 0.3,
                           ),
                         ),
@@ -109,8 +110,6 @@ class _HeroBanner extends StatelessWidget {
           height: 160,
           width: double.infinity,
           child: Image.asset(
-            // 🔑 Replace with your actual asset path, e.g.:
-            // 'assets/images/price_banner.png'
             'assets/images/priceType.png',
             fit: BoxFit.cover,
             errorBuilder: (_, __, ___) {
@@ -180,6 +179,7 @@ class _InfoCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFFF4F6F9),
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,8 +189,8 @@ class _InfoCard extends StatelessWidget {
             'An indexed price varies based on the wholesale market cost of energy (PUN).',
             style: TextStyle(
               fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF1A1A2E),
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
               height: 1.5,
             ),
           ),
@@ -221,14 +221,15 @@ class _InfoCard extends StatelessWidget {
                   text: const TextSpan(
                     style: TextStyle(
                       fontSize: 13,
-                      color: Color(0xFF4A4A6A),
+                      color: Colors.black,
                       height: 1.5,
+                      fontWeight: FontWeight.w600,
                     ),
                     children: [
                       TextSpan(text: 'It ensures you always pay a '),
                       TextSpan(
                         text: 'fair market rate',
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: TextStyle(fontWeight: FontWeight.w900),
                       ),
                       TextSpan(
                         text: ', potentially benefiting from price drops.',
@@ -244,4 +245,3 @@ class _InfoCard extends StatelessWidget {
     );
   }
 }
-

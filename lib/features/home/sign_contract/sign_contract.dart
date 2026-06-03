@@ -1,9 +1,6 @@
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'sign_contract_controller.dart';
 
 class SignContractScreen extends StatefulWidget {
@@ -84,7 +81,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
       ),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1),
-        child: Divider(height: 1, thickness: 1, color: Colors.grey.shade200),
+        child: Divider(height: 1, thickness: 1, color: const Color(0xFF5A1ABE)),
       ),
     );
   }
@@ -94,21 +91,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
   // ─────────────────────────────────────────────
 
   Widget _buildReadyCard() {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.grey.shade200, width: 1.2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+    return _card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -124,7 +107,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
               'Azione Richiesta',
               style: TextStyle(
                 fontSize: 11.sp,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w800,
                 color: Colors.white,
                 height: 1.22,
               ),
@@ -138,7 +121,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
             'Pronto da Firmare',
             style: TextStyle(
               fontSize: 20.sp,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w900,
               color: const Color(0xFF1A1A2E),
               height: 1.22,
             ),
@@ -151,7 +134,8 @@ class _SignContractScreenState extends State<SignContractScreen> {
             'Il tuo contratto è pronto! Firmalo per completare il tuo passaggio a EnergyPlus.',
             style: TextStyle(
               fontSize: 13.sp,
-              color: const Color(0xFF555555),
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
               height: 1.5,
             ),
           ),
@@ -196,7 +180,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
                     'S',
                     style: TextStyle(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w900,
                       color: Colors.white,
                     ),
                   ),
@@ -210,6 +194,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
                     'Fornitore',
                     style: TextStyle(
                       fontSize: 10.sp,
+                      fontWeight: FontWeight.w700,
                       color: Colors.white.withOpacity(0.6),
                       height: 1.22,
                     ),
@@ -218,7 +203,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
                     'Sorgenia',
                     style: TextStyle(
                       fontSize: 20.sp,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w900,
                       color: Colors.white,
                       height: 1.22,
                     ),
@@ -270,6 +255,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
           label,
           style: TextStyle(
             fontSize: 10.sp,
+            fontWeight: FontWeight.w700,
             color: Colors.white.withOpacity(0.6),
             height: 1.22,
           ),
@@ -279,7 +265,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
           value,
           style: TextStyle(
             fontSize: 16.sp,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
             color: valueColor,
             height: 1.22,
           ),
@@ -295,21 +281,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
   Widget _buildHelpCard() {
     return GestureDetector(
       onTap: () => _showTutorialSheet(context),
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(16.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14.r),
-          border: Border.all(color: Colors.grey.shade200, width: 1.2),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
+      child: _card(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -317,7 +289,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
               'Hai bisogno di aiuto per firmare?',
               style: TextStyle(
                 fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w800,
                 color: const Color(0xFF1A1A2E),
                 height: 1.22,
               ),
@@ -329,7 +301,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
                   'Visualizza Tutorial di Firma',
                   style: TextStyle(
                     fontSize: 13.sp,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     color: AppColors.primaryColor,
                     height: 1.22,
                   ),
@@ -359,6 +331,26 @@ class _SignContractScreenState extends State<SignContractScreen> {
         return _TutorialBottomSheet(controller: _controller);
       },
     ).then((_) => _controller.closeTutorial());
+  }
+
+  Widget _card({required Widget child}) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.2),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: child,
+    );
   }
 }
 
@@ -452,7 +444,7 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
             width: 40.w,
             height: 4.h,
             decoration: BoxDecoration(
-              color: Colors.grey.shade300,
+              color: const Color(0xFF5A1ABE),
               borderRadius: BorderRadius.circular(4.r),
             ),
           ),
@@ -470,11 +462,11 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
                     width: 30.w,
                     height: 30.w,
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
+                      color: const Color(0xFFF5F5F5),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(Icons.close_rounded,
-                        size: 16.sp, color: const Color(0xFF555555)),
+                        size: 16.sp, color: Colors.black),
                   ),
                 ),
               ],
@@ -522,7 +514,7 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
                   _c.isLastStep ? 'Capito' : 'Avanti',
                   style: TextStyle(
                     fontSize: 16.sp,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     height: 1.22,
                   ),
                 ),
@@ -565,7 +557,7 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
                     '${step.stepNumber}',
                     style: TextStyle(
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w900,
                       color: AppColors.primaryColor,
                       height: 1.22,
                     ),
@@ -580,7 +572,7 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
                 step.title,
                 style: TextStyle(
                   fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w900,
                   color: const Color(0xFF1A1A2E),
                   height: 1.22,
                 ),
@@ -595,7 +587,8 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
             step.description,
             style: TextStyle(
               fontSize: 13.sp,
-              color: const Color(0xFF555555),
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
               height: 1.6,
             ),
           ),
@@ -631,7 +624,7 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
           decoration: BoxDecoration(
             color: isActive
                 ? AppColors.primaryColor
-                : Colors.grey.shade300,
+                : const Color(0xFF5A1ABE),
             borderRadius: BorderRadius.circular(4.r),
           ),
         );
@@ -759,7 +752,7 @@ class _EmailIllustration extends StatelessWidget {
                     width: 14.w,
                     height: 20.h,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF888888),
+                      color: Colors.black,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(6.r),
                       ),
@@ -770,7 +763,7 @@ class _EmailIllustration extends StatelessWidget {
                     width: 14.w,
                     height: 20.h,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF888888),
+                      color: Colors.black,
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(6.r),
                       ),
@@ -833,7 +826,7 @@ class _SignIllustration extends StatelessWidget {
                         height: 8.h,
                         width: 60.w,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
+                          color: Colors.black12,
                           borderRadius: BorderRadius.circular(4.r),
                         )),
                     SizedBox(height: 8.h),
@@ -841,7 +834,7 @@ class _SignIllustration extends StatelessWidget {
                         height: 6.h,
                         width: 50.w,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
+                          color: Colors.black26,
                           borderRadius: BorderRadius.circular(4.r),
                         )),
                     SizedBox(height: 6.h),
@@ -849,7 +842,7 @@ class _SignIllustration extends StatelessWidget {
                         height: 6.h,
                         width: 45.w,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
+                          color: Colors.black26,
                           borderRadius: BorderRadius.circular(4.r),
                         )),
                     SizedBox(height: 14.h),
@@ -866,7 +859,7 @@ class _SignIllustration extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 11.sp,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
@@ -926,7 +919,7 @@ class _DoneIllustration extends StatelessWidget {
               'Switch Complete 🎉',
               style: TextStyle(
                 fontSize: 14.sp,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w900,
                 color: AppColors.primaryColor,
                 height: 1.22,
               ),

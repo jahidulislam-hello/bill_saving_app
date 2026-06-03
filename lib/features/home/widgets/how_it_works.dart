@@ -1,6 +1,5 @@
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HowItWorksCard extends StatelessWidget {
@@ -15,7 +14,8 @@ class HowItWorksCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(18.r),
         border: Border.all(
-          color: Colors.grey.shade200,
+          color: const Color(0xFF5A1ABE),
+          width: 1.22,
         ),
       ),
       child: Column(
@@ -33,7 +33,8 @@ class HowItWorksCard extends StatelessWidget {
                 "Come Funziona",
                 style: TextStyle(
                   fontSize: 18.sp,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.black,
                 ),
               ),
             ],
@@ -68,6 +69,7 @@ class HowItWorksCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w600,
+                        color: Colors.black,
                       ),
                     ),
 
@@ -76,8 +78,9 @@ class HowItWorksCard extends StatelessWidget {
                     Text(
                       "Take a photo of your bill or directly upload a PDF from the app.",
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.black,
                         fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
@@ -115,6 +118,7 @@ class HowItWorksCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w600,
+                        color: Colors.black,
                       ),
                     ),
 
@@ -123,8 +127,9 @@ class HowItWorksCard extends StatelessWidget {
                     Text(
                       "The VYZI team analyzes your current situation. When the analysis is complete, you will receive a notification with the most suitable offers for your needs.",
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.black,
                         fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
@@ -161,6 +166,7 @@ class HowItWorksCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w600,
+                        color: Colors.black,
                       ),
                     ),
 
@@ -169,8 +175,9 @@ class HowItWorksCard extends StatelessWidget {
                     Text(
                       "Compare the selected offers and choose the one you prefer. The VYZI team assists you with the request and manages the activation process.",
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.black,
                         fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
@@ -197,7 +204,7 @@ class HowItWorksCard extends StatelessWidget {
         text,
         style: TextStyle(
           fontSize: 14.sp,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w900,
         ),
       ),
     );

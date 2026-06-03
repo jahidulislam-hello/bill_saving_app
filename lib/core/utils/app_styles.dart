@@ -13,7 +13,7 @@ class AppStyles {
   // ─── Headlines ──────────────────────────────────────────────────────────────
   static TextStyle get h1 => GoogleFonts.openSans(
         fontSize: 24.sp,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w900,
         color: AppColors.textTitle,
         height: 1.2,
       );
@@ -22,21 +22,21 @@ class AppStyles {
 
   static TextStyle get h2 => GoogleFonts.openSans(
         fontSize: 22.sp,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w800,
         color: AppColors.textTitle,
         height: 1.2,
       );
 
   static TextStyle get h3 => GoogleFonts.openSans(
         fontSize: 20.sp,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         color: AppColors.textTitle,
         height: 1.2,
       );
 
   static TextStyle get h4 => GoogleFonts.openSans(
         fontSize: 18.sp,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         color: AppColors.textTitle,
         height: 1.2,
       );
@@ -44,28 +44,28 @@ class AppStyles {
   // ─── Body Text ─────────────────────────────────────────────────────────────
   static TextStyle get body1 => GoogleFonts.openSans(
         fontSize: 16.sp,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
         color: AppColors.textPrimary,
         height: 1.4,
       );
 
   static TextStyle get body2 => GoogleFonts.openSans(
         fontSize: 14.sp,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
         color: AppColors.textPrimary,
         height: 1.4,
       );
 
   static TextStyle get body3 => GoogleFonts.openSans(
         fontSize: 13.sp,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
         color: AppColors.textPrimary,
         height: 1.4,
       );
 
   static TextStyle get body4 => GoogleFonts.openSans(
         fontSize: 12.sp,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
         color: AppColors.textPrimary,
         height: 1.4,
       );
@@ -73,7 +73,7 @@ class AppStyles {
   // ─── Captions & Labels ─────────────────────────────────────────────────────
   static TextStyle get caption => GoogleFonts.openSans(
         fontSize: 11.sp,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
         color: AppColors.textPrimary,
       );
 
@@ -92,7 +92,7 @@ class AppStyles {
 
   static TextStyle get hintStyle => GoogleFonts.openSans(
         fontSize: 14.sp,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
         color: AppColors.hintColor,
       );
 

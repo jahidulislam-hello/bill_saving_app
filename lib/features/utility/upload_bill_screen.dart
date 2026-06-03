@@ -57,7 +57,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('File selezionato: ${file.name}'),
-            backgroundColor: const Color(0xFF9400D3),
+            backgroundColor: const Color(0xFF5A1ABE),
           ),
         );
       }
@@ -94,8 +94,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               'Carica la tua bolletta di $_title',
               style: TextStyle(
                 fontSize: 22.sp,
-                fontWeight: FontWeight.w800,
-                color: const Color(0xFF1A1A2E),
+                fontWeight: FontWeight.w900,
+                color: Colors.black,
                 height: 1.28,
               ),
             ),
@@ -104,7 +104,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               "Scegli il metodo più comodo per te",
               style: TextStyle(
                 fontSize: 13.sp,
-                color: const Color(0xFF9E9E9E),
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
                 height: 1.22,
               ),
             ),
@@ -142,22 +143,22 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       elevation: 0,
       leading: IconButton(
         icon: Icon(Icons.arrow_back_rounded,
-            color: const Color(0xFF1A1A2E), size: 22.sp),
+            color: Colors.black, size: 22.sp),
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
         'Carica la tua bolletta',
         style: TextStyle(
           fontSize: 17.sp,
-          fontWeight: FontWeight.w600,
-          color: const Color(0xFF1A1A2E),
+          fontWeight: FontWeight.w800,
+          color: Colors.black,
           height: 1.22,
         ),
       ),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1),
-        child: Divider(
-            height: 1, thickness: 1, color: Colors.grey.shade200),
+        child: const Divider(
+            height: 1, thickness: 1, color: Color(0xFF5A1ABE)),
       ),
     );
   }
@@ -170,6 +171,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFFF0EEFF),
         borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,15 +179,16 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.help_outline_rounded,
-                  color: const Color(0xFF9400D3), size: 18.sp),
+              const Icon(Icons.help_outline_rounded,
+                  color: Color(0xFF5A1ABE), size: 18),
               SizedBox(width: 8.w),
-              Expanded(
+              const Expanded(
                 child: Text(
                   'Abbiamo bisogno della tua bolletta per analizzare il tuo piano attuale e trovare le migliori offerte.',
                   style: TextStyle(
-                    fontSize: 13.sp,
-                    color: const Color(0xFF555555),
+                    fontSize: 13,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
                     height: 1.22,
                   ),
                 ),
@@ -195,12 +198,12 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           SizedBox(height: 8.h),
           GestureDetector(
             onTap: () {},
-            child: Text(
+            child: const Text(
               'Perché ne abbiamo bisogno?',
               style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF9400D3),
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+                color: Color(0xFF5A1ABE),
                 height: 1.22,
               ),
             ),
@@ -257,10 +260,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(14.r),
           border: Border.all(
-            color: isSelected
-                ? const Color(0xFF9400D3)
-                : Colors.grey.shade200,
-            width: isSelected ? 1.8 : 1.2,
+            color: const Color(0xFF5A1ABE),
+            width: isSelected ? 2.0 : 1.2,
           ),
           boxShadow: [
             BoxShadow(
@@ -287,8 +288,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               label,
               style: TextStyle(
                 fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF1A1A2E),
+                fontWeight: FontWeight.w900,
+                color: Colors.black,
                 height: 1.22,
               ),
             ),
@@ -299,7 +300,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               sublabel,
               style: TextStyle(
                 fontSize: 11.sp,
-                color: const Color(0xFF9E9E9E),
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
                 height: 1.22,
               ),
             ),
@@ -313,22 +315,22 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
   Widget _buildOrDivider() {
     return Row(
       children: [
-        Expanded(
-            child: Divider(color: Colors.grey.shade300, thickness: 1)),
+        const Expanded(
+            child: Divider(color: Color(0xFF5A1ABE), thickness: 1)),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           child: Text(
             'OPPURE',
             style: TextStyle(
               fontSize: 12.sp,
-              color: const Color(0xFF9E9E9E),
-              fontWeight: FontWeight.w500,
+              color: Colors.black,
+              fontWeight: FontWeight.w900,
               height: 1.22,
             ),
           ),
         ),
-        Expanded(
-            child: Divider(color: Colors.grey.shade300, thickness: 1)),
+        const Expanded(
+            child: Divider(color: Color(0xFF5A1ABE), thickness: 1)),
       ],
     );
   }
@@ -346,13 +348,10 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(14.r),
           border: Border.all(
-            color:
-            _controller.selectedMethod == UploadMethod.sendEmail
-                ? const Color(0xFF9400D3)
-                : Colors.grey.shade200,
+            color: const Color(0xFF5A1ABE),
             width:
             _controller.selectedMethod == UploadMethod.sendEmail
-                ? 1.8
+                ? 2.0
                 : 1.2,
           ),
           boxShadow: [
@@ -372,9 +371,10 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               decoration: BoxDecoration(
                 color: const Color(0xFFE8F8EF),
                 borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
               ),
-              child: Icon(Icons.mail_outline_rounded,
-                  color: const Color(0xFF27AE60), size: 22.sp),
+              child: const Icon(Icons.mail_outline_rounded,
+                  color: Color(0xFF27AE60), size: 22),
             ),
             SizedBox(width: 14.w),
             Expanded(
@@ -385,8 +385,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                     'Invia via Email',
                     style: TextStyle(
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF1A1A2E),
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
                       height: 1.22,
                     ),
                   ),
@@ -395,15 +395,16 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                     'Inoltra a Bills@Example.com',
                     style: TextStyle(
                       fontSize: 12.sp,
-                      color: const Color(0xFF9E9E9E),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
                       height: 1.22,
                     ),
                   ),
                 ],
               ),
             ),
-            Icon(Icons.chevron_right_rounded,
-                color: Colors.grey.shade400, size: 20.sp),
+            const Icon(Icons.chevron_right_rounded,
+                color: Colors.black, size: 20),
           ],
         ),
       ),
@@ -423,8 +424,9 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Color(0xFFEEF0FF),
+        color: const Color(0xFFEEF0FF),
         borderRadius: BorderRadius.circular(14.r),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -440,8 +442,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
             'Cosa stiamo cercando:',
             style: TextStyle(
               fontSize: 14.sp,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF1A1A2E),
+              fontWeight: FontWeight.w900,
+              color: Colors.black,
               height: 1.22,
             ),
           ),
@@ -452,20 +454,22 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     '• ',
                     style: TextStyle(
-                      fontSize: 13.sp,
-                      color: const Color(0xFF555555),
+                      fontSize: 13,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w800,
                       height: 1.22,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       b,
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        color: const Color(0xFF555555),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
                         height: 1.22,
                       ),
                     ),
@@ -512,7 +516,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           'Scansiona la tua bolletta',
           style: TextStyle(
               fontSize: 17.sp,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w900,
               height: 1.22),
         ),
         actions: [
@@ -551,7 +555,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Scansionato: $value'),
-                      backgroundColor: const Color(0xFF9400D3),
+                      backgroundColor: const Color(0xFF5A1ABE),
                     ),
                   );
                 }
@@ -566,7 +570,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               height: 240.w,
               decoration: BoxDecoration(
                 border: Border.all(
-                    color: const Color(0xFF9400D3), width: 2.5),
+                    color: const Color(0xFF5A1ABE), width: 2.5),
                 borderRadius: BorderRadius.circular(16.r),
               ),
             ),
@@ -583,7 +587,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               style: TextStyle(
                 fontSize: 14.sp,
                 color: Colors.white,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w800,
                 height: 1.22,
               ),
             ),
@@ -593,4 +597,3 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     );
   }
   }
-

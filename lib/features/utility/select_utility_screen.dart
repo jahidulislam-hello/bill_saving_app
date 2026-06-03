@@ -45,8 +45,8 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
               'Quali utenze vuoi\nottimizzare?',
               style: TextStyle(
                 fontSize: 22.sp,
-                fontWeight: FontWeight.w800,
-                color: const Color(0xFF1A1A2E),
+                fontWeight: FontWeight.w900,
+                color: Colors.black,
                 height: 1.28,
               ),
             ),
@@ -57,7 +57,8 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
               'Seleziona il servizio per cui vuoi trovare le migliori offerte',
               style: TextStyle(
                 fontSize: 13.sp,
-                color: const Color(0xFF9E9E9E),
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
                 height: 1.22,
               ),
             ),
@@ -102,22 +103,22 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
       elevation: 0,
       leading: IconButton(
         icon: Icon(Icons.arrow_back_rounded,
-            color: const Color(0xFF1A1A2E), size: 22.sp),
+            color: Colors.black, size: 22.sp),
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
         'Seleziona Utenza',
         style: TextStyle(
           fontSize: 17.sp,
-          fontWeight: FontWeight.w600,
-          color: const Color(0xFF1A1A2E),
+          fontWeight: FontWeight.w800,
+          color: Colors.black,
           height: 1.22,
         ),
       ),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1),
-        child: Divider(
-            height: 1, thickness: 1, color: Colors.grey.shade200),
+        child: const Divider(
+            height: 1, thickness: 1, color: Color(0xFF5A1ABE)),
       ),
     );
   }
@@ -151,7 +152,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18.r),
           border: Border.all(
-            color: const Color(0xFFC8CCFD),
+            color: const Color(0xFF5A1ABE),
             width: 1.5,
           ),
         ),
@@ -159,18 +160,16 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
           duration: const Duration(milliseconds: 220),
           height: 130.h,
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFF9400D3) : Colors.white,
+            color: isSelected ? const Color(0xFF5A1ABE) : Colors.white,
             borderRadius: BorderRadius.circular(14.r),
             border: Border.all(
-              color: isSelected
-                  ? const Color(0xFF9400D3)
-                  : Colors.grey.shade200,
+              color: const Color(0xFF5A1ABE),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
                 color: isSelected
-                    ? const Color(0xFF9400D3).withOpacity(0.22)
+                    ? const Color(0xFF5A1ABE).withOpacity(0.22)
                     : Colors.black.withOpacity(0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 3),
@@ -193,15 +192,15 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                     border: Border.all(
                       color: isSelected
                           ? Colors.transparent
-                          : Colors.grey.shade300,
+                          : Colors.black26,
                       width: 1.5,
                     ),
                   ),
                   child: isSelected
-                      ? Icon(
+                      ? const Icon(
                           Icons.check_rounded,
-                          size: 13.sp,
-                          color: const Color(0xFF9400D3),
+                          size: 13,
+                          color: Color(0xFF5A1ABE),
                         )
                       : const SizedBox.shrink(),
                 ),
@@ -227,7 +226,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                         size: 26.sp,
                         color: isSelected
                             ? Colors.white
-                            : const Color(0xFF9400D3),
+                            : const Color(0xFF5A1ABE),
                       ),
                     ),
                     SizedBox(height: 10.h),
@@ -235,9 +234,9 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                       label,
                       style: TextStyle(
                         fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w900,
                         color:
-                            isSelected ? Colors.white : const Color(0xFF1A1A2E),
+                            isSelected ? Colors.white : Colors.black,
                         height: 1.22,
                       ),
                     ),
@@ -248,8 +247,9 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                       style: TextStyle(
                         fontSize: 11.sp,
                         color: isSelected
-                            ? Colors.white.withOpacity(0.8)
-                            : const Color(0xFF9E9E9E),
+                            ? Colors.white.withOpacity(0.9)
+                            : Colors.black,
+                        fontWeight: FontWeight.w700,
                         height: 1.22,
                       ),
                     ),
@@ -271,6 +271,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFFF0EEFF),
         borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -282,17 +283,18 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
               text: TextSpan(
                 style: TextStyle(
                   fontSize: 13.sp,
-                  color: const Color(0xFF9400D3),
+                  color: const Color(0xFF5A1ABE),
                   height: 1.22,
                 ),
                 children: const [
                   TextSpan(
                     text: 'Consiglio: ',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: TextStyle(fontWeight: FontWeight.w900),
                   ),
                   TextSpan(
                     text:
                     'Puoi caricare altre bollette in seguito per confrontare tutte le tue utenze.',
+                    style: TextStyle(fontWeight: FontWeight.w700),
                   ),
                 ],
               ),

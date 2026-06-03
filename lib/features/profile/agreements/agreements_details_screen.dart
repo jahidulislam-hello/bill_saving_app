@@ -111,7 +111,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
         'Dettagli Convenzione',
         style: TextStyle(
           fontSize: 16.sp,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w900,
           color: const Color(0xFF1A1A2E),
         ),
       ),
@@ -125,8 +125,9 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: const Color(0xFFF5F5F5),
         borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
       ),
       clipBehavior: Clip.antiAlias,
       child: _a.imageUrl.isNotEmpty
@@ -143,7 +144,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
     return Center(
       child: Icon(
         Icons.restaurant_rounded,
-        color: Colors.grey.shade400,
+        color: Colors.black26,
         size: 48.sp,
       ),
     );
@@ -158,7 +159,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
           _a.fullName,
           style: TextStyle(
             fontSize: 20.sp,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w900,
             color: const Color(0xFF1A1A2E),
             height: 1.22,
           ),
@@ -168,7 +169,8 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
           _a.description,
           style: TextStyle(
             fontSize: 13.sp,
-            color: const Color(0xFF555555),
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
             height: 1.5,
           ),
         ),
@@ -183,13 +185,13 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
               TextSpan(
                 text: 'Data Offerta : ',
                 style: TextStyle(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w800,
                   color: const Color(0xFF1A1A2E),
                 ),
               ),
               TextSpan(
                 text: _a.offerDate,
-                style: const TextStyle(color: Color(0xFF555555)),
+                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
               ),
             ],
           ),
@@ -223,7 +225,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: Colors.white.withOpacity(0.85),
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w700,
                   height: 1.22,
                 ),
               ),
@@ -252,6 +254,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12.r),
+              border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
             ),
             child: Row(
               children: [
@@ -263,7 +266,8 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                         'Codice Sconto',
                         style: TextStyle(
                           fontSize: 11.sp,
-                          color: const Color(0xFF9E9E9E),
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
                           height: 1.22,
                         ),
                       ),
@@ -272,7 +276,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                         _a.discountCode,
                         style: TextStyle(
                           fontSize: 20.sp,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w900,
                           color: const Color(0xFF1A1A2E),
                           letterSpacing: 1.5,
                           height: 1.22,
@@ -297,7 +301,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                       border: Border.all(
                         color: isCopied
                             ? const Color(0xFF27AE60)
-                            : Colors.grey.shade300,
+                            : const Color(0xFF5A1ABE),
                         width: 1,
                       ),
                     ),
@@ -313,7 +317,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                               size: 15.sp)
                               : Icon(Icons.copy_rounded,
                               key: const ValueKey('copy'),
-                              color: const Color(0xFF555555),
+                              color: Colors.black,
                               size: 15.sp),
                         ),
                         SizedBox(width: 5.w),
@@ -321,10 +325,10 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                           isCopied ? 'Copiato!' : 'Copia',
                           style: TextStyle(
                             fontSize: 13.sp,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w800,
                             color: isCopied
                                 ? const Color(0xFF27AE60)
-                                : const Color(0xFF555555),
+                                : Colors.black,
                             height: 1.22,
                           ),
                         ),
@@ -346,7 +350,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: Colors.grey.shade200, width: 1.2),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.2),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -377,7 +381,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                 'Posizione',
                 style: TextStyle(
                   fontSize: 14.sp,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w900,
                   color: const Color(0xFF1A1A2E),
                   height: 1.22,
                 ),
@@ -387,7 +391,8 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                 _a.address,
                 style: TextStyle(
                   fontSize: 13.sp,
-                  color: const Color(0xFF555555),
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700,
                   height: 1.5,
                 ),
               ),
@@ -404,7 +409,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFFF0F4FF),
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFFD0DAFF), width: 1.2),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.2),
       ),
       padding: EdgeInsets.all(16.w),
       child: Column(
@@ -414,7 +419,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
             'Come Usare il Tuo Sconto',
             style: TextStyle(
               fontSize: 14.sp,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w900,
               color: const Color(0xFF1A1A2E),
               height: 1.22,
             ),
@@ -441,7 +446,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                         '${i + 1}',
                         style: TextStyle(
                           fontSize: 11.sp,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w900,
                           color: Colors.white,
                           height: 1.22,
                         ),
@@ -454,7 +459,8 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                       step,
                       style: TextStyle(
                         fontSize: 13.sp,
-                        color: const Color(0xFF555555),
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
                         height: 1.5,
                       ),
                     ),

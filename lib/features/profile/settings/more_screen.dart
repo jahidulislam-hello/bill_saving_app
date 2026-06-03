@@ -31,7 +31,7 @@ class MoreScreen extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: AppColors.neutralAlpha10,
+                    color: const Color(0xFF5A1ABE),
                     width: 1.22,
                   ),
                 ),
@@ -53,7 +53,7 @@ class MoreScreen extends StatelessWidget {
                         Get.to(() => PrivacyPolicyScreen());
                       },
                     ),
-                    const Divider(height: 1, color: AppColors.neutralAlpha10),
+                    const Divider(height: 1, color: Color(0xFF5A1ABE)),
                     SettingTile(
                       iconWidget: Image.asset(
                         AppAssets.terms,
@@ -65,7 +65,7 @@ class MoreScreen extends StatelessWidget {
                         Get.to(() => TermsCondition());
                       },
                     ),
-                    const Divider(height: 1, color: AppColors.neutralAlpha10),
+                    const Divider(height: 1, color: Color(0xFF5A1ABE)),
                     SettingTile(
                       iconWidget: Image.asset(
                         AppAssets.about,
@@ -82,7 +82,7 @@ class MoreScreen extends StatelessWidget {
                         Get.to(() => AboutUs());
                       },
                     ),
-                    const Divider(height: 1, color: AppColors.neutralAlpha10),
+                    const Divider(height: 1, color: Color(0xFF5A1ABE)),
                     SettingTile(
                       iconWidget: Image.asset(
                         AppAssets.menuSupport,
@@ -99,7 +99,7 @@ class MoreScreen extends StatelessWidget {
                         Get.to(() => SupportoScreen());
                       },
                     ),
-                    const Divider(height: 1, color: AppColors.neutralAlpha10),
+                    const Divider(height: 1, color: Color(0xFF5A1ABE)),
                     SettingTile(
                       iconWidget: Image.asset(
                         AppAssets.close,
@@ -158,14 +158,13 @@ class SettingTile extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: AppStyles.body2.copyWith(fontWeight: FontWeight.w500),
+                style: AppStyles.body2.copyWith(fontWeight: FontWeight.w900, color: Colors.black),
               ),
             ),
-            trailingIcon ?? const Icon(Icons.arrow_forward_ios, size: 16),
+            trailingIcon ?? const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black),
           ],
         ),
       ),
     );
   }
 }
-

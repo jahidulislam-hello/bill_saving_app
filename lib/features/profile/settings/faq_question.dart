@@ -1,13 +1,12 @@
-
 import 'package:flutter/material.dart';
 
 class FaqQuestion extends StatelessWidget {
   const FaqQuestion({super.key});
 
-  static const _purple = Color(0xFF6C5CE7);
+  static const _purple = Color(0xFF5A1ABE);
   static const _purpleBg = Color(0xFFEEECFB);
   static const _textDark = Color(0xFF1A1A2E);
-  static const _textMid = Color(0xFF4A4A68);
+  static const _textMid = Colors.black;
   static const _bg = Colors.white;
 
   static const _policyPoints = [
@@ -38,7 +37,7 @@ class FaqQuestion extends StatelessWidget {
               style: TextStyle(
                 color: _textDark,
                 fontSize: 18,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w900,
                 letterSpacing: -0.2,
               ),
             ),
@@ -71,7 +70,7 @@ class FaqQuestion extends StatelessWidget {
         style: TextStyle(
           color: _textDark,
           fontSize: 17,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w900,
         ),
       ),
     );
@@ -85,6 +84,7 @@ class FaqQuestion extends StatelessWidget {
       decoration: BoxDecoration(
         color: _purpleBg,
         borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
       ),
       child: Center(
         child: SizedBox(
@@ -125,6 +125,7 @@ class FaqQuestion extends StatelessWidget {
                 fontSize: 13,
                 height: 1.65,
                 letterSpacing: 0.1,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
@@ -138,7 +139,7 @@ class FaqQuestion extends StatelessWidget {
 // Custom Illustration Painter
 // ─────────────────────────────────────────────
 class _PrivacyIllustrationPainter extends CustomPainter {
-  static const _purple = Color(0xFF6C5CE7);
+  static const _purple = Color(0xFF5A1ABE);
   static const _purpleLight = Color(0xFFB8B0F5);
   static const _purpleFill = Color(0xFFD9D5F8);
 
@@ -232,7 +233,7 @@ class _PrivacyIllustrationPainter extends CustomPainter {
 
   void _drawPlant(Canvas canvas, double x, double y) {
     final paint = Paint()
-      ..color = const Color(0xFF6C5CE7)
+      ..color = const Color(0xFF5A1ABE)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.8
       ..strokeCap = StrokeCap.round;
@@ -254,7 +255,7 @@ class _PrivacyIllustrationPainter extends CustomPainter {
 
     // Pot
     final potPaint = Paint()
-      ..color = const Color(0xFF6C5CE7)
+      ..color = const Color(0xFF5A1ABE)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.8;
     final pot = Path()
@@ -268,7 +269,7 @@ class _PrivacyIllustrationPainter extends CustomPainter {
 
   void _drawDevice(Canvas canvas, double x, double y) {
     final paint = Paint()
-      ..color = const Color(0xFF6C5CE7)
+      ..color = const Color(0xFF5A1ABE)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.8
       ..strokeCap = StrokeCap.round;
@@ -285,12 +286,12 @@ class _PrivacyIllustrationPainter extends CustomPainter {
     canvas.drawCircle(Offset(x, y - 10), 2.5, paint);
 
     // Dots at bottom
-    canvas.drawCircle(Offset(x, y + 4), 1.5, Paint()..color = const Color(0xFF6C5CE7));
+    canvas.drawCircle(Offset(x, y + 4), 1.5, Paint()..color = const Color(0xFF5A1ABE));
   }
 
   void _drawWifi(Canvas canvas, double x, double y) {
     final paint = Paint()
-      ..color = const Color(0xFF6C5CE7)
+      ..color = const Color(0xFF5A1ABE)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.8
       ..strokeCap = StrokeCap.round;
@@ -305,7 +306,7 @@ class _PrivacyIllustrationPainter extends CustomPainter {
         paint,
       );
     }
-    canvas.drawCircle(Offset(x, y + 4), 1.8, Paint()..color = const Color(0xFF6C5CE7));
+    canvas.drawCircle(Offset(x, y + 4), 1.8, Paint()..color = const Color(0xFF5A1ABE));
   }
 
   @override

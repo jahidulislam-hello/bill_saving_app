@@ -74,7 +74,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
             'Convenzioni',
             style: TextStyle(
               fontSize: 17.sp,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w900,
               color: const Color(0xFF1A1A2E),
               height: 1.22,
             ),
@@ -83,7 +83,8 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
             'Sconti esclusivi per te',
             style: TextStyle(
               fontSize: 11.sp,
-              color: const Color(0xFF9E9E9E),
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
               height: 1.22,
             ),
           ),
@@ -91,7 +92,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
       ),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1),
-        child: Divider(height: 1, thickness: 1, color: Colors.grey.shade200),
+        child: Divider(height: 1, thickness: 1, color: const Color(0xFF5A1ABE)),
       ),
     );
   }
@@ -104,7 +105,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFFE8F8EF),
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFFB2DFCC), width: 1.2),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.2),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +129,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                   'I Tuoi Vantaggi',
                   style: TextStyle(
                     fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w900,
                     color: const Color(0xFF1A1A2E),
                     height: 1.22,
                   ),
@@ -138,7 +139,8 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                   'Goditi sconti esclusivi presso i nostri ristoranti partner come membro prezioso.',
                   style: TextStyle(
                     fontSize: 12.sp,
-                    color: const Color(0xFF555555),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
                     height: 1.5,
                   ),
                 ),
@@ -168,7 +170,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14.r),
-          border: Border.all(color: Colors.grey.shade200, width: 1.2),
+          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.2),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),
@@ -207,7 +209,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                     item.name,
                     style: TextStyle(
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w900,
                       color: const Color(0xFF1A1A2E),
                       height: 1.22,
                     ),
@@ -217,7 +219,8 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                     item.city,
                     style: TextStyle(
                       fontSize: 12.sp,
-                      color: const Color(0xFF9E9E9E),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
                       height: 1.22,
                     ),
                   ),
@@ -233,7 +236,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                         item.discount,
                         style: TextStyle(
                           fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w900,
                           color: const Color(0xFF27AE60),
                           height: 1.22,
                         ),
@@ -248,7 +251,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
             Padding(
               padding: EdgeInsets.only(right: 10.w),
               child: Icon(Icons.chevron_right_rounded,
-                  color: Colors.grey.shade400, size: 20.sp),
+                  color: Colors.black, size: 20.sp),
             ),
           ],
         ),
@@ -260,9 +263,9 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
     return Container(
       width: 80.w,
       height: 80.w,
-      color: Colors.grey.shade100,
+      color: const Color(0xFFF5F5F5),
       child: Icon(Icons.restaurant_rounded,
-          color: Colors.grey.shade300, size: 28.sp),
+          color: Colors.black26, size: 28.sp),
     );
   }
 }

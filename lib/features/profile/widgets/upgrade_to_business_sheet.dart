@@ -30,11 +30,11 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
   // ── Tokens ──
   static const _purple = AppColors.primaryColor;
   static const _textDark = Color(0xFF1A1A2E);
-  static const _textMid = Color(0xFF636E72);
-  static const _textLight = Color(0xFFB2BEC3);
-  static const _border = Color(0xFFE0E0E8);
+  static const _textMid = Colors.black;
+  static const _textLight = Colors.black;
+  static const _border = Color(0xFF5A1ABE);
   static const _inputBg = Colors.white;
-  static const _darkBtn = Color(0xFF1A1A2E);
+  static const _darkBtn = Color(0xFF5A1ABE);
   static const _checkGreen = Color(0xFF27AE60);
 
   static const _roles = [
@@ -138,7 +138,7 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: const Color(0xFFDDDDDD),
+                color: const Color(0xFF5A1ABE),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -153,8 +153,8 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
               child: Container(
                 width: 30,
                 height: 30,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF4F4F6),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFF4F4F6),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(Icons.close,
@@ -170,7 +170,7 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
             style: TextStyle(
               color: _textDark,
               fontSize: 20,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w900,
               letterSpacing: -0.3,
             ),
           ),
@@ -182,6 +182,7 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
               color: _textMid,
               fontSize: 13,
               height: 1.5,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: 24),
@@ -205,7 +206,7 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                 color: _inputBg,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: _dropdownOpen ? _purple : _border,
+                  color: _border,
                   width: 1.22,
                 ),
               ),
@@ -217,23 +218,23 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                       const Text(
                         '(Job Role) ',
                         style: TextStyle(
-                            color: _textDark,
+                            color: Colors.black,
                             fontSize: 12,
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w900),
                       ),
                       const Text(
                         '[Optional]',
                         style: TextStyle(
-                            color: _textLight,
+                            color: Colors.black,
                             fontSize: 11,
-                            fontWeight: FontWeight.w400),
+                            fontWeight: FontWeight.w600),
                       ),
                       const Spacer(),
                       AnimatedRotation(
                         turns: _dropdownOpen ? 0.5 : 0,
                         duration: const Duration(milliseconds: 200),
                         child: const Icon(Icons.keyboard_arrow_down,
-                            color: _textDark, size: 20),
+                            color: Colors.black, size: 20),
                       ),
                     ],
                   ),
@@ -242,10 +243,10 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                     _selectedRole ?? 'Select your role',
                     style: TextStyle(
                       color: _selectedRole != null
-                          ? _textDark
-                          : _textLight,
+                          ? Colors.black
+                          : Colors.black54,
                       fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ],
@@ -292,14 +293,14 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                 child: RichText(
                   text: TextSpan(
                     style: const TextStyle(
-                        color: _textMid, fontSize: 12, height: 1.5),
+                        color: Colors.black, fontSize: 12, height: 1.5, fontWeight: FontWeight.w700),
                     children: [
                       const TextSpan(text: 'I agree to '),
                       TextSpan(
                         text: 'Business Terms & Conditions',
                         style: const TextStyle(
                             color: _purple,
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w900),
                       ),
                       const TextSpan(
                           text:
@@ -332,7 +333,7 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
               child: const Text(
                 'Complete Switch & Continue',
                 style: TextStyle(
-                    fontSize: 15, fontWeight: FontWeight.w700),
+                    fontSize: 15, fontWeight: FontWeight.w900),
               ),
             ),
           ),
@@ -358,14 +359,14 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
         controller: controller,
         keyboardType: keyboardType,
         style: const TextStyle(
-            color: _textDark, fontSize: 14, fontWeight: FontWeight.w500),
+            color: Colors.black, fontSize: 14, fontWeight: FontWeight.w800),
         decoration: InputDecoration(
           labelText: label,
           labelStyle: const TextStyle(
-              color: _textMid, fontSize: 12, fontWeight: FontWeight.w500),
+              color: Colors.black, fontSize: 12, fontWeight: FontWeight.w800),
           hintText: hint,
           hintStyle:
-          const TextStyle(color: _textLight, fontSize: 14),
+          const TextStyle(color: Colors.black45, fontSize: 14),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding:
           const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -408,7 +409,7 @@ class _RoleDropdownMenu extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: const Color(0xFFE0E0E8), width: 1.22),
+          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.10),
@@ -437,18 +438,18 @@ class _RoleDropdownMenu extends StatelessWidget {
                     child: Text(
                       item,
                       style: TextStyle(
-                        color: isSelected ? _purple : _textDark,
+                        color: isSelected ? _purple : Colors.black,
                         fontSize: 14,
                         fontWeight: isSelected
-                            ? FontWeight.w700
-                            : FontWeight.w400,
+                            ? FontWeight.w900
+                            : FontWeight.w700,
                         height: 1.22,
                       ),
                     ),
                   ),
                 ),
                 if (!isLast)
-                  const Divider(height: 1, color: Color(0xFFF0F0F5)),
+                  const Divider(height: 1, color: Color(0xFF5A1ABE)),
               ],
             );
           }),
@@ -457,4 +458,3 @@ class _RoleDropdownMenu extends StatelessWidget {
     );
   }
 }
-

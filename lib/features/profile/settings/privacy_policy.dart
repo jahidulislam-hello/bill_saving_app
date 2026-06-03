@@ -1,7 +1,4 @@
-
 import 'package:flutter/material.dart';
-
-
 
 
 class PrivacyPolicyScreen extends StatelessWidget {
@@ -10,7 +7,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   static const _purpleBg = Color(0xFFEEECFB);
   static const _textDark = Color(0xFF1A1A2E);
-  static const _textMid = Color(0xFF4A4A68);
+  static const _textMid = Colors.black;
   static const _bg = Colors.white;
 
   static const _policyPoints = [
@@ -41,7 +38,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               style: TextStyle(
                 color: _textDark,
                 fontSize: 18,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w900,
                 letterSpacing: -0.2,
               ),
             ),
@@ -74,7 +71,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
         style: TextStyle(
           color: _textDark,
           fontSize: 17,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w900,
         ),
       ),
     );
@@ -88,6 +85,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: _purpleBg,
         borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
       ),
       child: Center(
         child: SizedBox(
@@ -128,6 +126,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 fontSize: 13,
                 height: 1.65,
                 letterSpacing: 0.1,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),

@@ -29,7 +29,8 @@ class ActionCard extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(18.r),
           border: Border.all(
-            color: const Color(0xFFE8E8E8),
+            color: const Color(0xFFD2D2D2),
+            width: 1.22,
           ),
         ),
         child: Stack(
@@ -57,7 +58,7 @@ class ActionCard extends StatelessWidget {
                         title,
                         style: TextStyle(
                           fontSize: 15.sp,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w900,
                           color: const Color(0xFF1A1A2E),
                         ),
                       ),
@@ -67,9 +68,10 @@ class ActionCard extends StatelessWidget {
                       Text(
                         subtitle,
                         style: TextStyle(
-                          color: Colors.grey.shade500,
+                          color: Colors.black,
                           fontSize: 12.sp,
                           height: 1.4,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
@@ -82,10 +84,10 @@ class ActionCard extends StatelessWidget {
                 SizedBox(
                   width: 24.w,
                   height: 24.h,
-                  child: Icon(
+                  child: const Icon(
                     Icons.chevron_right,
-                    color: Colors.grey.shade400,
-                    size: 24.sp,
+                    color: Colors.black,
+                    size: 24,
                   ),
                 ),
               ],
@@ -110,7 +112,7 @@ class ActionCard extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 11.sp,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                 ),
