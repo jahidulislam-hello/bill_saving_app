@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vyzi/features/profile/settings/faq_question.dart';
-import 'package:vyzi/features/profile/settings/fq.dart';
 import 'package:vyzi/features/profile/settings/fq_bill.dart';
 import 'package:vyzi/features/profile/settings/fq_utilities.dart';
 
@@ -12,7 +11,6 @@ class _T {
   static const bg = Colors.white;
   static const textDark = Color(0xFF1A1A2E);
   static const textMid = Colors.black;
-  static const textLight = Colors.black;
   static const purple = Color(0xFF5A1ABE);
   static const purpleBg = Color(0xFFEEEAFB);
   static const green = Color(0xFF00C896);
@@ -137,7 +135,7 @@ class SupportoScreen extends StatelessWidget {
             height: 140,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+              border: Border.all(color: const Color(0xFFE8E8E8), width: 1.22),
               image: const DecorationImage(
                 image: NetworkImage(
                   'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600',
@@ -219,7 +217,7 @@ class _SupportTile extends StatelessWidget {
         decoration: BoxDecoration(
           color: _T.cardBg,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+          border: Border.all(color: const Color(0xFFE8E8E8), width: 1.22),
         ),
         child: Row(
           children: [

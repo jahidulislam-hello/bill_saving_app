@@ -19,7 +19,7 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       appBar: const CustomAppBar(
         title: 'Verifica OTP',
         showBackButton: true,
@@ -46,25 +46,27 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                         height: 57,
                         margin: const EdgeInsets.symmetric(horizontal: 6),
                         decoration: BoxDecoration(
-                          color: Colors.black12,
+                          color: AppColors.primary50,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: isFilled
-                                ? const Color(0xFF00D65C)
-                                : Colors.grey.shade400,
+                                ? AppColors.linkGreen
+                                : AppColors.divider,
                             width: 2,
                           ),
                         ),
                         child: Center(
                           child: TextField(
                             textAlign: TextAlign.center,
+                            textAlignVertical: TextAlignVertical.center,
                             maxLength: 1,
                             keyboardType: TextInputType.number,
                             style: const TextStyle(
-                                fontSize: 22, color: Colors.white70),
+                                fontSize: 22, color: AppColors.textDark, fontWeight: FontWeight.w700),
                             decoration: const InputDecoration(
                               counterText: '',
                               border: InputBorder.none,
+                              contentPadding: EdgeInsets.zero,
                             ),
                             onChanged: (val) {
                               controller.updateDigit(index, val);
@@ -95,8 +97,9 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                         "Invia di nuovo OTP",
                         style: TextStyle(
                           fontSize: 14,
-                          color: AppColors.primary50,
+                          color: AppColors.primaryColor,
                           decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     );
@@ -106,19 +109,19 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                         "00:${seconds.toString().padLeft(2, '0')}";
                     return RichText(
                       text: TextSpan(
-                        style: const TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 14, fontFamily: 'Open Sans'),
                         children: [
                           const TextSpan(
                             text: 'Invia di nuovo OTP ',
                             style: TextStyle(
-                              color: AppColors.primary50,
-                              fontWeight: FontWeight.w500,
+                              color: AppColors.textPrimary,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           TextSpan(
                             text: timerText,
                             style: const TextStyle(
-                              color: Colors.redAccent,
+                              color: AppColors.red100,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

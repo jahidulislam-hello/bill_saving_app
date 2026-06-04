@@ -36,7 +36,6 @@ class SocialButton extends StatelessWidget {
         color: AppColors.textPrimary,
         fontSize: 13.sp,
         fontWeight: FontWeight.w500,
-        fontFamily: 'Open Sans',
       ),
     );
   }

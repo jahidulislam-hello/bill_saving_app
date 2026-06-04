@@ -1,4 +1,5 @@
 
+import 'package:vyzi/core/navbar/navbar_controller.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/home/screen/home_screen.dart';
 import 'package:vyzi/features/my_utility/my_utiliets.dart';
@@ -9,18 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+class CustomBottomNavBar extends StatelessWidget {
+  CustomBottomNavBar({super.key});
 
-
-
-class CustomBottomNavBar extends StatefulWidget {
-  const CustomBottomNavBar({super.key});
-
-  @override
-  State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();
-}
-
-class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
-  int _currentIndex = 0;
+  final NavbarController _controller = Get.put(NavbarController());
 
   final List<Widget> _screens = [
     HomeScreen(),
@@ -31,12 +24,14 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: _screens[_currentIndex],
-      bottomNavigationBar: _buildBottomNavigationBar(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _buildFloatingActionButton(),
+    return Obx(
+      () => Scaffold(
+        backgroundColor: AppColors.background,
+        body: _screens[_controller.selectedIndex],
+        bottomNavigationBar: _buildBottomNavigationBar(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: _buildFloatingActionButton(),
+      ),
     );
   }
 
@@ -46,12 +41,11 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
       height: 56.h,
       width: 56.w,
       child: FloatingActionButton(
-        backgroundColor:Color(0xFFF4E6FB),
+        backgroundColor: AppColors.lightPurple,
         elevation: 2,
         onPressed: () {
           Get.to(() => SelectUtilityScreen());
         },
-
         shape: const CircleBorder(),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30.r),
@@ -71,10 +65,10 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
     return Container(
       height: 64.h,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.background,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: AppColors.textPrimary.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -97,7 +91,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
               passiveImage: "assets/images/rich.png",
             ),
           ),
-          SizedBox(width:50.w), // Space for FAB
+          SizedBox(width: 50.w), // Space for FAB
           Expanded(
             child: _buildNavItem(
               index: 2,
@@ -123,23 +117,23 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
     required String activeImage,
     required String passiveImage,
   }) {
-    bool isSelected = _currentIndex == index;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _currentIndex = index;
-        });
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        padding: EdgeInsets.symmetric(vertical: 8.h),
-        child: Image.asset(
-          isSelected ? activeImage : passiveImage,
-          width: 50.w,
-          height: 50.h,
-          fit: BoxFit.contain,
+    return Obx(() {
+      bool isSelected = _controller.selectedIndex == index;
+      return GestureDetector(
+        onTap: () {
+          _controller.changeIndex(index);
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          padding: EdgeInsets.symmetric(vertical: 8.h),
+          child: Image.asset(
+            isSelected ? activeImage : passiveImage,
+            width: 50.w,
+            height: 50.h,
+            fit: BoxFit.contain,
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

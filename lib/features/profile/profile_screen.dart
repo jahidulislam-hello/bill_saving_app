@@ -175,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const Divider(
             height: 1,
             thickness: 1,
-            color: Color(0xFFE8E8E8),
+            color: AppColors.divider,
           ),
         ],
       ),
@@ -192,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white24, width: 1),
+        border: Border.all(color: AppColors.background.withOpacity(0.24), width: 1),
       ),
       child: Column(
         children: [
@@ -207,11 +207,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 52.w,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white.withOpacity(0.2),
+                    color: AppColors.background.withOpacity(0.2),
                   ),
                   child: const Icon(
                     Icons.person_rounded,
-                    color: Colors.white,
+                    color: AppColors.background,
                     size: 30,
                   ),
                 ),
@@ -222,12 +222,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Text(
                         _controller.name,
-                        style: AppStyles.h4.copyWith(color: Colors.white, fontWeight: FontWeight.w900),
+                        style: AppStyles.h4.copyWith(color: AppColors.background, fontWeight: FontWeight.w900),
                       ),
                       SizedBox(height: 3.h),
                       Text(
                         _controller.email,
-                        style: AppStyles.body4.copyWith(color: Colors.white.withOpacity(0.9), fontWeight: FontWeight.w700),
+                        style: AppStyles.body4.copyWith(color: AppColors.background.withOpacity(0.9), fontWeight: FontWeight.w700),
                       ),
                     ],
                   ),
@@ -237,10 +237,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
 
           // Divider inside card
-          const Divider(
+          Divider(
             height: 1.22,
              thickness: 1,
-            color: Colors.white24,
+            color: AppColors.background.withOpacity(0.24),
           ),
 
           // Bottom: Account type + switch button
@@ -255,14 +255,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Text(
                       'Tipo di account',
-                      style: AppStyles.caption.copyWith(color: Colors.white.withOpacity(0.85), fontWeight: FontWeight.w700),
+                      style: AppStyles.caption.copyWith(color: AppColors.background.withOpacity(0.85), fontWeight: FontWeight.w700),
                     ),
                     SizedBox(height: 2.h),
                     Text(
                       _controller.accountType,
                       style: AppStyles.body1.copyWith(
                         fontWeight: FontWeight.w900,
-                        color: Colors.white,
+                        color: AppColors.background,
                       ),
                     ),
                   ],
@@ -282,7 +282,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: EdgeInsets.symmetric(
                         horizontal: 14.w, vertical: 8.h),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.background,
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Row(
@@ -334,10 +334,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       decoration: BoxDecoration(
         color: AppColors.background,
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFFCCB8EB), width: 1.22),
+        border: Border.all(color: AppColors.borderPurple, width: 1.22),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColors.textDark.withOpacity(0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -356,7 +356,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   thickness: 1,
                   indent: 14.w,
                   endIndent: 14.w,
-                  color: const Color(0xFFE8E8E8),
+                  color: AppColors.divider,
                 ),
             ],
           );
@@ -417,7 +417,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             Icon(
               Icons.chevron_right_rounded,
-              color: Colors.black,
+              color: AppColors.textDark,
               size: 20.sp,
             ),
           ],
@@ -432,10 +432,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       decoration: BoxDecoration(
         color: AppColors.background,
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFFCCB8EB), width: 1.22),
+        border: Border.all(color: AppColors.borderPurple, width: 1.22),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColors.textDark.withOpacity(0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

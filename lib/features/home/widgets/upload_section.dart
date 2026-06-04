@@ -15,87 +15,99 @@ class UploadSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: DottedBorderPainter(
-        color: const Color(0xFF5A1ABE),
-        strokeWidth: 1.w,
-        dashPattern: [8.w, 8.w],
-        borderRadius: 12.r,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primaryButton.withOpacity(0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 20.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12.r),
+      child: CustomPaint(
+        painter: DottedBorderPainter(
+          color: AppColors.borderGlobal.withOpacity(0.5),
+          strokeWidth: 1.w,
+          dashPattern: [8.w, 8.w],
+          borderRadius: 12.r,
         ),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    AppAssets.upload,
-                    width: 32.sp,
-                    height: 32.sp,
-                  ),
-                  SizedBox(height: 12.h),
-                  Text(
-                    "Carica la tua Prima\nBolletta",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w900,
-                      height: 1.2,
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 20.w),
+          decoration: BoxDecoration(
+            color: AppColors.background,
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      AppAssets.upload,
+                      width: 32.sp,
+                      height: 32.sp,
                     ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Text(
-                    "Lasciaci analizzare il tuo piano\nattuale e trovare offerte migliori",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600,
-                      height: 1.4,
+                    SizedBox(height: 12.h),
+                     Text(
+                      "Carica la tua Prima\nBolletta",
+                      style: TextStyle(
+                        color: AppColors.textDark,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w900,
+                        height: 1.2,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 16.h),
-                  GestureDetector(
-                    onTap: onTap,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                        vertical: 10.h,
+                    SizedBox(height: 8.h),
+                     Text(
+                      "Lasciaci analizzare il tuo piano\nattuale e trovare offerte migliori",
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        height: 1.4,
                       ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(14.r),
-                      ),
-                      child: Text(
-                        "Inizia a Risparmiare",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w800,
+                    ),
+                    SizedBox(height: 16.h),
+                    GestureDetector(
+                      onTap: onTap,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 10.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(14.r),
+                        ),
+                        child: Text(
+                          "Inizia a Risparmiare",
+                          style: TextStyle(
+                            color: AppColors.background,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(width: 8.w),
-            Expanded(
-              flex: 2,
-              child: Image.asset(
-                AppAssets.homeNew,
-                fit: BoxFit.contain,
+              SizedBox(width: 8.w),
+              Expanded(
+                flex: 2,
+                child: Image.asset(
+                  AppAssets.homeNew,
+                  fit: BoxFit.contain,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

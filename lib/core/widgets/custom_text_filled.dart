@@ -57,83 +57,112 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   bool _obscure = true;
+  final FocusNode _focusNode = FocusNode();
+  bool _isFocused = false;
 
-  OutlineInputBorder _border({Color? color}) => OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.r),
-    borderSide: BorderSide(
-      color: color ?? widget.borderColor ?? AppColors.neutral200,
-      width: 1.2,
-    ),
-  );
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {
+        _isFocused = _focusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final double fieldHeight = widget.height ?? AppStyles.standardHeight;
-    return SizedBox(
-      height: fieldHeight,
-      child: TextFormField(
-        controller: widget.controller,
-        keyboardType: widget.keyboardType,
-        obscureText: widget.isPassword ? _obscure : false,
-        obscuringCharacter: '•',
-        maxLines: widget.maxLines,
-        readOnly: widget.readOnly ?? false,
-        onTap: widget.onTap,
-        onChanged: widget.onChanged,
-        validator: widget.validator,
-        cursorColor: AppColors.primaryColor,
-        style: TextStyle(
-          color: AppColors.textPrimary,
-          fontSize: 14.sp,
-          fontFamily: 'Open Sans',
-          height: 1.2,
-        ),
-        decoration: InputDecoration(
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: widget.contentPaddingH ?? 14.w,
-            vertical: widget.contentPaddingV ?? 16.h,
-          ),
-          filled: true,
-          fillColor: widget.fillColor ?? AppColors.fillColor,
-          prefixIcon: widget.prefixIcon,
-          suffixIcon: widget.isPassword
-              ? GestureDetector(
-            onTap: () => setState(() => _obscure = !_obscure),
-            child: Icon(
-              _obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-              color: AppColors.primaryColor,
-              size: 20.sp,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 4.h),
+          decoration: BoxDecoration(
+            color: widget.fillColor ?? AppColors.fillColor,
+            borderRadius: BorderRadius.circular(8.r),
+            border: Border.all(
+              color: _isFocused
+                  ? AppColors.primaryColor
+                  : (widget.borderColor ?? AppColors.neutral200),
+              width: 1.2,
             ),
-          )
-              : widget.suffixIcon,
-          prefixIconConstraints: BoxConstraints(
-            minHeight: fieldHeight,
-            minWidth: 48.w,
-            maxHeight: fieldHeight,
-            maxWidth: 64.w,
           ),
-          suffixIconConstraints: BoxConstraints(
-            minHeight: fieldHeight,
-            minWidth: 48.w,
-            maxHeight: fieldHeight,
-            maxWidth: 56.w,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (widget.labelText != null)
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 2.h),
+                  child: Text(
+                    widget.labelText!,
+                    style: AppStyles.caption.copyWith(
+                      color: _isFocused ? AppColors.primaryColor : AppColors.textSecondary,
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              TextFormField(
+                controller: widget.controller,
+                focusNode: _focusNode,
+                keyboardType: widget.keyboardType,
+                obscureText: widget.isPassword ? _obscure : false,
+                obscuringCharacter: '•',
+                maxLines: widget.maxLines,
+                readOnly: widget.readOnly ?? false,
+                onTap: widget.onTap,
+                onChanged: widget.onChanged,
+                validator: widget.validator,
+                cursorColor: AppColors.primaryColor,
+                style: TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 14.sp,
+                  height: 1.2,
+                ),
+                decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: widget.contentPaddingH ?? 14.w,
+                    vertical: widget.contentPaddingV ?? 8.h,
+                  ),
+                  filled: false,
+                  prefixIcon: widget.prefixIcon,
+                  suffixIcon: widget.isPassword
+                      ? GestureDetector(
+                          onTap: () => setState(() => _obscure = !_obscure),
+                          child: Icon(
+                            _obscure
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
+                            color: AppColors.primaryColor,
+                            size: 20.sp,
+                          ),
+                        )
+                      : widget.suffixIcon,
+                  hintText: widget.hintText,
+                  hintStyle: TextStyle(
+                    color: AppColors.hintColor,
+                    fontSize: 14.sp,
+                  ),
+                  errorStyle: const TextStyle(height: 0, fontSize: 0),
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                ),
+              ),
+            ],
           ),
-          hintText: widget.hintText,
-          labelText: widget.labelText,
-          hintStyle: TextStyle(
-            color: AppColors.hintColor,
-            fontFamily: 'Open Sans',
-            fontSize: 14.sp,
-          ),
-          errorStyle: const TextStyle(height: 0, fontSize: 0),
-          border: _border(color: AppColors.neutral200),
-          enabledBorder: _border(color: AppColors.neutral200),
-          focusedBorder: _border(color: AppColors.primaryColor),
-          errorBorder: _border(color: Colors.red),
-          disabledBorder: _border(color: AppColors.neutral200),
         ),
-      ),
+      ],
     );
   }
 }

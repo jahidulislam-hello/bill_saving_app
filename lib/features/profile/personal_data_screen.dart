@@ -29,7 +29,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F7),
+      backgroundColor: AppColors.primary50,
       appBar: const CustomAppBar(title: 'Dati Personali', showBackButton: true),
       body: SingleChildScrollView(
         child: Column(
@@ -40,7 +40,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 20.h),
               child: Text(
                 'Aggiorna le informazioni del tuo account e come\nti contattiamo.',
-                style: AppStyles.body3.copyWith(height: 1.5, color: Colors.black),
+                style: AppStyles.body3.copyWith(height: 1.5, color: AppColors.textPrimary),
               ),
             ),
 
@@ -81,7 +81,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   // ── Avatar card ──
   Widget _buildAvatarCard() {
     return Container(
-      color: Colors.white,
+      color: AppColors.background,
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 28.h),
       child: Column(
@@ -95,8 +95,8 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                      color: Colors.grey.shade200, width: 2),
-                  color: Colors.grey.shade100,
+                      color: AppColors.divider, width: 2),
+                  color: AppColors.primary50,
                 ),
                 child: ClipOval(
                   child: _c.avatarAsset.isNotEmpty
@@ -104,7 +104,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                       : Icon(
                       Icons.person_rounded,
                       size: 48.sp,
-                      color: Colors.grey.shade400,
+                      color: AppColors.textSecondary,
                     ),
                 ),
               ),
@@ -119,10 +119,10 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                     color: AppColors.darkBlue,
                     shape: BoxShape.circle,
                     border:
-                    Border.all(color: Colors.white, width: 2),
+                    Border.all(color: AppColors.background, width: 2),
                   ),
                   child: Icon(Icons.edit_rounded,
-                      color: Colors.white, size: 12.sp),
+                      color: AppColors.background, size: 12.sp),
                 ),
               ),
             ],
@@ -156,11 +156,11 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   Widget _buildFormCard() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: AppColors.textPrimary.withOpacity(0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -229,13 +229,13 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             hintText: hint,
             hintStyle: AppStyles.hintStyle,
             filled: true,
-            fillColor: const Color(0xFFF8F8F8),
+            fillColor: AppColors.primary50,
             contentPadding: EdgeInsets.symmetric(
                 horizontal: 14.w, vertical: 12.h),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide(
-                  color: Colors.grey.shade200, width: 1),
+              borderSide: const BorderSide(
+                  color: AppColors.divider, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
@@ -252,7 +252,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   Widget _buildPrivacyCard() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF0EEFF),
+        color: AppColors.primary100,
         borderRadius: BorderRadius.circular(12.r),
       ),
       padding: EdgeInsets.all(14.w),
@@ -300,7 +300,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.darkBlue,
-              foregroundColor: Colors.white,
+              foregroundColor: AppColors.background,
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14.r),
@@ -312,7 +312,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               height: 20.w,
               child: const CircularProgressIndicator(
                 strokeWidth: 2,
-                color: Colors.white,
+                color: AppColors.background,
               ),
             )
                 : Text(
@@ -335,7 +335,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             },
             child: Text(
               'Annulla e scarta',
-              style: AppStyles.body2.copyWith(color: Colors.black, fontWeight: FontWeight.w700),
+              style: AppStyles.body2.copyWith(color: AppColors.textPrimary, fontWeight: FontWeight.w700),
             ),
           ),
         ),

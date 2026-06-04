@@ -2,7 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyzi/core/utils/app_assets.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/routes/app_routes.dart';
+
+import '../../core/utils/app_assets.dart';
 
 
 class OnboardingScreen extends StatefulWidget {
@@ -17,7 +21,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
       "title": "Private",
       "subtitle":
       "For Personal use and management\nof household utilities",
-      "icon": Icons.person,
+      "icon": AppAssets.private,
       "points": [
         "Manage your home electricity & gas",
         "Compare personal energy offers",
@@ -28,7 +32,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
       "title": "Business",
       "subtitle":
       "For Companies, Professionals and\nBusinesses with utilities",
-      "icon": Icons.business_center_outlined,
+      "icon": AppAssets.business,
       "points": [
         "Manage multiple business utilities",
         "Business-specific energy offers",
@@ -40,7 +44,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -56,7 +60,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       height: 76.h,
                       width: 76.w,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE8E2F3),
+                        color: AppColors.primary100,
                         borderRadius: BorderRadius.circular(18.r),
                       ),
                       child: Center(
@@ -64,15 +68,13 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                           shaderCallback: (bounds) {
                             return const LinearGradient(
                               colors: [
-                                Color(0xFF0D63FF),
-                                Color(0xFF00D2FF),
+                                AppColors.primaryColor,
+                                AppColors.secondaryColor,
                               ],
                             ).createShader(bounds);
                           },
-                          child: Icon(
-                            Icons.flash_on,
-                            size: 42.sp,
-                            color: Colors.white,
+                          child: Image.asset(
+                            AppAssets.logo,
                           ),
                         ),
                       ),
@@ -80,17 +82,8 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
 
                     SizedBox(height: 10.h),
 
-                    Text(
-                      "VYZI",
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w900,
-                        color: const Color(0xFF122A72),
-                        letterSpacing: 1,
-                      ),
-                    ),
 
-                    SizedBox(height: 8.h),
+
 
                     Text(
                       "How do you want to use VYZI?",
@@ -98,7 +91,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.w900,
-                        color: Colors.black,
+                        color: AppColors.textPrimary,
                       ),
                     ),
 
@@ -109,7 +102,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black,
+                        color: AppColors.textPrimary,
                       ),
                     ),
 
@@ -133,15 +126,15 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                           child: Container(
                             margin: EdgeInsets.only(bottom: 24.h),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: AppColors.cardBg,
                               borderRadius: BorderRadius.circular(12.r),
                               border: Border.all(
-                                color: const Color(0xFF5A1ABE),
+                                color: AppColors.primaryColor,
                                 width: 2,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.05),
+                                  color: AppColors.textPrimary.withOpacity(0.05),
                                   blurRadius: 10,
                                   offset: const Offset(0, 4),
                                 ),
@@ -161,14 +154,16 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                                       width: 48.w,
                                       decoration: BoxDecoration(
                                         color:
-                                        const Color(0xFFF0E8FA),
+                                        AppColors.primary100,
                                         borderRadius:
                                         BorderRadius.circular(16.r),
                                       ),
-                                      child: Icon(
-                                        item["icon"],
-                                        color: const Color(0xFF8E24FF),
-                                        size: 24.sp,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8.w),
+                                        child: Image.asset(
+                                          item["icon"],
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
                                     ),
 
@@ -186,7 +181,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                                               fontWeight:
                                               FontWeight.w900,
                                               color:
-                                              Colors.black,
+                                              AppColors.textPrimary,
                                             ),
                                           ),
 
@@ -199,7 +194,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                                               height: 1.4,
                                               fontWeight: FontWeight.w600,
                                               color:
-                                              Colors.black,
+                                              AppColors.textSecondary,
                                             ),
                                           ),
                                         ],
@@ -212,17 +207,17 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
-                                          color: const Color(0xFF5A1ABE),
+                                          color: AppColors.primaryColor,
                                           width: 2,
                                         ),
                                         color: isSelected
-                                            ? const Color(0xFF5A1ABE)
+                                            ? AppColors.primaryColor
                                             : Colors.transparent,
                                       ),
                                       child: isSelected
                                           ? Icon(
                                         Icons.check,
-                                        color: Colors.white,
+                                        color: AppColors.background,
                                         size: 14.sp,
                                       )
                                           : null,
@@ -233,7 +228,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                                 SizedBox(height: 10.h),
 
                                 Divider(
-                                  color: const Color(0xFFE5E5E5),
+                                  color: AppColors.divider,
                                   thickness: 1,
                                 ),
 
@@ -254,11 +249,11 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                                             const BoxDecoration(
                                               shape: BoxShape.circle,
                                               color:
-                                              Color(0xFF23C16B),
+                                              AppColors.linkGreen,
                                             ),
                                             child: Icon(
-                                              Icons.check,
-                                              color: Colors.white,
+                                              Icons.check_rounded,
+                                              color: AppColors.background,
                                               size: 12.sp,
                                             ),
                                           ),
@@ -270,7 +265,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                                               item["points"][i],
                                               style: TextStyle(
                                                 fontSize: 12.sp,
-                                                color: Colors.black,
+                                                color: AppColors.textPrimary,
                                                 fontWeight:
                                                 FontWeight.w700,
                                               ),
@@ -299,7 +294,18 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                 vertical: 18.h,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xFFEAF1F3),
+                border: const Border(
+                  top: BorderSide(color: AppColors.primaryColor, width: 1.22),
+                ),
+                // gradient: const LinearGradient(
+                //   colors: [
+                //     Color(0xFF1E40AF),
+                //     Color(0xFF06B6D4),
+                //   ],
+                //   begin: Alignment.topLeft,
+                //   end: Alignment.bottomRight,
+                // ),
+                color: AppColors.primary50,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(34.r),
                   topRight: Radius.circular(34.r),
@@ -316,7 +322,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       height: 52.h,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF5A1ABE),
+                        color: AppColors.primaryColor,
                         borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Center(
@@ -325,7 +331,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w800,
-                            color: Colors.white,
+                            color: AppColors.background,
                           ),
                         ),
                       ),
@@ -345,10 +351,10 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12.r),
                         border: Border.all(
-                          color: const Color(0xFF5A1ABE),
+                          color: AppColors.primaryColor,
                           width: 1.6,
                         ),
-                        color: Colors.white,
+                        color: Colors.transparent,
                       ),
                       child: Center(
                         child: Text(
@@ -356,7 +362,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFF5A1ABE),
+                            color: AppColors.primaryColor,
                           ),
                         ),
                       ),

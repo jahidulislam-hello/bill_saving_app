@@ -22,6 +22,7 @@ class AppAssets {
   static const String facebook = '$_iconPath/facebook.png';
   static const String google = '$_iconPath/gogle.png';
   static const String apple = '$_iconPath/apple.png';
+  static const String business = '$_iconPath/business.png';
 
   // ─── Navigation Icons ──────────────────────────────────────────────────────
   static const String homeAct = '$_imagePath/home_act.png';
@@ -32,6 +33,8 @@ class AppAssets {
   static const String reqInact = '$_imagePath/rich.png';
   static const String profileAct = '$_imagePath/profil_act.png';
   static const String profileInact = '$_imagePath/profil.png';
+  static const String private = '$_imagePath/user.png';
+
 
   // ─── Images ────────────────────────────────────────────────────────────────
   static const String appLogo = '$_imagePath/VYZI.png';
@@ -58,6 +61,7 @@ class AppAssets {
   static const String onboarding1 = '$_imagePath/on1.png';
   static const String onboarding2 = '$_imagePath/on2.png';
   static const String onboarding3 = '$_imagePath/on3.png';
+  static const String icons = '$_imagePath/icons.png';
 
   // ─── Home Action Icons ─────────────────────────────────────────────────────
   static const String actionChange = '$_imagePath/h_1.png';
@@ -74,4 +78,37 @@ class AppAssets {
   static const String menuAgreements = '$_iconPath/5.png';
   static const String menuMore = '$_iconPath/6.png';
   static const String menuSupport = '$_iconPath/8.png';
+
+
+
+  static const String profile001 = '$_imagePath/profile_001.png';
+  static const String profile002 = '$_imagePath/profile_002.png';
+
+
+
+
+// ─── Invite Friends Icons ────────────────────────────────────────────────────
+
+  static const String copy = '$_iconPath/1.png';
+  static const String share = '$_iconPath/2.png';
+  static const String earn = '$_iconPath/3.png';
+  static const String friend = '$_iconPath/3.png';
+  static const String invite = '$_iconPath/3.png';
+  static const String complete = '$_iconPath/3.png';
+
+
+
+
+  static const String chart = '$_iconPath/chart.png';
+  static const String location = '$_iconPath/location.png';
+  static const String sendEmail = '$_iconPath/send_email.png';
+  static const String openTicket = '$_iconPath/open_ticket.png';
+  static const String website = '$_iconPath/website.png';
+
+
+
+
+
+
+
 }

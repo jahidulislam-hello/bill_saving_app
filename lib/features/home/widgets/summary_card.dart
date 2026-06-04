@@ -1,3 +1,4 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,12 +27,16 @@ class SummaryCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: const Color(0xFFEFEFEF),
+        color: AppColors.shortcardbg,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-          color: const Color(0xFF5A1ABE),
-          width: 1.22,
-        ),
+        border: Border.all(color: AppColors.borderGlobal, width: 1.22),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.textPrimary.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +62,7 @@ class SummaryCard extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: AppColors.textDark,
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w700,
                 ),
@@ -81,7 +86,7 @@ class SummaryCard extends StatelessWidget {
           Text(
             subtitle,
             style: TextStyle(
-              color: Colors.black,
+              color: AppColors.textPrimary,
               fontSize: 12.sp,
               fontWeight: FontWeight.w700,
             ),

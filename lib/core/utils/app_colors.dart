@@ -18,6 +18,10 @@ class AppColors {
   static const Color textPrimary = Color(0xFF000000);
   static const Color textSecondary = Color(0xFF000000);
   static const Color textTitle = Color(0xFF000000);
+  static const Color borderGlobal = Color(0xFF7B48CB);
+  static const Color shortcardbg = Color(0xFFEFEFEF);
+
+
 
   static const Color purple = primaryColor;
   static const Color lightPurple = Color(0xFFF4E6FB);
@@ -94,6 +98,19 @@ class AppColors {
   static const Color green100 = Color(0xFF84EBB4);
   static const Color green200 = Color(0xFF1FC16B);
 
+
+
+
+
+
+  static const Color invitebg = Color(0xFFEFE8F9);
+
   /// Green Alpha
   static const Color greenAlpha10 = Color(0x1A1FC16B);
+
+
+
+
+
+
 }

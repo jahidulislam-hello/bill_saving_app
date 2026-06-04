@@ -44,7 +44,14 @@ class ActionSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.background,
         borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+        border: Border.all(color: AppColors.borderGlobal, width: 1.22),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.textPrimary.withOpacity(0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

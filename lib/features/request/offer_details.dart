@@ -109,7 +109,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: AppColors.background,
       appBar: _buildAppBar(context),
       body: Stack(
         children: [
@@ -143,7 +143,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.bg,
+      backgroundColor: AppColors.background,
       elevation: 0,
       scrolledUnderElevation: 0,
       leadingWidth: 40,
@@ -392,7 +392,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
       decoration: BoxDecoration(
         color: AppColors.cardBg,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.divider, width: 1.2),
+        border: Border.all(color: Color(0xFFB396E1), width: 1.2),
       ),
       child: Row(
         children: [

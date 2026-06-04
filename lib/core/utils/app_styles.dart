@@ -85,7 +85,7 @@ class AppStyles {
 
   // ─── Specialized ───────────────────────────────────────────────────────────
   static TextStyle get buttonText => GoogleFonts.openSans(
-        fontSize: 18.sp,
+        fontSize: 16.sp,
         fontWeight: FontWeight.w600,
         color: Colors.white,
       );

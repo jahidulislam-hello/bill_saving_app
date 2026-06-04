@@ -1,3 +1,4 @@
+import 'package:vyzi/core/navbar/navbar_controller.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,29 +19,42 @@ class UtilitiesSection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+        border: Border.all(color: AppColors.borderGlobal, width: 1.22),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.textPrimary.withOpacity(0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         children: [
           Row(
             children: [
-              Text(
+               Text(
                 "Le tue Utenze",
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w900,
-                  color: Colors.black,
+                  color: AppColors.textDark,
                 ),
               ),
               const Spacer(),
-              Text(
-                "Visualizza Tutto",
-                style: TextStyle(
-                  color: AppColors.primaryColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w900,
+              GestureDetector(
+                onTap: () {
+                  final NavbarController navCtrl = Get.find<NavbarController>();
+                  navCtrl.changeIndex(2); // Index for MyUtilitiesScreen
+                },
+                child: Text(
+                  "Visualizza Tutto",
+                  style: TextStyle(
+                    color: AppColors.primaryColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
             ],
@@ -59,7 +73,6 @@ class UtilitiesSection extends StatelessWidget {
               return UtilityCard(
                 title: item['title'],
                 subtitle: item['subtitle'],
-                price: item['price'],
                 onTap: () {
                   // Handle utility card tap
                   print("Utility tapped: ${item['title']}");

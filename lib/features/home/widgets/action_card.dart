@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 
 class ActionCard extends StatelessWidget {
   final String title;
@@ -26,12 +27,12 @@ class ActionCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(14.w),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.background,
           borderRadius: BorderRadius.circular(18.r),
-          border: Border.all(
-            color: const Color(0xFFD2D2D2),
-            width: 1.22,
-          ),
+          // border: Border.all(
+          //   color: const Color(0xFFD2D2D2),
+          //   width: 1.22,
+          // ),
         ),
         child: Stack(
           clipBehavior: Clip.none,
@@ -59,7 +60,7 @@ class ActionCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w900,
-                          color: const Color(0xFF1A1A2E),
+                          color: AppColors.textDark,
                         ),
                       ),
 
@@ -68,7 +69,7 @@ class ActionCard extends StatelessWidget {
                       Text(
                         subtitle,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: AppColors.textPrimary,
                           fontSize: 12.sp,
                           height: 1.4,
                           fontWeight: FontWeight.w700,
@@ -86,7 +87,7 @@ class ActionCard extends StatelessWidget {
                   height: 24.h,
                   child: const Icon(
                     Icons.chevron_right,
-                    color: Colors.black,
+                    color: AppColors.textDark,
                     size: 24,
                   ),
                 ),
@@ -104,13 +105,13 @@ class ActionCard extends StatelessWidget {
                     vertical: 4.h,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF00C896),
+                    color: AppColors.green,
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
                     badgeText ?? 'Nuovo',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.background,
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w900,
                     ),

@@ -65,29 +65,24 @@ class _SignInScreenState extends State<SignInScreen> {
 
 
                 // ── Email ──────────────────────────
-                _labeledField(
-                  label: 'Indirizzo Email *',
-                  child: CustomTextField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    hintText: 'you@example.com',
-                    validator: (v) =>
-                    v == null || !v.contains('@') ? 'Inserisci un\'email valida' : null,
-                  ),
+                CustomTextField(
+                  labelText: 'Indirizzo Email *',
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  hintText: 'you@example.com',
+                  validator: (v) =>
+                      v == null || !v.contains('@') ? 'Inserisci un\'email valida' : null,
                 ),
 
-
+                SizedBox(height: 12.h),
 
                 // ── Password ───────────────────────
-                _labeledField(
-                  label: 'Password *',
-                  child: CustomTextField(
-                    controller: _passwordController,
-                    isPassword: true,
-                    hintText: '••••••••••',
-                    validator: (v) =>
-                    v == null || v.length < 6 ? 'Minimo 6 caratteri' : null,
-                  ),
+                CustomTextField(
+                  labelText: 'Password *',
+                  controller: _passwordController,
+                  isPassword: true,
+                  hintText: '••••••••••',
+                  validator: (v) => v == null || v.length < 6 ? 'Minimo 6 caratteri' : null,
                 ),
 
                 SizedBox(height: 12.h),
