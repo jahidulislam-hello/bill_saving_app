@@ -78,13 +78,13 @@ class MyUtilitiesScreen extends StatelessWidget {
         children: [
           Text('Le Mie Utenze',
               style: TextStyle(
-                  color: Colors.black,
+                  color: AppColors.textDark,
                   fontSize: 24,
                   fontWeight: FontWeight.w800,
                   letterSpacing: -0.4)),
           SizedBox(height: 4),
           Text('Gestisci i tuoi servizi attivi',
-              style: TextStyle(color: Colors.black, fontSize: 13)),
+              style: TextStyle(color: AppColors.textPrimary, fontSize: 13)),
         ],
       ),
     );
@@ -96,7 +96,7 @@ class MyUtilitiesScreen extends StatelessWidget {
       height: 192.h,
       padding: const EdgeInsets.fromLTRB(20, 22, 20, 22),
       decoration: BoxDecoration(
-        color: Color(0xFF001C13),
+        color: AppColors.darkPurple,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Stack(
@@ -106,21 +106,21 @@ class MyUtilitiesScreen extends StatelessWidget {
             right: -10,
             bottom: -10,
             child: Icon(Icons.menu_book_outlined,
-                size: 110, color: Colors.white.withOpacity(0.05)),
+                size: 110, color: AppColors.background.withOpacity(0.05)),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('Risparmia sulla tua prossima bolletta',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.background,
                       fontSize: 18,
                       fontWeight: FontWeight.w800)),
               const SizedBox(height: 8),
               const Text(
                 'Analizziamo i tuoi consumi per\ntrovare tariffe migliori ogni mese.',
                 style: TextStyle(
-                    color: Color(0xFF64FBCB), fontSize: 13, height: 1.5),
+                    color: AppColors.green100, fontSize: 13, height: 1.5),
               ),
               const SizedBox(height: 28),
               GestureDetector(
@@ -129,12 +129,12 @@ class MyUtilitiesScreen extends StatelessWidget {
                   padding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 11),
                   decoration: BoxDecoration(
-                    color: Color(0xFF64FBCB),
+                    color: AppColors.green100,
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: const Text('Carica Bolletta',
                       style: TextStyle(
-                          color: Colors.black,
+                          color: AppColors.textDark,
                           fontWeight: FontWeight.w700,
                           fontSize: 13)),
                 ),
@@ -158,7 +158,7 @@ class _UtilityTile extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => UtilityDetailsScreen(),
+          builder: (_) =>  UtilityDetailsScreen(),
         ),
       ),
       child: Container(
@@ -166,12 +166,11 @@ class _UtilityTile extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.background,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFE8E8E8)),
           boxShadow: [
             BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: AppColors.textPrimary.withOpacity(0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 3)),
           ],
@@ -189,12 +188,12 @@ class _UtilityTile extends StatelessWidget {
                     height: 52,
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Color(0xFF1A0A4C), Color(0xFF3A1F8C)],
+                        colors: AppColors.primaryGradient,
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                     ),
-                    child: const Icon(Icons.bolt, color: Colors.white, size: 26),
+                    child: const Icon(Icons.bolt, color: AppColors.background, size: 26),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -205,13 +204,13 @@ class _UtilityTile extends StatelessWidget {
                     children: [
                       Text(utility.name,
                           style: const TextStyle(
-                              color: Colors.black,
+                              color: AppColors.textDark,
                               fontSize: 15,
                               fontWeight: FontWeight.w700)),
                       const SizedBox(height: 3),
                       Text(utility.type,
                           style: const TextStyle(
-                              color: Colors.black, fontSize: 12)),
+                              color: AppColors.textPrimary, fontSize: 12)),
                     ],
                   ),
                 ),
@@ -221,7 +220,7 @@ class _UtilityTile extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            const Divider(color: Color(0xFFE8E8E8), height: 1.22),
+            const Divider(color: AppColors.divider, height: 1.22),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -232,10 +231,10 @@ class _UtilityTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     const Text('POD',
-                        style: TextStyle(color: Colors.black, fontSize: 11)),
+                        style: TextStyle(color: AppColors.textPrimary, fontSize: 11)),
                     Text(utility.monthID,
                         style: const TextStyle(
-                            color: Colors.black,
+                            color: AppColors.textDark,
                             fontSize: 15,
                             fontWeight: FontWeight.w800)),
 
@@ -255,11 +254,11 @@ class _UtilityTile extends StatelessWidget {
       crossAxisAlignment: align,
       children: [
         Text(label,
-            style: const TextStyle(color: Colors.black, fontSize: 11)),
+            style: const TextStyle(color: AppColors.textPrimary, fontSize: 11)),
         const SizedBox(height: 2),
         Text(value,
             style: const TextStyle(
-                color: Colors.black, fontSize: 12, fontWeight: FontWeight.w600)),
+                color: AppColors.textDark, fontSize: 12, fontWeight: FontWeight.w600)),
       ],
     );
   }

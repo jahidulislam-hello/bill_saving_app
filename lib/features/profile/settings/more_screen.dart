@@ -27,13 +27,12 @@ class MoreScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: const Color(0xFF5A1ABE),
-                    width: 1.22,
+                    color: const Color(0x1A333333),
                   ),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
                   children: [
@@ -53,7 +52,7 @@ class MoreScreen extends StatelessWidget {
                         Get.to(() => PrivacyPolicyScreen());
                       },
                     ),
-                    const Divider(height: 1, color: Color(0xFF5A1ABE)),
+                    const SizedBox(height: 12),
                     SettingTile(
                       iconWidget: Image.asset(
                         AppAssets.terms,
@@ -65,7 +64,7 @@ class MoreScreen extends StatelessWidget {
                         Get.to(() => TermsCondition());
                       },
                     ),
-                    const Divider(height: 1, color: Color(0xFF5A1ABE)),
+                    const SizedBox(height: 12),
                     SettingTile(
                       iconWidget: Image.asset(
                         AppAssets.about,
@@ -82,7 +81,7 @@ class MoreScreen extends StatelessWidget {
                         Get.to(() => AboutUs());
                       },
                     ),
-                    const Divider(height: 1, color: Color(0xFF5A1ABE)),
+                    const SizedBox(height: 12),
                     SettingTile(
                       iconWidget: Image.asset(
                         AppAssets.menuSupport,
@@ -99,7 +98,7 @@ class MoreScreen extends StatelessWidget {
                         Get.to(() => SupportoScreen());
                       },
                     ),
-                    const Divider(height: 1, color: Color(0xFF5A1ABE)),
+                    const SizedBox(height: 12),
                     SettingTile(
                       iconWidget: Image.asset(
                         AppAssets.close,
@@ -149,8 +148,12 @@ class SettingTile extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        height: 54,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        height: 45,
+        decoration: BoxDecoration(
+          color: const Color(0xFFEFEFEF),
+          borderRadius: BorderRadius.circular(8),
+        ),
         child: Row(
           children: [
             iconWidget ?? const SizedBox.shrink(),

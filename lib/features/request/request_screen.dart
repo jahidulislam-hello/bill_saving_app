@@ -68,6 +68,7 @@ class _RequestScreenState extends State<RequestScreen>
       body: _isBillUploaded
           ? Column(
         children: [
+          SizedBox(height: 10.h),
           _buildTabBar(),
           Expanded(
             child: _controller.isYourOffersTab

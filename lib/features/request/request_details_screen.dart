@@ -1,3 +1,4 @@
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyzi/features/home/sign_contract/sign_contract.dart';
 import 'package:flutter/material.dart';
@@ -7,25 +8,24 @@ class RequestDetailsScreen extends StatelessWidget {
   const RequestDetailsScreen({super.key});
 
   // ── Design Tokens ──
-  static const _purple = Color(0xFF5A1ABE);
-  static const _purpleBg = Color(0xFFF0EEFB);
-  static const _green = Color(0xFF00B894);
-  static const _lao = Color(0xFF64FBCB1A);
-  static const _greenBg = Color(0xFFF5F7FF);
-  static const _orange = Color(0xFFFFAB00);
-  static const _orangeBg = Color(0xFFFFF8E1);
-  static const _grey = Color(0xFFB2BEC3);
-  static const _greyBg = Color(0xFFF5F6FA);
-  static const _textDark = Color(0xFF000000);
-  static const _textMid = Color(0xFF000000);
-  static const _textLight = Color(0xFF000000);
-  static const _cardBg = Colors.white;
-  static const _bg = Color(0xFFFFFFFF);
-  static const _divider = Color(0xFF5A1ABE);
-  static const _infoBg = Color(0xFFEFF2FF);
-  static const _infoBorder = Color(0xFF5A1ABE);
-  static const _yellowBadgeBg = Color(0xFFFFF8E1);
-  static const _yellowBadgeText = Color(0xFFFFAB00);
+  static const _purple = AppColors.primaryColor;
+  static const _purpleBg = AppColors.primary100;
+  static const _green = AppColors.green;
+  static const _greenBg = AppColors.primary50;
+  static const _orange = AppColors.yellow200;
+  static const _orangeBg = AppColors.yellowAlpha10;
+  static const _grey = AppColors.neutral500;
+  static const _greyBg = AppColors.neutralAlpha10;
+  static const _textDark = AppColors.textDark;
+  static const _textMid = AppColors.textMid;
+  static const _textLight = AppColors.textLight;
+  static const _cardBg = AppColors.cardBg;
+  static const _bg = AppColors.background;
+  static const _divider = AppColors.primaryColor;
+  static const _infoBg = AppColors.primary50;
+  static const _infoBorder = AppColors.primaryColor;
+  static const _yellowBadgeBg = AppColors.yellowAlpha10;
+  static const _yellowBadgeText = AppColors.yellow200;
 
   @override
   Widget build(BuildContext context) {

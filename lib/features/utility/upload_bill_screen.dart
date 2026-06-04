@@ -155,11 +155,11 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           height: 1.22,
         ),
       ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(1),
-        child: const Divider(
-            height: 1, thickness: 1, color: Color(0xFF5A1ABE)),
-      ),
+      // bottom: PreferredSize(
+      //   preferredSize: const Size.fromHeight(1),
+      //   child: const Divider(
+      //       height: 1, thickness: 1, color: Color(0xFF5A1ABE)),
+      // ),
     );
   }
 

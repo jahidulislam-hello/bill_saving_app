@@ -7,14 +7,12 @@ import '../../../core/utils/app_styles.dart';
 class UtilityCard extends StatelessWidget {
   final String title;
   final String subtitle;
-  final String price;
   final VoidCallback? onTap;
 
   const UtilityCard({
     super.key,
     required this.title,
     required this.subtitle,
-    required this.price,
     this.onTap,
   });
 
@@ -27,7 +25,7 @@ class UtilityCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.bg,
           borderRadius: BorderRadius.circular(14.r),
-          border: Border.all(color: const Color(0xFFD2D2D2), width: 1),
+          // border: Border.all(color: const Color(0xFFD2D2D2), width: 1),
         ),
         child: Row(
           children: [
@@ -45,7 +43,7 @@ class UtilityCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: AppStyles.h4.copyWith(fontWeight: FontWeight.w900),
+                  style: AppStyles.body1.copyWith(fontWeight: FontWeight.w800),
                 ),
                 Text(
                   subtitle,
@@ -54,10 +52,7 @@ class UtilityCard extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            Text(
-              price,
-              style: AppStyles.h4.copyWith(fontWeight: FontWeight.w900),
-            ),
+
           ],
         ),
       ),

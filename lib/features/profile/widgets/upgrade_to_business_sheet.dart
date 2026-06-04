@@ -29,13 +29,13 @@ class _UpgradeToBusinessSheet extends StatefulWidget {
 class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
   // ── Tokens ──
   static const _purple = AppColors.primaryColor;
-  static const _textDark = Color(0xFF1A1A2E);
-  static const _textMid = Colors.black;
-  static const _textLight = Colors.black;
-  static const _border = Color(0xFF5A1ABE);
-  static const _inputBg = Colors.white;
-  static const _darkBtn = Color(0xFF5A1ABE);
-  static const _checkGreen = Color(0xFF27AE60);
+  static const _textDark = AppColors.textDark;
+  static const _textMid = AppColors.textMid;
+  static const _textLight = AppColors.textLight;
+  static const _border = AppColors.borderColor;
+  static const _inputBg = AppColors.fillColor;
+  static const _darkBtn = AppColors.primaryColor;
+  static const _checkGreen = AppColors.linkGreen;
 
   static const _roles = [
     'CEO / Founder',
@@ -218,14 +218,14 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                       const Text(
                         '(Job Role) ',
                         style: TextStyle(
-                            color: Colors.black,
+                            color: AppColors.textPrimary,
                             fontSize: 12,
                             fontWeight: FontWeight.w900),
                       ),
                       const Text(
                         '[Optional]',
                         style: TextStyle(
-                            color: Colors.black,
+                            color: AppColors.textSecondary,
                             fontSize: 11,
                             fontWeight: FontWeight.w600),
                       ),
@@ -234,7 +234,7 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                         turns: _dropdownOpen ? 0.5 : 0,
                         duration: const Duration(milliseconds: 200),
                         child: const Icon(Icons.keyboard_arrow_down,
-                            color: Colors.black, size: 20),
+                            color: AppColors.textPrimary, size: 20),
                       ),
                     ],
                   ),
@@ -243,8 +243,8 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                     _selectedRole ?? 'Select your role',
                     style: TextStyle(
                       color: _selectedRole != null
-                          ? Colors.black
-                          : Colors.black54,
+                          ? AppColors.textPrimary
+                          : AppColors.textSecondary,
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
                     ),
@@ -275,7 +275,7 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                   width: 22,
                   height: 22,
                   decoration: BoxDecoration(
-                    color: _agreed ? _checkGreen : Colors.white,
+                    color: _agreed ? _checkGreen : AppColors.background,
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(
                       color: _agreed ? _checkGreen : _border,
@@ -284,7 +284,7 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                   ),
                   child: _agreed
                       ? const Icon(Icons.check,
-                      color: Colors.white, size: 14)
+                      color: AppColors.background, size: 14)
                       : null,
                 ),
               ),
@@ -293,7 +293,7 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                 child: RichText(
                   text: TextSpan(
                     style: const TextStyle(
-                        color: Colors.black, fontSize: 12, height: 1.5, fontWeight: FontWeight.w700),
+                        color: AppColors.textPrimary, fontSize: 12, height: 1.5, fontWeight: FontWeight.w700),
                     children: [
                       const TextSpan(text: 'I agree to '),
                       TextSpan(
@@ -325,7 +325,7 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: _darkBtn,
                 disabledBackgroundColor: _darkBtn.withOpacity(0.5),
-                foregroundColor: Colors.white,
+                foregroundColor: AppColors.background,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14)),
                 elevation: 0,
@@ -359,14 +359,14 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
         controller: controller,
         keyboardType: keyboardType,
         style: const TextStyle(
-            color: Colors.black, fontSize: 14, fontWeight: FontWeight.w800),
+            color: AppColors.textPrimary, fontSize: 14, fontWeight: FontWeight.w800),
         decoration: InputDecoration(
           labelText: label,
           labelStyle: const TextStyle(
-              color: Colors.black, fontSize: 12, fontWeight: FontWeight.w800),
+              color: AppColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w800),
           hintText: hint,
           hintStyle:
-          const TextStyle(color: Colors.black45, fontSize: 14),
+          const TextStyle(color: AppColors.textSecondary, fontSize: 14),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding:
           const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -397,9 +397,9 @@ class _RoleDropdownMenu extends StatelessWidget {
   });
 
   static const _purple = AppColors.primaryColor;
-  static const _purpleBg = Color(0xFFEEEAFB);
-  static const _textDark = Color(0xFF1A1A2E);
-  static const _textMid = Color(0xFF636E72);
+  static const _purpleBg = AppColors.primary100;
+  static const _textDark = AppColors.textDark;
+  static const _textMid = AppColors.textMid;
 
   @override
   Widget build(BuildContext context) {
@@ -407,12 +407,12 @@ class _RoleDropdownMenu extends StatelessWidget {
       color: Colors.transparent,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.background,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+          border: Border.all(color: AppColors.primaryColor, width: 1.22),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.10),
+              color: AppColors.textPrimary.withOpacity(0.10),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -432,13 +432,13 @@ class _RoleDropdownMenu extends StatelessWidget {
                   onTap: () => onSelect(item),
                   child: Container(
                     width: double.infinity,
-                    color: isSelected ? _purpleBg : Colors.white,
+                    color: isSelected ? _purpleBg : AppColors.background,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 14),
                     child: Text(
                       item,
                       style: TextStyle(
-                        color: isSelected ? _purple : Colors.black,
+                        color: isSelected ? _purple : AppColors.textPrimary,
                         fontSize: 14,
                         fontWeight: isSelected
                             ? FontWeight.w900
@@ -449,7 +449,7 @@ class _RoleDropdownMenu extends StatelessWidget {
                   ),
                 ),
                 if (!isLast)
-                  const Divider(height: 1, color: Color(0xFF5A1ABE)),
+                  const Divider(height: 1, color: AppColors.primaryColor),
               ],
             );
           }),

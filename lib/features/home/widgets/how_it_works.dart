@@ -11,12 +11,16 @@ class HowItWorksCard extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(18.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(
-          color: const Color(0xFF5A1ABE),
-          width: 1.22,
-        ),
+        border: Border.all(color: AppColors.borderGlobal, width: 1.22),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.textPrimary.withOpacity(0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,12 +33,12 @@ class HowItWorksCard extends StatelessWidget {
                 size: 22.sp,
               ),
               SizedBox(width: 8.w),
-              Text(
+               Text(
                 "Come Funziona",
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w900,
-                  color: Colors.black,
+                  color: AppColors.textDark,
                 ),
               ),
             ],
@@ -42,148 +46,88 @@ class HowItWorksCard extends StatelessWidget {
 
           SizedBox(height: 22.h),
 
-          /// STEP 1
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 32.h,
-                width: 32.w,
-                decoration: const BoxDecoration(
-                  color: Color(0xffEEE9FF),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: _gradientText("1"),
-                ),
-              ),
-
-              SizedBox(width: 14.w),
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Carica la tua Bolletta",
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-
-                    SizedBox(height: 4.h),
-
-                    Text(
-                      "Take a photo of your bill or directly upload a PDF from the app.",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          _stepItem(
+            "1",
+            "Carica la tua Bolletta",
+            "Scatta una foto alla tua bolletta o carica direttamente un PDF dall'app.",
           ),
 
-          SizedBox(height: 20.h),
+          _stepItem(
+            "2",
+            "Analizziamo e proponiamo",
+            "Il team VYZI analizza la tua situazione attuale. Riceverai una notifica con le offerte più adatte.",
+          ),
 
-          /// STEP 2
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          _stepItem(
+            "3",
+            "Scegli e attiva",
+            "Confronta le offerte selezionate e scegli quella che preferisci. Noi gestiamo l'attivazione.",
+            isLast: true,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _stepItem(String number, String title, String subtitle, {bool isLast = false}) {
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
             children: [
               Container(
                 height: 32.h,
                 width: 32.w,
                 decoration: const BoxDecoration(
-                  color: Color(0xffEEE9FF),
+                  color: AppColors.primary100,
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: _gradientText("2"),
+                  child: _gradientText(number),
                 ),
               ),
-
-              SizedBox(width: 14.w),
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "We analyze and propose better offers",
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
+              if (!isLast)
+                Expanded(
+                  child: Container(
+                    width: 2.w,
+                    margin: EdgeInsets.symmetric(vertical: 4.h),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(1),
                     ),
-
-                    SizedBox(height: 4.h),
-
-                    Text(
-                      "The VYZI team analyzes your current situation. When the analysis is complete, you will receive a notification with the most suitable offers for your needs.",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
             ],
           ),
-          SizedBox(height: 20.h),
-
-          /// STEP 3
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 32.h,
-                width: 32.w,
-                decoration: const BoxDecoration(
-                  color: Color(0xffEEE9FF),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: _gradientText("3"),
-                ),
-              ),
-
-              SizedBox(width: 14.w),
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Choose the offer and we handle the activation",
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
+          SizedBox(width: 14.w),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: isLast ? 0 : 20.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.textDark,
                     ),
-
-                    SizedBox(height: 4.h),
-
-                    Text(
-                      "Compare the selected offers and choose the one you prefer. The VYZI team assists you with the request and manages the activation process.",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      height: 1.4,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),
@@ -194,7 +138,7 @@ class HowItWorksCard extends StatelessWidget {
     return ShaderMask(
       blendMode: BlendMode.srcIn,
       shaderCallback: (bounds) => const LinearGradient(
-        colors: [AppColors.primaryColor, Color(0xff06B6D4)],
+        colors: [AppColors.primaryColor, AppColors.secondaryColor],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ).createShader(

@@ -47,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -66,7 +66,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     fontSize: 22.sp,
                     fontWeight: FontWeight.w700,
                     color: AppColors.textPrimary,
-                    fontFamily: 'Open Sans',
                   ),
                 ),
 
@@ -76,26 +75,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: _labeledField(
-                        label: 'Nome *',
-                        child: CustomTextField(
-                          controller: _firstNameController,
-                          hintText: 'Alex',
-                          validator: (v) =>
-                          v == null || v.isEmpty ? 'Obbligatorio' : null,
-                        ),
+                      child: CustomTextField(
+                        labelText: 'Nome *',
+                        controller: _firstNameController,
+                        hintText: 'Alex',
+                        validator: (v) => v == null || v.isEmpty ? 'Obbligatorio' : null,
                       ),
                     ),
                     SizedBox(width: 10.w),
                     Expanded(
-                      child: _labeledField(
-                        label: 'Cognome *',
-                        child: CustomTextField(
-                          controller: _lastNameController,
-                          hintText: 'Smith',
-                          validator: (v) =>
-                          v == null || v.isEmpty ? 'Obbligatorio' : null,
-                        ),
+                      child: CustomTextField(
+                        labelText: 'Cognome *',
+                        controller: _lastNameController,
+                        hintText: 'Smith',
+                        validator: (v) => v == null || v.isEmpty ? 'Obbligatorio' : null,
                       ),
                     ),
                   ],
@@ -104,60 +97,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: 12.h),
 
                 // ── Email ──────────────────────────
-                _labeledField(
-                  label: 'Indirizzo Email *',
-                  child: CustomTextField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    hintText: 'you@example.com',
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 14.w),
-                      child: Icon(
-                        Icons.mail_outline,
-                        color: AppColors.primaryColor,
-                        size: 20.sp,
-                      ),
+                CustomTextField(
+                  labelText: 'Indirizzo Email *',
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  hintText: 'you@example.com',
+                  prefixIcon: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 14.w),
+                    child: Icon(
+                      Icons.mail_outline,
+                      color: AppColors.primaryColor,
+                      size: 20.sp,
                     ),
-                    validator: (v) =>
-                    v == null || !v.contains('@') ? 'Inserisci un\'email valida' : null,
                   ),
+                  validator: (v) =>
+                      v == null || !v.contains('@') ? 'Inserisci un\'email valida' : null,
                 ),
 
                 SizedBox(height: 12.h),
 
                 // ── Phone with flag (inline) ───────
-                _labeledField(
-                  label: 'Numero di telefono (opzionale)',
-                  child: PhoneTextField(controller: _phoneController),
+                PhoneTextField(
+                  labelText: 'Numero di telefono (opzionale)',
+                  controller: _phoneController,
                 ),
 
                 SizedBox(height: 12.h),
 
                 // ── Password ───────────────────────
-                _labeledField(
-                  label: 'Password *',
-                  child: CustomTextField(
-                    controller: _passwordController,
-                    isPassword: true,
-                    hintText: '••••••••••',
-                    validator: (v) =>
-                    v == null || v.length < 6 ? 'Minimo 6 caratteri' : null,
-                  ),
+                CustomTextField(
+                  labelText: 'Password *',
+                  controller: _passwordController,
+                  isPassword: true,
+                  hintText: '••••••••••',
+                  validator: (v) => v == null || v.length < 6 ? 'Minimo 6 caratteri' : null,
                 ),
 
                 SizedBox(height: 12.h),
 
                 // ── Confirm Password ───────────────
-                _labeledField(
-                  label: 'Conferma Password *',
-                  child: CustomTextField(
-                    controller: _confirmPasswordController,
-                    isPassword: true,
-                    hintText: '••••••••••',
-                    validator: (v) => v != _passwordController.text
-                        ? 'Le password non corrispondono'
-                        : null,
-                  ),
+                CustomTextField(
+                  labelText: 'Conferma Password *',
+                  controller: _confirmPasswordController,
+                  isPassword: true,
+                  hintText: '••••••••••',
+                  validator: (v) =>
+                      v != _passwordController.text ? 'Le password non corrispondono' : null,
                 ),
 
                 SizedBox(height: 16.h),
@@ -176,7 +161,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         decoration: BoxDecoration(
                           color: _agreeToTerms
                               ? AppColors.primaryColor
-                              : Colors.white,
+                              : AppColors.background,
                           borderRadius: BorderRadius.circular(4.r),
                           border: Border.all(
                             color: AppColors.primaryColor,
@@ -185,7 +170,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         child: _agreeToTerms
                             ? Icon(Icons.check,
-                            size: 14.sp, color: Colors.white)
+                            size: 14.sp, color: AppColors.background)
                             : null,
                       ),
                     ),
@@ -196,7 +181,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textSecondary,
-                            fontFamily: 'Open Sans',
                             height: 1.5,
                           ),
                           children: [
@@ -235,7 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // ── Divider ────────────────────────
                 Row(
                   children: [
-                    const Expanded(child: Divider(color: Color(0xFFEEEEEE))),
+                    const Expanded(child: Divider(color: AppColors.divider)),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: Text(
@@ -243,11 +227,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: AppColors.textSecondary,
-                          fontFamily: 'Open Sans',
                         ),
                       ),
                     ),
-                    const Expanded(child: Divider(color: Color(0xFFEEEEEE))),
+                    const Expanded(child: Divider(color: AppColors.divider)),
                   ],
                 ),
 
@@ -287,7 +270,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: TextStyle(
                         fontSize: 13.sp,
                         color: AppColors.textSecondary,
-                        fontFamily: 'Open Sans',
                       ),
                       children: [
                         const TextSpan(
@@ -357,7 +339,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           style: TextStyle(
             fontSize: 11.sp,
             color: AppColors.textSecondary,
-            fontFamily: 'Open Sans',
           ),
         ),
         SizedBox(height: 4.h),

@@ -30,7 +30,7 @@ class _InviteScreenState extends State<InviteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F0F8),
+      backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
       body: SingleChildScrollView(
         child: Column(
@@ -65,7 +65,7 @@ class _InviteScreenState extends State<InviteScreen> {
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w900,
-                  color: const Color(0xFF1A1A2E),
+                  color: AppColors.textDark,
                   height: 1.22,
                 ),
               ),
@@ -100,11 +100,11 @@ class _InviteScreenState extends State<InviteScreen> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       elevation: 0,
       leading: IconButton(
         icon: Icon(Icons.arrow_back_rounded,
-            color: const Color(0xFF1A1A2E), size: 22.sp),
+            color: AppColors.textDark, size: 22.sp),
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
@@ -112,13 +112,9 @@ class _InviteScreenState extends State<InviteScreen> {
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w800,
-          color: const Color(0xFF1A1A2E),
+          color: AppColors.textDark,
           height: 1.22,
         ),
-      ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(1),
-        child: Divider(height: 1, thickness: 1, color: const Color(0xFF5A1ABE)),
       ),
     );
   }
@@ -130,7 +126,7 @@ class _InviteScreenState extends State<InviteScreen> {
   Widget _buildHeroSection() {
     return Container(
       width: double.infinity,
-      color: const Color(0xFFF0F0F8),
+      color: AppColors.background,
       padding: EdgeInsets.only(top: 30.h, bottom: 10.h),
       child: Column(
         children: [
@@ -138,8 +134,8 @@ class _InviteScreenState extends State<InviteScreen> {
           Container(
             width: 64.w,
             height: 64.w,
-            decoration: BoxDecoration(
-              color: const Color(0xFFE0F7F4),
+            decoration: const BoxDecoration(
+              color: Color(0xFFE0F7F4),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -156,7 +152,7 @@ class _InviteScreenState extends State<InviteScreen> {
             style: TextStyle(
               fontSize: 22.sp,
               fontWeight: FontWeight.w900,
-              color: const Color(0xFF1A1A2E),
+              color: AppColors.textDark,
               height: 1.22,
             ),
           ),
@@ -170,7 +166,7 @@ class _InviteScreenState extends State<InviteScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 13.sp,
-                color: Colors.black,
+                color: AppColors.textPrimary,
                 fontWeight: FontWeight.w700,
                 height: 1.5,
               ),
@@ -188,12 +184,11 @@ class _InviteScreenState extends State<InviteScreen> {
   Widget _buildReferralCard() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColors.textPrimary.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -208,7 +203,7 @@ class _InviteScreenState extends State<InviteScreen> {
             'Link di invito personale',
             style: TextStyle(
               fontSize: 12.sp,
-              color: Colors.black,
+              color: AppColors.textPrimary,
               fontWeight: FontWeight.w700,
               height: 1.22,
             ),
@@ -221,12 +216,8 @@ class _InviteScreenState extends State<InviteScreen> {
             padding:
             EdgeInsets.symmetric(horizontal: 14.w, vertical: 13.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFF8F8FB),
+              color: AppColors.invitebg,
               borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(
-                color: const Color(0xFF5A1ABE),
-                width: 1.2,
-              ),
             ),
             child: Row(
               children: [
@@ -235,7 +226,7 @@ class _InviteScreenState extends State<InviteScreen> {
                     _controller.referralLink,
                     style: TextStyle(
                       fontSize: 13.sp,
-                      color: const Color(0xFF1A1A2E),
+                      color: AppColors.textDark,
                       fontWeight: FontWeight.w700,
                       height: 1.22,
                     ),
@@ -251,7 +242,7 @@ class _InviteScreenState extends State<InviteScreen> {
                         ? Icon(
                       Icons.check_rounded,
                       key: const ValueKey('check'),
-                      color: const Color(0xFF4CAF50),
+                      color: AppColors.linkGreen,
                       size: 20.sp,
                     )
                         : Icon(
@@ -275,7 +266,7 @@ class _InviteScreenState extends State<InviteScreen> {
             child: ElevatedButton.icon(
               onPressed: () => _controller.shareLink(context),
               icon: Icon(Icons.share_rounded, size: 18.sp),
-              label: Text(
+              label:  Text(
                 'Condividi link',
                 style: TextStyle(
                   fontSize: 15.sp,
@@ -285,10 +276,10 @@ class _InviteScreenState extends State<InviteScreen> {
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
-                foregroundColor: Colors.white,
+                foregroundColor: AppColors.background,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14.r),
+                  borderRadius: BorderRadius.circular(30.r),
                 ),
               ),
             ),
@@ -308,8 +299,8 @@ class _InviteScreenState extends State<InviteScreen> {
         Expanded(
           child: _buildRewardCard(
             icon: Icons.person_add_alt_1_rounded,
-            iconBg: const Color(0xFFE8F8EF),
-            iconColor: const Color(0xFF27AE60),
+            iconBg: AppColors.greenAlpha10,
+            iconColor: AppColors.green200,
             topLabel: 'Tu guadagni',
             amount: _controller.youEarn,
             bottomLabel: 'Quando il loro contratto viene\nattivato',
@@ -319,8 +310,8 @@ class _InviteScreenState extends State<InviteScreen> {
         Expanded(
           child: _buildRewardCard(
             icon: Icons.group_rounded,
-            iconBg: const Color(0xFFEAF0FF),
-            iconColor: const Color(0xFF5B7FD8),
+            iconBg: AppColors.primary100,
+            iconColor: AppColors.accentBlue,
             topLabel: 'L\'amico riceve',
             amount: _controller.friendGets,
             bottomLabel: 'Applicato alla loro prima\nattivazione',
@@ -340,12 +331,11 @@ class _InviteScreenState extends State<InviteScreen> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.invitebg,
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColors.textPrimary.withOpacity(0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -372,7 +362,7 @@ class _InviteScreenState extends State<InviteScreen> {
           Text(topLabel,
             style: TextStyle(
               fontSize: 12.sp,
-              color: Colors.black,
+              color: AppColors.textPrimary,
               fontWeight: FontWeight.w700,
               height: 1.22,
             ),
@@ -386,7 +376,7 @@ class _InviteScreenState extends State<InviteScreen> {
             style: TextStyle(
               fontSize: 26.sp,
               fontWeight: FontWeight.w900,
-              color: const Color(0xFF1A1A2E),
+              color: AppColors.textDark,
               height: 1.22,
             ),
           ),
@@ -398,7 +388,7 @@ class _InviteScreenState extends State<InviteScreen> {
             bottomLabel,
             style: TextStyle(
               fontSize: 11.sp,
-              color: Colors.black,
+              color: AppColors.textPrimary,
               fontWeight: FontWeight.w600,
               height: 1.4,
             ),
@@ -413,47 +403,54 @@ class _InviteScreenState extends State<InviteScreen> {
   // ─────────────────────────────────────────────
 
   Widget _buildStatisticsCard() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.background,
+            borderRadius: BorderRadius.circular(14.r),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.textPrimary.withOpacity(0.05),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        children: [
-          _buildStatRow(
+          child: _buildStatRow(
             icon: Icons.mail_outline_rounded,
-            iconBg: const Color(0xFFEAF0FF),
-            iconColor: const Color(0xFF5B7FD8),
+            iconBg: AppColors.primary100,
+            iconColor: AppColors.accentBlue,
             title: 'Inviti inviati',
             subtitle: 'Link totali condivisi',
             value: _controller.invitesSent,
             isLast: false,
           ),
-          Divider(
-            height: 1,
-            thickness: 1,
-            indent: 58.w,
-            color: const Color(0xFF5A1ABE),
+        ),
+        SizedBox(height: 12.h),
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.background,
+            borderRadius: BorderRadius.circular(14.r),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.textPrimary.withOpacity(0.05),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-          _buildStatRow(
+          child: _buildStatRow(
             icon: Icons.check_circle_outline_rounded,
-            iconBg: const Color(0xFFE8F8EF),
-            iconColor: const Color(0xFF27AE60),
+            iconBg: AppColors.greenAlpha10,
+            iconColor: AppColors.green200,
             title: 'Inviti completati',
             subtitle: 'Attivati con successo',
             value: _controller.completedInvites,
             isLast: true,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -492,7 +489,7 @@ class _InviteScreenState extends State<InviteScreen> {
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w800,
-                    color: const Color(0xFF1A1A2E),
+                    color: AppColors.textDark,
                     height: 1.22,
                   ),
                 ),
@@ -501,7 +498,7 @@ class _InviteScreenState extends State<InviteScreen> {
                   subtitle,
                   style: TextStyle(
                     fontSize: 12.sp,
-                    color: Colors.black,
+                    color: AppColors.textPrimary,
                     fontWeight: FontWeight.w700,
                     height: 1.22,
                   ),
@@ -515,7 +512,7 @@ class _InviteScreenState extends State<InviteScreen> {
             padding:
             EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFF0EEFF),
+              color: AppColors.primary100,
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
@@ -540,12 +537,11 @@ class _InviteScreenState extends State<InviteScreen> {
   Widget _buildEarningsCard() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColors.textPrimary.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -564,7 +560,7 @@ class _InviteScreenState extends State<InviteScreen> {
                 style: TextStyle(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w900,
-                  color: const Color(0xFF1A1A2E),
+                  color: AppColors.textDark,
                   height: 1.22,
                 ),
               ),
@@ -572,18 +568,18 @@ class _InviteScreenState extends State<InviteScreen> {
                 padding: EdgeInsets.symmetric(
                     horizontal: 10.w, vertical: 5.h),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE8F8EF),
+                  color: AppColors.greenAlpha10,
                   borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
-                      width: 7.w,
-                      height: 7.w,
-                      decoration: const BoxDecoration(
+                     Container(
+                      width: 7,
+                      height: 7,
+                      decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Color(0xFF4CAF50),
+                        color: AppColors.linkGreen,
                       ),
                     ),
                     SizedBox(width: 5.w),
@@ -592,7 +588,7 @@ class _InviteScreenState extends State<InviteScreen> {
                       style: TextStyle(
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w800,
-                        color: const Color(0xFF27AE60),
+                        color: AppColors.greenText,
                         height: 1.22,
                       ),
                     ),
@@ -610,7 +606,7 @@ class _InviteScreenState extends State<InviteScreen> {
             style: TextStyle(
               fontSize: 32.sp,
               fontWeight: FontWeight.w900,
-              color: const Color(0xFF1A1A2E),
+              color: AppColors.textDark,
               height: 1.22,
             ),
           ),
@@ -621,7 +617,7 @@ class _InviteScreenState extends State<InviteScreen> {
             _controller.earningsType,
             style: TextStyle(
               fontSize: 12.sp,
-              color: Colors.black,
+              color: AppColors.textPrimary,
               fontWeight: FontWeight.w700,
               height: 1.22,
             ),
@@ -647,7 +643,7 @@ class _InviteScreenState extends State<InviteScreen> {
             Container(
               height: 6.h,
               decoration: BoxDecoration(
-                color: Colors.black12,
+                color: AppColors.divider,
                 borderRadius: BorderRadius.circular(10.r),
               ),
             ),
@@ -657,7 +653,7 @@ class _InviteScreenState extends State<InviteScreen> {
               child: Container(
                 height: 6.h,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFF9900), // Amazon orange
+                  color: const Color(0xFFFF9900), // Amazon orange - keep or map to yellow200?
                   borderRadius: BorderRadius.circular(10.r),
                 ),
               ),
@@ -672,8 +668,8 @@ class _InviteScreenState extends State<InviteScreen> {
           alignment: const Alignment(-0.5, 0),
           child: Column(
             children: [
-              Icon(Icons.arrow_upward_rounded,
-                  size: 14.sp, color: const Color(0xFFFF9900)),
+              const Icon(Icons.arrow_upward_rounded,
+                  size: 14, color: Color(0xFFFF9900)),
               Text(
                 _controller.progressAmount,
                 style: TextStyle(

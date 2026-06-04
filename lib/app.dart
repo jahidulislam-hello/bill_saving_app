@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
             primaryColor: AppColors.primaryColor,
             colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
             scaffoldBackgroundColor: AppColors.background,
+            fontFamily: GoogleFonts.openSans().fontFamily,
             textTheme: GoogleFonts.openSansTextTheme(Theme.of(context).textTheme),
             appBarTheme: AppBarTheme(
               backgroundColor: Colors.white,

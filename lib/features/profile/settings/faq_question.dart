@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 
 class FaqQuestion extends StatelessWidget {
   const FaqQuestion({super.key});
 
-  static const _purple = Color(0xFF5A1ABE);
-  static const _purpleBg = Color(0xFFEEECFB);
-  static const _textDark = Color(0xFF1A1A2E);
-  static const _textMid = Colors.black;
-  static const _bg = Colors.white;
+  static const _purple = AppColors.primaryColor;
+  static const _purpleBg = AppColors.primary100;
+  static const _textDark = AppColors.textDark;
+  static const _textMid = AppColors.textMid;
+  static const _bg = AppColors.background;
 
   static const _policyPoints = [
     'Lorem ipsum dolor sit amet consectetur. Lacus at venenatis gravida vivamus mauris. Quisque mi est vel dis. Donec rhoncus laoreet odio orci sed risus elit accumsan. Mattis ut est tristique amet vitae at aliquet. Ac vel porttitor egestas scelerisque enim quisque senectus. Euismod ultricies vulputate id cras bibendum sollicitudin proin odio bibendum. Velit velit in scelerisque erat etiam rutrum phasellus nunc. Sed lectus sed a at et eget. Nunc purus sed quis at risus. Consectetur nibh justo proin placerat condimentum id at adipiscing.',
@@ -139,9 +140,9 @@ class FaqQuestion extends StatelessWidget {
 // Custom Illustration Painter
 // ─────────────────────────────────────────────
 class _PrivacyIllustrationPainter extends CustomPainter {
-  static const _purple = Color(0xFF5A1ABE);
-  static const _purpleLight = Color(0xFFB8B0F5);
-  static const _purpleFill = Color(0xFFD9D5F8);
+  static const _purple = AppColors.primaryColor;
+  static const _purpleLight = AppColors.primary300;
+  static const _purpleFill = AppColors.primary200;
 
   @override
   void paint(Canvas canvas, Size size) {

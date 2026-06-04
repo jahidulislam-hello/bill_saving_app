@@ -1,18 +1,19 @@
 import 'dart:math' as math;
+import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RequestSuccessScreen extends StatelessWidget {
   const RequestSuccessScreen({super.key});
 
-  static const _purple = Color(0xFF5A1ABE);
-  static const _textDark = Colors.black;
-  static const _textGrey = Colors.black;
-  static const _cardBg = Color(0xFFF4F5FB);
-  static const _infoBg = Color(0xFFEFF2FF);
-  static const _infoBorder = Color(0xFF5A1ABE);
-  static const _bg = Colors.white;
-  static const _iconGrey = Colors.black;
+  static const _purple = AppColors.primaryColor;
+  static const _textDark = AppColors.textDark;
+  static const _textGrey = AppColors.textMid;
+  static const _cardBg = AppColors.primary50;
+  static const _infoBg = AppColors.primary100;
+  static const _infoBorder = AppColors.primaryColor;
+  static const _bg = AppColors.background;
+  static const _iconGrey = AppColors.textDark;
 
   @override
   Widget build(BuildContext context) {

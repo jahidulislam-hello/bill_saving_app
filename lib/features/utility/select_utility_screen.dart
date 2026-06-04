@@ -41,23 +41,23 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
             SizedBox(height: 28.h),
 
             // ── Heading ──
-            Text(
+             Text(
               'Quali utenze vuoi\nottimizzare?',
               style: TextStyle(
                 fontSize: 22.sp,
                 fontWeight: FontWeight.w900,
-                color: Colors.black,
+                color: AppColors.textDark,
                 height: 1.28,
               ),
             ),
             SizedBox(height: 8.h),
 
             // ── Subtitle ──
-            Text(
+             Text(
               'Seleziona il servizio per cui vuoi trovare le migliori offerte',
               style: TextStyle(
                 fontSize: 13.sp,
-                color: Colors.black,
+                color: AppColors.textPrimary,
                 fontWeight: FontWeight.w700,
                 height: 1.22,
               ),
@@ -99,26 +99,21 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
   // ── AppBar ──
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       elevation: 0,
       leading: IconButton(
         icon: Icon(Icons.arrow_back_rounded,
-            color: Colors.black, size: 22.sp),
+            color: AppColors.textDark, size: 22.sp),
         onPressed: () => Navigator.pop(context),
       ),
-      title: Text(
+      title:  Text(
         'Seleziona Utenza',
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w800,
-          color: Colors.black,
+          color: AppColors.textDark,
           height: 1.22,
         ),
-      ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(1),
-        child: const Divider(
-            height: 1, thickness: 1, color: Color(0xFF5A1ABE)),
       ),
     );
   }
@@ -147,117 +142,103 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
           }
         });
       },
-      child: Container(
-        padding: EdgeInsets.all(6.w),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 220),
+        height: 140.h,
         decoration: BoxDecoration(
+          color: isSelected ? AppColors.primaryColor : AppColors.background,
           borderRadius: BorderRadius.circular(18.r),
-          border: Border.all(
-            color: const Color(0xFF5A1ABE),
-            width: 1.5,
-          ),
-        ),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 220),
-          height: 130.h,
-          decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFF5A1ABE) : Colors.white,
-            borderRadius: BorderRadius.circular(14.r),
-            border: Border.all(
-              color: const Color(0xFF5A1ABE),
-              width: 1.5,
+          boxShadow: [
+            BoxShadow(
+              color: isSelected
+                  ? AppColors.primaryColor.withOpacity(0.22)
+                  : AppColors.textPrimary.withOpacity(0.06),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: isSelected
-                    ? const Color(0xFF5A1ABE).withOpacity(0.22)
-                    : Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 3),
+          ],
+        ),
+        child: Stack(
+          children: [
+            // Checkmark top-right
+            Positioned(
+              top: 12.h,
+              right: 12.w,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: 20.w,
+                height: 20.w,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isSelected ? AppColors.background : Colors.transparent,
+                  border: Border.all(
+                    color: isSelected
+                        ? Colors.transparent
+                        : AppColors.divider,
+                    width: 1.5,
+                  ),
+                ),
+                child: isSelected
+                    ? const Icon(
+                        Icons.check_rounded,
+                        size: 13,
+                        color: AppColors.primaryColor,
+                      )
+                    : const SizedBox.shrink(),
               ),
-            ],
-          ),
-          child: Stack(
-            children: [
-              // Checkmark top-right
-              Positioned(
-                top: 10.h,
-                right: 10.w,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  width: 20.w,
-                  height: 20.w,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: isSelected ? Colors.white : Colors.transparent,
-                    border: Border.all(
+            ),
+
+            // Center content
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Icon container
+                  Container(
+                    width: 50.w,
+                    height: 50.w,
+                    decoration: BoxDecoration(
                       color: isSelected
-                          ? Colors.transparent
-                          : Colors.black26,
-                      width: 1.5,
+                          ? AppColors.background.withOpacity(0.2)
+                          : AppColors.primary100,
+                      borderRadius: BorderRadius.circular(14.r),
+                    ),
+                    child: Icon(
+                      icon,
+                      size: 26.sp,
+                      color: isSelected
+                          ? AppColors.background
+                          : AppColors.primaryColor,
                     ),
                   ),
-                  child: isSelected
-                      ? const Icon(
-                          Icons.check_rounded,
-                          size: 13,
-                          color: Color(0xFF5A1ABE),
-                        )
-                      : const SizedBox.shrink(),
-                ),
+                  SizedBox(height: 10.h),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w900,
+                      color:
+                          isSelected ? AppColors.background : AppColors.textDark,
+                      height: 1.22,
+                    ),
+                  ),
+                  SizedBox(height: 3.h),
+                  Text(
+                    sublabel,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 11.sp,
+                      color: isSelected
+                          ? AppColors.background.withOpacity(0.9)
+                          : AppColors.textPrimary,
+                      fontWeight: FontWeight.w700,
+                      height: 1.22,
+                    ),
+                  ),
+                ],
               ),
-
-              // Center content
-              Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Icon container
-                    Container(
-                      width: 50.w,
-                      height: 50.w,
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? Colors.white.withOpacity(0.2)
-                            : const Color(0xFFF0EEFF),
-                        borderRadius: BorderRadius.circular(14.r),
-                      ),
-                      child: Icon(
-                        icon,
-                        size: 26.sp,
-                        color: isSelected
-                            ? Colors.white
-                            : const Color(0xFF5A1ABE),
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      label,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w900,
-                        color:
-                            isSelected ? Colors.white : Colors.black,
-                        height: 1.22,
-                      ),
-                    ),
-                    SizedBox(height: 3.h),
-                    Text(
-                      sublabel,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 11.sp,
-                        color: isSelected
-                            ? Colors.white.withOpacity(0.9)
-                            : Colors.black,
-                        fontWeight: FontWeight.w700,
-                        height: 1.22,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -269,9 +250,15 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
       decoration: BoxDecoration(
-        color: const Color(0xFFF0EEFF),
+        color: AppColors.primary100,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.textPrimary.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -280,13 +267,13 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
           SizedBox(width: 8.w),
           Expanded(
             child: RichText(
-              text: TextSpan(
+              text:  TextSpan(
                 style: TextStyle(
                   fontSize: 13.sp,
-                  color: const Color(0xFF5A1ABE),
+                  color: AppColors.primaryColor,
                   height: 1.22,
                 ),
-                children: const [
+                children: [
                   TextSpan(
                     text: 'Consiglio: ',
                     style: TextStyle(fontWeight: FontWeight.w900),

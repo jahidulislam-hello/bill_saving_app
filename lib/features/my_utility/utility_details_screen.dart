@@ -1,3 +1,4 @@
+import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -257,10 +258,11 @@ class UtilityDetailsScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        Icons.location_on_outlined,
+                      Image.asset(
+                        AppAssets.location,
                         color: AppColors.primaryColor,
-                        size: 20.sp,
+                        width: 20.sp,
+                        height: 20.sp,
                       ),
                       SizedBox(width: 6.w),
                       Text(
@@ -406,10 +408,11 @@ class UtilityDetailsScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Icon(
-                          Icons.bar_chart,
+                        Image.asset(
+                          AppAssets.chart,
                           color: AppColors.primaryColor,
-                          size: 34.sp,
+                          width: 34.sp,
+                          height: 34.sp,
                         ),
                       ],
                     ),
@@ -425,7 +428,7 @@ class UtilityDetailsScreen extends StatelessWidget {
             SizedBox(height: 14.h),
 
             _supportTile(
-              icon: Icons.email_outlined,
+              icon: AppAssets.sendEmail,
               title: "Send Email",
               subtitle: "support@utility.com",
             ),
@@ -433,7 +436,7 @@ class UtilityDetailsScreen extends StatelessWidget {
             SizedBox(height: 12.h),
 
             _supportTile(
-              icon: Icons.confirmation_num_outlined,
+              icon: AppAssets.openTicket,
               title: "Open Ticket",
               subtitle: "Get help via app support",
             ),
@@ -441,7 +444,7 @@ class UtilityDetailsScreen extends StatelessWidget {
             SizedBox(height: 12.h),
 
             _supportTile(
-              icon: Icons.language,
+              icon: AppAssets.website,
               title: "Website",
               subtitle: "eniplenitude.it",
               isWebsite: true,
@@ -469,6 +472,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                         border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
                       ),
                       child: ExpansionTile(
+                        shape: const Border(),
                         tilePadding: EdgeInsets.symmetric(
                           horizontal: 16.w,
                         ),
@@ -574,31 +578,29 @@ class UtilityDetailsScreen extends StatelessWidget {
   }
 
   Widget _supportTile({
-    required IconData icon,
+    required String icon,
     required String title,
     required String subtitle,
     bool isWebsite = false,
   }) {
     return Container(
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: const Color(0xFFEFEFEF),
+        color: const Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(18.r),
         border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
       ),
       child: Row(
         children: [
           Container(
-            height: 42.h,
-            width: 42.w,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
-            ),
-            child: Icon(
-              icon,
-              color: AppColors.primaryColor,
+
+            child: Padding(
+              padding: EdgeInsets.all(4.w),
+              child: Image.asset(
+                icon,
+                height: 42.h,
+                width: 42.w,
+              ),
             ),
           ),
 

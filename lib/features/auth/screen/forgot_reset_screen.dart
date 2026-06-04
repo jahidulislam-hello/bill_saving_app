@@ -98,7 +98,6 @@ class ResetPasswordScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 11.sp,
             color: AppColors.textSecondary,
-            fontFamily: 'Open Sans',
           ),
         ),
         SizedBox(height: 4.h),

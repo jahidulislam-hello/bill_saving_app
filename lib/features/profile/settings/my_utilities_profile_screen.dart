@@ -1,3 +1,4 @@
+import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,35 +55,16 @@ class MyUtilitiesProfileScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
+
+                    SizedBox(height: 40.h),
                     // ── Image fills top of card ──
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.r),
-                        topRight: Radius.circular(20.r),
-                      ),
-                      child: Image.network(
-                        'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&q=80',
-                        width: double.infinity,
-                        height: 180.h,
+                      child: Image.asset(
+                        AppAssets.profile001,
+
+                        width: 64.h,
+                        height: 64.h,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Container(
-                          width: double.infinity,
-                          height: 180.h,
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xFFEDE7F6), Color(0xFFD1C4E9)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.bolt_rounded,
-                              size: 48.sp,
-                              color: AppColors.primaryColor.withOpacity(0.4),
-                            ),
-                          ),
-                        ),
                       ),
                     ),
 

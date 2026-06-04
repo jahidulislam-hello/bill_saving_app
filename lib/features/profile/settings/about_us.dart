@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 
 
 class AboutUs extends StatelessWidget {
   const AboutUs({super.key});
 
-  static const _textDark = Color(0xFF1A1A2E);
-  static const _textMid = Colors.black;
-  static const _bg = Colors.white;
+  static const _textDark = AppColors.textDark;
+  static const _textMid = AppColors.textMid;
+  static const _bg = AppColors.background;
 
   static const _policyPoints = [
     'Lorem ipsum dolor sit amet consectetur. Lacus at venenatis gravida vivamus mauris. Quisque mi est vel dis. Donec rhoncus laoreet odio orci sed risus elit accumsan. Mattis ut est tristique amet vitae at aliquet. Ac vel porttitor egestas scelerisque enim quisque senectus. Euismod ultricies vulputate id cras bibendum sollicitudin proin odio bibendum. Velit velit in scelerisque erat etiam rutrum phasellus nunc. Sed lectus sed a at et eget. Nunc purus sed quis at risus. Consectetur nibh justo proin placerat condimentum id at adipiscing.',

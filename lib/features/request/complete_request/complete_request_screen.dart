@@ -104,7 +104,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
@@ -133,7 +133,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     );
   }
 
-  SizedBox _gap() => SizedBox(height: 12.h);
+  SizedBox _gap() => SizedBox(height: 16.h);
 
   // ─────────────────────────────────────────────
   //  APPBAR
@@ -141,11 +141,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       elevation: 0,
       leading: IconButton(
         icon: Icon(Icons.arrow_back_rounded,
-            color: const Color(0xFF1A1A2E), size: 22.sp),
+            color: AppColors.textDark, size: 22.sp),
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
@@ -153,7 +153,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w700,
-          color: const Color(0xFF1A1A2E),
+          color: AppColors.textDark,
           height: 1.22,
         ),
       ),
@@ -182,10 +182,10 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     width: 50.w,
                     height: 50.w,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFCE8AEB),
+                      color: AppColors.primary300,
                       borderRadius: BorderRadius.circular(10.r),
                     ),
-                    child: Icon(Icons.bolt, color: Colors.white, size: 24.sp),
+                    child: Icon(Icons.bolt, color: AppColors.background, size: 24.sp),
                   ),
                 ),
               ),
@@ -198,12 +198,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                         style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w700,
-                            color: const Color(0xFF1A1A2E),
+                            color: AppColors.textDark,
                             height: 1.22)),
                     Text('Offerta Verde',
                         style: TextStyle(
                             fontSize: 12.sp,
-                            color: Colors.black,
+                            color: AppColors.textPrimary,
                             height: 1.22)),
                   ],
                 ),
@@ -211,12 +211,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF4CAF50),
+                  color: AppColors.green200,
                   borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Text('Miglior Valore',
                     style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.background,
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w600,
                         height: 1.22)),
@@ -228,21 +228,21 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFCE8AEB),
+              color: AppColors.primary100,
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Text('Prezzo Energia : PUN GME + € 0.01/KWh',
                 style: TextStyle(
                     fontSize: 12.sp,
-                    color: const Color(0xFF000000),
+                    color: AppColors.textDark,
                     fontWeight: FontWeight.w400,
                     height: 1.22)),
           ),
           SizedBox(height: 10.h),
-          _buildInfoRow(Icons.credit_card_outlined, const Color(0xFF5B7FD8),
+          _buildInfoRow(Icons.credit_card_outlined, AppColors.accentBlue,
               'Metodo di Pagamento: Bollettino Postale'),
           SizedBox(height: 7.h),
-          _buildInfoRow(Icons.check_circle_outline, const Color(0xFF9B59B6),
+          _buildInfoRow(Icons.check_circle_outline, AppColors.primary400,
               'Compatibilità: Residenziale'),
           SizedBox(height: 12.h),
           _dividerLine(),
@@ -253,13 +253,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   style: TextStyle(
                       fontSize: 26.sp,
                       fontWeight: FontWeight.w800,
-                      color: const Color(0xFF4CAF50),
+                      color: AppColors.green200,
                       height: 1.22)),
               SizedBox(width: 8.w),
               Text('Risparmio Annuale',
                   style: TextStyle(
                       fontSize: 13.sp,
-                      color: const Color(0xFF1A1A2E),
+                      color: AppColors.textDark,
                       fontWeight: FontWeight.w500,
                       height: 1.22)),
             ],
@@ -278,7 +278,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           child: Text(text,
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                   height: 1.22)),
         ),
       ],
@@ -314,7 +314,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
                   decoration: BoxDecoration(
                     color: _editingPersonalInfo
-                        ? const Color(0xFF27AE60)
+                        ? AppColors.linkGreen
                         : AppColors.primaryColor,
                     borderRadius: BorderRadius.circular(20.r),
                   ),
@@ -324,7 +324,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                         _editingPersonalInfo
                             ? Icons.check_rounded
                             : Icons.edit_rounded,
-                        color: Colors.white,
+                        color: AppColors.background,
                         size: 12.sp,
                       ),
                       SizedBox(width: 4.w),
@@ -332,7 +332,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                         _editingPersonalInfo ? 'Salva' : 'Modifica',
                         style: TextStyle(
                             fontSize: 12.sp,
-                            color: Colors.white,
+                            color: AppColors.background,
                             fontWeight: FontWeight.w600,
                             height: 1.22),
                       ),
@@ -378,28 +378,28 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         Text(label,
             style: TextStyle(
                 fontSize: 12.sp,
-                color: Colors.black,
+                color: AppColors.textPrimary,
                 fontWeight: FontWeight.w500,
                 height: 1.22)),
         SizedBox(height: 6.h),
         Container(
-          height: 44.h,
           decoration: BoxDecoration(
-            color: const Color(0xFFF8F8F8),
+            color: AppColors.shortcardbg,
             borderRadius: BorderRadius.circular(10.r),
-            border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+            border: Border.all(color: AppColors.shortcardbg, width: 1),
           ),
           child: TextField(
             controller: ctrl,
             keyboardType: keyboardType,
+            textAlignVertical: TextAlignVertical.center,
             style: TextStyle(
                 fontSize: 13.sp,
-                color: const Color(0xFF1A1A2E),
+                color: AppColors.textDark,
                 fontWeight: FontWeight.w500,
                 height: 1.22),
             decoration: InputDecoration(
               contentPadding:
-              EdgeInsets.symmetric(horizontal: 14.w, vertical: 0),
+              EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
               border: InputBorder.none,
               isDense: true,
             ),
@@ -419,7 +419,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             child: Text(label,
                 style: TextStyle(
                     fontSize: 13.sp,
-                    color: Colors.black,
+                    color: AppColors.textPrimary,
                     height: 1.22)),
           ),
           Expanded(
@@ -428,7 +428,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 textAlign: TextAlign.right,
                 style: TextStyle(
                     fontSize: 13.sp,
-                    color: const Color(0xFF1A1A2E),
+                    color: AppColors.textDark,
                     fontWeight: FontWeight.w500,
                     height: 1.22)),
           ),
@@ -438,7 +438,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   }
 
   Widget _dividerLine() =>
-      Divider(height: 1, thickness: 1, color: Colors.grey);
+      Divider(height: 1, thickness: 1, color: AppColors.divider);
 
   // ─────────────────────────────────────────────
   //  SUPPLY ADDRESS
@@ -454,7 +454,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Text('Riepilogo in sola lettura da Bolletta/Profilo',
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                   height: 1.22)),
           SizedBox(height: 12.h),
 
@@ -462,9 +462,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Container(
             padding: EdgeInsets.all(14.w),
             decoration: BoxDecoration(
-              color: const Color(0xFFF8F8F8),
+              color: AppColors.primary50,
               borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
+              border: Border.all(color: AppColors.divider, width: 1),
             ),
             child: Row(
               children: [
@@ -479,13 +479,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                           style: TextStyle(
                               fontSize: 15.sp,
                               fontWeight: FontWeight.w700,
-                              color: const Color(0xFF1A1A2E),
+                              color: AppColors.textDark,
                               height: 1.22)),
                       SizedBox(height: 2.h),
                       Text(_c.city,
                           style: TextStyle(
                               fontSize: 12.sp,
-                              color: Colors.black,
+                              color: AppColors.textPrimary,
                               height: 1.22)),
                     ],
                   ),
@@ -496,7 +496,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   child: Icon(Icons.edit_outlined,
                       color: _editingAddress
                           ? AppColors.primaryColor
-                          : Colors.black,
+                          : AppColors.textDark,
                       size: 18.sp),
                 ),
               ],
@@ -522,7 +522,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xFF1A1A2E),
+                  color: AppColors.textDark,
                   height: 1.4)),
           SizedBox(height: 10.h),
 
@@ -559,8 +559,8 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: _c.addressMatch != null
                     ? AppColors.primaryColor
-                    : const Color(0xFFD0CCFF),
-                foregroundColor: Colors.white,
+                    : AppColors.primary300,
+                foregroundColor: AppColors.background,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.r)),
@@ -581,9 +581,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return Container(
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F8),
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
+        border: Border.all(color: AppColors.divider, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -595,7 +595,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   style: TextStyle(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
-                      color: const Color(0xFF1A1A2E),
+                      color: AppColors.textDark,
                       height: 1.22)),
               GestureDetector(
                 onTap: () {
@@ -606,12 +606,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 child: Row(
                   children: [
                     Icon(Icons.check_rounded,
-                        color: const Color(0xFF27AE60), size: 14.sp),
+                        color: AppColors.linkGreen, size: 14.sp),
                     SizedBox(width: 3.w),
                     Text('Salva',
                         style: TextStyle(
                             fontSize: 12.sp,
-                            color: const Color(0xFF27AE60),
+                            color: AppColors.linkGreen,
                             fontWeight: FontWeight.w600,
                             height: 1.22)),
                   ],
@@ -623,7 +623,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Text('Indirizzo',
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                   height: 1.22)),
           SizedBox(height: 6.h),
           _addressTextField(_streetCtrl, hint: '123 Main Street'),
@@ -631,7 +631,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Text('Città',
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                   height: 1.22)),
           SizedBox(height: 6.h),
           _addressTextField(_cityCtrl, hint: 'Milano'),
@@ -639,7 +639,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Text('CAP',
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                   height: 1.22)),
           SizedBox(height: 6.h),
           _addressTextField(_zipCtrl,
@@ -653,9 +653,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return Container(
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F8),
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
+        border: Border.all(color: AppColors.divider, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -663,21 +663,21 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFF8E1),
+              color: AppColors.yellowAlpha10,
               borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(color: const Color(0xFFFFE082), width: 1),
+              border: Border.all(color: AppColors.yellow100, width: 1),
             ),
             child: Row(
               children: [
                 Icon(Icons.info_outline_rounded,
-                    color: const Color(0xFFF59E0B), size: 14.sp),
+                    color: AppColors.yellow200, size: 14.sp),
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
                     'Se "No" è selezionato, questa sezione scende automaticamente.',
                     style: TextStyle(
                         fontSize: 11.sp,
-                        color: const Color(0xFF92400E),
+                        color: AppColors.textDark,
                         height: 1.4),
                   ),
                 ),
@@ -689,13 +689,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xFF1A1A2E),
+                  color: AppColors.textDark,
                   height: 1.22)),
           SizedBox(height: 12.h),
           Text('Via e Numero',
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                   height: 1.22)),
           SizedBox(height: 6.h),
           _addressTextField(TextEditingController(),
@@ -710,7 +710,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     Text('Città',
                         style: TextStyle(
                             fontSize: 12.sp,
-                            color: Colors.black,
+                            color: AppColors.textPrimary,
                             height: 1.22)),
                     SizedBox(height: 6.h),
                     _addressTextField(
@@ -728,7 +728,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     Text('CAP',
                         style: TextStyle(
                             fontSize: 12.sp,
-                            color: Colors.black,
+                            color: AppColors.textPrimary,
                             height: 1.22)),
                     SizedBox(height: 6.h),
                     _addressTextField(
@@ -746,22 +746,22 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               Text('Provincia',
                   style: TextStyle(
                       fontSize: 12.sp,
-                      color: Colors.black,
+                      color: AppColors.textPrimary,
                       height: 1.22)),
               Text(' *',
                   style: TextStyle(
                       fontSize: 12.sp,
-                      color: Colors.red,
+                      color: AppColors.error,
                       height: 1.22)),
             ],
           ),
           SizedBox(height: 6.h),
           Container(
-            height: 44.h,
+            height: 48.h,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.shortcardbg,
               borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
+              border: Border.all(color: AppColors.shortcardbg, width: 1),
             ),
             child: DropdownButtonHideUnderline(
               child: ButtonTheme(
@@ -771,11 +771,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   hint: Text('Seleziona Provincia',
                       style: TextStyle(
                           fontSize: 13.sp,
-                          color: Colors.black,
+                          color: AppColors.textSecondary,
                           height: 1.22)),
                   isExpanded: true,
                   icon: Icon(Icons.keyboard_arrow_down_rounded,
-                      color: Colors.black, size: 20.sp),
+                      color: AppColors.textDark, size: 20.sp),
                   items: const [
                     'Milano', 'Roma', 'Napoli', 'Torino',
                     'Palermo', 'Genova', 'Bologna', 'Firenze',
@@ -785,7 +785,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     child: Text(p,
                         style: TextStyle(
                             fontSize: 13.sp,
-                            color: const Color(0xFF1A1A2E),
+                            color: AppColors.textDark,
                             height: 1.22)),
                   ))
                       .toList(),
@@ -805,26 +805,26 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         TextInputType keyboardType = TextInputType.text,
       }) {
     return Container(
-      height: 44.h,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.shortcardbg,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
+        border: Border.all(color: AppColors.shortcardbg, width: 1),
       ),
       child: TextField(
         controller: ctrl,
         keyboardType: keyboardType,
+        textAlignVertical: TextAlignVertical.center,
         style: TextStyle(
             fontSize: 13.sp,
-            color: const Color(0xFF1A1A2E),
+            color: AppColors.textDark,
             fontWeight: FontWeight.w500,
             height: 1.22),
         decoration: InputDecoration(
           hintText: hint,
           hintStyle:
-          TextStyle(fontSize: 13.sp, color: Colors.black, height: 1.22),
+          TextStyle(fontSize: 13.sp, color: AppColors.textSecondary, height: 1.22),
           contentPadding:
-          EdgeInsets.symmetric(horizontal: 14.w, vertical: 0),
+          EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
           border: InputBorder.none,
           isDense: true,
         ),
@@ -841,13 +841,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         padding: EdgeInsets.symmetric(vertical: 11.h, horizontal: 10.w),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFFF0EEFF)
-              : const Color(0xFFF8F8F8),
+              ? AppColors.primary100
+              : AppColors.background,
           borderRadius: BorderRadius.circular(10.r),
           border: Border.all(
             color: isSelected
                 ? AppColors.primaryColor
-                : const Color(0xFF5A1ABE),
+                : AppColors.divider,
             width: 1.22,
           ),
         ),
@@ -865,12 +865,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 border: Border.all(
                   color: isSelected
                       ? AppColors.primaryColor
-                      : Colors.black,
+                      : AppColors.textDark,
                   width: 1.5,
                 ),
               ),
               child: isSelected
-                  ? Icon(Icons.circle, color: Colors.white, size: 8.sp)
+                  ? Icon(Icons.circle, color: AppColors.background, size: 8.sp)
                   : null,
             ),
             SizedBox(width: 6.w),
@@ -882,7 +882,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       isSelected ? FontWeight.w600 : FontWeight.w400,
                       color: isSelected
                           ? AppColors.primaryColor
-                          : Colors.black,
+                          : AppColors.textPrimary,
                       height: 1.22)),
             ),
           ],
@@ -907,12 +907,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               Row(
                 children: [
                   Icon(Icons.check_rounded,
-                      color: const Color(0xFF27AE60), size: 14.sp),
+                      color: AppColors.linkGreen, size: 14.sp),
                   SizedBox(width: 3.w),
                   Text('Salva',
                       style: TextStyle(
                           fontSize: 12.sp,
-                          color: const Color(0xFF27AE60),
+                          color: AppColors.linkGreen,
                           fontWeight: FontWeight.w600,
                           height: 1.22)),
                 ],
@@ -924,7 +924,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               'Carica il tuo documento d\'identità o la patente per completare la richiesta.',
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                   height: 1.5)),
           SizedBox(height: 14.h),
           if (_c.uploadedFiles.isNotEmpty) ...[
@@ -937,29 +937,29 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   padding:
                   EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFE8F8EF),
+                    color: AppColors.greenAlpha10,
                     borderRadius: BorderRadius.circular(20.r),
                     border:
-                    Border.all(color: const Color(0xFF27AE60), width: 1),
+                    Border.all(color: AppColors.linkGreen, width: 1),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.insert_drive_file_outlined,
-                          size: 12.sp, color: const Color(0xFF27AE60)),
+                          size: 12.sp, color: AppColors.linkGreen),
                       SizedBox(width: 4.w),
                       Text(
                         name.length > 16 ? '${name.substring(0, 16)}...' : name,
                         style: TextStyle(
                             fontSize: 11.sp,
-                            color: const Color(0xFF27AE60),
+                            color: AppColors.linkGreen,
                             height: 1.22),
                       ),
                       SizedBox(width: 6.w),
                       GestureDetector(
                         onTap: () => _c.removeFile(e.key),
                         child: Icon(Icons.close_rounded,
-                            size: 12.sp, color: const Color(0xFF27AE60)),
+                            size: 12.sp, color: AppColors.linkGreen),
                       ),
                     ],
                   ),
@@ -1008,9 +1008,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: Container(
         height: 90.h,
         decoration: BoxDecoration(
-          color: canUpload ? Colors.white : const Color(0xFFF5F5F5),
+          color: canUpload ? AppColors.background : AppColors.primary50,
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
+          border: Border.all(color: AppColors.divider, width: 1),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -1019,21 +1019,21 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 size: 26.sp,
                 color: canUpload
                     ? AppColors.primaryColor
-                    : Colors.black),
+                    : AppColors.textSecondary),
             SizedBox(height: 6.h),
             Text(label,
                 style: TextStyle(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w600,
                     color: canUpload
-                        ? const Color(0xFF1A1A2E)
-                        : Colors.black,
+                        ? AppColors.textDark
+                        : AppColors.textSecondary,
                     height: 1.22)),
             SizedBox(height: 2.h),
             Text(sublabel,
                 style: TextStyle(
                     fontSize: 10.sp,
-                    color: Colors.black,
+                    color: AppColors.textSecondary,
                     height: 1.22)),
           ],
         ),
@@ -1080,7 +1080,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Text('Seleziona come preferisci pagare',
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                   height: 1.22)),
           SizedBox(height: 12.h),
 
@@ -1095,7 +1095,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
-                  color: const Color(0xFF1A1A2E),
+                  color: AppColors.textDark,
                   height: 1.22)),
           SizedBox(height: 10.h),
           _paymentOption(
@@ -1141,9 +1141,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             padding:
             EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFF8F8F8),
+              color: AppColors.primary50,
               borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(color: const Color(0xFFD2D2D2), width: 1),
+              border: Border.all(color: AppColors.divider, width: 1),
             ),
             child: Row(
               children: [
@@ -1154,19 +1154,19 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   height: 20.w,
                   decoration: BoxDecoration(
                     color: _ibanSameAsContract
-                        ? const Color(0xFFE8F8EF)
-                        : Colors.white,
+                        ? AppColors.greenAlpha10
+                        : AppColors.background,
                     borderRadius: BorderRadius.circular(4.r),
                     border: Border.all(
                       color: _ibanSameAsContract
-                          ? const Color(0xFF1FC16B)
-                          : const Color(0xFF5A1ABE),
+                          ? AppColors.linkGreen
+                          : AppColors.primaryColor,
                       width: 1,
                     ),
                   ),
                   child: _ibanSameAsContract
                       ? Icon(Icons.check_rounded,
-                      size: 13.sp, color: const Color(0xFF1FC16B))
+                      size: 13.sp, color: AppColors.linkGreen)
                       : null,
                 ),
                 SizedBox(width: 10.w),
@@ -1175,7 +1175,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     'Yes, IBAN Holder & Contract Holder are same',
                     style: TextStyle(
                         fontSize: 12.sp,
-                        color: const Color(0xFF1A1A2E),
+                        color: AppColors.textDark,
                         fontWeight: FontWeight.w500,
                         height: 1.22),
                   ),
@@ -1205,9 +1205,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return Container(
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F8),
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
+        border: Border.all(color: AppColors.divider, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1219,17 +1219,17 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   style: TextStyle(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
-                      color: const Color(0xFF1A1A2E),
+                      color: AppColors.textDark,
                       height: 1.22)),
               Row(
                 children: [
                   Icon(Icons.check_rounded,
-                      color: const Color(0xFF27AE60), size: 14.sp),
+                      color: AppColors.linkGreen, size: 14.sp),
                   SizedBox(width: 3.w),
                   Text('Save',
                       style: TextStyle(
                           fontSize: 12.sp,
-                          color: const Color(0xFF27AE60),
+                          color: AppColors.linkGreen,
                           fontWeight: FontWeight.w600,
                           height: 1.22)),
                 ],
@@ -1261,13 +1261,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 13.h),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFFF0EEFF)
-              : const Color(0xFFF8F8F8),
+              ? AppColors.primary100
+              : AppColors.background,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isSelected
                 ? AppColors.primaryColor
-                : const Color(0xFFD2D2D2),
+                : AppColors.divider,
             width: 1.22,
           ),
         ),
@@ -1285,12 +1285,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 border: Border.all(
                   color: isSelected
                       ? AppColors.primaryColor
-                      : Colors.black,
+                      : AppColors.textDark,
                   width: 1.22,
                 ),
               ),
               child: isSelected
-                  ? Icon(Icons.check_rounded, color: Colors.white, size: 12.sp)
+                  ? Icon(Icons.check_rounded, color: AppColors.background, size: 12.sp)
                   : null,
             ),
             SizedBox(width: 12.w),
@@ -1302,13 +1302,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       style: TextStyle(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF1A1A2E),
+                          color: AppColors.textDark,
                           height: 1.22)),
                   SizedBox(height: 2.h),
                   Text(subtitle,
                       style: TextStyle(
                           fontSize: 11.sp,
-                          color: Colors.black,
+                          color: AppColors.textPrimary,
                           height: 1.22)),
                 ],
               ),
@@ -1337,7 +1337,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               'Il nostro consiglio: invio via email per ricevere il servizio puntualmente!',
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                   height: 1.5)),
           SizedBox(height: 12.h),
 
@@ -1391,7 +1391,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 11.h),
           decoration: BoxDecoration(
-            color: const Color(0xFFEDE7F6),
+            color: AppColors.primary100,
             borderRadius: BorderRadius.circular(10.r),
           ),
           child: Text(
@@ -1413,15 +1413,15 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 text: 'Email for invoice ',
                 style: TextStyle(
                     fontSize: 13.sp,
-                    color: const Color(0xFF1A1A2E),
+                    color: AppColors.textDark,
                     fontWeight: FontWeight.w600,
                     height: 1.22),
               ),
-              TextSpan(
+               TextSpan(
                 text: '*',
                 style: TextStyle(
                     fontSize: 13.sp,
-                    color: Colors.red,
+                    color: AppColors.error,
                     height: 1.22),
               ),
             ],
@@ -1447,7 +1447,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
-                color: const Color(0xFF1A1A2E),
+                color: AppColors.textDark,
                 height: 1.4)),
         SizedBox(height: 10.h),
 
@@ -1493,21 +1493,21 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 11.h),
       decoration: BoxDecoration(
-        color: const Color(0xFFFCE4EC),
+        color: AppColors.redAlpha10,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: const Color(0xFFF48FB1), width: 1),
+        border: Border.all(color: AppColors.red100.withOpacity(0.3), width: 1),
       ),
       child: Row(
         children: [
           Icon(Icons.location_on_outlined,
-              color: const Color(0xFFE91E63), size: 16.sp),
+              color: AppColors.red200, size: 16.sp),
           SizedBox(width: 8.w),
           Expanded(
             child: Text(
               'The invoice will be sent to: Via Roma 42, 20121 Milan (MI)',
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: const Color(0xFFE91E63),
+                  color: AppColors.red200,
                   fontWeight: FontWeight.w500,
                   height: 1.4),
             ),
@@ -1522,9 +1522,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return Container(
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F8),
+        color: AppColors.primary50,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
+        border: Border.all(color: AppColors.divider, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1533,21 +1533,21 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.background,
               borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(color: const Color(0xFFD2D2D2), width: 1),
+              border: Border.all(color: AppColors.divider, width: 1),
             ),
             child: Row(
               children: [
                 Icon(Icons.info_outline_rounded,
-                    color: Colors.black, size: 14.sp),
+                    color: AppColors.textDark, size: 14.sp),
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
                     'Enter your shipping address',
                     style: TextStyle(
                         fontSize: 12.sp,
-                        color: Colors.black,
+                        color: AppColors.textPrimary,
                         height: 1.4),
                   ),
                 ),
@@ -1560,7 +1560,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Text('Address',
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                   height: 1.22)),
           SizedBox(height: 6.h),
           _addressTextField(_invStreetCtrl, hint: 'example@amail.com'),
@@ -1576,7 +1576,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     Text('City',
                         style: TextStyle(
                             fontSize: 12.sp,
-                            color: Colors.black,
+                            color: AppColors.textPrimary,
                             height: 1.22)),
                     SizedBox(height: 6.h),
                     _addressTextField(_invCityCtrl, hint: 'Milano'),
@@ -1592,7 +1592,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     Text('Number',
                         style: TextStyle(
                             fontSize: 12.sp,
-                            color: Colors.black,
+                            color: AppColors.textPrimary,
                             height: 1.22)),
                     SizedBox(height: 6.h),
                     _addressTextField(_invNumberCtrl,
@@ -1609,15 +1609,15 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Text('Zip Code',
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                   height: 1.22)),
           SizedBox(height: 6.h),
           Container(
-            height: 44.h,
+            height: 48.h,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.shortcardbg,
               borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
+              border: Border.all(color: AppColors.shortcardbg, width: 1),
             ),
             child: DropdownButtonHideUnderline(
               child: ButtonTheme(
@@ -1627,11 +1627,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   hint: Text('Select Province',
                       style: TextStyle(
                           fontSize: 13.sp,
-                          color: Colors.black,
+                          color: AppColors.textSecondary,
                           height: 1.22)),
                   isExpanded: true,
                   icon: Icon(Icons.keyboard_arrow_down_rounded,
-                      color: Colors.black, size: 20.sp),
+                      color: AppColors.textDark, size: 20.sp),
                   items: const [
                     'Milano', 'Roma', 'Napoli', 'Torino',
                     'Palermo', 'Genova', 'Bologna', 'Firenze',
@@ -1641,7 +1641,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     child: Text(p,
                         style: TextStyle(
                             fontSize: 13.sp,
-                            color: const Color(0xFF1A1A2E),
+                            color: AppColors.textDark,
                             height: 1.22)),
                   ))
                       .toList(),
@@ -1656,7 +1656,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Text('Province',
               style: TextStyle(
                   fontSize: 12.sp,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                   height: 1.22)),
           SizedBox(height: 6.h),
           _addressTextField(_invProvinceCtrl, hint: 'RM'),
@@ -1670,7 +1670,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
-                foregroundColor: Colors.white,
+                foregroundColor: AppColors.background,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.r)),
@@ -1700,13 +1700,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 13.h),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFFF0EEFF)
-              : const Color(0xFFF8F8F8),
+              ? AppColors.primary100
+              : AppColors.background,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isSelected
                 ? AppColors.primaryColor
-                : const Color(0xFFD2D2D2),
+                : AppColors.divider,
             width: 1.22,
           ),
         ),
@@ -1724,12 +1724,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 border: Border.all(
                   color: isSelected
                       ? AppColors.primaryColor
-                      : Colors.black,
+                      : AppColors.textDark,
                   width: 1.22,
                 ),
               ),
               child: isSelected
-                  ? Icon(Icons.check_rounded, color: Colors.white, size: 12.sp)
+                  ? Icon(Icons.check_rounded, color: AppColors.background, size: 12.sp)
                   : null,
             ),
             SizedBox(width: 12.w),
@@ -1741,13 +1741,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       style: TextStyle(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF1A1A2E),
+                          color: AppColors.textDark,
                           height: 1.22)),
                   SizedBox(height: 2.h),
                   Text(subtitle,
                       style: TextStyle(
                           fontSize: 11.sp,
-                          color: Colors.black,
+                          color: AppColors.textPrimary,
                           height: 1.22)),
                 ],
               ),
@@ -1767,13 +1767,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         padding: EdgeInsets.symmetric(vertical: 11.h, horizontal: 10.w),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFFF0EEFF)
-              : const Color(0xFFF8F8F8),
+              ? AppColors.primary100
+              : AppColors.background,
           borderRadius: BorderRadius.circular(10.r),
           border: Border.all(
             color: isSelected
                 ? AppColors.primaryColor
-                : const Color(0xFFD2D2D2),
+                : AppColors.divider,
             width: 1.22,
           ),
         ),
@@ -1791,12 +1791,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 border: Border.all(
                   color: isSelected
                       ? AppColors.primaryColor
-                      : Colors.black,
+                      : AppColors.textDark,
                   width: 1.5,
                 ),
               ),
               child: isSelected
-                  ? Icon(Icons.circle, color: Colors.white, size: 8.sp)
+                  ? Icon(Icons.circle, color: AppColors.background, size: 8.sp)
                   : null,
             ),
             SizedBox(width: 6.w),
@@ -1807,7 +1807,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     isSelected ? FontWeight.w600 : FontWeight.w400,
                     color: isSelected
                         ? AppColors.primaryColor
-                        : Colors.black,
+                        : AppColors.textPrimary,
                     height: 1.22)),
           ],
         ),
@@ -1823,15 +1823,21 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: const Color(0xFFE8F8EF),
+        color: AppColors.greenAlpha10,
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFFD2D2D2), width: 1.22),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.textPrimary.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(Icons.check_circle_rounded,
-              color: const Color(0xFF27AE60), size: 20.sp),
+              color: AppColors.linkGreen, size: 20.sp),
           SizedBox(width: 10.w),
           Expanded(
             child: Column(
@@ -1841,14 +1847,14 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: const Color(0xFF1A1A2E),
+                        color: AppColors.textDark,
                         height: 1.22)),
                 SizedBox(height: 4.h),
                 Text(
                     "Una volta attivato, invieremo il tuo contratto entro 24 ore per la firma.",
                     style: TextStyle(
                         fontSize: 12.sp,
-                        color: Colors.black,
+                        color: AppColors.textPrimary,
                         height: 1.5)),
               ],
             ),
@@ -1867,10 +1873,10 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       width: double.infinity,
       height: 54.h,
       child: ElevatedButton(
-        onPressed: () => Get.to(() => RequestSuccessScreen()),
+        onPressed: () => Get.to(() => const RequestSuccessScreen()),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryColor,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColors.background,
           elevation: 0,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.r)),
@@ -1893,14 +1899,14 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+        border: Border.all(color: AppColors.primaryColor, width: 1.22),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: AppColors.textPrimary.withOpacity(0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -1913,7 +1919,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         style: TextStyle(
             fontSize: 15.sp,
             fontWeight: FontWeight.w700,
-            color: const Color(0xFF1A1A2E),
+            color: AppColors.textDark,
             height: 1.22));
   }
 }
