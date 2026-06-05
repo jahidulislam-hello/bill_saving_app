@@ -29,10 +29,10 @@ class ActionCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.background,
           borderRadius: BorderRadius.circular(18.r),
-          // border: Border.all(
-          //   color: const Color(0xFFD2D2D2),
-          //   width: 1.22,
-          // ),
+          border: Border.all(
+            color: const Color(0xFFD2D2D2),
+            width: 1.22,
+          ),
         ),
         child: Stack(
           clipBehavior: Clip.none,

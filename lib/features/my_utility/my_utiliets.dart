@@ -96,7 +96,7 @@ class MyUtilitiesScreen extends StatelessWidget {
       height: 192.h,
       padding: const EdgeInsets.fromLTRB(20, 22, 20, 22),
       decoration: BoxDecoration(
-        color: AppColors.darkPurple,
+        color: Color(0xFF001C13),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Stack(
@@ -168,6 +168,11 @@ class _UtilityTile extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.background,
           borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: const Color(0xFF7B48CB),
+            width: 1,
+          ),
+
           boxShadow: [
             BoxShadow(
                 color: AppColors.textPrimary.withOpacity(0.05),

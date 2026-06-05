@@ -11,7 +11,7 @@ class RequestSuccessScreen extends StatelessWidget {
   static const _textGrey = AppColors.textMid;
   static const _cardBg = AppColors.primary50;
   static const _infoBg = AppColors.primary100;
-  static const _infoBorder = AppColors.primaryColor;
+  static const _infoBorder = Color(0xFFF2F4F7);
   static const _bg = AppColors.background;
   static const _iconGrey = AppColors.textDark;
 
@@ -19,14 +19,32 @@ class RequestSuccessScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bg,
-      body: SafeArea(
+
+      bottomNavigationBar: SafeArea(
         child: Padding(
+          padding: const EdgeInsets.fromLTRB(22, 10, 22, 22),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _viewButton(context),
+              const SizedBox(height: 14),
+              _backButton(context),
+            ],
+          ),
+        ),
+      ),
+
+      body: SafeArea(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 22),
           child: Column(
             children: [
               const SizedBox(height: 52),
+
               _badgeIcon(),
+
               const SizedBox(height: 28),
+
               const Text(
                 'Richiesta Inviata con Successo',
                 textAlign: TextAlign.center,
@@ -34,29 +52,26 @@ class RequestSuccessScreen extends StatelessWidget {
                   color: _textDark,
                   fontSize: 22,
                   fontWeight: FontWeight.w900,
-                  letterSpacing: -0.3,
                 ),
               ),
+
               const SizedBox(height: 10),
+
               const Text(
                 'Abbiamo ricevuto la tua richiesta di\nattivazione.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: _textGrey,
-                  fontSize: 14,
-                  height: 1.5,
-                  fontWeight: FontWeight.w700,
-                ),
               ),
+
               const SizedBox(height: 32),
+
               _whatHappensCard(),
+
               const SizedBox(height: 14),
+
               _infoBox(),
-              const Spacer(),
-              _viewButton(context),
-              const SizedBox(height: 14),
-              _backButton(context),
-              const SizedBox(height: 28),
+
+              // Extra space so content doesn't hide behind bottom buttons
+              const SizedBox(height: 140),
             ],
           ),
         ),
