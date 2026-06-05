@@ -4,7 +4,6 @@ import 'package:vyzi/core/utils/app_colors.dart';
 class FaqQuestion extends StatelessWidget {
   const FaqQuestion({super.key});
 
-  static const _purple = AppColors.primaryColor;
   static const _purpleBg = AppColors.primary100;
   static const _textDark = AppColors.textDark;
   static const _textMid = AppColors.textMid;

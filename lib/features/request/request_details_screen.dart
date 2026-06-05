@@ -11,19 +11,14 @@ class RequestDetailsScreen extends StatelessWidget {
   static const _purple = AppColors.primaryColor;
   static const _purpleBg = AppColors.primary100;
   static const _green = AppColors.green;
-  static const _greenBg = AppColors.primary50;
+  static const _greenBg = AppColors.primaryPurple;
   static const _orange = AppColors.yellow200;
-  static const _orangeBg = AppColors.yellowAlpha10;
   static const _grey = AppColors.neutral500;
-  static const _greyBg = AppColors.neutralAlpha10;
   static const _textDark = AppColors.textDark;
   static const _textMid = AppColors.textMid;
-  static const _textLight = AppColors.textLight;
   static const _cardBg = AppColors.cardBg;
   static const _bg = AppColors.background;
-  static const _divider = AppColors.primaryColor;
-  static const _infoBg = AppColors.primary50;
-  static const _infoBorder = AppColors.primaryColor;
+  static const _infoBg = AppColors.primaryPurple;
   static const _yellowBadgeBg = AppColors.yellowAlpha10;
   static const _yellowBadgeText = AppColors.yellow200;
 
@@ -81,7 +76,7 @@ class RequestDetailsScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: _greenBg,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+          border: Border.all(color: const Color(0xFFEFE8F9), width: 1.22),
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.05),
@@ -137,7 +132,7 @@ class RequestDetailsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: _cardBg,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+        border: Border.all(color: const Color(0xFFFFFF), width: 1.22),
         boxShadow: [
           BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -181,7 +176,7 @@ class RequestDetailsScreen extends StatelessWidget {
                           fontSize: 12,
                           fontWeight: FontWeight.w700),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 22),
                     const Text(
                       'Sorgenia',
                       style: TextStyle(
@@ -215,7 +210,7 @@ class RequestDetailsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: _cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+        border: Border.all(color: const Color(0xFFEFEFEF), width: 1.22),
         boxShadow: [
           BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -418,7 +413,7 @@ class RequestDetailsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: _infoBg,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFF5A1ABE)),
+        border: Border.all(color: const Color(0xFFB396E1)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -429,7 +424,7 @@ class RequestDetailsScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFF5A1ABE)),
+              border: Border.all(color: const Color(0xFFEFE8F9)),
             ),
             child: const Icon(Icons.info_outline, color: _purple, size: 16),
           ),
@@ -438,7 +433,7 @@ class RequestDetailsScreen extends StatelessWidget {
             child: Text(
               'The verification process typically takes 3-5 business days. We will notify you once completed.',
               style: TextStyle(
-                color: _purple,
+                color: _grey,
                 fontSize: 13,
                 height: 1.5,
                 fontWeight: FontWeight.w800,

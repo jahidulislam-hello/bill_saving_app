@@ -32,7 +32,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F7),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: CustomScrollView(
         slivers: [
           // ── Pinned AppBar ──
@@ -92,16 +92,16 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
         child: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 4,
-                ),
-              ],
-            ),
+            // decoration: BoxDecoration(
+            //   color: Colors.white,
+            //   shape: BoxShape.circle,
+            //   boxShadow: [
+            //     BoxShadow(
+            //       color: Colors.black.withOpacity(0.05),
+            //       blurRadius: 4,
+            //     ),
+            //   ],
+            // ),
             child: Icon(Icons.arrow_back_rounded,
                 color: const Color(0xFF1A1A2E), size: 18.sp),
           ),
@@ -127,7 +127,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFFF5F5F5),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+        border: Border.all(color: const Color(0xFFFFFFFF), width: 1.22),
       ),
       clipBehavior: Clip.antiAlias,
       child: _a.imageUrl.isNotEmpty
@@ -254,7 +254,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+              border: Border.all(color: const Color(0xFFFFFFFF), width: 1.22),
             ),
             child: Row(
               children: [
@@ -301,7 +301,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                       border: Border.all(
                         color: isCopied
                             ? const Color(0xFF27AE60)
-                            : const Color(0xFF5A1ABE),
+                            : const Color(0xFFFFFFFF),
                         width: 1,
                       ),
                     ),
@@ -350,7 +350,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.2),
+        border: Border.all(color: const Color(0xFFE5E7EB), width: 1.2),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -407,9 +407,9 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
   Widget _buildHowToUseCard() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF0F4FF),
+        color: const Color(0xFFEFF6FF),
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.2),
+        border: Border.all(color: const Color(0xFFBEDBFF), width: 1.2),
       ),
       padding: EdgeInsets.all(16.w),
       child: Column(

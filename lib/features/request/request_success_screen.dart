@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 
 class RequestSuccessScreen extends StatelessWidget {
   const RequestSuccessScreen({super.key});

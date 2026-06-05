@@ -162,17 +162,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Container(
         width: 36.w,
         height: 34.h,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(5.r),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 5,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
+        // decoration: BoxDecoration(
+        //   color: Colors.white,
+        //   borderRadius: BorderRadius.circular(5.r),
+        //   boxShadow: [
+        //     BoxShadow(
+        //       color: Colors.black.withOpacity(0.05),
+        //       blurRadius: 5,
+        //       offset: const Offset(0, 2),
+        //     ),
+        //   ],
+        // ),
         child: Icon(
           leadingIcon ?? Icons.arrow_back,
           size: leadingIconSize ?? 24.sp,

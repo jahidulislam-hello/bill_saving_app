@@ -29,7 +29,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary50,
+      backgroundColor: AppColors.background,
       appBar: const CustomAppBar(title: 'Dati Personali', showBackButton: true),
       body: SingleChildScrollView(
         child: Column(
@@ -81,9 +81,19 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   // ── Avatar card ──
   Widget _buildAvatarCard() {
     return Container(
-      color: AppColors.background,
+      decoration: BoxDecoration(
+        color: AppColors.background,
+        borderRadius: BorderRadius.circular(14.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.textPrimary.withOpacity(0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 28.h),
+      padding: EdgeInsets.symmetric(vertical: 28.h, horizontal: 10.h),
       child: Column(
         children: [
           // Avatar with edit button
@@ -218,7 +228,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
       children: [
         Text(
           label,
-          style: AppStyles.label.copyWith(fontSize: 13.sp, color: AppColors.darkBlue),
+          style: AppStyles.label.copyWith(fontSize: 14.sp, color: AppColors.textPrimary),
         ),
         SizedBox(height: 6.h),
         TextField(
@@ -229,7 +239,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             hintText: hint,
             hintStyle: AppStyles.hintStyle,
             filled: true,
-            fillColor: AppColors.primary50,
+            fillColor: Color(0xFFF3F3F5),
             contentPadding: EdgeInsets.symmetric(
                 horizontal: 14.w, vertical: 12.h),
             enabledBorder: OutlineInputBorder(
@@ -240,7 +250,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
               borderSide: const BorderSide(
-                  color: AppColors.primaryColor, width: 1.5),
+                  color: Color(0xFFF3F3F5), width: 1.5),
             ),
           ),
         ),
@@ -299,7 +309,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               if (mounted) Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.darkBlue,
+              backgroundColor: AppColors.textPrimary,
               foregroundColor: AppColors.background,
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -328,6 +338,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
         SizedBox(
           width: double.infinity,
           height: 44.h,
+
           child: TextButton(
             onPressed: () {
               _c.cancelChanges();

@@ -44,7 +44,7 @@ class MyRequestsProfile extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20.r),
-                  border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+                  border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.05),

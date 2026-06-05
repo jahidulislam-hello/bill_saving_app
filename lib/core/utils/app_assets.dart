@@ -81,8 +81,8 @@ class AppAssets {
 
 
 
-  static const String profile001 = '$_imagePath/profile_001.png';
-  static const String profile002 = '$_imagePath/profile_002.png';
+  static const String profile001 = '$_iconPath/profile_001.png';
+  static const String profile002 = '$_iconPath/profile_002.png';
 
 
 
