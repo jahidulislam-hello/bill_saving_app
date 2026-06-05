@@ -227,9 +227,9 @@ class UtilityDetailsScreen extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.all(18.w),
               decoration: BoxDecoration(
-                color: const Color(0xFFEFEFEF),
+                color: const Color(0xFFEFE8F9),
                 borderRadius: BorderRadius.circular(18.r),
-                border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+                border: Border.all(color: const Color(0xFFEFE8F9), width: 1.22),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -322,7 +322,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                             color: Colors.white,
                             borderRadius:
                             BorderRadius.circular(12.r),
-                            border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
+                            border: Border.all(color: const Color(0xFFC4C5D5), width: 1),
                           ),
                           child: Row(
                             children: [

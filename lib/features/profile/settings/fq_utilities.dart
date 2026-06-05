@@ -133,7 +133,7 @@ class _FaqScreenState extends State<FaqUtiliesScreen> {
           color: AppColors.background,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: const Color(0xFF5A1ABE),
+            color: const Color(0xFFE5E7EB),
             width: 1.2,
           ),
           boxShadow: [

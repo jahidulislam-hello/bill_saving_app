@@ -34,7 +34,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F7),
+      backgroundColor: const Color(0xFFFFFFFF),
       appBar: _buildAppBar(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
@@ -79,10 +79,6 @@ class _SignContractScreenState extends State<SignContractScreen> {
           height: 1.22,
         ),
       ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(1),
-        child: Divider(height: 1, thickness: 1, color: const Color(0xFF5A1ABE)),
-      ),
     );
   }
 
@@ -122,7 +118,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w900,
-              color: const Color(0xFF1A1A2E),
+              color: const Color(0xFF101828),
               height: 1.22,
             ),
           ),
@@ -135,7 +131,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
             style: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w600,
-              color: Colors.black,
+              color: Color(0xFF4A5565),
               height: 1.5,
             ),
           ),
@@ -227,7 +223,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
           _buildCardField(
             label: 'Nome Offerta',
             value: 'Next e-Business Sunlight',
-            valueColor: const Color(0xFF7BC8FF),
+            valueColor: const Color(0xFF64FBCB),
           ),
 
           SizedBox(height: 16.h),
@@ -289,8 +285,8 @@ class _SignContractScreenState extends State<SignContractScreen> {
               'Hai bisogno di aiuto per firmare?',
               style: TextStyle(
                 fontSize: 14.sp,
-                fontWeight: FontWeight.w800,
-                color: const Color(0xFF1A1A2E),
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF1C398E),
                 height: 1.22,
               ),
             ),
@@ -300,9 +296,9 @@ class _SignContractScreenState extends State<SignContractScreen> {
                 Text(
                   'Visualizza Tutorial di Firma',
                   style: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.primaryColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF155DFC),
                     height: 1.22,
                   ),
                 ),
@@ -338,9 +334,9 @@ class _SignContractScreenState extends State<SignContractScreen> {
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFFEFF6FF),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.2),
+        border: Border.all(color: const Color(0xFFBEDBFF), width: 1.2),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),

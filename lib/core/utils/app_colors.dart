@@ -46,6 +46,7 @@ class AppColors {
   static const Color textMid = Color(0xFF000000);
   static const Color textLight = Color(0xFF000000);
   static const Color divider = Color(0xFFE8E8E8);
+  static const Color primaryPurple = Color(0xFFEFE8F9);
 
   // ─── Primary ───────────────────────────────────────────────────────────────
   static const Color primary50 = Color(0xFFF5F7FF);

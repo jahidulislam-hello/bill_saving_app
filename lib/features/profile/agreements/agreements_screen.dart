@@ -92,7 +92,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
       ),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1),
-        child: Divider(height: 1, thickness: 1, color: const Color(0xFF5A1ABE)),
+        child: Divider(height: 1, thickness: 1, color: const Color(0xFFFFFFFF)),
       ),
     );
   }
@@ -103,9 +103,9 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
       width: double.infinity,
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: const Color(0xFFE8F8EF),
+        color: const Color(0xFFECFDF5),
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.2),
+        border: Border.all(color: const Color(0xFFB9F8CF), width: 1.2),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,7 +170,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14.r),
-          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.2),
+          border: Border.all(color: const Color(0xFFE5E7EB), width: 1.2),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),

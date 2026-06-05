@@ -57,12 +57,12 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
 
                     /// LOGO
                     Container(
-                      height: 76.h,
-                      width: 76.w,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary100,
-                        borderRadius: BorderRadius.circular(18.r),
-                      ),
+                      height: 150.h,
+                      width: 120.w,
+                      // decoration: BoxDecoration(
+                      //   color: AppColors.primary100,
+                      //   borderRadius: BorderRadius.circular(18.r),
+                      // ),
                       child: Center(
                         child: ShaderMask(
                           shaderCallback: (bounds) {
@@ -101,7 +101,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       "Choose how to register on VYZI",
                       style: TextStyle(
                         fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                         color: AppColors.textPrimary,
                       ),
                     ),
