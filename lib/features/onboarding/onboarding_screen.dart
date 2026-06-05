@@ -6,13 +6,14 @@ import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/routes/app_routes.dart';
 
-import '../../core/utils/app_assets.dart';
+
 
 
 class OnboardingScreen extends StatefulWidget {
   @override
   _SelectProfileScreenState createState() => _SelectProfileScreenState();
 }
+
 
 class _SelectProfileScreenState extends State<OnboardingScreen> {
   int selectedIndex = 0; // 0 = Private, 1 = Business

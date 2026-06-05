@@ -569,11 +569,20 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
   // ── What's Included ──
   Widget _whatsIncludedCard() {
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFFF9F9F9),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.divider, width: 1.2),
+        border: Border.all(
+          color: const Color(0xFFE5E7EB),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -581,11 +590,13 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
           const Text(
             "Cosa è Incluso",
             style: TextStyle(
-                color: AppColors.textDark,
-                fontSize: 16,
-                fontWeight: FontWeight.w900),
+              color: AppColors.textDark,
+              fontSize: 16,
+              fontWeight: FontWeight.w900,
+            ),
           ),
           const SizedBox(height: 16),
+
           ..._features.map((f) => _featureItem(f.$1, f.$2)),
         ],
       ),
@@ -635,26 +646,38 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
 
   // ── About EnergyPlus ──
   Widget _aboutCard() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Su EnergyPlus',
-          style: TextStyle(
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: const Color(0xFFE5E7EB),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Su EnergyPlus',
+            style: TextStyle(
               color: AppColors.textDark,
               fontSize: 16,
-              fontWeight: FontWeight.w900),
-        ),
-        const SizedBox(height: 14),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF9F9F9),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.divider, width: 1.2),
+              fontWeight: FontWeight.w900,
+            ),
           ),
-          child: const Text(
+
+          const SizedBox(height: 12),
+
+          const Text(
             'EnergyPlus è un fornitore di energia affidabile impegnato a fornire un servizio eccellente e tariffe competitive. Si specializzano in soluzioni di energia rinnovabile e hanno una comprovata esperienza di soddisfazione del cliente.',
             style: TextStyle(
               color: AppColors.textMid,
@@ -663,8 +686,8 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
               height: 1.65,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -676,79 +699,101 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
         const Text(
           'Domande Frequenti',
           style: TextStyle(
-              color: AppColors.textDark,
-              fontSize: 16,
-              fontWeight: FontWeight.w900),
+            color: AppColors.textDark,
+            fontSize: 16,
+            fontWeight: FontWeight.w900,
+          ),
         ),
         const SizedBox(height: 12),
-        Container(
-          decoration: BoxDecoration(
-            color: const Color(0xFFF9F9F9),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.divider, width: 1.2),
-          ),
-          child: Column(
-            children: List.generate(_faqs.length, (i) {
-              final isExpanded = _expandedFAQ.contains(i);
-              final isLast = i == _faqs.length - 1;
-              return Column(
+
+        ...List.generate(_faqs.length, (i) {
+          final isExpanded = _expandedFAQ.contains(i);
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: const Color(0xFFE5E7EB),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: () => setState(() {
-                      if (isExpanded) {
-                        _expandedFAQ.remove(i);
-                      } else {
-                        _expandedFAQ.add(i);
-                      }
-                    }),
-                    behavior: HitTestBehavior.opaque,
+                  InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    onTap: () {
+                      setState(() {
+                        if (isExpanded) {
+                          _expandedFAQ.remove(i);
+                        } else {
+                          _expandedFAQ.add(i);
+                        }
+                      });
+                    },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 15),
+                        horizontal: 16,
+                        vertical: 16,
+                      ),
                       child: Row(
                         children: [
                           Expanded(
                             child: Text(
                               _faqs[i].$1,
                               style: const TextStyle(
-                                  color: AppColors.textDark,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.4),
+                                color: AppColors.textDark,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
-                          const SizedBox(width: 8),
+
                           AnimatedRotation(
                             turns: isExpanded ? 0.5 : 0,
                             duration: const Duration(milliseconds: 200),
-                            child: const Icon(Icons.keyboard_arrow_down,
-                                color: AppColors.textLight, size: 20),
+                            child: const Icon(
+                              Icons.keyboard_arrow_down,
+                              size: 24,
+                              color: Colors.black54,
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
+
                   if (isExpanded)
                     Padding(
-                      padding:
-                      const EdgeInsets.fromLTRB(16, 0, 16, 14),
+                      padding: const EdgeInsets.fromLTRB(
+                        16,
+                        0,
+                        16,
+                        16,
+                      ),
                       child: Text(
                         _faqs[i].$2,
                         style: const TextStyle(
-                            color: AppColors.textMid,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            height: 1.55),
+                          color: AppColors.textMid,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          height: 1.6,
+                        ),
                       ),
                     ),
-                  if (!isLast)
-                    const Divider(
-                        color: AppColors.divider, height: 1, indent: 16, endIndent: 16),
                 ],
-              );
-            }),
-          ),
-        ),
+              ),
+            ),
+          );
+        }),
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vyzi/features/profile/settings/faq_question.dart';
+import 'package:vyzi/features/profile/settings/fq.dart';
 import 'package:vyzi/features/profile/settings/fq_bill.dart';
 import 'package:vyzi/features/profile/settings/fq_utilities.dart';
 
@@ -18,12 +19,10 @@ class _T {
   static const orangeBg = Color(0xFFFEF0E6);
   static const teal = Color(0xFF00B4D8);
   static const tealBg = Color(0xFFE0F7FA);
-  static const blue = Color(0xFF2980B9);
   static const cardBg = Colors.white;
-  static const inputBg = Color(0xFFF4F5F7);
-  static const darkBtn = Color(0xFF5A1ABE);
-  static const segmentActive = Color(0xFF5A1ABE);
-  static const segmentActiveBg = Color(0xFFEEEAFB);
+  static const inputBg = Color(0xFFF3F3F5);
+  static const darkBtn = Color(0xFF155DFC);
+  static const segmentActiveBg = Color(0xFF5218AD);
 }
 
 // ─────────────────────────────────────────────
@@ -39,7 +38,7 @@ class SupportoScreen extends StatelessWidget {
       iconBg: _T.purpleBg,
       title: 'Come iniziare',
       subtitle: 'Scopri come utilizzare l\'app passo dopo passo',
-      screen: const FaqQuestion(),
+      screen: const FaqScreen(),
     ),
     _SupportItem(
       icon: Icons.settings,
@@ -384,7 +383,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
               decoration: BoxDecoration(
                 color: _T.inputBg,
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+                border: Border.all(color: const Color(0xFFF3F3F5), width: 1.22),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -420,7 +419,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
             controller: _messageCtrl,
             maxLines: 5,
             style: const TextStyle(
-                color: _T.textDark, fontSize: 14, height: 1.5, fontWeight: FontWeight.w700),
+                color: _T.cardBg, fontSize: 14, height: 1.5, fontWeight: FontWeight.w700),
             decoration: InputDecoration(
               hintText: 'Descrivi il tuo problema o domanda...',
               hintStyle:
@@ -430,12 +429,12 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
               contentPadding: const EdgeInsets.all(14),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Color(0xFF5A1ABE), width: 1),
+                borderSide: const BorderSide(color: Color(0xFFF3F3F5), width: 1),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide:
-                const BorderSide(color: _T.purple, width: 1.5),
+                const BorderSide(color: _T.inputBg, width: 1.5),
               ),
             ),
           ),
@@ -448,7 +447,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: _T.darkBtn,
+                backgroundColor: _T.textMid,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
@@ -462,7 +461,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
           const SizedBox(height: 28),
 
           // ── Divider ──
-          const Divider(color: Color(0xFF5A1ABE), height: 1),
+          const Divider(color: Color(0xFFE5E7EB), height: 1),
           const SizedBox(height: 24),
 
           // ── Other Ways to Contact ──
@@ -472,9 +471,9 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
                   fontSize: 16,
                   fontWeight: FontWeight.w900)),
           const SizedBox(height: 16),
-          _contactRow('Telefono', '1-800-UTILITY', _T.blue),
+          _contactRow('Telefono', '1-800-UTILITY', _T.darkBtn),
           const SizedBox(height: 14),
-          _contactRow('Email', 'support@utility.com', _T.blue),
+          _contactRow('Email', 'support@utility.com', _T.darkBtn),
           const SizedBox(height: 14),
           _contactRow('Orari', 'Lun-Ven, 09:00 – 18:00', _T.textDark),
         ],
@@ -492,7 +491,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
         onTap: () => Navigator.pop(context),
         child: const Padding(
           padding: EdgeInsets.only(left: 12),
-          child: Icon(Icons.chevron_left, color: _T.textDark, size: 28),
+          child: Icon(Icons.arrow_back_rounded, color: _T.textDark, size: 28),
         ),
       ),
       title: const Text('Supporto',
@@ -508,9 +507,9 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
       height: 42,
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: _T.inputBg,
+        color: Color(0xFFEFE8F9),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
+        border: Border.all(color: const Color(0xFF9066D3), width: 1.22),
       ),
       child: Row(
         children: List.generate(_tabs.length, (i) {
@@ -530,7 +529,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
                   _tabs[i],
                   style: TextStyle(
                     color:
-                    isActive ? _T.segmentActive : Colors.black,
+                    isActive ? _T.cardBg : Colors.black,
                     fontSize: 13,
                     fontWeight: isActive
                         ? FontWeight.w900
@@ -594,7 +593,7 @@ class _TopicDropdownMenu extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+          border: Border.all(color: const Color(0xFFF3F3F5), width: 1.22),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.10),
@@ -641,7 +640,7 @@ class _TopicDropdownMenu extends StatelessWidget {
                   const Divider(
                       height: 1,
                       thickness: 1,
-                      color: Color(0xFF5A1ABE)),
+                      color: Color(0xFFF3F3F5)),
               ],
             );
           }),

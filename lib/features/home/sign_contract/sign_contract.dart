@@ -88,6 +88,8 @@ class _SignContractScreenState extends State<SignContractScreen> {
 
   Widget _buildReadyCard() {
     return _card(
+      backgroundColor: const Color(0xFFFAF5FF),
+      borderColor: const Color(0xFFFAF5FF),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -329,14 +331,21 @@ class _SignContractScreenState extends State<SignContractScreen> {
     ).then((_) => _controller.closeTutorial());
   }
 
-  Widget _card({required Widget child}) {
+  Widget _card({
+    required Widget child,
+    Color? backgroundColor,
+    Color? borderColor,
+  }) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Color(0xFFEFF6FF),
+        color: backgroundColor ?? const Color(0xFFEFF6FF),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFFBEDBFF), width: 1.2),
+        border: Border.all(
+          color: borderColor ?? const Color(0xFFBEDBFF),
+          width: 1.2,
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
