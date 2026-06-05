@@ -12,7 +12,6 @@ class PriceCalculationDialog extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(28),
-          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.18),
@@ -122,9 +121,7 @@ class _HeroBanner extends StatelessWidget {
           height: 130,
           width: double.infinity,
           padding: const EdgeInsets.only(top: 20),
-          decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: Color(0xFF5A1ABE), width: 1)),
-          ),
+
           child: Image.asset(
             'assets/images/price_calculate.png',
             height: 64,
@@ -149,7 +146,7 @@ class _FormulaCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFFF2F4F8),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
+        border: Border.all(color: const Color(0xFFF2F4F7), width: 1),
       ),
       child: const Column(
         children: [

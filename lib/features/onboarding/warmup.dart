@@ -71,7 +71,7 @@ class WarmupOnboarding extends StatelessWidget {
                             width: 555,
                             height: 551,
                             decoration: const BoxDecoration(
-                              color: AppColors.lightPurple,
+                              color: Color(0xFFCCB8EB),
                               shape: BoxShape.circle,
                             ),
                           ),
@@ -131,8 +131,23 @@ class WarmupOnboarding extends StatelessWidget {
                         : Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // INDICATOR
+                        // SKIP BUTTON
+                        TextButton(
+                          onPressed: () {
+                            Get.offNamed(AppRoutes.onboardScreen);
+                          },
+                          child: Text(
+                            "Skip",
+                            style: AppStyles.body1.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+
+                        // MIDDLE DOT INDICATORS
                         Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: List.generate(3, (index) {
                             return Container(
                               margin: const EdgeInsets.only(right: 6),
