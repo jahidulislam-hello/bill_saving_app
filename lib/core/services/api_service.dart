@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import '../constants/api_constants.dart';
 import '../exceptions/app_exceptions.dart';
+import 'storage_service.dart';
 
 class ApiService {
   static final ApiService _instance = ApiService._internal();
@@ -21,21 +23,86 @@ class ApiService {
       ),
     );
 
-    // Add interceptors for logging (only in debug mode)
+    // Token refresh interceptor — retries once with a new access token on 401
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          // Request logging
+          // Inject stored Bearer token if not already set
+          final storage = _tryGetStorage();
+          if (storage != null) {
+            final token = storage.getString(StorageKeys.authToken) ?? '';
+            if (token.isNotEmpty &&
+                !(options.headers['Authorization'] as String? ?? '').startsWith(
+                  'Bearer ',
+                )) {
+              options.headers['Authorization'] = 'Bearer $token';
+            }
+          }
+          return handler.next(options);
+        },
+        onError: (error, handler) async {
+          if (error.response?.statusCode == 401 &&
+              !(error.requestOptions.extra['_retried'] as bool? ?? false)) {
+            // Mark so we don't retry again
+            error.requestOptions.extra['_retried'] = true;
+
+            try {
+              final newToken = await _refreshAccessToken();
+              if (newToken != null) {
+                // Retry original request with new token
+                final opts = Options(
+                  method: error.requestOptions.method,
+                  headers: {
+                    ...error.requestOptions.headers,
+                    'Authorization': 'Bearer $newToken',
+                  },
+                  extra: error.requestOptions.extra,
+                );
+                final response = await _dio.request(
+                  error.requestOptions.path,
+                  data: error.requestOptions.data,
+                  queryParameters: error.requestOptions.queryParameters,
+                  options: opts,
+                );
+                return handler.resolve(response);
+              }
+            } catch (_) {
+              // Refresh failed — fall through to original error
+            }
+          }
+
+          // Debug logging
+          assert(() {
+            if (kDebugMode) {
+              print(
+                'ERROR[${error.response?.statusCode}] => PATH: ${error.requestOptions.path}',
+              );
+              print('ERROR_BODY => ${error.response?.data}');
+              print('ERROR_MESSAGE => ${error.message}');
+            }
+            return true;
+          }());
+
+          return handler.next(error);
+        },
+      ),
+    );
+
+    // Logging interceptor
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
           assert(() {
             if (kDebugMode) {
               print('REQUEST[${options.method}] => PATH: ${options.path}');
+              print('REQUEST_BODY => ${options.data}');
+              print('REQUEST_HEADERS => ${options.headers}');
             }
             return true;
           }());
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          // Response logging
           assert(() {
             if (kDebugMode) {
               print(
@@ -47,19 +114,54 @@ class ApiService {
           return handler.next(response);
         },
         onError: (error, handler) {
-          // Error logging
-          assert(() {
-            if (kDebugMode) {
-              print(
-                'ERROR[${error.response?.statusCode}] => PATH: ${error.requestOptions.path}',
-              );
-            }
-            return true;
-          }());
           return handler.next(error);
         },
       ),
     );
+  }
+
+  StorageService? _tryGetStorage() {
+    try {
+      return Get.find<StorageService>();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Calls the refresh-token endpoint and stores + returns the new access token.
+  /// Returns null if refresh fails.
+  Future<String?> _refreshAccessToken() async {
+    final storage = _tryGetStorage();
+    if (storage == null) return null;
+
+    final refreshToken = storage.getString(StorageKeys.refreshToken) ?? '';
+    if (refreshToken.isEmpty) return null;
+
+    try {
+      final response = await _dio.post(
+        ApiConstants.authRefreshToken,
+        data: {'refreshToken': refreshToken},
+        options: Options(extra: {'_retried': true}), // prevent retry loop
+      );
+
+      final body = response.data as Map<String, dynamic>;
+      if (body['success'] == true) {
+        final data = body['data'] as Map<String, dynamic>?;
+        final accessToken = data?['accessToken'] as String?;
+        final newRefresh = data?['refreshToken'] as String?;
+
+        if (accessToken != null) {
+          await storage.setString(StorageKeys.authToken, accessToken);
+        }
+        if (newRefresh != null) {
+          await storage.setString(StorageKeys.refreshToken, newRefresh);
+        }
+        return accessToken;
+      }
+    } catch (_) {
+      // Refresh endpoint itself failed
+    }
+    return null;
   }
 
   Dio get dio => _dio;
@@ -84,24 +186,7 @@ class ApiService {
     }
   }
 
-  /// Sends a POST request to the specified [path].
-  ///
-  /// Used for creating new resources on the server.
-  ///
-  /// **Parameters:**
-  /// - [path]: API endpoint path
-  /// - [data]: Request body data (can be Map, FormData, etc.)
-  /// - [queryParameters]: Optional URL query parameters
-  /// - [options]: Optional request configuration
-  /// - [cancelToken]: Optional token to cancel the request
-  ///
-  /// **Example:**
-  /// ```dart
-  /// final response = await apiService.post(
-  ///   '/users',
-  ///   data: {'name': 'John', 'email': 'john@example.com'},
-  /// );
-  /// ```
+ 
   Future<Response> post(
     String path, {
     dynamic data,
@@ -124,24 +209,7 @@ class ApiService {
     }
   }
 
-  /// Sends a PUT request to the specified [path].
-  ///
-  /// Used for completely replacing an existing resource on the server.
-  ///
-  /// **Parameters:**
-  /// - [path]: API endpoint path
-  /// - [data]: Complete resource data to replace existing resource
-  /// - [queryParameters]: Optional URL query parameters
-  /// - [options]: Optional request configuration
-  /// - [cancelToken]: Optional token to cancel the request
-  ///
-  /// **Example:**
-  /// ```dart
-  /// final response = await apiService.put(
-  ///   '/users/123',
-  ///   data: {'name': 'John Doe', 'email': 'john@example.com', 'age': 30},
-  /// );
-  /// ```
+  
   Future<Response> put(
     String path, {
     dynamic data,
@@ -164,24 +232,7 @@ class ApiService {
     }
   }
 
-  /// Sends a PATCH request to the specified [path].
-  ///
-  /// Used for partially updating an existing resource on the server.
-  ///
-  /// **Parameters:**
-  /// - [path]: API endpoint path
-  /// - [data]: Partial resource data containing only fields to update
-  /// - [queryParameters]: Optional URL query parameters
-  /// - [options]: Optional request configuration
-  /// - [cancelToken]: Optional token to cancel the request
-  ///
-  /// **Example:**
-  /// ```dart
-  /// final response = await apiService.patch(
-  ///   '/users/123',
-  ///   data: {'email': 'newemail@example.com'}, // Only updating email
-  /// );
-  /// ```
+ 
   Future<Response> patch(
     String path, {
     dynamic data,
@@ -204,21 +255,7 @@ class ApiService {
     }
   }
 
-  /// Sends a DELETE request to the specified [path].
-  ///
-  /// Used for deleting an existing resource from the server.
-  ///
-  /// **Parameters:**
-  /// - [path]: API endpoint path
-  /// - [data]: Optional request body data
-  /// - [queryParameters]: Optional URL query parameters
-  /// - [options]: Optional request configuration
-  /// - [cancelToken]: Optional token to cancel the request
-  ///
-  /// **Example:**
-  /// ```dart
-  /// final response = await apiService.delete('/users/123');
-  /// ```
+  
   Future<Response> delete(
     String path, {
     dynamic data,
@@ -241,17 +278,7 @@ class ApiService {
     }
   }
 
-  /// Uploads a single file to the specified path
-  ///
-  /// Example usage:
-  /// ```dart
-  /// final file = await MultipartFile.fromFile('/path/to/file.jpg');
-  /// final response = await _apiService.uploadFile(
-  ///   '/api/upload',
-  ///   file: file,
-  ///   fileName: 'avatar.jpg',
-  /// );
-  /// ```
+  
   Future<Response> uploadFile(
     String path, {
     required MultipartFile file,
@@ -276,19 +303,7 @@ class ApiService {
     }
   }
 
-  /// Uploads multiple files to the specified path
-  ///
-  /// Example usage:
-  /// ```dart
-  /// final files = [
-  ///   await MultipartFile.fromFile('/path/to/file1.jpg', filename: 'file1.jpg'),
-  ///   await MultipartFile.fromFile('/path/to/file2.jpg', filename: 'file2.jpg'),
-  /// ];
-  /// final response = await _apiService.uploadMultipleFiles(
-  ///   '/api/upload',
-  ///   files: files,
-  ///   fieldName: 'images',
-  /// );
+  
   /// ```
   Future<Response> uploadMultipleFiles(
     String path, {
@@ -314,20 +329,7 @@ class ApiService {
     }
   }
 
-  /// Uploads a file with progress tracking
-  ///
-  /// Example usage:
-  /// ```dart
-  /// final file = await MultipartFile.fromFile('/path/to/file.jpg');
-  /// final response = await _apiService.uploadFileWithProgress(
-  ///   '/api/upload',
-  ///   file: file,
-  ///   onSendProgress: (int sent, int total) {
-  ///     double progress = (sent / total) * 100;
-  ///     print('Upload progress: $progress%');
-  ///   },
-  /// );
-  /// ```
+  
   Future<Response> uploadFileWithProgress(
     String path, {
     required MultipartFile file,
@@ -354,28 +356,7 @@ class ApiService {
     }
   }
 
-  /// Converts DioException to typed AppException for better error handling.
-  ///
-  /// This method maps Dio's generic exceptions to our custom exception types,
-  /// allowing for more specific error handling in the UI layer.
-  ///
-  /// **Mapping:**
-  /// - Connection/Send/Receive Timeout → [TimeoutException]
-  /// - Connection Error → [NoInternetException]
-  /// - Bad Response (4xx, 5xx) → [ServerException]
-  /// - Request Cancelled → [UnknownException]
-  /// - Bad Certificate → [ServerException]
-  /// - Socket Exception → [NoInternetException]
-  /// - Other Unknown Errors → [UnknownException]
-  ///
-  /// **Example:**
-  /// ```dart
-  /// try {
-  ///   await dio.get('/api/data');
-  /// } on DioException catch (e) {
-  ///   throw _handleDioError(e); // Converts to typed exception
-  /// }
-  /// ```
+  
   AppException _handleDioError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
@@ -409,4 +390,3 @@ class ApiService {
     _dio.close();
   }
 }
-

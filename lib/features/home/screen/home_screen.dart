@@ -124,7 +124,7 @@ class HomeScreen extends StatelessWidget {
                       SizedBox(height: 18.h),
 
                       UtilitiesSection(
-                        utilities: controller.utilityList,
+                        meters: controller.meterList,
                       ),
 
                       SizedBox(height: 18.h),

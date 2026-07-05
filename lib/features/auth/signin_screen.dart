@@ -10,6 +10,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyzi/features/auth/controller/auth_controller.dart';
 
 
 class SignInScreen extends StatefulWidget {
@@ -122,8 +123,20 @@ class _SignInScreenState extends State<SignInScreen> {
                 // ── Register Button ────────────────
                 PrimaryButton(
                   title: 'Accedi',
-                  onPress: () {
-                      Get.offNamed(AppRoutes.navbarScreen);
+                  onPress: () async {
+                    if (_formKey.currentState!.validate()) {
+                      final auth = Get.put(AuthController());
+                      try {
+                        await auth.login(
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text,
+                        );
+                        // Navigate to navbar only if login is successful
+                        Get.offNamed(AppRoutes.navbarScreen);
+                      } catch (e) {
+                        Get.snackbar('Errore', auth.error.value.isNotEmpty ? auth.error.value : 'Login fallito');
+                      }
+                    }
                   },
                 ),
 
