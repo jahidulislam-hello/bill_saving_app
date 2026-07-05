@@ -1,5 +1,6 @@
 import 'package:vyzi/core/navbar/navbar_controller.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/home/model/meter_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -7,11 +8,11 @@ import 'package:get/get.dart';
 import 'single_utility_card.dart';
 
 class UtilitiesSection extends StatelessWidget {
-  final RxList<Map<String, dynamic>> utilities;
+  final RxList<MeterModel> meters;
 
   const UtilitiesSection({
     super.key,
-    required this.utilities,
+    required this.meters,
   });
 
   @override
@@ -34,7 +35,7 @@ class UtilitiesSection extends StatelessWidget {
         children: [
           Row(
             children: [
-               Text(
+              Text(
                 "Le tue Utenze",
                 style: TextStyle(
                   fontSize: 18.sp,
@@ -62,23 +63,26 @@ class UtilitiesSection extends StatelessWidget {
 
           SizedBox(height: 1.h),
 
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: utilities.length,
-            separatorBuilder: (_, __) => SizedBox(height: 12.h),
-            itemBuilder: (_, index) {
-              final item = utilities[index];
+          Obx(
+            () => ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: meters.length,
+              separatorBuilder: (_, __) => SizedBox(height: 12.h),
+              itemBuilder: (_, index) {
+                final meter = meters[index];
 
-              return UtilityCard(
-                title: item['title'],
-                subtitle: item['subtitle'],
-                onTap: () {
-                  // Handle utility card tap
-                  print("Utility tapped: ${item['title']}");
-                },
-              );
-            },
+                return UtilityCard(
+                  title: meter.supplier.name,
+                  subtitle: meter.utilityType,
+                  logoUrl: meter.supplier.logoUrl,
+                  onTap: () {
+                    // Handle utility card tap — full MeterModel is accessible via meters[index]
+                    debugPrint("Utility tapped: ${meter.supplier.name} (${meter.utilityType})");
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),

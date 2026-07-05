@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/widgets/custom_text_filled.dart';
 import 'package:vyzi/core/widgets/phone_filled.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:vyzi/features/auth/controller/auth_controller.dart';
 
 
 
@@ -32,6 +34,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _confirmPasswordController = TextEditingController();
 
   bool _agreeToTerms = false;
+  late String selectedRole;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedRole = Get.arguments?['role'] ?? 'personal';
+  }
 
   @override
   void dispose() {
@@ -207,9 +216,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // ── Register Button ────────────────
                 PrimaryButton(
                   title: 'Registrati',
-                  onPress: () {
+                  onPress: () async {
                     if (_formKey.currentState!.validate() && _agreeToTerms) {
-                      Get.offNamed(AppRoutes.navbarScreen);
+                      final auth = Get.put(AuthController());
+                      try {
+                        await auth.register(
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text,
+                          confirmPassword: _confirmPasswordController.text,
+                          firstName: _firstNameController.text.trim(),
+                          lastName: _lastNameController.text.trim(),
+                          phone: _phoneController.text.trim(),
+                          role: selectedRole,
+                        );
+
+                        // Navigate to OTP verification screen and pass email
+                        Get.toNamed(AppRoutes.createAccountOtpScreen, arguments: {
+                          'email': _emailController.text.trim(),
+                          'type': 'email_verification'
+                        });
+                      } catch (e) {
+                        Get.snackbar('Errore', auth.error.value.isNotEmpty ? auth.error.value : 'Registrazione fallita');
+                      }
                     }
                   },
                 ),

@@ -1,5 +1,6 @@
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/core/services/storage_service.dart';
 import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,9 +21,26 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
+    _checkUserSession();
+  }
+
+  Future<void> _checkUserSession() async {
+    await Future.delayed(const Duration(seconds: 3));
+    
+    // Initialize StorageService and check if user is logged in
+    final storage = StorageService();
+    await storage.init();
+    
+    final isLoggedIn = storage.getBool(StorageKeys.isLoggedIn) ?? false;
+    final authToken = storage.getString(StorageKeys.authToken);
+    
+    if (isLoggedIn && authToken != null && authToken.isNotEmpty) {
+      // User has active session - go to navbar
+      Get.offNamed(AppRoutes.navbarScreen);
+    } else {
+      // No active session - go to onboarding
       Get.offNamed(AppRoutes.warmOnboardScreen);
-    });
+    }
   }
 
   @override

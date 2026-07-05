@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:vyzi/core/services/auth_service.dart';
 
 class ForgotPasswordOtpController extends GetxController {
   var otpDigits = List<String>.filled(6, '').obs;
@@ -9,13 +9,18 @@ class ForgotPasswordOtpController extends GetxController {
   final otpController = TextEditingController();
   var sessionId = ''.obs;
   Timer? _timer;
-
   var email = ''.obs;
+  final AuthService _auth = AuthService();
 
   @override
   void onInit() {
     super.onInit();
     startTimer();
+    
+    final args = Get.arguments;
+    if (args != null && args is Map) {
+      if (args['email'] != null) email.value = args['email'].toString();
+    }
   }
 
   /// ✔ Update a single OTP digit
@@ -28,6 +33,26 @@ class ForgotPasswordOtpController extends GetxController {
     return otpDigits.every((digit) => digit.isNotEmpty);
   }
 
+  /// Verify OTP and proceed to reset password
+  Future<void> verifyAndProceed() async {
+    final code = otpDigits.join();
+    if (code.length < 6) {
+      Get.snackbar('Errore', 'Inserisci il codice OTP completo');
+      return;
+    }
+
+    try {
+      await _auth.verifyOtp(email: email.value, code: code, type: 'password_reset');
+      Get.snackbar('Successo', 'OTP verificato');
+      Get.toNamed('/resetPasswordScreen', arguments: {
+        'email': email.value,
+        'code': code,
+      });
+    } catch (e) {
+      Get.snackbar('Errore', 'Verifica OTP fallita');
+    }
+  }
+
   /// ✔ Resend OTP logic
   void resendCode() {
     /// Clear previous OTP digits
@@ -36,7 +61,6 @@ class ForgotPasswordOtpController extends GetxController {
     /// Restart timer
     startTimer();
 
-    // TODO: optional API call to resend OTP
     Get.snackbar("OTP Sent", "A new OTP has been sent to your email.");
   }
 

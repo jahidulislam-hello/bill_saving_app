@@ -344,7 +344,8 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                   /// Create Account Button
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(AppRoutes.signUpScreen);
+                      final role = selectedIndex == 0 ? 'personal' : 'business';
+                      Get.toNamed(AppRoutes.signUpScreen, arguments: {'role': role});
                     },
                     child: Container(
                       height: 52.h,

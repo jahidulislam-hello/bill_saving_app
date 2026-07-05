@@ -7,12 +7,14 @@ import '../../../core/utils/app_styles.dart';
 class UtilityCard extends StatelessWidget {
   final String title;
   final String subtitle;
+  final String? logoUrl;
   final VoidCallback? onTap;
 
   const UtilityCard({
     super.key,
     required this.title,
     required this.subtitle,
+    this.logoUrl,
     this.onTap,
   });
 
@@ -25,17 +27,13 @@ class UtilityCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.bg,
           borderRadius: BorderRadius.circular(14.r),
-          // border: Border.all(color: const Color(0xFFD2D2D2), width: 1),
         ),
         child: Row(
           children: [
             SizedBox(
               height: 44.h,
               width: 44.w,
-              child: Image.asset(
-                AppAssets.circle,
-                fit: BoxFit.contain,
-              ),
+              child: _buildLogo(),
             ),
             SizedBox(width: 12.w),
             Column(
@@ -52,10 +50,30 @@ class UtilityCard extends StatelessWidget {
               ],
             ),
             const Spacer(),
-
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildLogo() {
+    if (logoUrl != null && logoUrl!.isNotEmpty) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8.r),
+        child: Image.network(
+          logoUrl!,
+          fit: BoxFit.contain,
+          errorBuilder: (_, __, ___) => Image.asset(
+            AppAssets.circle,
+            fit: BoxFit.contain,
+          ),
+          loadingBuilder: (_, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Image.asset(AppAssets.circle, fit: BoxFit.contain);
+          },
+        ),
+      );
+    }
+    return Image.asset(AppAssets.circle, fit: BoxFit.contain);
   }
 }

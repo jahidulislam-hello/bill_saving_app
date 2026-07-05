@@ -35,52 +35,60 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
 
               /// OTP Input Boxes
               Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(6, (index) {
-                    return Obx(() {
-                      final isFilled = controller.otpDigits[index].isNotEmpty;
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    // compute available width and ensure boxes shrink to fit
+                    const int boxCount = 6;
+                    const double horizontalMargin = 6.0; // per side
+                    final double totalHorizontalMargins = boxCount * horizontalMargin * 2;
+                    final double availableForBoxes = (constraints.maxWidth - totalHorizontalMargins).clamp(0.0, double.infinity);
+                    final double computedBoxWidth = (availableForBoxes / boxCount).clamp(32.0, 44.0);
 
-                      return Container(
-                        width: 44,
-                        height: 57,
-                        margin: const EdgeInsets.symmetric(horizontal: 6),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary50,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: isFilled
-                                ? AppColors.linkGreen
-                                : AppColors.divider,
-                            width: 2,
-                          ),
-                        ),
-                        child: Center(
-                          child: TextField(
-                            textAlign: TextAlign.center,
-                            textAlignVertical: TextAlignVertical.center,
-                            maxLength: 1,
-                            keyboardType: TextInputType.number,
-                            style: const TextStyle(
-                                fontSize: 22, color: AppColors.textDark, fontWeight: FontWeight.w700),
-                            decoration: const InputDecoration(
-                              counterText: '',
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.zero,
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(boxCount, (index) {
+                        return Obx(() {
+                          final isFilled = controller.otpDigits[index].isNotEmpty;
+
+                          return Container(
+                            width: computedBoxWidth,
+                            height: 57,
+                            margin: const EdgeInsets.symmetric(horizontal: horizontalMargin),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary50,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: isFilled ? AppColors.linkGreen : AppColors.divider,
+                                width: 2,
+                              ),
                             ),
-                            onChanged: (val) {
-                              controller.updateDigit(index, val);
-                              if (val.isNotEmpty && index < 5) {
-                                FocusScope.of(context).nextFocus();
-                              } else if (index == 5) {
-                                FocusScope.of(context).unfocus();
-                              }
-                            },
-                          ),
-                        ),
-                      );
-                    });
-                  }),
+                            child: Center(
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                textAlignVertical: TextAlignVertical.center,
+                                maxLength: 1,
+                                keyboardType: TextInputType.number,
+                                style: const TextStyle(fontSize: 22, color: AppColors.textDark, fontWeight: FontWeight.w700),
+                                decoration: const InputDecoration(
+                                  counterText: '',
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.zero,
+                                ),
+                                onChanged: (val) {
+                                  controller.updateDigit(index, val);
+                                  if (val.isNotEmpty && index < boxCount - 1) {
+                                    FocusScope.of(context).nextFocus();
+                                  } else if (index == boxCount - 1) {
+                                    FocusScope.of(context).unfocus();
+                                  }
+                                },
+                              ),
+                            ),
+                          );
+                        });
+                      }),
+                    );
+                  },
                 ),
               ),
 
@@ -140,7 +148,11 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                 child: PrimaryButton(
                   title: "Verifica OTP",
                   onPress: () {
-                    Get.to(()=> ResetPasswordScreen());
+                    if (controller.isOtpComplete()) {
+                      controller.verifyAndProceed();
+                    } else {
+                      Get.snackbar('Errore', 'Inserisci il codice OTP completo');
+                    }
                   },
                 ),
               ),

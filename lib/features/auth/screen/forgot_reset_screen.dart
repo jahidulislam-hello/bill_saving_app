@@ -15,12 +15,6 @@ import '../../../../../core/appbar/custom_appbar.dart';
 class ResetPasswordScreen extends StatelessWidget {
    ResetPasswordScreen({super.key});
 
-
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-
-
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ResetPasswordController());
@@ -43,7 +37,7 @@ class ResetPasswordScreen extends StatelessWidget {
             _labeledField(
               label: 'Password *',
               child: CustomTextField(
-                controller: _passwordController,
+                controller: controller.passwordController,
                 isPassword: true,
                 hintText: '••••••••••',
                 validator: (v) =>
@@ -57,10 +51,10 @@ class ResetPasswordScreen extends StatelessWidget {
             _labeledField(
               label: 'Conferma Password *',
               child: CustomTextField(
-                controller: _confirmPasswordController,
+                controller: controller.confirmPasswordController,
                 isPassword: true,
                 hintText: '••••••••••',
-                validator: (v) => v != _passwordController.text
+                validator: (v) => v != controller.passwordController.text
                     ? 'Le password non corrispondono'
                     : null,
               ),
@@ -73,12 +67,14 @@ class ResetPasswordScreen extends StatelessWidget {
 
             SizedBox(
               width: double.infinity,
-              child: PrimaryButton(
-                title: "Reimposta Password",
-                onPress: () {
-                  controller.resetPassword(); // ✅ logic here
-                },
-              ),
+              child: Obx(() => PrimaryButton(
+                title: controller.isLoading.value ? "Reimpostazione..." : "Reimposta Password",
+                onPress: controller.isLoading.value
+                    ? () {}
+                    : () {
+                        controller.resetPassword();
+                      },
+              )),
             ),
 
             SizedBox(height: size.height * 0.03),

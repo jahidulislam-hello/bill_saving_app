@@ -1,17 +1,22 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart' hide Response, FormData, MultipartFile;
+import 'package:vyzi/core/constants/api_constants.dart';
+import 'package:vyzi/core/services/api_service.dart';
+import 'package:vyzi/core/services/storage_service.dart';
 
 class AgreementModel {
   final String id;
-  final String name;
-  final String city;
-  final String discount;
-  final String imageUrl;
-  final String fullName;
+  final String name;       // partnerName
+  final String city;       // parsed from discountDescription / empty fallback
+  final String discount;   // discountDescription short
+  final String imageUrl;   // partnerLogoUrl
+  final String fullName;   // title
   final String description;
-  final String offerDate;
-  final String discountCode;
-  final String address;
+  final String offerDate;  // validFrom – validUntil
+  final String discountCode; // extracted from discountDescription
+  final String address;    // termsUrl fallback / empty
   final List<String> howToUse;
 
   const AgreementModel({
@@ -27,122 +32,121 @@ class AgreementModel {
     required this.address,
     required this.howToUse,
   });
+
+  factory AgreementModel.fromJson(Map<String, dynamic> json) {
+    final partnerName = json['partnerName'] as String? ?? '';
+    final title = json['title'] as String? ?? '';
+    final description = json['description'] as String? ?? '';
+    final discountDesc = json['discountDescription'] as String? ?? '';
+    final logoUrl = json['partnerLogoUrl'] as String? ?? '';
+    final validFrom = json['validFrom'] as String? ?? '';
+    final validUntil = json['validUntil'] as String?;
+    final termsUrl = json['termsUrl'] as String? ?? '';
+    final id = json['id'] as String? ?? '';
+
+    // Build offerDate string
+    final offerDate = validUntil != null
+        ? '$validFrom – $validUntil'
+        : 'Dal $validFrom';
+
+    // Extract discount code — look for word matching pattern like EASY20, EASY150 etc.
+    final codeMatch = RegExp(r'\b([A-Z]{2,}[0-9]+)\b').firstMatch(discountDesc);
+    final discountCode = codeMatch?.group(0) ?? '';
+
+    // Use discountDescription as the "discount" display text
+    // Shorten to first sentence for the card list
+    final discountShort = discountDesc.split('.').first.trim();
+
+    // How to use steps
+    final howToUse = [
+      'Copia il tuo codice sconto usando il pulsante in alto',
+      'Visita il sito del partner: $termsUrl',
+      'Inserisci il codice sconto al momento del pagamento',
+      'Goditi il tuo sconto esclusivo!',
+    ];
+
+    return AgreementModel(
+      id: id,
+      name: partnerName,
+      city: '',
+      discount: discountShort,
+      imageUrl: logoUrl,
+      fullName: title,
+      description: description,
+      offerDate: offerDate,
+      discountCode: discountCode,
+      address: termsUrl,
+      howToUse: howToUse,
+    );
+  }
 }
 
 class AgreementsController extends ChangeNotifier {
+  final ApiService _api = ApiService();
+
   bool isCopied = false;
   String? copiedCode;
+  bool isLoading = false;
 
-  final List<AgreementModel> agreements = const [
-    AgreementModel(
-      id: '1',
-      name: 'The Green Garden',
-      city: 'London',
-      discount: '15% OFF',
-      imageUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400',
-      fullName: 'The Green Garden Restaurant',
-      description: 'Fine dining with organic and locally sourced ingredients.',
-      offerDate: '12-15 Feb, 2026',
-      discountCode: 'ENERGY15',
-      address: '123 Main Street\nLondon',
-      howToUse: [
-        'Copy your discount code using the button above',
-        'Visit The Green Garden Restaurant at the address shown',
-        'Show or mention your discount code when paying',
-        'Enjoy your 15% discount!',
-      ],
-    ),
-    AgreementModel(
-      id: '2',
-      name: 'Bella Italia Trattoria',
-      city: 'Manchester',
-      discount: '20% OFF',
-      imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400',
-      fullName: 'Bella Italia Trattoria',
-      description: 'Authentic Italian cuisine in the heart of Manchester.',
-      offerDate: '01-28 Feb, 2026',
-      discountCode: 'ENERGY20',
-      address: '45 King Street\nManchester',
-      howToUse: [
-        'Copy your discount code using the button above',
-        'Visit Bella Italia Trattoria at the address shown',
-        'Show or mention your discount code when paying',
-        'Enjoy your 20% discount!',
-      ],
-    ),
-    AgreementModel(
-      id: '3',
-      name: 'Sushi Master',
-      city: 'Birmingham',
-      discount: '10% OFF',
-      imageUrl: 'https://images.unsplash.com/photo-1559410545-0bdcd187e0a6?w=400',
-      fullName: 'Sushi Master',
-      description: 'Premium Japanese sushi and sashimi experience.',
-      offerDate: '10-20 Feb, 2026',
-      discountCode: 'ENERGY10',
-      address: '78 Broad Street\nBirmingham',
-      howToUse: [
-        'Copy your discount code using the button above',
-        'Visit Sushi Master at the address shown',
-        'Show or mention your discount code when paying',
-        'Enjoy your 10% discount!',
-      ],
-    ),
-    AgreementModel(
-      id: '4',
-      name: 'The Burger Hub',
-      city: 'Leeds',
-      discount: '15% OFF',
-      imageUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400',
-      fullName: 'The Burger Hub',
-      description: 'Gourmet burgers made with the finest ingredients.',
-      offerDate: '05-25 Feb, 2026',
-      discountCode: 'ENERGY15',
-      address: '12 Park Row\nLeeds',
-      howToUse: [
-        'Copy your discount code using the button above',
-        'Visit The Burger Hub at the address shown',
-        'Show or mention your discount code when paying',
-        'Enjoy your 15% discount!',
-      ],
-    ),
-    AgreementModel(
-      id: '5',
-      name: 'The Seafood Place',
-      city: 'Liverpool',
-      discount: '25% OFF',
-      imageUrl: '',
-      fullName: 'The Seafood Place',
-      description: 'Fresh seafood caught daily, served in a cosy setting.',
-      offerDate: '01-15 Feb, 2026',
-      discountCode: 'ENERGY25',
-      address: '9 Albert Dock\nLiverpool',
-      howToUse: [
-        'Copy your discount code using the button above',
-        'Visit The Seafood Place at the address shown',
-        'Show or mention your discount code when paying',
-        'Enjoy your 25% discount!',
-      ],
-    ),
-    AgreementModel(
-      id: '6',
-      name: 'Spice Garden',
-      city: 'Bristol',
-      discount: '12% OFF',
-      imageUrl: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400',
-      fullName: 'Spice Garden',
-      description: 'Exotic spices and rich flavours from around the world.',
-      offerDate: '08-22 Feb, 2026',
-      discountCode: 'ENERGY12',
-      address: '33 Corn Street\nBristol',
-      howToUse: [
-        'Copy your discount code using the button above',
-        'Visit Spice Garden at the address shown',
-        'Show or mention your discount code when paying',
-        'Enjoy your 12% discount!',
-      ],
-    ),
-  ];
+  List<AgreementModel> agreements = [];
+
+  AgreementsController() {
+    fetchAgreements();
+  }
+
+  Future<void> fetchAgreements() async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      final storage = Get.find<StorageService>();
+      final token = storage.getString(StorageKeys.authToken) ?? '';
+
+      final response = await _api.get(
+        ApiConstants.getListMyAgreements,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      final body = response.data as Map<String, dynamic>;
+
+      if (body['success'] == true) {
+        final rawList = body['data'] as List<dynamic>;
+        agreements = rawList
+            .map((e) => AgreementModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      }
+    } catch (_) {
+      // Keep empty list on error
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<AgreementModel?> fetchAgreementDetails(String agreementId) async {
+    try {
+      final storage = Get.find<StorageService>();
+      final token = storage.getString(StorageKeys.authToken) ?? '';
+
+      final url = ApiConstants.getMyAgreementDetails
+          .replaceAll('{{agreementId}}', agreementId);
+
+      final response = await _api.get(
+        url,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      final body = response.data as Map<String, dynamic>;
+
+      if (body['success'] == true) {
+        return AgreementModel.fromJson(
+            body['data'] as Map<String, dynamic>);
+      }
+    } catch (_) {
+      // Return null on error
+    }
+    return null;
+  }
 
   Future<void> copyCode(BuildContext context, String code) async {
     await Clipboard.setData(ClipboardData(text: code));

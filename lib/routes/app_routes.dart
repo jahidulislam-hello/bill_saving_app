@@ -2,7 +2,9 @@
 
 import 'package:vyzi/core/navbar/navbar_screen.dart';
 import 'package:vyzi/features/auth/create_account.dart';
+import 'package:vyzi/features/auth/create_account_otp_screen.dart';
 import 'package:vyzi/features/auth/screen/forgot_email_screen.dart';
+import 'package:vyzi/features/auth/screen/forgot_reset_screen.dart';
 import 'package:vyzi/features/auth/signin_screen.dart';
 import 'package:vyzi/features/home/screen/home_screen.dart';
 import 'package:vyzi/features/onboarding/warmup.dart';
@@ -27,6 +29,7 @@ class AppRoutes {
   static String signInScreen = "/sign_in_screen";
   static String signUpScreen = "/sign_up_screen";
   static String createAccountScreen = "/create_account_screen";
+  static String createAccountOtpScreen = "/create_account_otp_screen";  
   static String forgotPasswordScreen = "/forgot_password_screen";
   static String verificationCodeScreen = "/verification_code_screen";
   static String resetPasswordScreen = "/reset_password_screen";
@@ -120,11 +123,11 @@ class AppRoutes {
     GetPage(name: signInScreen, page: () => const SignInScreen()),
     GetPage(name: signUpScreen, page: () => const RegisterScreen()),
     GetPage(
+        name: createAccountOtpScreen, page: () =>  CreateAccountOtpScreen()),
+    GetPage(
         name: forgotPasswordScreen, page: () =>  ForgotPasswordScreen()),
-    // GetPage(
-    //     name: verificationCodeScreen,
-    //     page: () => const VerificationCodeScreen()),
-    // GetPage(name: resetPasswordScreen, page: () => const ResetPasswordScreen()),
+    GetPage(
+        name: resetPasswordScreen, page: () => ResetPasswordScreen()),
     // GetPage(
     //     name: personalInformationScreen,
     //     page: () => PersonalInformationScreen()),
