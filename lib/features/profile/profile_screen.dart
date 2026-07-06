@@ -1,11 +1,13 @@
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
+import 'package:vyzi/features/auth/controller/auth_controller.dart';
 import 'package:vyzi/features/profile/agreements/agreements_screen.dart';
 import 'package:vyzi/features/profile/controller/profile_controller.dart';
 import 'package:vyzi/features/profile/invite_friends/invite_friends.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:vyzi/features/profile/settings/my_requests_profile.dart';
 import 'package:vyzi/features/profile/settings/my_utilities_profile_screen.dart';
 import 'package:vyzi/features/support/support_screen.dart';
@@ -443,7 +445,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(14.r),
-        onTap: () {},
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: const Text('Disconnetti'),
+              content: const Text('Sei sicuro di voler uscire?'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Annulla'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    final auth = Get.put(AuthController());
+                    auth.logout();
+                  },
+                  child: Text('Disconnetti', style: TextStyle(color: AppColors.error)),
+                ),
+              ],
+            ),
+          );
+        },
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 16.h),
           child: Row(

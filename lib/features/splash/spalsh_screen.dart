@@ -27,9 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _checkUserSession() async {
     await Future.delayed(const Duration(seconds: 3));
     
-    // Initialize StorageService and check if user is logged in
-    final storage = StorageService();
-    await storage.init();
+    // Use the singleton StorageService registered in main.dart
+    final storage = Get.find<StorageService>();
     
     final isLoggedIn = storage.getBool(StorageKeys.isLoggedIn) ?? false;
     final authToken = storage.getString(StorageKeys.authToken);

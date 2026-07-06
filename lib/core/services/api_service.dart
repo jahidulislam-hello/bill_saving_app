@@ -48,7 +48,9 @@ class ApiService {
 
             try {
               final newToken = await _refreshAccessToken();
-              if (newToken != null) {
+              if (newToken == null) {
+                _forceLogout();
+              } else {
                 // Retry original request with new token
                 final opts = Options(
                   method: error.requestOptions.method,
@@ -67,7 +69,8 @@ class ApiService {
                 return handler.resolve(response);
               }
             } catch (_) {
-              // Refresh failed — fall through to original error
+              // Refresh failed — clear session and redirect to login
+              _forceLogout();
             }
           }
 
@@ -118,6 +121,18 @@ class ApiService {
         },
       ),
     );
+  }
+
+  /// Clears stored auth data and redirects to sign-in when refresh fails.
+  void _forceLogout() {
+    final storage = _tryGetStorage();
+    if (storage != null) {
+      storage.remove(StorageKeys.authToken);
+      storage.remove(StorageKeys.refreshToken);
+      storage.setBool(StorageKeys.isLoggedIn, false);
+    }
+    // Navigate to sign-in, clearing the entire back stack
+    Get.offAllNamed('/sign_in_screen');
   }
 
   StorageService? _tryGetStorage() {

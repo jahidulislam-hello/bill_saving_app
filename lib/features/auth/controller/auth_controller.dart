@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:vyzi/core/services/auth_service.dart';
 import 'package:vyzi/core/services/storage_service.dart';
 import 'package:vyzi/core/exceptions/app_exceptions.dart';
+import 'package:vyzi/routes/app_routes.dart';
 
 class AuthController extends GetxController {
   final AuthService _auth = AuthService();
@@ -125,6 +126,18 @@ class AuthController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  /// Clears all auth data and navigates to sign-in screen.
+  Future<void> logout() async {
+    final storage = Get.find<StorageService>();
+    await storage.remove(StorageKeys.authToken);
+    await storage.remove(StorageKeys.refreshToken);
+    await storage.remove(StorageKeys.userId);
+    await storage.remove(StorageKeys.userName);
+    await storage.remove(StorageKeys.userEmail);
+    await storage.setBool(StorageKeys.isLoggedIn, false);
+    Get.offAllNamed(AppRoutes.signInScreen);
   }
 
   Future<Map<String, dynamic>> refreshToken({required String refreshToken}) async {
