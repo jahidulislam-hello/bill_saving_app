@@ -123,6 +123,15 @@ class AuthService {
     }
   }
 
+  /// Calls backend to revoke the refresh token on logout.
+  Future<void> logoutFromServer({required String refreshToken}) async {
+    try {
+      await _api.post(ApiConstants.authLogout, data: {'refreshToken': refreshToken});
+    } catch (_) {
+      // Best-effort — don't block local logout if server call fails
+    }
+  }
+
   /// Refreshes access token using refresh token
   Future<Map<String, dynamic>> refreshToken({required String refreshToken}) async {
     final body = {'refreshToken': refreshToken};

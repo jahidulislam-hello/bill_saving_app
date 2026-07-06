@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
@@ -8,6 +10,7 @@ import 'storage_service.dart';
 class ApiService {
   static final ApiService _instance = ApiService._internal();
   late Dio _dio;
+  Completer<String?>? _refreshCompleter;
 
   factory ApiService() {
     return _instance;
@@ -43,15 +46,28 @@ class ApiService {
         onError: (error, handler) async {
           if (error.response?.statusCode == 401 &&
               !(error.requestOptions.extra['_retried'] as bool? ?? false)) {
-            // Mark so we don't retry again
             error.requestOptions.extra['_retried'] = true;
 
             try {
-              final newToken = await _refreshAccessToken();
-              if (newToken == null) {
-                _forceLogout();
+              // If a refresh is already in progress, wait for it
+              final String? newToken;
+              if (_refreshCompleter != null) {
+                newToken = await _refreshCompleter!.future;
               } else {
-                // Retry original request with new token
+                _refreshCompleter = Completer<String?>();
+                try {
+                  final result = await _refreshAccessToken();
+                  _refreshCompleter!.complete(result);
+                  newToken = result;
+                } catch (e) {
+                  _refreshCompleter!.complete(null);
+                  newToken = null;
+                } finally {
+                  _refreshCompleter = null;
+                }
+              }
+
+              if (newToken != null) {
                 final opts = Options(
                   method: error.requestOptions.method,
                   headers: {

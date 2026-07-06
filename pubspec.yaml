@@ -25,6 +25,7 @@ dependencies:
   path_provider:
   google_fonts:
   shared_preferences:
+  flutter_secure_storage:
   flutter_svg:
   flutter_spinkit:
   pin_code_fields:

@@ -128,9 +128,14 @@ class AuthController extends GetxController {
     }
   }
 
-  /// Clears all auth data and navigates to sign-in screen.
+  /// Revokes the refresh token on the server, clears all local auth data,
+  /// and navigates to the sign-in screen.
   Future<void> logout() async {
     final storage = Get.find<StorageService>();
+    final token = storage.getString(StorageKeys.refreshToken);
+    if (token != null && token.isNotEmpty) {
+      await _auth.logoutFromServer(refreshToken: token);
+    }
     await storage.remove(StorageKeys.authToken);
     await storage.remove(StorageKeys.refreshToken);
     await storage.remove(StorageKeys.userId);
