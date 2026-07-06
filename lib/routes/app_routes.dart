@@ -1,5 +1,4 @@
-
-
+import 'package:vyzi/core/middleware/auth_middleware.dart';
 import 'package:vyzi/core/navbar/navbar_screen.dart';
 import 'package:vyzi/features/auth/create_account.dart';
 import 'package:vyzi/features/auth/create_account_otp_screen.dart';
@@ -99,6 +98,7 @@ class AppRoutes {
     GetPage(
         name: homeScreen,
         page: () => HomeScreen(),
+        middlewares: [AuthMiddleware()],
         transition: Transition.noTransition),
     // GetPage(
     //     name: categoriesScreen,
@@ -119,7 +119,7 @@ class AppRoutes {
     // GetPage(name: walletScreen, page: () => const WalletScreen()),
     GetPage(name: warmOnboardScreen, page: () =>  WarmupOnboarding()),
     GetPage(name: onboardScreen, page: () =>  OnboardingScreen()),
-    GetPage(name: navbarScreen, page: () =>  CustomBottomNavBar()),
+    GetPage(name: navbarScreen, page: () =>  CustomBottomNavBar(), middlewares: [AuthMiddleware()]),
     GetPage(name: signInScreen, page: () => const SignInScreen()),
     GetPage(name: signUpScreen, page: () => const RegisterScreen()),
     GetPage(

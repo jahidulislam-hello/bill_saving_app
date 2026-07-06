@@ -2,6 +2,7 @@ import 'package:vyzi/core/appbar/custom_appbar.dart';
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
+import 'package:vyzi/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyzi/features/support/support_screen.dart';
@@ -112,7 +113,32 @@ class MoreScreen extends StatelessWidget {
                         height: 24,
                       ),
                       onTap: () {
-                        // Get.to(() => TermsScreen());
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: const Text('Elimina Account'),
+                            content: const Text(
+                              'Sei sicuro di voler eliminare il tuo account? Questa azione è irreversibile.',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(ctx).pop(),
+                                child: const Text('Annulla'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(ctx).pop();
+                                  final auth = Get.put(AuthController());
+                                  auth.logout();
+                                },
+                                child: const Text(
+                                  'Elimina',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
                       },
                     ),
                   ],
