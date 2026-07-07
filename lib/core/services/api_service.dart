@@ -44,13 +44,20 @@ class ApiService {
           return handler.next(options);
         },
         onError: (error, handler) async {
+          // Skip token refresh for auth endpoints that naturally return 401
+          final path = error.requestOptions.path;
+          final isAuthEndpoint = path.contains('/auth/login') ||
+              path.contains('/auth/register') ||
+              path.contains('/auth/social-login');
+
           if (error.response?.statusCode == 401 &&
+              !isAuthEndpoint &&
               !(error.requestOptions.extra['_retried'] as bool? ?? false)) {
             error.requestOptions.extra['_retried'] = true;
 
             try {
               // If a refresh is already in progress, wait for it
-              final String? newToken;
+              String? newToken;
               if (_refreshCompleter != null) {
                 newToken = await _refreshCompleter!.future;
               } else {
@@ -114,8 +121,15 @@ class ApiService {
           assert(() {
             if (kDebugMode) {
               print('REQUEST[${options.method}] => PATH: ${options.path}');
-              print('REQUEST_BODY => ${options.data}');
-              print('REQUEST_HEADERS => ${options.headers}');
+              // Redact request body for auth endpoints to avoid logging credentials
+              final isAuthPath = options.path.contains('/auth/');
+              print('REQUEST_BODY => ${isAuthPath ? '[REDACTED]' : options.data}');
+              // Redact Authorization header
+              final headers = Map<String, dynamic>.from(options.headers);
+              if (headers.containsKey('Authorization')) {
+                headers['Authorization'] = 'Bearer [REDACTED]';
+              }
+              print('REQUEST_HEADERS => $headers');
             }
             return true;
           }());
@@ -400,7 +414,17 @@ class ApiService {
 
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
-        final message = error.response?.statusMessage ?? 'Server error';
+        // Extract message from API response body first, fall back to HTTP status message
+        String message = error.response?.statusMessage ?? 'Server error';
+        final responseData = error.response?.data;
+        if (responseData is Map<String, dynamic>) {
+          final apiMsg = responseData['message'];
+          if (apiMsg is String && apiMsg.isNotEmpty) {
+            message = apiMsg;
+          } else if (apiMsg is List && apiMsg.isNotEmpty) {
+            message = apiMsg.map((e) => e.toString()).join(', ');
+          }
+        }
         return ServerException(message, statusCode, error.message);
 
       case DioExceptionType.cancel:
