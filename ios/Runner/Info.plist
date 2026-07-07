@@ -28,7 +28,7 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
+		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -44,6 +44,38 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- Replace with REVERSED_CLIENT_ID from GoogleService-Info.plist -->
+				<string>com.googleusercontent.apps.YOUR_REVERSED_CLIENT_ID</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- Replace YOUR_FACEBOOK_APP_ID with your actual Facebook App ID -->
+				<string>fbYOUR_FACEBOOK_APP_ID</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>YOUR_FACEBOOK_APP_ID</string>
+	<key>FacebookClientToken</key>
+	<string>YOUR_FACEBOOK_CLIENT_TOKEN</string>
+	<key>FacebookDisplayName</key>
+	<string>VYZI</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
