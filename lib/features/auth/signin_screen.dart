@@ -5,6 +5,7 @@ import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/widgets/custom_text_filled.dart';
 import 'package:vyzi/core/widgets/primary_button.dart';
 import 'package:vyzi/core/widgets/social_button.dart';
+import 'package:vyzi/core/services/social_auth_service.dart';
 import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -71,8 +72,12 @@ class _SignInScreenState extends State<SignInScreen> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   hintText: 'you@example.com',
-                  validator: (v) =>
-                      v == null || !v.contains('@') ? 'Inserisci un\'email valida' : null,
+                  validator: (v) {
+                    if (v == null || v.isEmpty) return 'Inserisci un\'email valida';
+                    final emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
+                    if (!emailRegex.hasMatch(v)) return 'Inserisci un\'email valida';
+                    return null;
+                  },
                 ),
 
                 SizedBox(height: 12.h),
@@ -83,7 +88,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   controller: _passwordController,
                   isPassword: true,
                   hintText: '••••••••••',
-                  validator: (v) => v == null || v.length < 6 ? 'Minimo 6 caratteri' : null,
+                  validator: (v) => v == null || v.length < 8 ? 'Minimo 8 caratteri' : null,
                 ),
 
                 SizedBox(height: 12.h),
@@ -134,7 +139,16 @@ class _SignInScreenState extends State<SignInScreen> {
                         // Navigate to navbar only if login is successful
                         Get.offNamed(AppRoutes.navbarScreen);
                       } catch (e) {
-                        Get.snackbar('Errore', auth.error.value.isNotEmpty ? auth.error.value : 'Login fallito');
+                        String errorMessage = 'Login fallito. Riprova.';
+                        final rawError = auth.error.value;
+                        if (rawError.contains('Invalid email or password')) {
+                          errorMessage = 'Email o password non valida';
+                        } else if (rawError.contains('suspended')) {
+                          errorMessage = 'Il tuo account è stato sospeso. Contatta l\'assistenza.';
+                        } else if (rawError.contains('not verified')) {
+                          errorMessage = 'Email non verificata. Controlla la tua casella di posta.';
+                        }
+                        Get.snackbar('Errore', errorMessage);
                       }
                     }
                   },
@@ -163,7 +177,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 SocialButton(
                   label: 'Accedi con Facebook',
                   logo: _facebookLogo(),
-                  onPress: () {},
+                  onPress: () => _handleSocialLogin(SocialProvider.facebook),
                 ),
 
                 SizedBox(height: 10.h),
@@ -172,7 +186,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 SocialButton(
                   label: 'Accedi con Apple',
                   logo: _appleLogo(),
-                  onPress: () {},
+                  onPress: () => _handleSocialLogin(SocialProvider.apple),
                 ),
 
                 SizedBox(height: 10.h),
@@ -181,7 +195,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 SocialButton(
                   label: 'Accedi con Google',
                   logo: _googleLogo(),
-                  onPress: () {},
+                  onPress: () => _handleSocialLogin(SocialProvider.google),
                 ),
 
                 SizedBox(height: 20.h),
@@ -218,6 +232,23 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+
+  Future<void> _handleSocialLogin(SocialProvider provider) async {
+    final auth = Get.put(AuthController());
+    try {
+      await auth.socialLogin(provider);
+      Get.offAllNamed(AppRoutes.navbarScreen);
+    } catch (e) {
+      String errorMessage = 'Accesso social fallito. Riprova.';
+      final rawError = auth.error.value;
+      if (rawError.contains('suspended')) {
+        errorMessage = 'Il tuo account è stato sospeso. Contatta l\'assistenza.';
+      } else if (rawError.contains('annullato')) {
+        errorMessage = rawError;
+      }
+      Get.snackbar('Errore', errorMessage);
+    }
+  }
 
   // ── Labeled field wrapper ──────────────────
   Widget _labeledField({required String label, required Widget child}) {

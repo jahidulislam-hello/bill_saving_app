@@ -4,6 +4,7 @@ import 'package:vyzi/core/widgets/custom_text_filled.dart';
 import 'package:vyzi/core/widgets/phone_filled.dart';
 import 'package:vyzi/core/widgets/primary_button.dart';
 import 'package:vyzi/core/widgets/social_button.dart';
+import 'package:vyzi/core/services/social_auth_service.dart';
 import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -119,8 +120,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       size: 20.sp,
                     ),
                   ),
-                  validator: (v) =>
-                      v == null || !v.contains('@') ? 'Inserisci un\'email valida' : null,
+                  validator: (v) {
+                    if (v == null || v.isEmpty) return 'Inserisci un\'email valida';
+                    final emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
+                    if (!emailRegex.hasMatch(v)) return 'Inserisci un\'email valida';
+                    return null;
+                  },
                 ),
 
                 SizedBox(height: 12.h),
@@ -139,7 +144,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: _passwordController,
                   isPassword: true,
                   hintText: '••••••••••',
-                  validator: (v) => v == null || v.length < 6 ? 'Minimo 6 caratteri' : null,
+                  validator: (v) {
+                    if (v == null || v.isEmpty) return 'Minimo 8 caratteri';
+                    if (v.length < 8) return 'Minimo 8 caratteri';
+                    if (!RegExp(r'[a-z]').hasMatch(v)) return 'Deve contenere almeno una lettera minuscola';
+                    if (!RegExp(r'[A-Z]').hasMatch(v)) return 'Deve contenere almeno una lettera maiuscola';
+                    if (!RegExp(r'\d').hasMatch(v)) return 'Deve contenere almeno un numero';
+                    if (!RegExp(r'[!@#$%^&*()_+\-=\[\]{};:"|,.<>/?\\]').hasMatch(v)) return 'Deve contenere almeno un carattere speciale';
+                    return null;
+                  },
                 ),
 
                 SizedBox(height: 12.h),
@@ -236,7 +249,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           'type': 'email_verification'
                         });
                       } catch (e) {
-                        Get.snackbar('Errore', auth.error.value.isNotEmpty ? auth.error.value : 'Registrazione fallita');
+                        String errorMessage = 'Registrazione fallita. Riprova.';
+                        final rawError = auth.error.value;
+                        if (rawError.contains('Email already registered')) {
+                          errorMessage = 'Email già registrata';
+                        } else if (rawError.contains('Password must contain')) {
+                          errorMessage = 'La password non soddisfa i requisiti di sicurezza';
+                        }
+                        Get.snackbar('Errore', errorMessage);
                       }
                     }
                   },
@@ -268,7 +288,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SocialButton(
                   label: 'Accedi con Facebook',
                   logo: _facebookLogo(),
-                  onPress: () {},
+                  onPress: () => _handleSocialLogin(SocialProvider.facebook),
                 ),
 
                 SizedBox(height: 10.h),
@@ -277,7 +297,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SocialButton(
                   label: 'Accedi con Apple',
                   logo: _appleLogo(),
-                  onPress: () {},
+                  onPress: () => _handleSocialLogin(SocialProvider.apple),
                 ),
 
                 SizedBox(height: 10.h),
@@ -286,7 +306,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SocialButton(
                   label: 'Accedi con Google',
                   logo: _googleLogo(),
-                  onPress: () {},
+                  onPress: () => _handleSocialLogin(SocialProvider.google),
                 ),
 
                 SizedBox(height: 20.h),
@@ -327,6 +347,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _handleSocialLogin(SocialProvider provider) async {
+    final auth = Get.put(AuthController());
+    try {
+      await auth.socialLogin(provider);
+      Get.offAllNamed(AppRoutes.navbarScreen);
+    } catch (e) {
+      String errorMessage = 'Accesso social fallito. Riprova.';
+      final rawError = auth.error.value;
+      if (rawError.contains('suspended')) {
+        errorMessage = 'Il tuo account è stato sospeso. Contatta l\'assistenza.';
+      } else if (rawError.contains('annullato')) {
+        errorMessage = rawError;
+      }
+      Get.snackbar('Errore', errorMessage);
+    }
   }
 
   // ── Custom AppBar ──────────────────────────
