@@ -43,8 +43,28 @@ class ResetPasswordController extends GetxController {
       return;
     }
 
-    if (newPassword.length < 6) {
-      Get.snackbar('Errore', 'La password deve essere almeno 6 caratteri');
+    if (newPassword.length < 8) {
+      Get.snackbar('Errore', 'La password deve essere almeno 8 caratteri');
+      return;
+    }
+
+    if (!RegExp(r'[a-z]').hasMatch(newPassword)) {
+      Get.snackbar('Errore', 'La password deve contenere almeno una lettera minuscola');
+      return;
+    }
+
+    if (!RegExp(r'[A-Z]').hasMatch(newPassword)) {
+      Get.snackbar('Errore', 'La password deve contenere almeno una lettera maiuscola');
+      return;
+    }
+
+    if (!RegExp(r'\d').hasMatch(newPassword)) {
+      Get.snackbar('Errore', 'La password deve contenere almeno un numero');
+      return;
+    }
+
+    if (!RegExp(r'[!@#$%^&*()_+\-=\[\]{};:"|,.<>/?\\]').hasMatch(newPassword)) {
+      Get.snackbar('Errore', 'La password deve contenere almeno un carattere speciale');
       return;
     }
 
