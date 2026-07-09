@@ -87,6 +87,22 @@ class AuthService {
     }
   }
 
+  /// Authenticates via social provider. Sends Firebase ID token to backend.
+  Future<Map<String, dynamic>> socialLogin({required String idToken}) async {
+    final body = {'idToken': idToken};
+    try {
+      final resp = await _api.post(ApiConstants.authSocialLogin, data: body);
+      final data = resp.data as Map<String, dynamic>;
+      if (data['success'] == true) return data;
+      final msg = _extractApiMessage(data);
+      throw ServerException(msg, data['statusCode'] as int?);
+    } on AppException {
+      rethrow;
+    } catch (e) {
+      throw ParsingException(e.toString());
+    }
+  }
+
   /// Triggers forgot-password flow: sends reset code if email exists.
   Future<Map<String, dynamic>> forgotPassword({required String email}) async {
     final body = {'email': email};

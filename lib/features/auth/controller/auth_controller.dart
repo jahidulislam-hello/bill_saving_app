@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
 import 'package:vyzi/core/services/auth_service.dart';
+import 'package:vyzi/core/services/social_auth_service.dart';
 import 'package:vyzi/core/services/storage_service.dart';
 import 'package:vyzi/core/exceptions/app_exceptions.dart';
 import 'package:vyzi/routes/app_routes.dart';
 
 class AuthController extends GetxController {
   final AuthService _auth = AuthService();
+  final SocialAuthService _socialAuth = SocialAuthService();
 
   var isLoading = false.obs;
   var error = ''.obs;
@@ -96,6 +98,37 @@ class AuthController extends GetxController {
     }
   }
 
+  /// Performs social login: provider sign-in -> Firebase ID token -> backend auth -> persist tokens.
+  Future<void> socialLogin(SocialProvider provider) async {
+    isLoading.value = true;
+    error.value = '';
+    try {
+      final idToken = await _socialAuth.signIn(provider);
+      final res = await _auth.socialLogin(idToken: idToken);
+
+      final data = res['data'] as Map<String, dynamic>?;
+      if (data != null) {
+        final accessToken = data['accessToken'] as String?;
+        final refreshToken = data['refreshToken'] as String?;
+        final user = data['user'] as Map<String, dynamic>?;
+
+        final storage = Get.find<StorageService>();
+        if (accessToken != null) await storage.setString(StorageKeys.authToken, accessToken);
+        if (refreshToken != null) await storage.setString(StorageKeys.refreshToken, refreshToken);
+        if (user != null) {
+          if (user['id'] != null) await storage.setString(StorageKeys.userId, user['id'].toString());
+          if (user['email'] != null) await storage.setString(StorageKeys.userEmail, user['email'].toString());
+        }
+        await storage.setBool(StorageKeys.isLoggedIn, true);
+      }
+    } on AppException catch (e) {
+      error.value = e.message;
+      rethrow;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<Map<String, dynamic>> forgotPassword({required String email}) async {
     isLoading.value = true;
     error.value = '';
@@ -136,6 +169,7 @@ class AuthController extends GetxController {
     if (token != null && token.isNotEmpty) {
       await _auth.logoutFromServer(refreshToken: token);
     }
+    await _socialAuth.signOut();
     await storage.remove(StorageKeys.authToken);
     await storage.remove(StorageKeys.refreshToken);
     await storage.remove(StorageKeys.userId);

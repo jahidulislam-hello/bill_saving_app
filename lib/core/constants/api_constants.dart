@@ -19,6 +19,7 @@ class ApiConstants {
   static const String authResetPassword = '/api/v1/auth/reset-password';
   static const String authRefreshToken = '/api/v1/auth/refresh-token';
   static const String authLogout = '/api/v1/auth/logout';
+  static const String authSocialLogin = '/api/v1/auth/social-login';
 
 
   //Get My Profile
