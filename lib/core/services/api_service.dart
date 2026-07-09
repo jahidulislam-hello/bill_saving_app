@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../constants/api_constants.dart';
 import '../exceptions/app_exceptions.dart';
 import 'storage_service.dart';
@@ -97,60 +98,24 @@ class ApiService {
             }
           }
 
-          // Debug logging
-          assert(() {
-            if (kDebugMode) {
-              print(
-                'ERROR[${error.response?.statusCode}] => PATH: ${error.requestOptions.path}',
-              );
-              print('ERROR_BODY => ${error.response?.data}');
-              print('ERROR_MESSAGE => ${error.message}');
-            }
-            return true;
-          }());
-
           return handler.next(error);
         },
       ),
     );
 
-    // Logging interceptor
-    _dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) {
-          assert(() {
-            if (kDebugMode) {
-              print('REQUEST[${options.method}] => PATH: ${options.path}');
-              // Redact request body for auth endpoints to avoid logging credentials
-              final isAuthPath = options.path.contains('/auth/');
-              print('REQUEST_BODY => ${isAuthPath ? '[REDACTED]' : options.data}');
-              // Redact Authorization header
-              final headers = Map<String, dynamic>.from(options.headers);
-              if (headers.containsKey('Authorization')) {
-                headers['Authorization'] = 'Bearer [REDACTED]';
-              }
-              print('REQUEST_HEADERS => $headers');
-            }
-            return true;
-          }());
-          return handler.next(options);
-        },
-        onResponse: (response, handler) {
-          assert(() {
-            if (kDebugMode) {
-              print(
-                'RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}',
-              );
-            }
-            return true;
-          }());
-          return handler.next(response);
-        },
-        onError: (error, handler) {
-          return handler.next(error);
-        },
-      ),
-    );
+    // Pretty logging interceptor — only in debug mode
+    if (kDebugMode) {
+      _dio.interceptors.add(
+        PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+          responseHeader: true,
+          responseBody: true,
+          error: true,
+          compact: false,
+        ),
+      );
+    }
   }
 
   /// Clears stored auth data and redirects to sign-in when refresh fails.
@@ -417,7 +382,9 @@ class ApiService {
         // Extract message from API response body first, fall back to HTTP status message
         String message = error.response?.statusMessage ?? 'Server error';
         final responseData = error.response?.data;
+        Map<String, dynamic>? responseMap;
         if (responseData is Map<String, dynamic>) {
+          responseMap = responseData;
           final apiMsg = responseData['message'];
           if (apiMsg is String && apiMsg.isNotEmpty) {
             message = apiMsg;
@@ -425,7 +392,7 @@ class ApiService {
             message = apiMsg.map((e) => e.toString()).join(', ');
           }
         }
-        return ServerException(message, statusCode, error.message);
+        return ServerException(message, statusCode, error.message, responseMap);
 
       case DioExceptionType.cancel:
         return UnknownException('Request cancelled');

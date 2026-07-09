@@ -107,8 +107,11 @@ class ServerException extends AppException {
   /// HTTP status code (e.g., 404, 500)
   final int? statusCode;
 
-  /// Creates a [ServerException] with a [message], optional [statusCode], and [details].
-  ServerException(super.message, [this.statusCode, super.details]);
+  /// Optional response data from the API (e.g., verificationToken on 403)
+  final Map<String, dynamic>? responseData;
+
+  /// Creates a [ServerException] with a [message], optional [statusCode], [details], and [responseData].
+  ServerException(super.message, [this.statusCode, super.details, this.responseData]);
 
   @override
   String toString() {
