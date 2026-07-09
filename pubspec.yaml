@@ -54,7 +54,15 @@ dependencies:
   http:
   mobile_scanner:
 
+  # Firebase
+  firebase_core:
+  firebase_auth:
 
+  # Social sign-in providers
+  google_sign_in:
+  sign_in_with_apple:
+  flutter_facebook_auth:
+  crypto:
 
 
 
