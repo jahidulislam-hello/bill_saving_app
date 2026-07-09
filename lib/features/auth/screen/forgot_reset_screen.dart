@@ -25,7 +25,10 @@ class ResetPasswordScreen extends StatelessWidget {
       appBar: CustomAppBar(
         title: "Reimposta Password",
       ),
-      body: Padding(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,6 +83,7 @@ class ResetPasswordScreen extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
           ],
         ),
+      ),
       ),
     );
   }

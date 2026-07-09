@@ -59,7 +59,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
-      body: SafeArea(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Form(
@@ -230,7 +233,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 PrimaryButton(
                   title: 'Registrati',
                   onPress: () async {
-                    if (_formKey.currentState!.validate() && _agreeToTerms) {
+                    if (!_agreeToTerms) {
+                      Get.snackbar(
+                        'Attenzione',
+                        'Devi accettare i Termini di Servizio e l\'Informativa sulla Privacy per procedere.',
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                      return;
+                    }
+                    if (_formKey.currentState!.validate()) {
                       final auth = Get.put(AuthController());
                       try {
                         await auth.register(
@@ -345,6 +356,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
         ),
+      ),
       ),
     );
   }

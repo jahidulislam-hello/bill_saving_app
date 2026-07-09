@@ -24,7 +24,10 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
         title: 'Verifica OTP',
         showBackButton: true,
       ),
-      body: SafeArea(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
@@ -159,6 +162,7 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

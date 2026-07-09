@@ -20,7 +20,10 @@ class CreateAccountOtpScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: const CustomAppBar(title: 'Verifica OTP', showBackButton: true),
-      body: SafeArea(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
@@ -158,6 +161,7 @@ class CreateAccountOtpScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

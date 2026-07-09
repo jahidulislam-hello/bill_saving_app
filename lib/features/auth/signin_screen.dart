@@ -11,6 +11,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyzi/core/exceptions/app_exceptions.dart';
 import 'package:vyzi/features/auth/controller/auth_controller.dart';
 
 
@@ -39,15 +40,30 @@ class _SignInScreenState extends State<SignInScreen> {
       backgroundColor: AppColors.background,
       appBar: CustomAppBar(
         showBackButton: true,
-        onLeadingPressed: () => Get.back(),
+        onLeadingPressed: () {
+          if (Navigator.of(context).canPop()) {
+            Get.back();
+          } else {
+            Get.offAllNamed(AppRoutes.onboardScreen);
+          }
+        },
         actions: [
           IconButton(
             icon: Icon(Icons.close, size: 22.sp, color: AppColors.textPrimary),
-            onPressed: () => Navigator.maybePop(context),
+            onPressed: () {
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              } else {
+                Get.offAllNamed(AppRoutes.onboardScreen);
+              }
+            },
           ),
         ],
       ),
-      body: SafeArea(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Form(
@@ -138,17 +154,25 @@ class _SignInScreenState extends State<SignInScreen> {
                         );
                         // Navigate to navbar only if login is successful
                         Get.offNamed(AppRoutes.navbarScreen);
-                      } catch (e) {
-                        String errorMessage = 'Login fallito. Riprova.';
-                        final rawError = auth.error.value;
-                        if (rawError.contains('Invalid email or password')) {
-                          errorMessage = 'Email o password non valida';
-                        } else if (rawError.contains('suspended')) {
-                          errorMessage = 'Il tuo account è stato sospeso. Contatta l\'assistenza.';
-                        } else if (rawError.contains('not verified')) {
-                          errorMessage = 'Email non verificata. Controlla la tua casella di posta.';
+                      } on ServerException catch (e) {
+                        if (e.statusCode == 403 && e.message.contains('not verified')) {
+                          Get.snackbar('Info', 'Email non verificata. Completa la verifica OTP.');
+                          Get.toNamed(
+                            AppRoutes.createAccountOtpScreen,
+                            arguments: {'email': _emailController.text.trim()},
+                          );
+                        } else {
+                          String errorMessage = 'Login fallito. Riprova.';
+                          final rawError = auth.error.value;
+                          if (rawError.contains('Invalid email or password')) {
+                            errorMessage = 'Email o password non valida';
+                          } else if (rawError.contains('suspended')) {
+                            errorMessage = 'Il tuo account è stato sospeso. Contatta l\'assistenza.';
+                          }
+                          Get.snackbar('Errore', errorMessage);
                         }
-                        Get.snackbar('Errore', errorMessage);
+                      } catch (e) {
+                        Get.snackbar('Errore', 'Login fallito. Riprova.');
                       }
                     }
                   },
@@ -228,6 +252,7 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
           ),
         ),
+      ),
       ),
     );
   }

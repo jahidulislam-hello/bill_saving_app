@@ -25,7 +25,10 @@ class ForgotPasswordScreen extends StatelessWidget {
         showBackButton: true,
       ),
       backgroundColor: Colors.white,
-      body: SafeArea(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
 
@@ -62,6 +65,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }
