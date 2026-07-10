@@ -1,7 +1,7 @@
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class InviteController extends ChangeNotifier {
   // ── Referral link ──
@@ -42,7 +42,7 @@ class InviteController extends ChangeNotifier {
     // );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Link condiviso!'),
+        content: Text('profile.invite.link_shared'.tr),
         backgroundColor: AppColors.primaryColor,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

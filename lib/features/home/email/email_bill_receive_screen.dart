@@ -59,9 +59,9 @@ class EmailBillReceivedScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               /// Title
-              const Text(
-                "Bolletta Ricevuta !",
-                style: TextStyle(
+              Text(
+                'home.email_bill_received.title'.tr,
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -70,10 +70,10 @@ class EmailBillReceivedScreen extends StatelessWidget {
               const SizedBox(height: 8),
 
               /// Subtitle
-              const Text(
-                "Abbiamo ricevuto la tua bolletta elettrica e la nostra IA la sta\nanalizzando per trovarti le migliori offerte.",
+              Text(
+                'home.email_bill_received.subtitle'.tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 13,
                   color: Colors.black54,
                 ),
@@ -97,9 +97,9 @@ class EmailBillReceivedScreen extends StatelessWidget {
                       children: [
                         const Icon(Icons.analytics_outlined, size: 20),
                         const SizedBox(width: 8),
-                        const Text(
-                          "Analisi in Corso",
-                          style: TextStyle(
+                        Text(
+                          'home.email_bill_received.analysis_in_progress'.tr,
+                          style: const TextStyle(
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -112,9 +112,9 @@ class EmailBillReceivedScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          "Ricerca di ottimizzazioni in corso...",
-                          style: TextStyle(fontSize: 13),
+                        Text(
+                          'home.email_bill_received.searching_optimizations'.tr,
+                          style: const TextStyle(fontSize: 13),
                         ),
                         Obx(() => Text(
                           "${controller.progress.value}%",
@@ -148,15 +148,15 @@ class EmailBillReceivedScreen extends StatelessWidget {
                         color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Row(
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.access_time, size: 18),
-                          SizedBox(width: 8),
+                          const Icon(Icons.access_time, size: 18),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              "Il tempo di analisi è di circa 24 ore al massimo. Ti informeremo non appena i risultati saranno pronti.",
-                              style: TextStyle(fontSize: 12),
+                              'home.email_bill_received.analysis_time_info'.tr,
+                              style: const TextStyle(fontSize: 12),
                             ),
                           ),
                         ],
@@ -180,7 +180,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text("Vai alle Richieste"),
+                  child: Text('home.email_bill.go_to_requests'.tr),
                 ),
               ),
 
@@ -197,7 +197,7 @@ class EmailBillReceivedScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text("Torna alla Home"),
+                  child: Text('home.email_bill.back_to_home'.tr),
                 ),
               ),
 

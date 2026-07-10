@@ -13,7 +13,7 @@ class ForgotPasswordController extends GetxController {
     final email = emailController.text.trim();
     
     if (email.isEmpty) {
-      Get.snackbar('Errore', 'Inserisci un\'email valida');
+      Get.snackbar('auth.validation.error'.tr, 'auth.forgot_password.email_error'.tr);
       return;
     }
 
@@ -23,9 +23,9 @@ class ForgotPasswordController extends GetxController {
       Get.to(() => ForgotPasswordOtpScreen(), 
         arguments: {'email': email}
       );
-      Get.snackbar('Successo', 'OTP inviato alla tua email');
+      Get.snackbar('auth.validation.success'.tr, 'auth.forgot_password.otp_sent_success'.tr);
     } catch (e) {
-      Get.snackbar('Errore', 'Impossibile inviare OTP');
+      Get.snackbar('auth.validation.error'.tr, 'auth.forgot_password.send_failed_error'.tr);
     } finally {
       isLoading.value = false;
     }

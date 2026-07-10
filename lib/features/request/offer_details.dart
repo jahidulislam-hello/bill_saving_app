@@ -243,9 +243,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                 color: AppColors.green,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const Text(
-                'Miglior Valore',
-                style: TextStyle(
+              child: Text(
+                'request.offer.best_value'.tr,
+                style: const TextStyle(
                     color: Colors.white,
                     fontSize: 11,
                     fontWeight: FontWeight.w900),
@@ -322,9 +322,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
             ),
           ),
           const SizedBox(height: 6),
-          const Text(
-            'Risparmio Annuale',
-            style: TextStyle(
+          Text(
+            'request.offer.annual_savings'.tr,
+            style: const TextStyle(
               color: AppColors.green,
               fontSize: 16,
               fontWeight: FontWeight.w900,
@@ -694,18 +694,18 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
           ),
         ],
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Su EnergyPlus',
-              style: TextStyle(
+          Text('offer.about_supplier_name'.tr,
+              style: const TextStyle(
                   color: AppColors.textDark,
                   fontSize: 16,
                   fontWeight: FontWeight.w900)),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Text(
-            'EnergyPlus è un fornitore di energia affidabile impegnato a fornire un servizio eccellente e tariffe competitive. Si specializzano in soluzioni di energia rinnovabile e hanno una comprovata esperienza di soddisfazione del cliente.',
-            style: TextStyle(
+            'offer.supplier_description'.tr,
+            style: const TextStyle(
                 color: AppColors.textMid,
                 fontSize: 13,
                 fontWeight: FontWeight.w700,

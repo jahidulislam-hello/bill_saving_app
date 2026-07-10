@@ -194,13 +194,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Energia Verde',
+                    Text('request.offer.green_energy'.tr,
                         style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textDark,
                             height: 1.22)),
-                    Text('Offerta Verde',
+                    Text('request.offer.green_offer'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textPrimary,
@@ -214,7 +214,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   color: AppColors.green200,
                   borderRadius: BorderRadius.circular(20.r),
                 ),
-                child: Text('Miglior Valore',
+                child: Text('request.offer.best_value'.tr,
                     style: TextStyle(
                         color: AppColors.background,
                         fontSize: 11.sp,
@@ -231,7 +231,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               color: AppColors.primary100,
               borderRadius: BorderRadius.circular(8.r),
             ),
-            child: Text('Prezzo Energia : PUN GME + € 0.01/KWh',
+            child: Text('request.offer_details.price_formula'.tr,
                 style: TextStyle(
                     fontSize: 12.sp,
                     color: AppColors.textDark,
@@ -256,7 +256,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       color: AppColors.green200,
                       height: 1.22)),
               SizedBox(width: 8.w),
-              Text('Risparmio Annuale',
+              Text('request.offer.annual_savings'.tr,
                   style: TextStyle(
                       fontSize: 13.sp,
                       color: AppColors.textDark,
@@ -329,7 +329,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       ),
                       SizedBox(width: 4.w),
                       Text(
-                        _editingPersonalInfo ? 'Salva' : 'Modifica',
+                        _editingPersonalInfo ? 'common.save'.tr : 'Modifica',
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.background,
@@ -449,9 +449,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('Indirizzo di Fornitura'),
+          _sectionTitle('request.form.delivery_address'.tr),
           SizedBox(height: 2.h),
-          Text('Riepilogo in sola lettura da Bolletta/Profilo',
+          Text('request.form.readonly_summary'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -518,7 +518,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 14.h),
 
           Text(
-              'L\'indirizzo di residenza corrisponde all\'indirizzo di consegna?',
+              'request.form.residential_matches_delivery'.tr,
               style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
@@ -529,11 +529,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Row(
             children: [
               Expanded(
-                  child: _addressOption("Sì, è lo stesso", AddressMatch.same)),
+                  child: _addressOption('request.form.address_yes_same'.tr, AddressMatch.same)),
               SizedBox(width: 10.w),
               Expanded(
                   child: _addressOption(
-                      "No, è diverso", AddressMatch.different)),
+                      'request.form.address_no_different'.tr, AddressMatch.different)),
             ],
           ),
 
@@ -565,7 +565,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.r)),
               ),
-              child: Text('Indirizzo verificato',
+              child: Text('request.form.address_verified'.tr,
                   style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
@@ -591,7 +591,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Indirizzo di Fornitura',
+              Text('request.form.delivery_address'.tr,
                   style: TextStyle(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
@@ -608,7 +608,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     Icon(Icons.check_rounded,
                         color: AppColors.linkGreen, size: 14.sp),
                     SizedBox(width: 3.w),
-                    Text('Salva',
+                    Text('common.save'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.linkGreen,
@@ -620,7 +620,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ],
           ),
           SizedBox(height: 12.h),
-          Text('Indirizzo',
+          Text('request.form.address'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -628,7 +628,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 6.h),
           _addressTextField(_streetCtrl, hint: '123 Main Street'),
           SizedBox(height: 10.h),
-          Text('Città',
+          Text('request.form.city'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -636,7 +636,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 6.h),
           _addressTextField(_cityCtrl, hint: 'Milano'),
           SizedBox(height: 10.h),
-          Text('CAP',
+          Text('request.form.zip_code'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -674,7 +674,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
-                    'Se "No" è selezionato, questa sezione scende automaticamente.',
+                    'request.form.no_selection_info'.tr,
                     style: TextStyle(
                         fontSize: 11.sp,
                         color: AppColors.textDark,
@@ -685,14 +685,14 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ),
           ),
           SizedBox(height: 14.h),
-          Text('Nuovo Indirizzo Residenziale',
+          Text('request.form.new_residential_address'.tr,
               style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.textDark,
                   height: 1.22)),
           SizedBox(height: 12.h),
-          Text('Via e Numero',
+          Text('request.form.street_number'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -707,7 +707,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Città',
+                    Text('request.form.city'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textPrimary,
@@ -725,7 +725,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('CAP',
+                    Text('request.form.zip_code'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textPrimary,
@@ -743,7 +743,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 10.h),
           Row(
             children: [
-              Text('Provincia',
+              Text('request.form.province'.tr,
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: AppColors.textPrimary,
@@ -768,7 +768,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 alignedDropdown: true,
                 child: DropdownButton<String>(
                   value: _supplyProvince,
-                  hint: Text('Seleziona Provincia',
+                  hint: Text('request.form.select_province'.tr,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: AppColors.textSecondary,
@@ -909,7 +909,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   Icon(Icons.check_rounded,
                       color: AppColors.linkGreen, size: 14.sp),
                   SizedBox(width: 3.w),
-                  Text('Salva',
+                  Text('common.save'.tr,
                       style: TextStyle(
                           fontSize: 12.sp,
                           color: AppColors.linkGreen,
@@ -921,7 +921,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           ),
           SizedBox(height: 4.h),
           Text(
-              'Carica il tuo documento d\'identità o la patente per completare la richiesta.',
+              'request.form.id_document_instruction'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -973,8 +973,8 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               Expanded(
                 child: _buildIdButton(
                   icon: Icons.upload_rounded,
-                  label: 'Carica File',
-                  sublabel: 'PDF, Foto',
+                  label: 'request.form.upload_file_button'.tr,
+                  sublabel: 'request.form.upload_formats'.tr,
                   canUpload: _c.uploadedFiles.length < 3,
                   onTap: _pickFile,
                 ),
@@ -983,8 +983,8 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               Expanded(
                 child: _buildIdButton(
                   icon: Icons.qr_code_scanner_rounded,
-                  label: 'Scansiona Documento',
-                  sublabel: 'Scansiona con la fotocamera',
+                  label: 'request.form.scan_document'.tr,
+                  sublabel: 'request.form.scan_with_camera'.tr,
                   canUpload: true,
                   onTap: _openScanner,
                 ),
@@ -1075,9 +1075,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('Metodo di Pagamento'),
+          _sectionTitle('request.form.payment_method_title'.tr),
           SizedBox(height: 2.h),
-          Text('Seleziona come preferisci pagare',
+          Text('request.form.payment_preference'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -1085,13 +1085,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 12.h),
 
           // Full Name / Tax Code rows
-          _personalRow('Nome Completo', _c.fullName),
+          _personalRow('request.form.full_name_label'.tr, _c.fullName),
           _dividerLine(),
-          _personalRow('Codice Fiscale', _c.taxCode),
+          _personalRow('request.form.tax_code_label'.tr, _c.taxCode),
           SizedBox(height: 14.h),
 
           // ── Payment options ──
-          Text('Scegli il Metodo di Pagamento',
+          Text('request.form.choose_payment_method'.tr,
               style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
@@ -1100,14 +1100,14 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 10.h),
           _paymentOption(
             method: PaymentMethod.directDebit,
-            title: 'Addebito Diretto (SDD)',
-            subtitle: 'Pagamento automatico dal tuo conto',
+            title: 'request.payment.sdd_title'.tr,
+            subtitle: 'request.payment.sdd_subtitle_full'.tr,
           ),
           SizedBox(height: 8.h),
           _paymentOption(
             method: PaymentMethod.postalOrder,
-            title: 'Bollettino Postale',
-            subtitle: 'Riceverai il bollettino per pagare',
+            title: 'request.payment.postal_bill_title'.tr,
+            subtitle: 'request.payment.postal_bill_subtitle_full'.tr,
           ),
 
           // ── Direct Debit extras (only when directDebit selected) ──
@@ -1215,7 +1215,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Holder information',
+              Text('request.form.holder_info'.tr,
                   style: TextStyle(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
@@ -1226,7 +1226,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   Icon(Icons.check_rounded,
                       color: AppColors.linkGreen, size: 14.sp),
                   SizedBox(width: 3.w),
-                  Text('Save',
+                  Text('common.save'.tr,
                       style: TextStyle(
                           fontSize: 12.sp,
                           color: AppColors.linkGreen,
@@ -1237,11 +1237,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ],
           ),
           SizedBox(height: 12.h),
-          _buildEditField('Fast Name', _holderFirstCtrl),
+          _buildEditField('request.form.first_name'.tr, _holderFirstCtrl),
           SizedBox(height: 10.h),
-          _buildEditField('Last Name', _holderLastCtrl),
+          _buildEditField('request.form.last_name'.tr, _holderLastCtrl),
           SizedBox(height: 10.h),
-          _buildEditField('Tax Code / Fiscal Code', _holderTaxCtrl,
+          _buildEditField('request.form.tax_code_full'.tr, _holderTaxCtrl,
               keyboardType: TextInputType.number),
         ],
       ),
@@ -1343,14 +1343,14 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
 
           _invoiceOption(
             method: InvoiceMethod.digital,
-            title: 'Fattura Digitale',
+            title: 'request.invoice.digital_title'.tr,
             subtitle: 'Ricevi la fattura via email',
           ),
           SizedBox(height: 8.h),
           _invoiceOption(
             method: InvoiceMethod.paper,
-            title: 'Fattura Cartacea',
-            subtitle: 'Riceverai il bollettino per pagare',
+            title: 'request.invoice.paper_title'.tr,
+            subtitle: 'request.payment.postal_bill_subtitle_full'.tr,
           ),
 
           // ── Digital extras: pre-filled note + email field ──
@@ -1443,7 +1443,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Does the shipping address match the delivery address?',
+        Text('request.form.shipping_match_question'.tr,
             style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
@@ -1504,7 +1504,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(width: 8.w),
           Expanded(
             child: Text(
-              'The invoice will be sent to: Via Roma 42, 20121 Milan (MI)',
+              '${'request.invoice.destination_preview'.tr} Via Roma 42, 20121 Milan (MI)',
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.red200,
@@ -1557,7 +1557,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 14.h),
 
           // Address
-          Text('Address',
+          Text('request.form.address'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -1573,7 +1573,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('City',
+                    Text('request.form.city'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textPrimary,
@@ -1589,7 +1589,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Number',
+                    Text('request.form.number'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textPrimary,
@@ -1606,7 +1606,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 10.h),
 
           // Zip Code
-          Text('Zip Code',
+          Text('request.form.zip_code'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -1624,7 +1624,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 alignedDropdown: true,
                 child: DropdownButton<String>(
                   value: _invZipProvince,
-                  hint: Text('Select Province',
+                  hint: Text('request.form.select_province'.tr,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: AppColors.textSecondary,
@@ -1653,7 +1653,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 10.h),
 
           // Province
-          Text('Province',
+          Text('request.form.province'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -1675,7 +1675,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.r)),
               ),
-              child: Text('Conform Address',
+              child: Text('request.form.conform_address'.tr,
                   style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
@@ -1843,7 +1843,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Quasi fatto!',
+                Text('request.form.almost_done'.tr,
                     style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -1851,7 +1851,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                         height: 1.22)),
                 SizedBox(height: 4.h),
                 Text(
-                    "Una volta attivato, invieremo il tuo contratto entro 24 ore per la firma.",
+                    'request.form.contract_send_info'.tr,
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: AppColors.textPrimary,
@@ -1881,7 +1881,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.r)),
         ),
-        child: Text('Attiva Offerta',
+        child: Text('request.form.activate_offer'.tr,
             style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
@@ -1959,7 +1959,7 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: Text('Scansiona Documento',
+        title: Text('request.form.scan_document'.tr,
             style: TextStyle(
                 fontSize: 17.sp,
                 fontWeight: FontWeight.w600,
@@ -2019,7 +2019,7 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
             right: 0,
             child: Column(
               children: [
-                Text('Allinea il documento nella cornice',
+                Text('request.form.align_document'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 14.sp,
@@ -2027,7 +2027,7 @@ class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
                         fontWeight: FontWeight.w500,
                         height: 1.22)),
                 SizedBox(height: 6.h),
-                Text('Sono supportati anche codici QR e codici a barre',
+                Text('request.form.supported_formats'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 12.sp,

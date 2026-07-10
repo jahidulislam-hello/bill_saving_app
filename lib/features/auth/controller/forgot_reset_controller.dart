@@ -39,37 +39,37 @@ class ResetPasswordController extends GetxController {
     final confirmPassword = confirmPasswordController.text.trim();
 
     if (newPassword.isEmpty || confirmPassword.isEmpty) {
-      Get.snackbar('Errore', 'Inserisci le password');
+      Get.snackbar('auth.validation.error'.tr, 'auth.reset_password.empty_error'.tr);
       return;
     }
 
     if (newPassword.length < 8) {
-      Get.snackbar('Errore', 'La password deve essere almeno 8 caratteri');
+      Get.snackbar('auth.validation.error'.tr, 'auth.reset_password.min_length_error'.tr);
       return;
     }
 
     if (!RegExp(r'[a-z]').hasMatch(newPassword)) {
-      Get.snackbar('Errore', 'La password deve contenere almeno una lettera minuscola');
+      Get.snackbar('auth.validation.error'.tr, 'auth.reset_password.lowercase_error'.tr);
       return;
     }
 
     if (!RegExp(r'[A-Z]').hasMatch(newPassword)) {
-      Get.snackbar('Errore', 'La password deve contenere almeno una lettera maiuscola');
+      Get.snackbar('auth.validation.error'.tr, 'auth.reset_password.uppercase_error'.tr);
       return;
     }
 
     if (!RegExp(r'\d').hasMatch(newPassword)) {
-      Get.snackbar('Errore', 'La password deve contenere almeno un numero');
+      Get.snackbar('auth.validation.error'.tr, 'auth.reset_password.number_error'.tr);
       return;
     }
 
     if (!RegExp(r'[!@#$%^&*()_+\-=\[\]{};:"|,.<>/?\\]').hasMatch(newPassword)) {
-      Get.snackbar('Errore', 'La password deve contenere almeno un carattere speciale');
+      Get.snackbar('auth.validation.error'.tr, 'auth.reset_password.special_char_error'.tr);
       return;
     }
 
     if (newPassword != confirmPassword) {
-      Get.snackbar('Errore', 'Le password non corrispondono');
+      Get.snackbar('auth.validation.error'.tr, 'auth.reset_password.mismatch'.tr);
       return;
     }
 
@@ -81,9 +81,9 @@ class ResetPasswordController extends GetxController {
         newPassword: newPassword,
       );
       Get.offAll(() => PasswordUpdateSuccessScreen());
-      Get.snackbar('Successo', 'Password reimpostata');
+      Get.snackbar('auth.validation.success'.tr, 'auth.reset_password.success_message'.tr);
     } catch (e) {
-      Get.snackbar('Errore', 'Impossibile reimpostare la password');
+      Get.snackbar('auth.validation.error'.tr, 'auth.reset_password.failed_error'.tr);
     } finally {
       isLoading.value = false;
     }

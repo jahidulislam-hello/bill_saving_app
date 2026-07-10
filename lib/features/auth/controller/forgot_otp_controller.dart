@@ -37,19 +37,19 @@ class ForgotPasswordOtpController extends GetxController {
   Future<void> verifyAndProceed() async {
     final code = otpDigits.join();
     if (code.length < 6) {
-      Get.snackbar('Errore', 'Inserisci il codice OTP completo');
+      Get.snackbar('auth.validation.error'.tr, 'auth.otp.error_incomplete'.tr);
       return;
     }
 
     try {
       await _auth.verifyOtp(email: email.value, code: code, type: 'password_reset');
-      Get.snackbar('Successo', 'OTP verificato');
+      Get.snackbar('auth.validation.success'.tr, 'auth.otp.verified_success'.tr);
       Get.toNamed('/resetPasswordScreen', arguments: {
         'email': email.value,
         'code': code,
       });
     } catch (e) {
-      Get.snackbar('Errore', 'Verifica OTP fallita');
+      Get.snackbar('auth.validation.error'.tr, 'auth.otp.verification_failed'.tr);
     }
   }
 
@@ -61,7 +61,7 @@ class ForgotPasswordOtpController extends GetxController {
     /// Restart timer
     startTimer();
 
-    Get.snackbar("OTP Sent", "A new OTP has been sent to your email.");
+    Get.snackbar('auth.otp.resend_title'.tr, 'auth.otp.resend_message'.tr);
   }
 
   /// Start countdown timer for OTP resend

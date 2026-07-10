@@ -19,7 +19,7 @@ class CreateAccountOtpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const CustomAppBar(title: 'Verifica OTP', showBackButton: true),
+      appBar: CustomAppBar(title: 'auth.otp.title'.tr, showBackButton: true),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         behavior: HitTestBehavior.opaque,
@@ -97,8 +97,8 @@ class CreateAccountOtpScreen extends StatelessWidget {
                   if (controller.secondsRemaining.value == 0) {
                     return GestureDetector(
                       onTap: controller.resendCode,
-                      child: const Text(
-                        "Invia di nuovo OTP",
+                      child: Text(
+                        'auth.otp.resend'.tr,
                         style: TextStyle(
                           fontSize: 14,
                           color: AppColors.primaryColor,
@@ -118,8 +118,8 @@ class CreateAccountOtpScreen extends StatelessWidget {
                           fontFamily: 'Open Sans',
                         ),
                         children: [
-                          const TextSpan(
-                            text: 'Invia di nuovo OTP ',
+                          TextSpan(
+                            text: '${'auth.otp.resend'.tr} ',
                             style: TextStyle(
                               color: AppColors.textPrimary,
                               fontWeight: FontWeight.w700,
@@ -145,14 +145,14 @@ class CreateAccountOtpScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: PrimaryButton(
-                  title: "Verifica OTP",
+                  title: 'auth.otp.button'.tr,
                   onPress: () {
                     if (controller.isOtpComplete()) {
                       controller.verifyAndProceed();
                     } else {
                       Get.snackbar(
-                        'Errore',
-                        'Inserisci il codice OTP completo',
+                        'auth.validation.error'.tr,
+                        'auth.otp.error_incomplete'.tr,
                       );
                     }
                   },

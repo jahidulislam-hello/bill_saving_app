@@ -39,7 +39,7 @@ class CreateAccountOtpController extends GetxController {
   Future<void> verifyAndProceed() async {
     final code = otpDigits.join();
     if (code.length < 6) {
-      Get.snackbar('Errore', 'Inserisci il codice OTP completo');
+      Get.snackbar('auth.validation.error'.tr, 'auth.otp.error_incomplete'.tr);
       return;
     }
 
@@ -63,10 +63,10 @@ class CreateAccountOtpController extends GetxController {
         await storage.setBool(StorageKeys.isLoggedIn, true);
       }
 
-      Get.snackbar('Successo', 'OTP verificato');
+      Get.snackbar('auth.validation.success'.tr, 'auth.otp.verified_success'.tr);
       Get.offAllNamed('/navbarScreen');
     } catch (e) {
-      Get.snackbar('Errore', auth.error.value.isNotEmpty ? auth.error.value : 'Verifica OTP fallita');
+      Get.snackbar('auth.validation.error'.tr, auth.error.value.isNotEmpty ? auth.error.value : 'auth.otp.verification_failed'.tr);
     }
   }
 
@@ -79,7 +79,7 @@ class CreateAccountOtpController extends GetxController {
     startTimer();
 
     // TODO: optional API call to resend OTP
-    Get.snackbar("OTP Sent", "A new OTP has been sent to your email.");
+    Get.snackbar('auth.otp.resend_title'.tr, 'auth.otp.resend_message'.tr);
   }
 
   /// Start countdown timer for OTP resend

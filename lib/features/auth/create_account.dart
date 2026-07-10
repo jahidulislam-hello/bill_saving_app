@@ -74,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Title ──────────────────────────
                 Text(
-                  'Crea un account',
+                  'auth.signup.title'.tr,
                   style: TextStyle(
                     fontSize: 22.sp,
                     fontWeight: FontWeight.w700,
@@ -89,18 +89,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     Expanded(
                       child: CustomTextField(
-                        labelText: 'Nome *',
+                        labelText: 'auth.signup.first_name_label'.tr,
                         controller: _firstNameController,
-                        hintText: 'Alex',
+                        hintText: 'auth.signup.first_name_hint'.tr,
                         validator: (v) => v == null || v.isEmpty ? 'Obbligatorio' : null,
                       ),
                     ),
                     SizedBox(width: 10.w),
                     Expanded(
                       child: CustomTextField(
-                        labelText: 'Cognome *',
+                        labelText: 'auth.signup.last_name_label'.tr,
                         controller: _lastNameController,
-                        hintText: 'Smith',
+                        hintText: 'auth.signup.last_name_hint'.tr,
                         validator: (v) => v == null || v.isEmpty ? 'Obbligatorio' : null,
                       ),
                     ),
@@ -111,10 +111,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Email ──────────────────────────
                 CustomTextField(
-                  labelText: 'Indirizzo Email *',
+                  labelText: 'auth.signup.email_label'.tr,
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  hintText: 'you@example.com',
+                  hintText: 'auth.signup.email_hint'.tr,
                   prefixIcon: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 14.w),
                     child: Icon(
@@ -124,9 +124,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   validator: (v) {
-                    if (v == null || v.isEmpty) return 'Inserisci un\'email valida';
+                    if (v == null || v.isEmpty) return 'auth.login.email_error'.tr;
                     final emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
-                    if (!emailRegex.hasMatch(v)) return 'Inserisci un\'email valida';
+                    if (!emailRegex.hasMatch(v)) return 'auth.login.email_error'.tr;
                     return null;
                   },
                 ),
@@ -135,7 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Phone with flag (inline) ───────
                 PhoneTextField(
-                  labelText: 'Numero di telefono (opzionale)',
+                  labelText: 'auth.signup.phone_label'.tr,
                   controller: _phoneController,
                 ),
 
@@ -143,17 +143,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Password ───────────────────────
                 CustomTextField(
-                  labelText: 'Password *',
+                  labelText: 'auth.signup.password_label'.tr,
                   controller: _passwordController,
                   isPassword: true,
-                  hintText: '••••••••••',
+                  hintText: 'auth.signup.password_hint'.tr,
                   validator: (v) {
-                    if (v == null || v.isEmpty) return 'Minimo 8 caratteri';
-                    if (v.length < 8) return 'Minimo 8 caratteri';
-                    if (!RegExp(r'[a-z]').hasMatch(v)) return 'Deve contenere almeno una lettera minuscola';
-                    if (!RegExp(r'[A-Z]').hasMatch(v)) return 'Deve contenere almeno una lettera maiuscola';
-                    if (!RegExp(r'\d').hasMatch(v)) return 'Deve contenere almeno un numero';
-                    if (!RegExp(r'[!@#$%^&*()_+\-=\[\]{};:"|,.<>/?\\]').hasMatch(v)) return 'Deve contenere almeno un carattere speciale';
+                    if (v == null || v.isEmpty) return 'auth.login.password_error'.tr;
+                    if (v.length < 8) return 'auth.login.password_error'.tr;
+                    if (!RegExp(r'[a-z]').hasMatch(v)) return 'auth.signup.password_lowercase'.tr;
+                    if (!RegExp(r'[A-Z]').hasMatch(v)) return 'auth.signup.password_uppercase'.tr;
+                    if (!RegExp(r'\d').hasMatch(v)) return 'auth.signup.password_number'.tr;
+                    if (!RegExp(r'[!@#$%^&*()_+\-=\[\]{};:"|,.<>/?\\]').hasMatch(v)) return 'auth.signup.password_special'.tr;
                     return null;
                   },
                 ),
@@ -162,12 +162,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Confirm Password ───────────────
                 CustomTextField(
-                  labelText: 'Conferma Password *',
+                  labelText: 'auth.signup.confirm_password_label'.tr,
                   controller: _confirmPasswordController,
                   isPassword: true,
-                  hintText: '••••••••••',
+                  hintText: 'auth.signup.confirm_password_hint'.tr,
                   validator: (v) =>
-                      v != _passwordController.text ? 'Le password non corrispondono' : null,
+                      v != _passwordController.text ? 'auth.signup.password_mismatch'.tr : null,
                 ),
 
                 SizedBox(height: 16.h),
@@ -209,10 +209,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             height: 1.5,
                           ),
                           children: [
-                            const TextSpan(
-                                text: 'Accetto i Termini di Servizio e '),
                             TextSpan(
-                              text: "l'Informativa sulla Privacy",
+                                text: 'auth.signup.terms_label'.tr),
+                            TextSpan(
+                              text: 'auth.signup.privacy_label'.tr,
                               style: TextStyle(
                                 color: AppColors.primaryColor,
                                 fontWeight: FontWeight.w500,
@@ -231,12 +231,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Register Button ────────────────
                 PrimaryButton(
-                  title: 'Registrati',
+                  title: 'auth.signup.button'.tr,
                   onPress: () async {
                     if (!_agreeToTerms) {
                       Get.snackbar(
-                        'Attenzione',
-                        'Devi accettare i Termini di Servizio e l\'Informativa sulla Privacy per procedere.',
+                        'auth.validation.warning'.tr,
+                        'auth.signup.terms_required'.tr,
                         snackPosition: SnackPosition.BOTTOM,
                       );
                       return;
@@ -260,14 +260,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           'type': 'email_verification'
                         });
                       } catch (e) {
-                        String errorMessage = 'Registrazione fallita. Riprova.';
+                        String errorMessage = 'auth.signup.registration_failed_default'.tr;
                         final rawError = auth.error.value;
                         if (rawError.contains('Email already registered')) {
-                          errorMessage = 'Email già registrata';
+                          errorMessage = 'auth.signup.error.email_exists'.tr;
                         } else if (rawError.contains('Password must contain')) {
-                          errorMessage = 'La password non soddisfa i requisiti di sicurezza';
+                          errorMessage = 'auth.signup.password_requirements_unmet'.tr;
                         }
-                        Get.snackbar('Errore', errorMessage);
+                        Get.snackbar('auth.validation.error'.tr, errorMessage);
                       }
                     }
                   },
@@ -282,7 +282,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: Text(
-                        'Oppure accedi con',
+                        'auth.login.divider'.tr,
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: AppColors.textSecondary,
@@ -297,7 +297,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Facebook ───────────────────────
                 SocialButton(
-                  label: 'Accedi con Facebook',
+                  label: 'auth.login.facebook'.tr,
                   logo: _facebookLogo(),
                   onPress: () => _handleSocialLogin(SocialProvider.facebook),
                 ),
@@ -306,7 +306,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Apple ──────────────────────────
                 SocialButton(
-                  label: 'Accedi con Apple',
+                  label: 'auth.login.apple'.tr,
                   logo: _appleLogo(),
                   onPress: () => _handleSocialLogin(SocialProvider.apple),
                 ),
@@ -315,7 +315,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Google ─────────────────────────
                 SocialButton(
-                  label: 'Accedi con Google',
+                  label: 'auth.login.google'.tr,
                   logo: _googleLogo(),
                   onPress: () => _handleSocialLogin(SocialProvider.google),
                 ),
@@ -331,11 +331,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         color: AppColors.textSecondary,
                       ),
                       children: [
-                        const TextSpan(
-                          text: 'Hai già un account? ',
+                        TextSpan(
+                          text: 'auth.signup.have_account'.tr,
                         ),
                         TextSpan(
-                          text: 'Accedi',
+                          text: 'auth.signup.login'.tr,
                           style: TextStyle(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.w500,
@@ -367,14 +367,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
       await auth.socialLogin(provider);
       Get.offAllNamed(AppRoutes.navbarScreen);
     } catch (e) {
-      String errorMessage = 'Accesso social fallito. Riprova.';
+      String errorMessage = 'auth.login.error.social_failed'.tr;
       final rawError = auth.error.value;
       if (rawError.contains('suspended')) {
-        errorMessage = 'Il tuo account è stato sospeso. Contatta l\'assistenza.';
+        errorMessage = 'auth.login.error.suspended'.tr;
       } else if (rawError.contains('annullato')) {
         errorMessage = rawError;
       }
-      Get.snackbar('Errore', errorMessage);
+      Get.snackbar('auth.validation.error'.tr, errorMessage);
     }
   }
 
