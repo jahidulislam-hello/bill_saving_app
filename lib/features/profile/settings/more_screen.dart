@@ -3,6 +3,7 @@ import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/features/auth/controller/auth_controller.dart';
+import 'package:vyzi/core/controllers/language_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyzi/features/support/support_screen.dart';
@@ -21,7 +22,7 @@ class MoreScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const CustomAppBar(title: "Impostazioni", showBackButton: true),
+            CustomAppBar(title: 'profile.settings.title'.tr, showBackButton: true),
             const SizedBox(height: 32),
 
             // Settings List wrapped in a single card
@@ -43,7 +44,7 @@ class MoreScreen extends StatelessWidget {
                         width: 24,
                         height: 24,
                       ),
-                      title: "Informativa sulla Privacy",
+                      title: 'profile.settings.privacy'.tr,
                       trailingIcon: Image.asset(
                         AppAssets.arrowRight,
                         width: 24,
@@ -60,7 +61,7 @@ class MoreScreen extends StatelessWidget {
                         width: 24,
                         height: 24,
                       ),
-                      title: "Termini e Condizioni",
+                      title: 'profile.settings.terms'.tr,
                       onTap: () {
                         Get.to(() => TermsCondition());
                       },
@@ -72,7 +73,7 @@ class MoreScreen extends StatelessWidget {
                         width: 24,
                         height: 24,
                       ),
-                      title: "Su Easy Saving",
+                      title: 'profile.settings.about'.tr,
                       trailingIcon: Image.asset(
                         AppAssets.arrowRight,
                         width: 24,
@@ -89,7 +90,7 @@ class MoreScreen extends StatelessWidget {
                         width: 24,
                         height: 24,
                       ),
-                      title: "Faq",
+                      title: 'profile.settings.faq'.tr,
                       trailingIcon: Image.asset(
                         AppAssets.arrowRight,
                         width: 24,
@@ -100,13 +101,33 @@ class MoreScreen extends StatelessWidget {
                       },
                     ),
                     const SizedBox(height: 12),
+                    // Language Selector
+                    Obx(() {
+                      final langController = Get.find<LanguageController>();
+                      final isItalian = langController.currentLanguageCode == 'it';
+                      return SettingTile(
+                        iconWidget: const Icon(Icons.language, size: 24, color: Colors.black54),
+                        title: 'profile.settings.language'.tr,
+                        trailingIcon: Text(
+                          isItalian ? 'IT' : 'EN',
+                          style: AppStyles.body2.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        onTap: () {
+                          _showLanguageSelector(context);
+                        },
+                      );
+                    }),
+                    const SizedBox(height: 12),
                     SettingTile(
                       iconWidget: Image.asset(
                         AppAssets.close,
                         width: 24,
                         height: 24,
                       ),
-                      title: "Elimina Account",
+                      title: 'profile.settings.delete_account'.tr,
                       trailingIcon: Image.asset(
                         AppAssets.arrowRight,
                         width: 24,
@@ -116,14 +137,14 @@ class MoreScreen extends StatelessWidget {
                         showDialog(
                           context: context,
                           builder: (ctx) => AlertDialog(
-                            title: const Text('Elimina Account'),
-                            content: const Text(
-                              'Sei sicuro di voler eliminare il tuo account? Questa azione è irreversibile.',
+                            title: Text('profile.settings.delete_confirm_title'.tr),
+                            content: Text(
+                              'profile.settings.delete_confirm_msg'.tr,
                             ),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.of(ctx).pop(),
-                                child: const Text('Annulla'),
+                                child: Text('profile.settings.delete_confirm_cancel'.tr),
                               ),
                               TextButton(
                                 onPressed: () {
@@ -131,9 +152,9 @@ class MoreScreen extends StatelessWidget {
                                   final auth = Get.put(AuthController());
                                   auth.logout();
                                 },
-                                child: const Text(
-                                  'Elimina',
-                                  style: TextStyle(color: Colors.red),
+                                child: Text(
+                                  'profile.settings.delete_confirm_delete'.tr,
+                                  style: const TextStyle(color: Colors.red),
                                 ),
                               ),
                             ],
@@ -147,6 +168,114 @@ class MoreScreen extends StatelessWidget {
             ),
 
             const Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showLanguageSelector(BuildContext context) {
+    final langController = Get.find<LanguageController>();
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'profile.settings.language'.tr,
+              style: AppStyles.body2.copyWith(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Obx(() {
+              final currentLang = langController.currentLanguageCode;
+              return Column(
+                children: [
+                  _LanguageOption(
+                    label: 'profile.settings.language_italian'.tr,
+                    code: 'it',
+                    isSelected: currentLang == 'it',
+                    onTap: () {
+                      langController.changeLanguage('it');
+                      Navigator.of(ctx).pop();
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  _LanguageOption(
+                    label: 'profile.settings.language_english'.tr,
+                    code: 'en',
+                    isSelected: currentLang == 'en',
+                    onTap: () {
+                      langController.changeLanguage('en');
+                      Navigator.of(ctx).pop();
+                    },
+                  ),
+                ],
+              );
+            }),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LanguageOption extends StatelessWidget {
+  final String label;
+  final String code;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _LanguageOption({
+    required this.label,
+    required this.code,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.primaryColor.withOpacity(0.1) : const Color(0xFFEFEFEF),
+          borderRadius: BorderRadius.circular(10),
+          border: isSelected
+              ? Border.all(color: AppColors.primaryColor, width: 1.5)
+              : null,
+        ),
+        child: Row(
+          children: [
+            Text(
+              code.toUpperCase(),
+              style: AppStyles.body2.copyWith(
+                fontWeight: FontWeight.w800,
+                color: isSelected ? AppColors.primaryColor : Colors.black54,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                label,
+                style: AppStyles.body2.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: isSelected ? AppColors.primaryColor : Colors.black,
+                ),
+              ),
+            ),
+            if (isSelected)
+              Icon(Icons.check_circle, color: AppColors.primaryColor, size: 22),
           ],
         ),
       ),

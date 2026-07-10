@@ -9,6 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'core/utils/app_colors.dart';
+import 'core/localization/app_translations.dart';
+import 'core/controllers/language_controller.dart';
 
 
 
@@ -25,6 +27,9 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           title: 'VYZI',
           debugShowCheckedModeBanner: false,
+          translations: AppTranslations(),
+          locale: Get.find<LanguageController>().currentLocale.value,
+          fallbackLocale: const Locale('it', 'IT'),
           theme: ThemeData(
             primaryColor: AppColors.primaryColor,
             colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),

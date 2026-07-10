@@ -41,6 +41,9 @@ class ApiService {
                 )) {
               options.headers['Authorization'] = 'Bearer $token';
             }
+            // Inject Accept-Language header for i18n
+            final lang = storage.getString(StorageKeys.selectedLanguage) ?? 'it';
+            options.headers['Accept-Language'] = lang;
           }
           return handler.next(options);
         },

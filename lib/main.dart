@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'core/services/cache_service.dart';
 import 'core/services/storage_service.dart';
 import 'core/di/dependency_injection.dart';
+import 'core/controllers/language_controller.dart';
 import 'app.dart';
 
 void main() async {
@@ -21,6 +22,9 @@ void main() async {
   final storageService = StorageService();
   await storageService.init();
   Get.put<StorageService>(storageService, permanent: true);
+
+  // Initialize language controller (must be after StorageService)
+  Get.put(LanguageController(), permanent: true);
 
   // Pre-cache Open Sans font - downloads once and caches for offline use
   GoogleFonts.config.allowRuntimeFetching = true;
