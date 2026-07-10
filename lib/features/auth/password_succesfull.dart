@@ -44,9 +44,9 @@ class PasswordUpdateSuccessScreen extends StatelessWidget {
 
                 SizedBox(height: 24.h),
 
-                /// ✅ Static Message
-                const Text(
-                  "Tutto pronto !",
+                /// Static Message
+                Text(
+                  'auth.success.title'.tr,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
@@ -54,8 +54,8 @@ class PasswordUpdateSuccessScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8.h),
-                const Text(
-                  "Password aggiornata \ncon successo",
+                Text(
+                  'auth.success.message'.tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -65,9 +65,9 @@ class PasswordUpdateSuccessScreen extends StatelessWidget {
 
                 SizedBox(height: 32.h),
 
-                /// ✅ Button
+                /// Button
                 PrimaryButton(
-                  title: "Torna al login",
+                  title: 'auth.success.button'.tr,
                   onPress: controller.goToLogin,
                 ),
               ],

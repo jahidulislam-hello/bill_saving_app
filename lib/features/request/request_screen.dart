@@ -63,8 +63,8 @@ class _RequestScreenState extends State<RequestScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const CustomAppBar(
-        title: 'Request',
+      appBar: CustomAppBar(
+        title: 'request.title'.tr,
         showBackButton: false,
       ),
       body: Column(
@@ -90,8 +90,8 @@ class _RequestScreenState extends State<RequestScreen>
       color: Colors.white,
       child: Row(
         children: [
-          _tabItem('Your Offers', 0),
-          _tabItem('My Requests', 1),
+          _tabItem('request.tab.your_offers'.tr, 0),
+          _tabItem('request.tab.my_requests'.tr, 1),
         ],
       ),
     );
@@ -451,7 +451,7 @@ class _RequestScreenState extends State<RequestScreen>
           Padding(
             padding: EdgeInsets.fromLTRB(14.w, 0, 14.w, 14.h),
             child: PrimaryButton(
-              title: 'Vai ai Dettagli e procedi',
+              title: 'request.go_to_details'.tr,
               height: 46.h,
               onPress: () {
                 Get.to(() => OfferDetailsScreen(offerId: offer.id));
@@ -587,7 +587,7 @@ class _RequestScreenState extends State<RequestScreen>
             ),
             SizedBox(height: 32.h),
             PrimaryButton(
-              title: 'Upload Bill',
+              title: 'my_utility.upload_button'.tr,
               prefixWidget: Icon(
                 Icons.upload_file_rounded,
                 color: Colors.white,

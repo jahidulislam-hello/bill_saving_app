@@ -17,8 +17,8 @@ class BillsListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const CustomAppBar(
-        title: 'Le Mie Bollette',
+      appBar: CustomAppBar(
+        title: 'bills.title'.tr,
         showBackButton: false,
       ),
       body: Column(

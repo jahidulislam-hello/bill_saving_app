@@ -56,7 +56,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       if (file != null && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('File selezionato: ${file.name}'),
+            content: Text('${'utility.file_selected'.tr}: ${file.name}'),
             backgroundColor: const Color(0xFF5A1ABE),
           ),
         );
@@ -554,7 +554,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Scansionato: $value'),
+                      content: Text('${'utility.scanned'.tr}: $value'),
                       backgroundColor: const Color(0xFF5A1ABE),
                     ),
                   );

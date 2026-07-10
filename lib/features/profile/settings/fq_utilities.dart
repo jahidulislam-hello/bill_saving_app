@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:vyzi/core/appbar/custom_appbar.dart';
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
@@ -48,8 +49,8 @@ class _FaqScreenState extends State<FaqUtiliesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const CustomAppBar(
-        title: 'FAQ (How to get started)',
+      appBar: CustomAppBar(
+        title: 'profile.settings.faq'.tr,
       ),
       body: SafeArea(
         child: Column(

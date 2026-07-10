@@ -123,7 +123,7 @@ class WarmupOnboarding extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
                     child: controller.currentIndex.value == 2
                         ? PrimaryButton(
-                      title: "Avanti",
+                      title: 'onboarding.next'.tr,
                       onPress: () {
                         Get.offNamed(AppRoutes.onboardScreen);
                       },
@@ -137,7 +137,7 @@ class WarmupOnboarding extends StatelessWidget {
                             Get.offNamed(AppRoutes.onboardScreen);
                           },
                           child: Text(
-                            "Skip",
+                            'onboarding.skip'.tr,
                             style: AppStyles.body1.copyWith(
                               color: Colors.black,
                               fontWeight: FontWeight.w600,

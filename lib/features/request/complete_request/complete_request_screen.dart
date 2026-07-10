@@ -1344,7 +1344,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           _invoiceOption(
             method: InvoiceMethod.digital,
             title: 'request.invoice.digital_title'.tr,
-            subtitle: 'Ricevi la fattura via email',
+            subtitle: 'request.invoice.digital_subtitle'.tr,
           ),
           SizedBox(height: 8.h),
           _invoiceOption(
