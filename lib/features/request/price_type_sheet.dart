@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 
 class PriceTypeSheet extends StatelessWidget {
   const PriceTypeSheet({super.key});
@@ -84,7 +84,7 @@ class PriceTypeSheet extends StatelessWidget {
                             letterSpacing: 0.3,
                           ),
                         ),
-                        child: const Text('Got It'),
+                        child: Text('common.got_it'.tr),
                       ),
                     ),
                   ],

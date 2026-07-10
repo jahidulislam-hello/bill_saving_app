@@ -283,15 +283,15 @@ class RequestDetailsScreen extends StatelessWidget {
           _timelineStep(
             assetIcon: 'assets/images/thik.png',
             connectorColor: _green,
-            title: 'Inviata',
-            subtitle: 'Richiesta ricevuta con successo',
+            title: 'request.status.sent'.tr,
+            subtitle: 'request.status.sent_desc'.tr,
             isActive: true,
             isLast: false,
           ),
           _timelineStep(
             assetIcon: 'assets/images/reverse.png',
             connectorColor: _grey,
-            title: 'Analisi in corso',
+            title: 'request.status.analyzing'.tr,
             subtitle: 'I nostri esperti stanno verificando i dati',
             isActive: true,
             isLast: false,
@@ -300,7 +300,7 @@ class RequestDetailsScreen extends StatelessWidget {
           _timelineStep(
             assetIcon: 'assets/images/cont.png',
             connectorColor: Colors.transparent,
-            title: 'Contratto',
+            title: 'request.status.contract'.tr,
             subtitle: 'Conferma finale del passaggio',
             isActive: false,
             isLast: true,

@@ -1,71 +1,12 @@
+import 'package:vyzi/core/constants/api_constants.dart';
+import 'package:vyzi/core/services/api_service.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/request/complete_request/complete_request_screen.dart';
+import 'package:vyzi/features/request/models/api_offer_model.dart';
 import 'package:vyzi/features/request/price_calculation_dialog.dart';
 import 'package:vyzi/features/request/price_type_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-
-class OfferDetailsController extends ChangeNotifier {
-  // Offer data
-  final String supplierName = 'EnergyPlus';
-  final String planName = 'Piano Residenziale Standard';
-  final String badge = 'Miglior Valore';
-  final String savingsAmount = '€306';
-  final String savingsLabel = 'Risparmio Annuale';
-
-  // Detail rows
-  final List<OfferDetailRow> detailRows = [
-    OfferDetailRow(
-      label: 'Vincolo contrattuale',
-      value: 'Nessun vincolo',
-      linkText: null,
-    ),
-    OfferDetailRow(
-      label: 'Tipo di prezzo',
-      value: 'Prezzo indicizzato',
-      linkText: "Cosa significa?",
-      linkColor: AppColors.linkBlue,
-    ),
-    OfferDetailRow(
-      label: 'Prezzo energia',
-      value: 'PUN GME + 0.01 €/kWh',
-      linkText: 'Come viene calcolato?',
-      linkColor: AppColors.linkGreen,
-    ),
-    OfferDetailRow(
-      label: 'Costi fissi materia energia',
-      value: '14 €/mese',
-      linkText: null,
-    ),
-    OfferDetailRow(
-      label: 'Metodo di pagamento',
-      value: 'Addebito diretto su conto corrente',
-      linkText: null,
-    ),
-    OfferDetailRow(
-      label: 'Durata del contratto',
-      value: 'Durata indeterminata',
-      linkText: null,
-    ),
-  ];
-
-  // FAQ state
-  final Set<int> expandedFAQ = {};
-
-  void toggleFAQ(int index) {
-    if (expandedFAQ.contains(index)) {
-      expandedFAQ.remove(index);
-    } else {
-      expandedFAQ.add(index);
-    }
-    notifyListeners();
-  }
-
-  void selectOffer() {
-    Get.to(() => const CompleteRequestScreen());
-  }
-}
 
 class OfferDetailRow {
   final String label;
@@ -85,25 +26,78 @@ class OfferDetailRow {
 // SCREEN 1 – OFFER DETAILS
 // ─────────────────────────────────────────────
 class OfferDetailsScreen extends StatefulWidget {
-  const OfferDetailsScreen({super.key});
+  final String offerId;
+
+  const OfferDetailsScreen({super.key, required this.offerId});
 
   @override
   State<OfferDetailsScreen> createState() => _OfferDetailsScreenState();
 }
 
 class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
-  final _ctrl = OfferDetailsController();
+  final ApiService _api = ApiService();
+
+  bool _isLoading = true;
+  String _error = '';
+  ApiOfferModel? _offer;
 
   @override
   void initState() {
     super.initState();
-    _ctrl.addListener(() => setState(() {}));
+    _fetchOfferDetails();
   }
 
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
+  Future<void> _fetchOfferDetails() async {
+    setState(() {
+      _isLoading = true;
+      _error = '';
+    });
+
+    try {
+      final url = ApiConstants.getOfferDetails
+          .replaceAll('{{offerId}}', widget.offerId);
+      final response = await _api.get(url);
+      final body = response.data as Map<String, dynamic>;
+
+      if (body['success'] == true) {
+        _offer = ApiOfferModel.fromJson(body['data'] as Map<String, dynamic>);
+      } else {
+        _error = body['message']?.toString() ?? 'Failed to load offer';
+      }
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  List<OfferDetailRow> _buildDetailRows(ApiOfferModel offer) {
+    return [
+      OfferDetailRow(
+        label: 'offer.contract_term'.tr,
+        value: offer.bindingDisplay,
+      ),
+      OfferDetailRow(
+        label: 'offer.price_type'.tr,
+        value: offer.marketTypeDisplay,
+        linkText: 'Cosa significa?',
+        linkColor: AppColors.linkBlue,
+      ),
+      OfferDetailRow(
+        label: 'offer.energy_price'.tr,
+        value: offer.energyPriceDisplay,
+        linkText: 'Come viene calcolato?',
+        linkColor: AppColors.linkGreen,
+      ),
+      OfferDetailRow(
+        label: 'offer.fixed_costs'.tr,
+        value: '${offer.fixedMonthlyFee.toStringAsFixed(0)} €/mese',
+      ),
+      OfferDetailRow(
+        label: 'offer.contract_duration'.tr,
+        value: offer.contractDurationDisplay,
+      ),
+    ];
   }
 
   @override
@@ -111,33 +105,56 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(context),
-      body: Stack(
-        children: [
-          // Scrollable content
-          ListView(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
-            children: [
-              _supplierCard(),
-              const SizedBox(height: 14),
-              _savingsCard(),
-              const SizedBox(height: 6),
-              ..._ctrl.detailRows.map((row) => _detailRow(row)),
-              const SizedBox(height: 10),
-              _economicConditionsCard(),
-              const SizedBox(height: 10),
-              _easyBanner(),
-              const SizedBox(height: 16),
-            ],
-          ),
-          // Fixed bottom button
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: _bottomButton(),
-          ),
-        ],
-      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _error.isNotEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(_error,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: AppColors.textPrimary)),
+                      const SizedBox(height: 12),
+                      TextButton(
+                        onPressed: _fetchOfferDetails,
+                        child: Text('common.retry'.tr),
+                      ),
+                    ],
+                  ),
+                )
+              : _buildContent(),
+    );
+  }
+
+  Widget _buildContent() {
+    final offer = _offer!;
+    final detailRows = _buildDetailRows(offer);
+
+    return Stack(
+      children: [
+        ListView(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
+          children: [
+            _supplierCard(offer),
+            const SizedBox(height: 14),
+            _savingsCard(offer),
+            const SizedBox(height: 6),
+            ...detailRows.map((row) => _detailRow(row)),
+            const SizedBox(height: 10),
+            _economicConditionsCard(offer),
+            const SizedBox(height: 10),
+            _easyBanner(),
+            const SizedBox(height: 16),
+          ],
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: _bottomButton(),
+        ),
+      ],
     );
   }
 
@@ -172,7 +189,6 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
             margin: const EdgeInsets.only(right: 16),
             width: 24,
             height: 24,
-
             child: const Icon(Icons.info_outline, color: AppColors.textDark, size: 18),
           ),
         ),
@@ -180,8 +196,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     );
   }
 
-  // ── Supplier Card ──
-  Widget _supplierCard() {
+  Widget _supplierCard(ApiOfferModel offer) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -199,58 +214,80 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Container(
-              width: 48,
-              height: 48,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF1A0A4C), Color(0xFF3A1F8C)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: const Icon(Icons.bolt, color: Colors.white, size: 24),
-            ),
+            child: _buildLogo(offer.supplier?.logoUrl),
           ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(_ctrl.supplierName,
+                Text(offer.supplier?.name ?? offer.name,
                     style: const TextStyle(
                         color: AppColors.textDark,
                         fontSize: 15,
                         fontWeight: FontWeight.w900)),
                 const SizedBox(height: 3),
-                Text(_ctrl.planName,
-                    style:
-                    const TextStyle(color: AppColors.textMid, fontSize: 12, fontWeight: FontWeight.w700)),
+                Text(offer.name,
+                    style: const TextStyle(
+                        color: AppColors.textMid,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700)),
               ],
             ),
           ),
-          Container(
-            padding:
-            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-              color: AppColors.green,
-              borderRadius: BorderRadius.circular(20),
+          if (offer.isGreenEnergy)
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: AppColors.green,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Text(
+                'Miglior Valore',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w900),
+              ),
             ),
-            child: Text(
-              _ctrl.badge,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w900),
-            ),
-          ),
         ],
       ),
     );
   }
 
-  // ── Savings Hero Card ──
-  Widget _savingsCard() {
+  Widget _buildLogo(String? logoUrl) {
+    if (logoUrl != null && logoUrl.isNotEmpty) {
+      return Image.network(
+        logoUrl,
+        width: 48,
+        height: 48,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _defaultLogo(),
+      );
+    }
+    return _defaultLogo();
+  }
+
+  Widget _defaultLogo() {
+    return Container(
+      width: 48,
+      height: 48,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF1A0A4C), Color(0xFF3A1F8C)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: const Icon(Icons.bolt, color: Colors.white, size: 24),
+    );
+  }
+
+  Widget _savingsCard(ApiOfferModel offer) {
+    final monthlyCost = offer.fixedMonthlyFee;
+    final annualCost = (monthlyCost * 12).toStringAsFixed(0);
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
@@ -275,7 +312,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
           ),
           const SizedBox(height: 10),
           Text(
-            _ctrl.savingsAmount,
+            '€$annualCost',
             style: const TextStyle(
               color: Colors.white,
               fontSize: 56,
@@ -285,9 +322,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
             ),
           ),
           const SizedBox(height: 6),
-          Text(
-            _ctrl.savingsLabel,
-            style: const TextStyle(
+          const Text(
+            'Risparmio Annuale',
+            style: TextStyle(
               color: AppColors.green,
               fontSize: 16,
               fontWeight: FontWeight.w900,
@@ -312,7 +349,6 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     }
   }
 
-  // ── Detail Row ──
   Widget _detailRow(OfferDetailRow row) {
     return Column(
       children: [
@@ -321,7 +357,6 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Label
               Expanded(
                 flex: 4,
                 child: Row(
@@ -343,7 +378,6 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                 ),
               ),
               const SizedBox(width: 16),
-              // Value
               Expanded(
                 flex: 5,
                 child: Column(
@@ -385,44 +419,50 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     );
   }
 
-  // ── Economic Conditions Card ──
-  Widget _economicConditionsCard() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      decoration: BoxDecoration(
-        color: AppColors.cardBg,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Color(0xFFB396E1), width: 1.2),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              color: const Color(0xFFF0EEFB),
-              borderRadius: BorderRadius.circular(10),
+  Widget _economicConditionsCard(ApiOfferModel offer) {
+    return GestureDetector(
+      onTap: () {
+        if (offer.termsUrl != null && offer.termsUrl!.isNotEmpty) {
+          // Could open URL in browser
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        decoration: BoxDecoration(
+          color: AppColors.cardBg,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFFB396E1), width: 1.2),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF0EEFB),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(Icons.description_outlined,
+                  color: AppColors.purple, size: 20),
             ),
-            child: const Icon(Icons.description_outlined,
-                color: AppColors.purple, size: 20),
-          ),
-          const SizedBox(width: 12),
-          const Expanded(
-            child: Text(
-              'Condizioni economiche',
-              style: TextStyle(
-                  color: AppColors.textDark,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800),
+            const SizedBox(width: 12),
+            const Expanded(
+              child: Text(
+                'Condizioni economiche',
+                style: TextStyle(
+                    color: AppColors.textDark,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800),
+              ),
             ),
-          ),
-          const Icon(Icons.chevron_right, color: AppColors.textLight, size: 22),
-        ],
+            const Icon(Icons.chevron_right,
+                color: AppColors.textLight, size: 22),
+          ],
+        ),
       ),
     );
   }
 
-  // ── Easy Saving Banner ──
   Widget _easyBanner() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -431,9 +471,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.divider, width: 1.2),
       ),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Icon(Icons.star_outline, color: AppColors.textMid, size: 17),
           SizedBox(width: 8),
           Text(
@@ -448,7 +488,6 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     );
   }
 
-  // ── Fixed Bottom Button ──
   Widget _bottomButton() {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 28),
@@ -465,7 +504,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         width: double.infinity,
         height: 52,
         child: ElevatedButton(
-          onPressed: _ctrl.selectOffer,
+          onPressed: () {
+            Get.to(() => const CompleteRequestScreen());
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.purple,
             foregroundColor: Colors.white,
@@ -566,16 +607,13 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
     );
   }
 
-  // ── What's Included ──
   Widget _whatsIncludedCard() {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFFE5E7EB),
-        ),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -587,16 +625,12 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Cosa è Incluso",
-            style: TextStyle(
-              color: AppColors.textDark,
-              fontSize: 16,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
+          Text('offer.whats_included'.tr,
+              style: TextStyle(
+                  color: AppColors.textDark,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w900)),
           const SizedBox(height: 16),
-
           ..._features.map((f) => _featureItem(f.$1, f.$2)),
         ],
       ),
@@ -644,7 +678,6 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
     );
   }
 
-  // ── About EnergyPlus ──
   Widget _aboutCard() {
     return Container(
       width: double.infinity,
@@ -652,9 +685,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFFE5E7EB),
-        ),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -663,61 +694,47 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
           ),
         ],
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Su EnergyPlus',
-            style: TextStyle(
-              color: AppColors.textDark,
-              fontSize: 16,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-
-          const SizedBox(height: 12),
-
-          const Text(
+          Text('Su EnergyPlus',
+              style: TextStyle(
+                  color: AppColors.textDark,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w900)),
+          SizedBox(height: 12),
+          Text(
             'EnergyPlus è un fornitore di energia affidabile impegnato a fornire un servizio eccellente e tariffe competitive. Si specializzano in soluzioni di energia rinnovabile e hanno una comprovata esperienza di soddisfazione del cliente.',
             style: TextStyle(
-              color: AppColors.textMid,
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              height: 1.65,
-            ),
+                color: AppColors.textMid,
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                height: 1.65),
           ),
         ],
       ),
     );
   }
 
-  // ── FAQ Section ──
   Widget _faqSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Domande Frequenti',
-          style: TextStyle(
-            color: AppColors.textDark,
-            fontSize: 16,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
+        Text('offer.faq_title'.tr,
+            style: TextStyle(
+                color: AppColors.textDark,
+                fontSize: 16,
+                fontWeight: FontWeight.w900)),
         const SizedBox(height: 12),
-
         ...List.generate(_faqs.length, (i) {
           final isExpanded = _expandedFAQ.contains(i);
-
           return Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: const Color(0xFFE5E7EB),
-                ),
+                border: Border.all(color: const Color(0xFFE5E7EB)),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.05),
@@ -741,53 +758,35 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 16,
-                      ),
+                          horizontal: 16, vertical: 16),
                       child: Row(
                         children: [
                           Expanded(
-                            child: Text(
-                              _faqs[i].$1,
-                              style: const TextStyle(
-                                color: AppColors.textDark,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
+                            child: Text(_faqs[i].$1,
+                                style: const TextStyle(
+                                    color: AppColors.textDark,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700)),
                           ),
-
                           AnimatedRotation(
                             turns: isExpanded ? 0.5 : 0,
                             duration: const Duration(milliseconds: 200),
-                            child: const Icon(
-                              Icons.keyboard_arrow_down,
-                              size: 24,
-                              color: Colors.black54,
-                            ),
+                            child: const Icon(Icons.keyboard_arrow_down,
+                                size: 24, color: Colors.black54),
                           ),
                         ],
                       ),
                     ),
                   ),
-
                   if (isExpanded)
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                        16,
-                        0,
-                        16,
-                        16,
-                      ),
-                      child: Text(
-                        _faqs[i].$2,
-                        style: const TextStyle(
-                          color: AppColors.textMid,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          height: 1.6,
-                        ),
-                      ),
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      child: Text(_faqs[i].$2,
+                          style: const TextStyle(
+                              color: AppColors.textMid,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              height: 1.6)),
                     ),
                 ],
               ),

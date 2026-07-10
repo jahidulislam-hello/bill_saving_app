@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vyzi/features/profile/settings/faq_question.dart';
 import 'package:vyzi/features/profile/settings/fq.dart';
 import 'package:vyzi/features/profile/settings/fq_bill.dart';
@@ -36,32 +37,32 @@ class SupportoScreen extends StatelessWidget {
       icon: Icons.play_circle_filled,
       iconColor: _T.purple,
       iconBg: _T.purpleBg,
-      title: 'Come iniziare',
-      subtitle: 'Scopri come utilizzare l\'app passo dopo passo',
+      titleKey: 'support.getting_started',
+      subtitleKey: 'support.getting_started_desc',
       screen: const FaqScreen(),
     ),
     _SupportItem(
       icon: Icons.settings,
       iconColor: _T.orange,
       iconBg: _T.orangeBg,
-      title: 'Utilità di Configurazione',
-      subtitle: 'Gestisci l\'app e configura le tue utilità',
+      titleKey: 'support.utilities_setup',
+      subtitleKey: 'support.utilities_setup_desc',
       screen: const FaqUtiliesScreen(),
     ),
     _SupportItem(
       icon: Icons.receipt_long,
       iconColor: _T.orange,
       iconBg: _T.orangeBg,
-      title: 'Fatture',
-      subtitle: 'Carica e controlla le tue fatture',
+      titleKey: 'support.bills',
+      subtitleKey: 'support.bills_desc',
       screen: const FaqBillScreen(),
     ),
     _SupportItem(
       icon: Icons.headset_mic_outlined,
       iconColor: _T.teal,
       iconBg: _T.tealBg,
-      title: 'Richiedi assistenza',
-      subtitle: 'Apri un ticket e ricevi aiuto',
+      titleKey: 'support.contact_us',
+      subtitleKey: 'support.contact_us_desc',
       screen: const SupportFormScreen(),
     ),
   ];
@@ -75,9 +76,9 @@ class SupportoScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(18, 4, 18, 24),
         children: [
           const SizedBox(height: 12),
-          const Text(
-            'Ciao, come possiamo aiutarti?',
-            style: TextStyle(
+          Text(
+            'support.greeting'.tr,
+            style: const TextStyle(
               color: _T.textDark,
               fontSize: 22,
               fontWeight: FontWeight.w900,
@@ -85,9 +86,9 @@ class SupportoScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 6),
-          const Text(
-            'Cerca le nostre guide o contatta il supporto tecnico.',
-            style: TextStyle(
+          Text(
+            'support.subtitle'.tr,
+            style: const TextStyle(
               color: _T.textMid,
               fontSize: 13,
               height: 1.5,
@@ -116,9 +117,9 @@ class SupportoScreen extends StatelessWidget {
           icon: const Icon(Icons.chevron_left, color: _T.textDark, size: 28),
         ),
       ),
-      title: const Text(
-        'Supporto',
-        style: TextStyle(
+      title: Text(
+        'support.title'.tr,
+        style: const TextStyle(
             color: _T.textDark, fontSize: 17, fontWeight: FontWeight.w900),
       ),
     );
@@ -155,9 +156,9 @@ class SupportoScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'ARTICOLO IN EVIDENZA',
-                  style: TextStyle(
+                Text(
+                  'support.featured_label'.tr,
+                  style: const TextStyle(
                     color: _T.green,
                     fontSize: 10,
                     fontWeight: FontWeight.w900,
@@ -165,9 +166,9 @@ class SupportoScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                const Text(
-                  '5 consigli per ridurre la tua fattura del 20%',
-                  style: TextStyle(
+                Text(
+                  'support.featured_title'.tr,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
@@ -187,16 +188,16 @@ class _SupportItem {
   final IconData icon;
   final Color iconColor;
   final Color iconBg;
-  final String title;
-  final String subtitle;
+  final String titleKey;
+  final String subtitleKey;
   final Widget screen;
 
   const _SupportItem({
     required this.icon,
     required this.iconColor,
     required this.iconBg,
-    required this.title,
-    required this.subtitle,
+    required this.titleKey,
+    required this.subtitleKey,
     required this.screen,
   });
 }
@@ -234,13 +235,13 @@ class _SupportTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(item.title,
+                  Text(item.titleKey.tr,
                       style: const TextStyle(
                           color: _T.textDark,
                           fontSize: 14,
                           fontWeight: FontWeight.w900)),
                   const SizedBox(height: 3),
-                  Text(item.subtitle,
+                  Text(item.subtitleKey.tr,
                       style: const TextStyle(
                           color: _T.textMid, fontSize: 12, height: 1.4, fontWeight: FontWeight.w700)),
                 ],
@@ -273,14 +274,14 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
   final _dropdownKey = GlobalKey();
   OverlayEntry? _overlayEntry;
 
-  static const _tabs = ['Supporto Tecnico', 'Fatturazione e Pagamenti'];
-  static const _topics = [
-    'Domanda Fatturazione',
-    'Problema Tecnico',
-    'Processo di Passaggio',
-    'Domanda Contatto',
-    'Gestione Account',
-    'Altro',
+  static const _tabKeys = ['support.form.tab.technical', 'support.form.tab.billing'];
+  static const _topicKeys = [
+    'support.form.topic.billing_question',
+    'support.form.topic.technical_issue',
+    'support.form.topic.switching_process',
+    'support.form.topic.contact_question',
+    'support.form.topic.account_management',
+    'support.form.topic.other',
   ];
 
   @override
@@ -325,7 +326,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
               top: offset.dy + size.height + 4,
               width: size.width,
               child: _TopicDropdownMenu(
-                items: _topics,
+                items: _topicKeys,
                 selectedItem: _selectedTopic,
                 onSelect: (val) {
                   setState(() {
@@ -352,9 +353,9 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(18, 16, 18, 30),
         children: [
-          const Text(
-            'Hai bisogno di aiuto? Seleziona un argomento e descrivi la tua richiesta. Il nostro team specializzato risponderà il prima possibile.',
-            style: TextStyle(
+          Text(
+            'support.form.intro'.tr,
+            style: const TextStyle(
               color: _T.textMid,
               fontSize: 13,
               height: 1.55,
@@ -368,8 +369,8 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
           const SizedBox(height: 22),
 
           // ── Topic Dropdown ──
-          const Text('Argomento',
-              style: TextStyle(
+          Text('support.form.topic_label'.tr,
+              style: const TextStyle(
                   color: _T.textDark,
                   fontSize: 13,
                   fontWeight: FontWeight.w900)),
@@ -389,7 +390,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    _selectedTopic ?? 'Richiesta Fatturazione',
+                    _selectedTopic?.tr ?? 'support.default_topic'.tr,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
@@ -409,8 +410,8 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
           const SizedBox(height: 18),
 
           // ── Message ──
-          const Text('Messaggio',
-              style: TextStyle(
+          Text('support.form.message_label'.tr,
+              style: const TextStyle(
                   color: _T.textDark,
                   fontSize: 13,
                   fontWeight: FontWeight.w900)),
@@ -421,7 +422,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
             style: const TextStyle(
                 color: _T.cardBg, fontSize: 14, height: 1.5, fontWeight: FontWeight.w700),
             decoration: InputDecoration(
-              hintText: 'Descrivi il tuo problema o domanda...',
+              hintText: 'support.form.message_hint'.tr,
               hintStyle:
               const TextStyle(color: Colors.black45, fontSize: 13),
               filled: true,
@@ -453,8 +454,8 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
                     borderRadius: BorderRadius.circular(12)),
                 elevation: 0,
               ),
-              child: const Text('Invia Richiesta',
-                  style: TextStyle(
+              child: Text('support.form.submit'.tr,
+                  style: const TextStyle(
                       fontSize: 15, fontWeight: FontWeight.w900)),
             ),
           ),
@@ -465,17 +466,17 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
           const SizedBox(height: 24),
 
           // ── Other Ways to Contact ──
-          const Text('Altri modi per contattarci',
-              style: TextStyle(
+          Text('support.other_contact_methods'.tr,
+              style: const TextStyle(
                   color: _T.textDark,
                   fontSize: 16,
                   fontWeight: FontWeight.w900)),
           const SizedBox(height: 16),
-          _contactRow('Telefono', '1-800-UTILITY', _T.darkBtn),
+          _contactRow('support.contact.phone_label'.tr, '1-800-UTILITY', _T.darkBtn),
           const SizedBox(height: 14),
-          _contactRow('Email', 'support@utility.com', _T.darkBtn),
+          _contactRow('support.contact.email_label'.tr, 'support@utility.com', _T.darkBtn),
           const SizedBox(height: 14),
-          _contactRow('Orari', 'Lun-Ven, 09:00 – 18:00', _T.textDark),
+          _contactRow('support.contact.hours_label'.tr, 'support.contact.hours_value'.tr, _T.textDark),
         ],
       ),
     );
@@ -494,8 +495,8 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
           child: Icon(Icons.arrow_back_rounded, color: _T.textDark, size: 28),
         ),
       ),
-      title: const Text('Supporto',
-          style: TextStyle(
+      title: Text('support.title'.tr,
+          style: const TextStyle(
               color: _T.textDark,
               fontSize: 17,
               fontWeight: FontWeight.w900)),
@@ -512,7 +513,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
         border: Border.all(color: const Color(0xFF9066D3), width: 1.22),
       ),
       child: Row(
-        children: List.generate(_tabs.length, (i) {
+        children: List.generate(_tabKeys.length, (i) {
           final isActive = _selectedTab == i;
           return Expanded(
             child: GestureDetector(
@@ -526,7 +527,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  _tabs[i],
+                  _tabKeys[i].tr,
                   style: TextStyle(
                     color:
                     isActive ? _T.cardBg : Colors.black,
@@ -623,7 +624,7 @@ class _TopicDropdownMenu extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 18, vertical: 15),
                     child: Text(
-                      item,
+                      item.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: isSelected ? _T.purple : Colors.black,

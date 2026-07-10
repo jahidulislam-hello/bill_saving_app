@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
-import 'request_model.dart';
+import 'package:vyzi/core/constants/api_constants.dart';
+import 'package:vyzi/core/services/api_service.dart';
+import 'package:vyzi/features/bills/models/bill_model.dart';
+import 'package:vyzi/features/request/models/api_offer_model.dart';
 
 class RequestController extends ChangeNotifier {
+  final ApiService _api = ApiService();
+
   int _selectedTab = 0;
+
+  // Offers state
+  bool isLoadingOffers = false;
+  String offersError = '';
+  List<ApiOfferModel> offers = [];
+  int totalOffers = 0;
+
+  // Bills (My Requests) state
+  bool isLoadingBills = false;
+  String billsError = '';
+  List<BillModel> bills = [];
+  int totalBills = 0;
 
   int get selectedTab => _selectedTab;
 
@@ -12,80 +29,90 @@ class RequestController extends ChangeNotifier {
   void selectTab(int index) {
     if (_selectedTab != index) {
       _selectedTab = index;
+      if (index == 1 && bills.isEmpty && !isLoadingBills) {
+        fetchBills();
+      }
       notifyListeners();
     }
   }
 
-  // ── Offers Data ──
-  final List<OfferModel> offers = const [
-    OfferModel(
-      title: 'Green Energy',
-      subtitle: 'Green Offer',
-      imagePath: '',
-      isBestValue: true,
-      monthlyCost: 89.99,
-      savings: 380,
-      savingsPercent: 22,
-      hasIndustrialRate: true,
-      hasTaxBenefit: true,
-    ),
-    OfferModel(
-      title: 'Green Energy',
-      subtitle: 'Green Offer',
-      imagePath: '',
-      isBestValue: true,
-      monthlyCost: 74.50,
-      savings: 380,
-      savingsPercent: 12,
-      hasIndustrialRate: false,
-      hasTaxBenefit: true,
-    ),
-    OfferModel(
-      title: 'Solar Plus',
-      subtitle: 'Green Energy',
-      imagePath: '',
-      isBestValue: false,
-      monthlyCost: 95.00,
-      savings: 310,
-      savingsPercent: 28,
-      hasIndustrialRate: true,
-      hasTaxBenefit: false,
-    ),
-  ];
+  /// Fetches public offers from GET /api/v1/offers
+  Future<void> fetchOffers() async {
+    isLoadingOffers = true;
+    offersError = '';
+    notifyListeners();
 
-  // ── Requests Data (matches screenshot 2) ──
-  final List<RequestModel> requests = const [
-    RequestModel(
-      title: 'Energyplus',
-      subtitle: 'Analyzing...',
-      status: RequestStatus.processing,
-      date: '26/03/2026',
-      icon: Icons.bolt,
-      iconColor: Color(0xFFFFB800),
-    ),
-    RequestModel(
-      title: 'Energyplus',
-      subtitle: 'Analysis complete',
-      status: RequestStatus.readyToSign,
-      date: '26/03/2026',
-      icon: Icons.bolt,
-      iconColor: Color(0xFFFFB800),
-    ),
-    RequestModel(
-      title: 'Energyplus',
-      subtitle: 'Analysis complete',
-      status: RequestStatus.readyToSign,
-      date: '26/03/2026',
-      icon: Icons.bolt,
-      iconColor: Color(0xFFFFB800),
-    ),
-    RequestModel(
-      title: 'PowerGrid Solutions',
-      subtitle: 'Contract confirmed',
-      status: RequestStatus.completed,
-      date: '24/03/2026',
-      icon: Icons.bolt,
-      iconColor: Color(0xFFFFB800),
-    ),
-  ];
+    try {
+      final response = await _api.get(ApiConstants.getActiveOffers);
+      final body = response.data as Map<String, dynamic>;
+
+      if (body['success'] == true) {
+        final data = body['data'];
+
+        List<dynamic> rawList;
+        if (data is Map<String, dynamic> && data.containsKey('data')) {
+          rawList = data['data'] as List<dynamic>;
+          final meta = data['meta'] as Map<String, dynamic>?;
+          totalOffers = meta?['total'] as int? ?? rawList.length;
+        } else if (data is List<dynamic>) {
+          rawList = data;
+          totalOffers = rawList.length;
+        } else {
+          rawList = [];
+          totalOffers = 0;
+        }
+
+        offers = rawList
+            .map((e) => ApiOfferModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      } else {
+        offersError = body['message']?.toString() ?? 'Failed to load offers';
+      }
+    } catch (e) {
+      offersError = e.toString();
+    } finally {
+      isLoadingOffers = false;
+      notifyListeners();
+    }
+  }
+
+  /// Fetches user's bills from GET /api/v1/bills
+  Future<void> fetchBills() async {
+    isLoadingBills = true;
+    billsError = '';
+    notifyListeners();
+
+    try {
+      final response = await _api.get(ApiConstants.getMyBills);
+      final body = response.data as Map<String, dynamic>;
+
+      if (body['success'] == true) {
+        final data = body['data'];
+
+        List<dynamic> rawList;
+        if (data is Map<String, dynamic> && data.containsKey('data')) {
+          rawList = data['data'] as List<dynamic>;
+          final meta = data['meta'] as Map<String, dynamic>?;
+          totalBills = meta?['total'] as int? ?? rawList.length;
+        } else if (data is List<dynamic>) {
+          rawList = data;
+          totalBills = rawList.length;
+        } else {
+          rawList = [];
+          totalBills = 0;
+        }
+
+        bills = rawList
+            .map((e) => BillModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      } else {
+        billsError = body['message']?.toString() ?? 'Failed to load bills';
+      }
+    } catch (e) {
+      billsError = e.toString();
+    } finally {
+      isLoadingBills = false;
+      notifyListeners();
+    }
+  }
 }

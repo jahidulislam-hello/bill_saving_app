@@ -8,6 +8,7 @@ class UtilityCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final String? logoUrl;
+  final String? trailingText;
   final VoidCallback? onTap;
 
   const UtilityCard({
@@ -15,6 +16,7 @@ class UtilityCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     this.logoUrl,
+    this.trailingText,
     this.onTap,
   });
 
@@ -36,20 +38,26 @@ class UtilityCard extends StatelessWidget {
               child: _buildLogo(),
             ),
             SizedBox(width: 12.w),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: AppStyles.body1.copyWith(fontWeight: FontWeight.w800),
-                ),
-                Text(
-                  subtitle,
-                  style: AppStyles.body3.copyWith(fontWeight: FontWeight.w700),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: AppStyles.body1.copyWith(fontWeight: FontWeight.w800),
+                  ),
+                  Text(
+                    subtitle,
+                    style: AppStyles.body3.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
             ),
-            const Spacer(),
+            if (trailingText != null)
+              Text(
+                trailingText!,
+                style: AppStyles.body1.copyWith(fontWeight: FontWeight.w800),
+              ),
           ],
         ),
       ),

@@ -7,11 +7,10 @@ import 'package:vyzi/features/home/widgets/how_it_works.dart';
 import 'package:vyzi/features/home/widgets/summary_card.dart';
 import 'package:vyzi/features/home/widgets/upload_section.dart';
 import 'package:vyzi/features/home/widgets/utilities_section.dart';
+import 'package:vyzi/features/utility/select_utility_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
-
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -23,122 +22,122 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Obx(
-            () => SingleChildScrollView(
-          child: Column(
-            children: [
-              const HomeHeader(),
+        () {
+          final hasUtilities = controller.serviceList.isNotEmpty;
 
-              SizedBox(height: 18.h),
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                const HomeHeader(),
 
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: Column(
-                  children: [
-                    /// IF NO DATA
-                    if (!controller.hasData.value) ...[
-                      UploadSection(
-                        onTap: () {
-                          controller.startSavingFlow();
-                        },
-                      ),
+                SizedBox(height: 18.h),
 
-                      SizedBox(height: 16.h),
-
-                      IntrinsicHeight(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Expanded(
-                              child: SummaryCard(
-                                icon: Image.asset(
-                                  AppAssets.down,
-                                ),
-                                iconColor: AppColors.green200,
-                                iconBgColor: AppColors.greenAlpha10,
-                                title: "Risparmi\nPotenziali",
-                                value: "€128,50",
-                                valueColor: AppColors.green200,
-                                subtitle: "all'anno",
-                              ),
-                            ),
-                            SizedBox(width: 12.w),
-                            Expanded(
-                              child: SummaryCard(
-                                icon: Image.asset(
-                                  AppAssets.cir,
-                                ),
-                                iconColor: AppColors.primaryColor,
-                                iconBgColor: AppColors.primaryAlpha10,
-                                title: "Richiesta Attiva",
-                                value: "00",
-                                valueColor: AppColors.primaryColor,
-                                subtitle: "in corso",
-                              ),
-                            ),
-                          ],
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Column(
+                    children: [
+                      /// No utilities → show upload section + summary + how it works
+                      if (!hasUtilities) ...[
+                        UploadSection(
+                          onTap: () {
+                            Get.to(() => const SelectUtilityScreen());
+                          },
                         ),
-                      ),
 
-                      SizedBox(height: 20.h),
+                        SizedBox(height: 16.h),
 
-                      const HowItWorksCard(),
-                    ],
-
-                    /// IF DATA AVAILABLE
-                    if (controller.hasData.value) ...[
-                      IntrinsicHeight(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Expanded(
-                              child: SummaryCard(
-                                icon: Image.asset(
-                                  AppAssets.down,
+                        IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(
+                                child: SummaryCard(
+                                  icon: Image.asset(AppAssets.down),
+                                  iconColor: AppColors.green200,
+                                  iconBgColor: AppColors.greenAlpha10,
+                                  title: 'home.summary.savings_title'.tr,
+                                  value: controller.savingAmount.value,
+                                  valueColor: AppColors.green200,
+                                  subtitle: 'home.summary.savings_subtitle'.tr,
                                 ),
-                                iconColor: AppColors.green200,
-                                iconBgColor: AppColors.greenAlpha10,
-                                title: "Risparmi\nPotenziali",
-                                value: "€128,50",
-                                valueColor: AppColors.green200,
-                                subtitle: "all'anno",
                               ),
-                            ),
-                            SizedBox(width: 12.w),
-                            Expanded(
-                              child: SummaryCard(
-                                icon: Image.asset(
-                                  AppAssets.cir,
+                              SizedBox(width: 12.w),
+                              Expanded(
+                                child: SummaryCard(
+                                  icon: Image.asset(AppAssets.cir),
+                                  iconColor: AppColors.primaryColor,
+                                  iconBgColor: AppColors.primaryAlpha10,
+                                  title: 'home.summary.requests_title'.tr,
+                                  value: controller.activeRequest.value
+                                      .toString()
+                                      .padLeft(2, '0'),
+                                  valueColor: AppColors.primaryColor,
+                                  subtitle: 'home.summary.requests_subtitle'.tr,
                                 ),
-                                iconColor: AppColors.primaryColor,
-                                iconBgColor: AppColors.primaryAlpha10,
-                                title: "Richiesta Attiva",
-                                value: "00",
-                                valueColor: AppColors.primaryColor,
-                                subtitle: "in corso",
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
 
-                      SizedBox(height: 18.h),
+                        SizedBox(height: 20.h),
 
-                      UtilitiesSection(
-                        meters: controller.meterList,
-                      ),
+                        HowItWorksCard(),
+                      ],
 
-                      SizedBox(height: 18.h),
+                      /// Has utilities → show summary + utilities (max 3) + actions
+                      if (hasUtilities) ...[
+                        IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(
+                                child: SummaryCard(
+                                  icon: Image.asset(AppAssets.down),
+                                  iconColor: AppColors.green200,
+                                  iconBgColor: AppColors.greenAlpha10,
+                                  title: 'home.summary.savings_title'.tr,
+                                  value: controller.savingAmount.value,
+                                  valueColor: AppColors.green200,
+                                  subtitle: 'home.summary.savings_subtitle'.tr,
+                                ),
+                              ),
+                              SizedBox(width: 12.w),
+                              Expanded(
+                                child: SummaryCard(
+                                  icon: Image.asset(AppAssets.cir),
+                                  iconColor: AppColors.primaryColor,
+                                  iconBgColor: AppColors.primaryAlpha10,
+                                  title: 'home.summary.requests_title'.tr,
+                                  value: controller.activeRequest.value
+                                      .toString()
+                                      .padLeft(2, '0'),
+                                  valueColor: AppColors.primaryColor,
+                                  subtitle: 'home.summary.requests_subtitle'.tr,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
 
-                      ActionSection(),
+                        SizedBox(height: 18.h),
+
+                        UtilitiesSection(
+                          services: controller.serviceList,
+                        ),
+
+                        SizedBox(height: 18.h),
+
+                        ActionSection(),
+                      ],
+
+                      SizedBox(height: 100.h),
                     ],
-
-                    SizedBox(height: 100.h),
-                  ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
@@ -9,29 +10,29 @@ import 'action_card.dart';
 class ActionSection extends StatelessWidget {
   ActionSection({super.key});
 
-  final List<Map<String, dynamic>> actions = [
+  List<Map<String, dynamic>> get actions => [
     {
-      "title": "Cambia Fornitore",
-      "subtitle": "Controlla il mercato e scopri quanto puoi risparmiare!",
+      "title": 'home.actions.change_supplier'.tr,
+      "subtitle": 'home.actions.change_supplier_desc'.tr,
       "image": AppAssets.actionChange,
       "showBadge": false,
     },
     {
-      "title": "Trasferimento di Proprietà",
-      "subtitle": "2-in-1: Trasferisci la proprietà e cambia fornitore!",
+      "title": 'home.actions.transfer'.tr,
+      "subtitle": 'home.actions.transfer_desc'.tr,
       "image": AppAssets.actionTransfer,
       "showBadge": false,
     },
     {
-      "title": "Attiva Utenza",
-      "subtitle": "Completa la tua richiesta e attiva il servizio ora!",
+      "title": 'home.actions.activate'.tr,
+      "subtitle": 'home.actions.activate_desc'.tr,
       "image": AppAssets.actionActivate,
       "showBadge": true,
-      "badgeText": "Nuovo",
+      "badgeText": 'home.actions.activate_badge'.tr,
     },
     {
-      "title": "Controllo Fattura",
-      "subtitle": "Controlla se le tue fatture sono corrette e trova risparmi!",
+      "title": 'home.actions.check_invoice'.tr,
+      "subtitle": 'home.actions.check_invoice_desc'.tr,
       "image": AppAssets.actionControl,
       "showBadge": false,
     },
@@ -57,7 +58,7 @@ class ActionSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Cosa vuoi fare oggi?",
+            'home.actions.title'.tr,
             style: AppStyles.h3.copyWith(
               fontWeight: FontWeight.w900,
               color: AppColors.textDark,

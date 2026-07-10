@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PriceCalculationDialog extends StatelessWidget {
   const PriceCalculationDialog({super.key});
@@ -93,7 +94,7 @@ class PriceCalculationDialog extends StatelessWidget {
                             letterSpacing: 0.3,
                           ),
                         ),
-                        child: const Text('Got It'),
+                        child: Text('common.got_it'.tr),
                       ),
                     ),
                   ],

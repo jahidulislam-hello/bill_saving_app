@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 class RequestCallBackScreen extends StatefulWidget {
@@ -19,10 +20,10 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
   static const _btnBg = Color(0xFF1A1A2E);
   static const _borderColor = Color(0xFFE8E8E8);
 
-  static const _timeSlots = [
-    'Mattina (09:00 – 12:00)',
-    'Pomeriggio (12:00 – 15:00)',
-    'Sera (15:00 – 18:00)',
+  static const _timeSlotKeys = [
+    'support.callback.morning',
+    'support.callback.afternoon',
+    'support.callback.evening',
   ];
 
   final _phoneCtrl = TextEditingController();
@@ -73,7 +74,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
               top: offset.dy + size.height + 4,
               width: size.width,
               child: _DropdownMenu(
-                items: _timeSlots,
+                items: _timeSlotKeys,
                 selectedItem: _selectedTime,
                 onSelect: (val) {
                   setState(() {
@@ -102,9 +103,9 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Ti chiameremo all'orario preferito per discutere la tua richiesta.",
-              style: TextStyle(
+            Text(
+              'support.callback.intro_text'.tr,
+              style: const TextStyle(
                 color: _textMid,
                 fontSize: 14,
                 height: 1.55,
@@ -113,8 +114,8 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
             const SizedBox(height: 24),
 
             // ── Phone Number ──
-            const Text('Numero di Telefono',
-                style: TextStyle(
+            Text('support.callback.phone_label'.tr,
+                style: const TextStyle(
                     color: _textDark,
                     fontSize: 13,
                     fontWeight: FontWeight.w600)),
@@ -125,7 +126,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
               style: const TextStyle(
                   color: _textDark, fontSize: 14, fontWeight: FontWeight.w500),
               decoration: InputDecoration(
-                hintText: '+39 333 123 4567',
+                hintText: 'support.callback.phone_hint'.tr,
                 hintStyle:
                 const TextStyle(color: Color(0xFFB2BEC3), fontSize: 14),
                 filled: true,
@@ -150,8 +151,8 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
             const SizedBox(height: 20),
 
             // ── Preferred Time Slot ──
-            const Text('Fascia Oraria Preferita',
-                style: TextStyle(
+            Text('support.callback.time_slot_label'.tr,
+                style: const TextStyle(
                     color: _textDark,
                     fontSize: 13,
                     fontWeight: FontWeight.w600)),
@@ -179,7 +180,7 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      _selectedTime ?? 'Seleziona un orario',
+                      _selectedTime?.tr ?? 'support.callback.select_time'.tr,
                       style: TextStyle(
                         color: _selectedTime != null
                             ? _textDark
@@ -210,9 +211,9 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
                 color: _infoBg,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Text(
-                'Nota: Il nostro team risponde solitamente entro 2-4 ore lavorative durante i giorni feriali (Lun-Ven).',
-                style: TextStyle(
+              child: Text(
+                'support.callback.note'.tr,
+                style: const TextStyle(
                   color: _infoText,
                   fontSize: 13,
                   height: 1.5,
@@ -234,8 +235,8 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
                       borderRadius: BorderRadius.circular(12)),
                   elevation: 0,
                 ),
-                child: const Text('Richiedi Chiamata',
-                    style: TextStyle(
+                child: Text('support.callback.request_button'.tr,
+                    style: const TextStyle(
                         fontSize: 15, fontWeight: FontWeight.w700)),
               ),
             ),
@@ -258,9 +259,9 @@ class _RequestCallBackScreenState extends State<RequestCallBackScreen> {
           icon: const Icon(Icons.arrow_back, color: Color(0xFF1A1A2E), size: 22),
         ),
       ),
-      title: const Text(
-        'Richiedi Chiamata',
-        style: TextStyle(
+      title: Text(
+        'support.callback.title'.tr,
+        style: const TextStyle(
           color: Color(0xFF1A1A2E),
           fontSize: 17,
           fontWeight: FontWeight.w800,
@@ -334,7 +335,7 @@ class _DropdownMenu extends StatelessWidget {
                           : Colors.transparent,
                     ),
                     child: Text(
-                      item,
+                      item.tr,
                       style: TextStyle(
                         color: isSelected
                             ? const Color(0xFF2D3436)
