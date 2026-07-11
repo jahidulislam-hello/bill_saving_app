@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import 'agreements_controller.dart';
 
@@ -108,7 +109,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
         ),
       ),
       title: Text(
-        'Dettagli Convenzione',
+        'agreements.details_title'.tr,
         style: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.w900,
@@ -183,7 +184,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
             ),
             children: [
               TextSpan(
-                text: 'Data Offerta : ',
+                text: 'agreements.offer_date'.tr,
                 style: TextStyle(
                   fontWeight: FontWeight.w800,
                   color: const Color(0xFF1A1A2E),
@@ -221,7 +222,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                   color: Colors.white.withOpacity(0.85), size: 14.sp),
               SizedBox(width: 6.w),
               Text(
-                'Il Tuo Sconto Esclusivo',
+                'agreements.exclusive_discount'.tr,
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: Colors.white.withOpacity(0.85),
@@ -263,7 +264,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Codice Sconto',
+                        'agreements.discount_code'.tr,
                         style: TextStyle(
                           fontSize: 11.sp,
                           color: Colors.black,
@@ -322,7 +323,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                         ),
                         SizedBox(width: 5.w),
                         Text(
-                          isCopied ? 'Copiato!' : 'Copia',
+                          isCopied ? 'agreements.copied'.tr : 'agreements.copy'.tr,
                           style: TextStyle(
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w800,
@@ -378,7 +379,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Posizione',
+                'agreements.location'.tr,
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w900,
@@ -416,7 +417,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Come Usare il Tuo Sconto',
+            'agreements.how_to_use'.tr,
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w900,

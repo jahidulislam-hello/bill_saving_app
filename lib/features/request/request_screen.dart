@@ -26,7 +26,7 @@ class _RequestScreenState extends State<RequestScreen>
   late final TabController _tabController;
 
   // Filter options for "Your Offers" tab
-  final List<String> _filters = ['Tutti', 'Addebito Diretto', 'Bollettino Postale','AliKobe', 'Ordine Diretto', 'Bollettino Postale'];
+  List<String> get _filters => ['request.filter.all'.tr, 'request.filter.direct_debit'.tr, 'request.filter.postal_slip'.tr, 'AliKobe', 'Ordine Diretto', 'request.filter.postal_slip'.tr];
   int _selectedFilter = 0;
 
   @override
@@ -202,7 +202,7 @@ class _RequestScreenState extends State<RequestScreen>
               ),
               SizedBox(width: 4.w),
               Text(
-                'Metodo di Pagamento:',
+                'request.filter.payment_method'.tr,
                 style: AppStyles.h4.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w700),
               ),
             ],
@@ -262,11 +262,11 @@ class _RequestScreenState extends State<RequestScreen>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Migliori Offerte per Te',
+            'request.offers.best_for_you'.tr,
             style: AppStyles.h4.copyWith(fontSize: 15.sp),
           ),
           Text(
-            '${_controller.offers.length} trovate',
+            '${_controller.offers.length} ${'request.offers.found'.tr}',
             style: AppStyles.body4.copyWith(fontWeight: FontWeight.w800),
           ),
         ],
@@ -350,7 +350,7 @@ class _RequestScreenState extends State<RequestScreen>
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
-                      'Miglior Valore',
+                      'request.offers.best_value'.tr,
                       style: AppStyles.body4.copyWith(color: Colors.white, fontWeight: FontWeight.w800),
                     ),
                   ),
@@ -371,7 +371,7 @@ class _RequestScreenState extends State<RequestScreen>
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: Text(
-                'Prezzo Energia : ${offer.energyPriceDisplay}',
+                '${'request.offers.energy_price_label'.tr} : ${offer.energyPriceDisplay}',
                 style: AppStyles.body4.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.w800),
               ),
             ),
@@ -390,7 +390,7 @@ class _RequestScreenState extends State<RequestScreen>
                 fit: BoxFit.contain,
               ),
               iconColor: const Color(0xFF5B7FD8),
-              text: 'Durata: ${offer.contractDurationDisplay}',
+              text: '${'request.offers.duration_label'.tr}: ${offer.contractDurationDisplay}',
             ),
           ),
 
@@ -409,7 +409,7 @@ class _RequestScreenState extends State<RequestScreen>
                     fit: BoxFit.contain,
                   ),
                   iconColor: const Color(0xFF9B59B6),
-                  text: 'Compatibilità: ${offer.target == 'personal' ? 'Residenziale' : offer.target == 'business' ? 'Business' : 'Tutti'}',
+                  text: '${'request.offers.compatibility_label'.tr}: ${offer.target == 'personal' ? 'request.offers.residential'.tr : offer.target == 'business' ? 'request.offers.business'.tr : 'request.offers.all_types'.tr}',
                 ),
                 SizedBox(height: 12.h),
                 Divider(
@@ -438,7 +438,7 @@ class _RequestScreenState extends State<RequestScreen>
                 ),
                 SizedBox(width: 8.w),
                 Text(
-                  '/mese costi fissi',
+                  'request.offers.monthly_fixed'.tr,
                   style: AppStyles.body3.copyWith(color: const Color(0xFF1A1A2E), fontWeight: FontWeight.w700),
                 ),
               ],
@@ -571,14 +571,14 @@ class _RequestScreenState extends State<RequestScreen>
             ),
             SizedBox(height: 28.h),
             Text(
-              'Your offer under control',
+              'request.offers.empty_title'.tr,
               style: AppStyles.h4.copyWith(
                 fontWeight: FontWeight.w800,
               ),
             ),
             SizedBox(height: 12.h),
             Text(
-              'We check your bill and find the most\nconvenient solution for your needs.',
+              'request.offers.empty_desc'.tr,
               textAlign: TextAlign.center,
               style: AppStyles.body2.copyWith(
                 color: Colors.grey[600],
@@ -700,7 +700,7 @@ class _RequestScreenState extends State<RequestScreen>
                       if (bill.totalAmount != null) ...[
                         SizedBox(height: 4.h),
                         Text(
-                          'Importo: ${bill.totalAmountDisplay}',
+                          '${'request.offers.amount_label'.tr}: ${bill.totalAmountDisplay}',
                           style: AppStyles.body4.copyWith(
                               color: Colors.black,
                               fontWeight: FontWeight.w600),
@@ -766,7 +766,7 @@ class _RequestScreenState extends State<RequestScreen>
                     ),
                   ),
                   child: Text(
-                    'Visualizza Dettagli',
+                    'request.offers.view_details'.tr,
                     style: AppStyles.body2.copyWith(
                         fontWeight: FontWeight.w800,
                         color: const Color(0xFF9810FA)),

@@ -1,6 +1,7 @@
 import 'package:vyzi/features/profile/agreements/agreements_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'agreements_controller.dart';
 
 
@@ -71,7 +72,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Convenzioni',
+            'agreements.title'.tr,
             style: TextStyle(
               fontSize: 17.sp,
               fontWeight: FontWeight.w900,
@@ -80,7 +81,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
             ),
           ),
           Text(
-            'Sconti esclusivi per te',
+            'agreements.subtitle'.tr,
             style: TextStyle(
               fontSize: 11.sp,
               color: Colors.black,
@@ -126,7 +127,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'I Tuoi Vantaggi',
+                  'agreements.your_benefits'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w900,
@@ -136,7 +137,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'Goditi sconti esclusivi presso i nostri ristoranti partner come membro prezioso.',
+                  'agreements.benefits_desc'.tr,
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: Colors.black,

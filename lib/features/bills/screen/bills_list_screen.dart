@@ -52,7 +52,7 @@ class BillsListScreen extends StatelessWidget {
               ),
               SizedBox(width: 4.w),
               Text(
-                'Tipo di Bolletta:',
+                'bills.filter.bill_type'.tr,
                 style: AppStyles.h4
                     .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w700),
               ),
@@ -65,19 +65,19 @@ class BillsListScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  _filterChip('Tutte', selected == null, () {
+                  _filterChip('bills.filter.all_types'.tr, selected == null, () {
                     controller.applyFilter(
                         status: controller.filterStatus.value);
                   }),
                   SizedBox(width: 6.w),
-                  _filterChip('Elettricita', selected == 'electricity', () {
+                  _filterChip('bills.filter.electricity'.tr, selected == 'electricity', () {
                     controller.applyFilter(
                       billType: 'electricity',
                       status: controller.filterStatus.value,
                     );
                   }),
                   SizedBox(width: 6.w),
-                  _filterChip('Gas', selected == 'gas', () {
+                  _filterChip('bills.filter.gas'.tr, selected == 'gas', () {
                     controller.applyFilter(
                       billType: 'gas',
                       status: controller.filterStatus.value,
@@ -99,7 +99,7 @@ class BillsListScreen extends StatelessWidget {
               ),
               SizedBox(width: 4.w),
               Text(
-                'Stato:',
+                'bills.filter.status'.tr,
                 style: AppStyles.h4
                     .copyWith(fontSize: 13.sp, fontWeight: FontWeight.w700),
               ),
@@ -112,33 +112,33 @@ class BillsListScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  _filterChip('Tutti', selected == null, () {
+                  _filterChip('bills.filter.all_statuses'.tr, selected == null, () {
                     controller.applyFilter(
                         billType: controller.filterBillType.value);
                   }),
                   SizedBox(width: 6.w),
-                  _filterChip('Caricata', selected == 'uploaded', () {
+                  _filterChip('bills.filter.uploaded'.tr, selected == 'uploaded', () {
                     controller.applyFilter(
                       billType: controller.filterBillType.value,
                       status: 'uploaded',
                     );
                   }),
                   SizedBox(width: 6.w),
-                  _filterChip('In analisi', selected == 'analyzing', () {
+                  _filterChip('bills.filter.analyzing'.tr, selected == 'analyzing', () {
                     controller.applyFilter(
                       billType: controller.filterBillType.value,
                       status: 'analyzing',
                     );
                   }),
                   SizedBox(width: 6.w),
-                  _filterChip('Analizzata', selected == 'analyzed', () {
+                  _filterChip('bills.filter.analyzed'.tr, selected == 'analyzed', () {
                     controller.applyFilter(
                       billType: controller.filterBillType.value,
                       status: 'analyzed',
                     );
                   }),
                   SizedBox(width: 6.w),
-                  _filterChip('Errore', selected == 'error', () {
+                  _filterChip('bills.filter.error'.tr, selected == 'error', () {
                     controller.applyFilter(
                       billType: controller.filterBillType.value,
                       status: 'error',
@@ -187,11 +187,11 @@ class BillsListScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Le Tue Bollette',
+                'bills.list.your_bills'.tr,
                 style: AppStyles.h4.copyWith(fontSize: 15.sp),
               ),
               Text(
-                '${controller.totalBills.value} trovate',
+                '${controller.totalBills.value} ${'bills.list.found'.tr}',
                 style:
                     AppStyles.body4.copyWith(fontWeight: FontWeight.w800),
               ),
@@ -454,7 +454,7 @@ class BillsListScreen extends StatelessWidget {
             ),
             SizedBox(width: 12.w),
             Text(
-              'Pagina ${controller.currentPage.value} di ${controller.totalPages.value}',
+              'bills.list.page_of'.trParams({'current': '${controller.currentPage.value}', 'total': '${controller.totalPages.value}'}),
               style: AppStyles.body3.copyWith(fontWeight: FontWeight.w700),
             ),
             SizedBox(width: 12.w),

@@ -55,9 +55,9 @@ class RequestDetailsScreen extends StatelessWidget {
           child: Icon(Icons.chevron_left, color: _textDark, size: 28),
         ),
       ),
-      title: const Text(
-        'Dettagli Richiesta',
-        style: TextStyle(
+      title: Text(
+        'request.details.title'.tr,
+        style: const TextStyle(
           color: _textDark,
           fontSize: 17,
           fontWeight: FontWeight.w900,
@@ -98,10 +98,10 @@ class RequestDetailsScreen extends StatelessWidget {
                   color: _purple, size: 32),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Elaborazione della tua Richiesta',
+            Text(
+              'request.details.processing_title'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: _textDark,
                 fontSize: 18,
                 fontWeight: FontWeight.w900,
@@ -109,10 +109,10 @@ class RequestDetailsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              "Stiamo lavorando al tuo passaggio. Nessuna azione\nrichiesta da parte tua al momento.",
+            Text(
+              'request.details.processing_desc'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: _textMid,
                 fontSize: 13,
                 height: 1.55,
@@ -228,18 +228,18 @@ class RequestDetailsScreen extends StatelessWidget {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    'DATA DI INVIO',
-                    style: TextStyle(
+                    'request.details.submission_date'.tr,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 10,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 0.8,
                     ),
                   ),
-                  SizedBox(height: 3),
-                  Text(
+                  const SizedBox(height: 3),
+                  const Text(
                     '3/30/2026',
                     style: TextStyle(
                       color: _textDark,
@@ -258,12 +258,12 @@ class RequestDetailsScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
-                  children: const [
-                    Icon(Icons.circle, color: _yellowBadgeText, size: 8),
-                    SizedBox(width: 5),
+                  children: [
+                    const Icon(Icons.circle, color: _yellowBadgeText, size: 8),
+                    const SizedBox(width: 5),
                     Text(
-                      'In Analisi',
-                      style: TextStyle(
+                      'request.details.in_analysis'.tr,
+                      style: const TextStyle(
                         color: _yellowBadgeText,
                         fontSize: 12,
                         fontWeight: FontWeight.w800,
@@ -429,10 +429,10 @@ class RequestDetailsScreen extends StatelessWidget {
             child: const Icon(Icons.info_outline, color: _purple, size: 16),
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Text(
-              'The verification process typically takes 3-5 business days. We will notify you once completed.',
-              style: TextStyle(
+              'request.details.info_message'.tr,
+              style: const TextStyle(
                 color: _grey,
                 fontSize: 13,
                 height: 1.5,

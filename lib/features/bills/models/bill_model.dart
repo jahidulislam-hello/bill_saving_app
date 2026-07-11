@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vyzi/features/bills/models/bill_analysis_model.dart';
 
 class BillSupplierModel {
@@ -112,9 +113,9 @@ class BillModel {
   String get billTypeDisplay {
     switch (billType) {
       case 'electricity':
-        return 'Elettricita';
+        return 'bills.type.electricity'.tr;
       case 'gas':
-        return 'Gas';
+        return 'bills.type.gas'.tr;
       default:
         return billType;
     }
@@ -123,13 +124,13 @@ class BillModel {
   String get statusDisplay {
     switch (status) {
       case 'uploaded':
-        return 'Caricata';
+        return 'bills.status.uploaded'.tr;
       case 'analyzing':
-        return 'In analisi';
+        return 'bills.status.analyzing'.tr;
       case 'analyzed':
-        return 'Analizzata';
+        return 'bills.status.analyzed'.tr;
       case 'error':
-        return 'Errore';
+        return 'bills.status.error'.tr;
       default:
         return status;
     }
@@ -199,7 +200,7 @@ class BillModel {
     final start = _formatDateStr(billingPeriodStart);
     final end = _formatDateStr(billingPeriodEnd);
     if (start.isNotEmpty && end.isNotEmpty) return '$start - $end';
-    if (start.isNotEmpty) return 'Dal $start';
+    if (start.isNotEmpty) return '${'bills.period.from'.tr} $start';
     return end;
   }
 
@@ -220,7 +221,7 @@ class BillModel {
   }
 
   String get supplierName {
-    return supplier?.name ?? 'Fornitore sconosciuto';
+    return supplier?.name ?? 'bills.supplier.unknown'.tr;
   }
 
   String _formatDateStr(String? dateStr) {

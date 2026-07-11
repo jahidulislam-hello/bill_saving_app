@@ -131,9 +131,9 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
               Icon(Icons.chevron_left, color: AppColors.textDark, size: 28),
         ),
       ),
-      title: const Text(
-        'Dettagli Bolletta',
-        style: TextStyle(
+      title: Text(
+        'bills.detail.title'.tr,
+        style: const TextStyle(
           color: AppColors.textDark,
           fontSize: 17,
           fontWeight: FontWeight.w900,
@@ -271,13 +271,13 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
   String _statusMessage(String status) {
     switch (status) {
       case 'uploaded':
-        return 'Bolletta caricata, in attesa di analisi';
+        return 'bills.detail.status_uploaded'.tr;
       case 'analyzing':
-        return 'Analisi in corso...';
+        return 'bills.detail.status_analyzing'.tr;
       case 'analyzed':
-        return 'Analisi completata';
+        return 'bills.detail.status_analyzed'.tr;
       case 'error':
-        return 'Errore durante l\'analisi';
+        return 'bills.detail.status_error'.tr;
       default:
         return status;
     }
@@ -286,21 +286,21 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
   // ── Bill Info Section ──
   Widget _billInfoSection(BillModel bill) {
     final rows = <_DetailRowData>[
-      _DetailRowData('Tipo di Bolletta', bill.billTypeDisplay),
-      _DetailRowData('Stato', bill.statusDisplay),
+      _DetailRowData('bills.detail.bill_type'.tr, bill.billTypeDisplay),
+      _DetailRowData('bills.detail.status'.tr, bill.statusDisplay),
       if (bill.billType == 'electricity' && bill.podNumber != null)
-        _DetailRowData('Numero POD', bill.podNumber!),
+        _DetailRowData('bills.detail.pod_number'.tr, bill.podNumber!),
       if (bill.billType == 'gas' && bill.pdrNumber != null)
-        _DetailRowData('Numero PDR', bill.pdrNumber!),
-      _DetailRowData('Periodo di fatturazione', bill.billingPeriodDisplay),
-      _DetailRowData('Importo Totale', bill.totalAmountDisplay),
-      _DetailRowData('Consumo', bill.consumptionDisplay),
+        _DetailRowData('bills.detail.pdr_number'.tr, bill.pdrNumber!),
+      _DetailRowData('bills.detail.billing_period'.tr, bill.billingPeriodDisplay),
+      _DetailRowData('bills.detail.total_amount'.tr, bill.totalAmountDisplay),
+      _DetailRowData('bills.detail.consumption'.tr, bill.consumptionDisplay),
       if (bill.costPerUnit != null)
-        _DetailRowData('Costo per Unita', bill.costPerUnitDisplay),
+        _DetailRowData('bills.detail.cost_per_unit'.tr, bill.costPerUnitDisplay),
       if (bill.fixedCharges != null)
-        _DetailRowData('Costi Fissi', bill.fixedChargesDisplay),
+        _DetailRowData('bills.detail.fixed_charges'.tr, bill.fixedChargesDisplay),
       if (bill.taxes != null)
-        _DetailRowData('Tasse', bill.taxesDisplay),
+        _DetailRowData('bills.detail.taxes'.tr, bill.taxesDisplay),
     ];
 
     return Column(
@@ -377,11 +377,11 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
         SizedBox(height: 14.h),
         // Analysis details
         _detailRow(_DetailRowData(
-            'Media Mensile Attuale', analysis.currentMonthlyAvgDisplay)),
-        _detailRow(_DetailRowData('Tipo di Mercato Consigliato',
+            'bills.detail.monthly_avg'.tr, analysis.currentMonthlyAvgDisplay)),
+        _detailRow(_DetailRowData('bills.detail.recommended_market'.tr,
             analysis.recommendedMarketTypeDisplay)),
         _detailRow(_DetailRowData(
-            'Punteggio di Affidabilita', analysis.confidenceDisplay)),
+            'bills.detail.confidence_score'.tr, analysis.confidenceDisplay)),
         // Analysis summary
         if (analysis.analysisSummary != null &&
             analysis.analysisSummary!.isNotEmpty) ...[
@@ -430,7 +430,7 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
       child: Column(
         children: [
           Text(
-            'RISPARMIO POTENZIALE',
+            'bills.detail.potential_savings'.tr,
             style: TextStyle(
               color: Colors.white,
               fontSize: 11.sp,
@@ -451,7 +451,7 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
           ),
           SizedBox(height: 6.h),
           Text(
-            'Risparmio Annuale Stimato',
+            'bills.detail.estimated_annual'.tr,
             style: TextStyle(
               color: AppColors.green,
               fontSize: 14.sp,
@@ -572,7 +572,7 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
           onPressed: _fetchBillAnalysis,
           icon: Icon(Icons.analytics_outlined, size: 20.sp),
           label: Text(
-            'Vedi Analisi Completa',
+            'bills.detail.view_analysis'.tr,
             style: AppStyles.body2.copyWith(
               fontWeight: FontWeight.w800,
               color: const Color(0xFF9810FA),
