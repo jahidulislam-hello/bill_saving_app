@@ -59,10 +59,10 @@ class AgreementModel {
 
     // How to use steps
     final howToUse = [
-      'Copia il tuo codice sconto usando il pulsante in alto',
-      'Visita il sito del partner: $termsUrl',
-      'Inserisci il codice sconto al momento del pagamento',
-      'Goditi il tuo sconto esclusivo!',
+      'agreements.how_to_1'.tr,
+      '${'agreements.how_to_2'.tr}$termsUrl',
+      'agreements.how_to_3'.tr,
+      'agreements.how_to_4'.tr,
     ];
 
     return AgreementModel(

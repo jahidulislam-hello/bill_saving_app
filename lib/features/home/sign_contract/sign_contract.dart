@@ -1,6 +1,7 @@
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'sign_contract_controller.dart';
 
 class SignContractScreen extends StatefulWidget {
@@ -71,7 +72,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
-        'Firma il tuo Contratto',
+        'sign_contract.appbar_title'.tr,
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w700,
@@ -102,7 +103,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
-              'Azione Richiesta',
+              'sign_contract.action_required'.tr,
               style: TextStyle(
                 fontSize: 11.sp,
                 fontWeight: FontWeight.w800,
@@ -116,7 +117,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
 
           // ── Title ──
           Text(
-            'Pronto da Firmare',
+            'sign_contract.ready_title'.tr,
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w900,
@@ -129,7 +130,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
 
           // ── Description ──
           Text(
-            'Il tuo contratto è pronto! Firmalo per completare il tuo passaggio a EnergyPlus.',
+            'sign_contract.ready_desc'.tr,
             style: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w600,
@@ -189,7 +190,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Fornitore',
+                    'sign_contract.supplier_label'.tr,
                     style: TextStyle(
                       fontSize: 10.sp,
                       fontWeight: FontWeight.w700,
@@ -223,7 +224,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
 
           // ── Offer Name ──
           _buildCardField(
-            label: 'Nome Offerta',
+            label: 'sign_contract.offer_name_label'.tr,
             value: 'Next e-Business Sunlight',
             valueColor: const Color(0xFF64FBCB),
           ),
@@ -232,7 +233,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
 
           // ── Activation Date ──
           _buildCardField(
-            label: 'Data di Attivazione',
+            label: 'sign_contract.activation_date_label'.tr,
             value: '12 Marzo 2026',
             valueColor: Colors.white,
           ),
@@ -284,7 +285,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hai bisogno di aiuto per firmare?',
+              'sign_contract.help_question'.tr,
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
@@ -296,7 +297,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
             Row(
               children: [
                 Text(
-                  'Visualizza Tutorial di Firma',
+                  'sign_contract.view_tutorial'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -378,30 +379,27 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
   SignContractController get _c => widget.controller;
 
   // ── Tutorial step data ──
-  final List<_TutorialStep> _steps = const [
+  List<_TutorialStep> get _steps => [
     _TutorialStep(
       illustration: _IllustrationType.emailCheck,
       stepNumber: 1,
       icon: Icons.mail_outline_rounded,
-      title: 'Controlla i tuoi SMS/Email',
-      description:
-      'Invieremo un codice di verifica unico a 6 cifre al tuo numero di cellulare registrato e all\'indirizzo email per verificare la tua identità.',
+      title: 'sign_contract.tutorial_step1_title'.tr,
+      description: 'sign_contract.tutorial_step1_desc'.tr,
     ),
     _TutorialStep(
       illustration: _IllustrationType.sign,
       stepNumber: 2,
       icon: Icons.edit_outlined,
-      title: 'Firma il Contratto',
-      description:
-      'Inserisci il codice di verifica e rivedi i dettagli del contratto. Una volta confermato, apponi la tua firma digitale per procedere.',
+      title: 'sign_contract.tutorial_step2_title'.tr,
+      description: 'sign_contract.tutorial_step2_desc'.tr,
     ),
     _TutorialStep(
       illustration: _IllustrationType.done,
       stepNumber: 3,
       icon: Icons.check_circle_outline_rounded,
-      title: 'Sei a Posto!',
-      description:
-      'Il tuo contratto è firmato e il tuo passaggio a EnergyPlus è completo. Benvenuto a bordo — i tuoi risparmi iniziano ora!',
+      title: 'sign_contract.tutorial_step3_title'.tr,
+      description: 'sign_contract.tutorial_step3_desc'.tr,
     ),
   ];
 
@@ -516,7 +514,7 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
                   ),
                 ),
                 child: Text(
-                  _c.isLastStep ? 'Capito' : 'Avanti',
+                  _c.isLastStep ? 'sign_contract.got_it'.tr : 'sign_contract.next'.tr,
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w800,

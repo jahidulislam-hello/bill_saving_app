@@ -80,13 +80,13 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
       OfferDetailRow(
         label: 'offer.price_type'.tr,
         value: offer.marketTypeDisplay,
-        linkText: 'Cosa significa?',
+        linkText: 'offer.price_type_link'.tr,
         linkColor: AppColors.linkBlue,
       ),
       OfferDetailRow(
         label: 'offer.energy_price'.tr,
         value: offer.energyPriceDisplay,
-        linkText: 'Come viene calcolato?',
+        linkText: 'offer.energy_price_link'.tr,
         linkColor: AppColors.linkGreen,
       ),
       OfferDetailRow(
@@ -171,9 +171,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
           child: Icon(Icons.chevron_left, color: AppColors.textDark, size: 28),
         ),
       ),
-      title: const Text(
-        'Dettagli Offerta',
-        style: TextStyle(
+      title: Text(
+        'offer.details_title'.tr,
+        style: const TextStyle(
           color: AppColors.textDark,
           fontSize: 17,
           fontWeight: FontWeight.w900,
@@ -301,8 +301,8 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
       ),
       child: Column(
         children: [
-          const Text(
-            'MASSIMO BENEFICIO POTENZIALE',
+          Text(
+            'offer.max_benefit'.tr,
             style: TextStyle(
               color: Colors.white,
               fontSize: 11,
@@ -336,12 +336,12 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
   }
 
   void _handleLinkTap(String text) {
-    if (text == "Cosa significa?") {
+    if (text == 'offer.price_type_link'.tr) {
       showDialog(
         context: context,
         builder: (_) => const PriceTypeSheet(),
       );
-    } else if (text == 'Come viene calcolato?') {
+    } else if (text == 'offer.energy_price_link'.tr) {
       showDialog(
         context: context,
         builder: (_) => const PriceCalculationDialog(),
@@ -446,10 +446,10 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                   color: AppColors.purple, size: 20),
             ),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Condizioni economiche',
-                style: TextStyle(
+                'offer.economic_conditions'.tr,
+                style: const TextStyle(
                     color: AppColors.textDark,
                     fontSize: 14,
                     fontWeight: FontWeight.w800),
@@ -471,14 +471,14 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.divider, width: 1.2),
       ),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.star_outline, color: AppColors.textMid, size: 17),
-          SizedBox(width: 8),
+          const Icon(Icons.star_outline, color: AppColors.textMid, size: 17),
+          const SizedBox(width: 8),
           Text(
-            'Attivazione con Easy Saving',
-            style: TextStyle(
+            'offer.activation_easy'.tr,
+            style: const TextStyle(
                 color: AppColors.textMid,
                 fontSize: 13,
                 fontWeight: FontWeight.w700),
@@ -514,9 +514,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                 borderRadius: BorderRadius.circular(14)),
             elevation: 0,
           ),
-          child: const Text(
-            'Seleziona questa Offerta',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+          child: Text(
+            'offer.select_offer'.tr,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
           ),
         ),
       ),
@@ -537,34 +537,18 @@ class OfferInfoScreen extends StatefulWidget {
 class _OfferInfoScreenState extends State<OfferInfoScreen> {
   final Set<int> _expandedFAQ = {};
 
-  static const _features = [
-    (
-    'Energia 100% rinnovabile',
-    'Elettricità a zero emissioni di carbonio proveniente da parchi eolici e solari.'
-    ),
-    (
-    'Nessun costo nascosto',
-    'Fatturazione trasparente con zero oneri amministrativi imprevisti.'
-    ),
-    (
-    'Garanzia prezzo fisso',
-    'La tua tariffa energetica è bloccata per l\'intera durata del contratto.'
-    ),
-    (
-    'Assistenza clienti 24/7',
-    'Accesso a servizi esperti di concierge energetico in qualsiasi momento.'
-    ),
+  List<(String, String)> get _features => [
+    ('offer.feature1_title'.tr, 'offer.feature1_desc'.tr),
+    ('offer.feature2_title'.tr, 'offer.feature2_desc'.tr),
+    ('offer.feature3_title'.tr, 'offer.feature3_desc'.tr),
+    ('offer.feature4_title'.tr, 'offer.feature4_desc'.tr),
   ];
 
-  static const _faqs = [
-    ('Come funziona il processo di cambio?',
-    'Gestiamo l\'intero passaggio per tuo conto. Una volta firmato, ci coordiniamo con il tuo fornitore attuale e quello nuovo.'),
-    ('Il mio servizio sarà interrotto?',
-    'No. Il tuo servizio continua ininterrottamente durante tutto il processo di cambio.'),
-    ('Cosa succede se sono ancora sotto contratto?',
-    'Controlliamo eventuali costi di uscita e ti informiamo prima di procedere. Alcuni fornitori rinunciano ai costi in determinate situazioni.'),
-    ('Quanto tempo ci vuole per ricevere il mio contratto?',
-    'Il tuo contratto è solitamente pronto entro 24 ore dal completamento della tua richiesta.'),
+  List<(String, String)> get _faqs => [
+    ('offer.faq1_q'.tr, 'offer.faq1_a'.tr),
+    ('offer.faq2_q'.tr, 'offer.faq2_a'.tr),
+    ('offer.faq3_q'.tr, 'offer.faq3_a'.tr),
+    ('offer.faq4_q'.tr, 'offer.faq4_a'.tr),
   ];
 
   @override
@@ -599,9 +583,9 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
           child: Icon(Icons.chevron_left, color: AppColors.textDark, size: 28),
         ),
       ),
-      title: const Text(
-        'Info Offerta',
-        style: TextStyle(
+      title: Text(
+        'offer.info_title'.tr,
+        style: const TextStyle(
             color: AppColors.textDark, fontSize: 17, fontWeight: FontWeight.w900),
       ),
     );

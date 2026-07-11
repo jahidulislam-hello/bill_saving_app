@@ -38,8 +38,10 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     super.dispose();
   }
 
-  String get _title =>
-      widget.utilityType == UtilityType.luce ? 'elettricità' : 'gas';
+  String get _headingKey =>
+      widget.utilityType == UtilityType.luce
+          ? 'upload_bill.heading_electricity'
+          : 'upload_bill.heading_gas';
 
   // ─────────────────────────────────────────────
   //  ACTIONS
@@ -91,7 +93,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           children: [
             // ── Heading ──
             Text(
-              'Carica la tua bolletta di $_title',
+              _headingKey.tr,
               style: TextStyle(
                 fontSize: 22.sp,
                 fontWeight: FontWeight.w900,
@@ -101,7 +103,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
             ),
             SizedBox(height: 6.h),
             Text(
-              "Scegli il metodo più comodo per te",
+              'upload_bill.subtitle'.tr,
               style: TextStyle(
                 fontSize: 13.sp,
                 color: Colors.black,
@@ -147,7 +149,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
-        'Carica la tua bolletta',
+        'upload_bill.appbar_title'.tr,
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w800,
@@ -182,10 +184,10 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               const Icon(Icons.help_outline_rounded,
                   color: Color(0xFF5A1ABE), size: 18),
               SizedBox(width: 8.w),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Abbiamo bisogno della tua bolletta per analizzare il tuo piano attuale e trovare le migliori offerte.',
-                  style: TextStyle(
+                  'upload_bill.info_text'.tr,
+                  style: const TextStyle(
                     fontSize: 13,
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
@@ -198,8 +200,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           SizedBox(height: 8.h),
           GestureDetector(
             onTap: () {},
-            child: const Text(
-              'Perché ne abbiamo bisogno?',
+            child: Text(
+              'upload_bill.info_link'.tr,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w900,
@@ -221,8 +223,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           child: _buildMethodCard(
             method: UploadMethod.uploadFile,
             assetIcon: 'assets/icons/upload.png',
-            label: 'Carica File',
-            sublabel: 'PDF, Foto',
+            label: 'upload_bill.upload_file'.tr,
+            sublabel: 'upload_bill.upload_formats'.tr,
             onTap: _openFilePicker,
           ),
         ),
@@ -233,8 +235,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           child: _buildMethodCard(
             method: UploadMethod.scanFile,
             assetIcon: 'assets/icons/scannn.png',
-            label: 'Scansiona File',
-            sublabel: 'Usa la fotocamera',
+            label: 'upload_bill.scan_file'.tr,
+            sublabel: 'upload_bill.scan_use_camera'.tr,
             onTap: _openScanner,
           ),
         ),
@@ -320,7 +322,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           child: Text(
-            'OPPURE',
+            'upload_bill.or_divider'.tr,
             style: TextStyle(
               fontSize: 12.sp,
               color: Colors.black,
@@ -382,7 +384,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Invia via Email',
+                    'upload_bill.send_email'.tr,
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w900,
@@ -392,7 +394,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                   ),
                   SizedBox(height: 3.h),
                   Text(
-                    'Inoltra a Bills@Example.com',
+                    'upload_bill.send_email_address'.tr,
                     style: TextStyle(
                       fontSize: 12.sp,
                       color: Colors.black,
@@ -413,11 +415,11 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
 
   // ── What we are looking for card ──
   Widget _buildLookingForCard() {
-    const bullets = [
-      'Fornitore attuale e tariffa',
-      'Consumo mensile e costi',
-      'Data di fine contratto',
-      'Numero del contatore e punto di fornitura',
+    final bullets = [
+      'upload_bill.looking_for_1'.tr,
+      'upload_bill.looking_for_2'.tr,
+      'upload_bill.looking_for_3'.tr,
+      'upload_bill.looking_for_4'.tr,
     ];
 
     return Container(
@@ -439,7 +441,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Cosa stiamo cercando:',
+            'upload_bill.looking_for_title'.tr,
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w900,
@@ -513,7 +515,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         title: Text(
-          'Scansiona la tua bolletta',
+          'upload_bill.scanner_title'.tr,
           style: TextStyle(
               fontSize: 17.sp,
               fontWeight: FontWeight.w900,
@@ -582,7 +584,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
             left: 0,
             right: 0,
             child: Text(
-              'Allinea la tua bolletta nella cornice',
+              'upload_bill.scanner_hint'.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14.sp,

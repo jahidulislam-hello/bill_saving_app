@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 class TermsCondition extends StatelessWidget {
@@ -40,9 +41,9 @@ class TermsCondition extends StatelessWidget {
             ),
             const SizedBox(height: 28),
             // ── Title ──
-            const Text(
-              'Termini e Condizioni',
-              style: TextStyle(
+            Text(
+              'terms.title'.tr,
+              style: const TextStyle(
                 color: _textDark,
                 fontSize: 18,
                 fontWeight: FontWeight.w900,
@@ -73,9 +74,9 @@ class TermsCondition extends StatelessWidget {
           icon: const Icon(Icons.chevron_left, color: _textDark, size: 28),
         ),
       ),
-      title: const Text(
-        'Termini e Condizioni',
-        style: TextStyle(
+      title: Text(
+        'terms.title'.tr,
+        style: const TextStyle(
           color: _textDark,
           fontSize: 17,
           fontWeight: FontWeight.w900,

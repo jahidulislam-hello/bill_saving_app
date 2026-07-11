@@ -1,5 +1,6 @@
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 
@@ -38,12 +39,12 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
   static const _darkBtn = Color(0xFF1A1A2E);
   static const _checkGreen = Color(0xFF27AE60);
 
-  static const _roles = [
-    'CEO / Fondatore',
-    'Manager',
-    'Responsabile Finanziario',
-    'Amministratore IT',
-    'Altro',
+  List<String> get _roles => [
+    'upgrade.role_ceo'.tr,
+    'upgrade.role_manager'.tr,
+    'upgrade.role_finance'.tr,
+    'upgrade.role_it'.tr,
+    'upgrade.role_other'.tr,
   ];
 
   final _companyCtrl = TextEditingController();
@@ -163,9 +164,9 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
           const SizedBox(height: 4),
 
           // ── Title ──
-          const Text(
-            'Passa ad Azienda',
-            style: TextStyle(
+          Text(
+            'upgrade.title'.tr,
+            style: const TextStyle(
               color: _textDark,
               fontSize: 20,
               fontWeight: FontWeight.w800,
@@ -173,8 +174,8 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Abbiamo già le tue informazioni personali.\nAggiungi solo i dettagli della tua azienda.',
+          Text(
+            'upgrade.subtitle'.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: _textMid,
@@ -186,9 +187,9 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
 
           // ── Company Name ──
           _inputField(
-            label: "Nome dell'Azienda *",
+            label: 'upgrade.company_name'.tr,
             controller: _companyCtrl,
-            hint: 'es. Rossi Consulting S.r.l.',
+            hint: 'upgrade.company_hint'.tr,
           ),
           const SizedBox(height: 12),
 
@@ -212,16 +213,16 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                 children: [
                   Row(
                     children: [
-                      const Text(
-                        '(Ruolo lavorativo) ',
-                        style: TextStyle(
+                      Text(
+                        'upgrade.job_role'.tr,
+                        style: const TextStyle(
                             color: _textDark,
                             fontSize: 12,
                             fontWeight: FontWeight.w600),
                       ),
-                      const Text(
-                        '[Opzionale]',
-                        style: TextStyle(
+                      Text(
+                        'upgrade.optional'.tr,
+                        style: const TextStyle(
                             color: _textLight,
                             fontSize: 11,
                             fontWeight: FontWeight.w400),
@@ -237,7 +238,7 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    _selectedRole ?? 'Seleziona il tuo ruolo',
+                    _selectedRole ?? 'upgrade.select_role'.tr,
                     style: TextStyle(
                       color: _selectedRole != null
                           ? _textDark
@@ -254,9 +255,9 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
 
           // ── VAT ──
           _inputField(
-            label: 'Partita IVA',
+            label: 'upgrade.vat_label'.tr,
             controller: _vatCtrl,
-            hint: '12345678910',
+            hint: 'upgrade.vat_hint'.tr,
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 20),
@@ -292,16 +293,15 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                     style: const TextStyle(
                         color: _textMid, fontSize: 12, height: 1.5),
                     children: [
-                      const TextSpan(text: 'Accetto i '),
+                      TextSpan(text: 'upgrade.terms_accept'.tr),
                       TextSpan(
-                        text: 'Termini e Condizioni Business',
+                        text: 'upgrade.terms_link'.tr,
                         style: const TextStyle(
                             color: _purple,
                             fontWeight: FontWeight.w600),
                       ),
-                      const TextSpan(
-                          text:
-                          ' e il trattamento dei dati per la gestione dell\'account aziendale.'),
+                      TextSpan(
+                          text: 'upgrade.terms_suffix'.tr),
                     ],
                   ),
                 ),
@@ -324,9 +324,9 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
                     borderRadius: BorderRadius.circular(14)),
                 elevation: 0,
               ),
-              child: const Text(
-                'Completa il Passaggio e Continua',
-                style: TextStyle(
+              child: Text(
+                'upgrade.cta_button'.tr,
+                style: const TextStyle(
                     fontSize: 15, fontWeight: FontWeight.w700),
               ),
             ),
