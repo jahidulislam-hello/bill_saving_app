@@ -1,131 +1,548 @@
-import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/core/utils/app_styles.dart';
+import 'package:vyzi/core/widgets/primary_button.dart';
+import 'package:vyzi/features/bills/models/bill_model.dart';
+import 'package:vyzi/features/request/models/api_offer_model.dart';
+import 'package:vyzi/features/request/offer_details.dart';
+import 'package:vyzi/features/request/request_controller.dart';
+import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-class MyRequestsProfile extends StatelessWidget {
+class MyRequestsProfile extends StatefulWidget {
   const MyRequestsProfile({super.key});
+
+  @override
+  State<MyRequestsProfile> createState() => _MyRequestsProfileState();
+}
+
+class _MyRequestsProfileState extends State<MyRequestsProfile> {
+  late final RequestController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = RequestController();
+    _controller.addListener(() {
+      if (mounted) setState(() {});
+    });
+    _controller.fetchOffers();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F4F6),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_rounded,
+              color: AppColors.textDark, size: 22.sp),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          'request.title'.tr,
+          style: TextStyle(
+            fontSize: 17.sp,
+            fontWeight: FontWeight.w800,
+            color: AppColors.textDark,
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          _buildTabBar(),
+          Expanded(
+            child: _controller.isYourOffersTab
+                ? _buildOffersTab()
+                : _buildMyRequestsTab(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── Tab bar ──
+  Widget _buildTabBar() {
+    return Container(
+      color: Colors.white,
+      child: Row(
+        children: [
+          _tabItem('request.tab.your_offers'.tr, 0),
+          _tabItem('request.tab.my_requests'.tr, 1),
+        ],
+      ),
+    );
+  }
+
+  Widget _tabItem(String title, int index) {
+    final isSelected = _controller.selectedTab == index;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => _controller.selectTab(index),
+        child: Container(
+          color: Colors.white,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // ── Header ──
-              Text(
-                'My Requests',
-                style: TextStyle(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF1A1A2E),
-                  height: 1.2,
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.h),
+                child: Text(
+                  title,
+                  style: isSelected
+                      ? AppStyles.h4
+                      : AppStyles.body2.copyWith(color: Colors.black),
                 ),
               ),
-              SizedBox(height: 4.h),
-              Text(
-                'Manage your active utility services',
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                  height: 1.4,
-                ),
-              ),
-              SizedBox(height: 24.h),
-
-              // ── Empty State Card ──
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.r),
-                  border: Border.all(color: const Color(0xFFE5E7EB), width: 1.22),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 16,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    // ── Image fills top of card ──
-                    SizedBox(height: 40.h),
-                    // ── Image fills top of card ──
-                    ClipRRect(
-                      child: Image.asset(
-                        AppAssets.profile002,
-
-                        width: 64.h,
-                        height: 64.h,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-
-                    // ── Text + Button ──
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 24.w, vertical: 24.h),
-                      child: Column(
-                        children: [
-                          Text(
-                            'No Active Utilities',
-                            style: TextStyle(
-                              fontSize: 17.sp,
-                              fontWeight: FontWeight.w900,
-                              color: const Color(0xFF1A1A2E),
-                              height: 1.22,
-                            ),
-                          ),
-                          SizedBox(height: 8.h),
-                          Text(
-                            'Once you complete a switch,\nyour utilities will appear here',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 13.sp,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                              height: 1.5,
-                            ),
-                          ),
-                          SizedBox(height: 20.h),
-                          SizedBox(
-                            width: 140.w,
-                            height: 44.h,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primaryColor,
-                                foregroundColor: Colors.white,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.r),
-                                ),
-                              ),
-                              child: Text(
-                                'Start Saving',
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w800,
-                                  height: 1.22,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                height: 2.h,
+                color: isSelected
+                    ? AppColors.primaryColor
+                    : Colors.transparent,
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  // ── Offers tab ──
+  Widget _buildOffersTab() {
+    if (_controller.isLoadingOffers) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_controller.offersError.isNotEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('request.offers.load_failed'.tr, style: AppStyles.h4),
+            SizedBox(height: 8.h),
+            TextButton(
+              onPressed: () => _controller.fetchOffers(),
+              child: Text('common.retry'.tr,
+                  style: AppStyles.body2
+                      .copyWith(color: AppColors.primaryColor)),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (_controller.offers.isEmpty) {
+      return _buildEmptyState();
+    }
+
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+      itemCount: _controller.offers.length,
+      itemBuilder: (_, i) => _buildOfferCard(_controller.offers[i]),
+    );
+  }
+
+  // ── Offer card ──
+  Widget _buildOfferCard(ApiOfferModel offer) {
+    final supplierName = offer.supplier?.name ?? offer.name;
+    final subtitle =
+        offer.supplier != null ? offer.name : (offer.description ?? '');
+
+    return Container(
+      margin: EdgeInsets.only(bottom: 12.h),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // ── Top: logo + title + badge ──
+          Padding(
+            padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 10.h),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10.r),
+                  child: _buildSupplierLogo(offer.supplier?.logoUrl),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(supplierName,
+                          style: AppStyles.h4.copyWith(fontSize: 15.sp)),
+                      SizedBox(height: 2.h),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.w, vertical: 2.h),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(
+                              color: const Color(0xFF5A1ABE), width: 1.22),
+                        ),
+                        child: Text(subtitle,
+                            style: AppStyles.body4
+                                .copyWith(fontWeight: FontWeight.w700),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    ],
+                  ),
+                ),
+                if (offer.isGreenEnergy) ...[
+                  SizedBox(width: 8.w),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.w, vertical: 5.h),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF4CAF50),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Text('request.offer.best_value'.tr,
+                        style: AppStyles.body4.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800)),
+                  ),
+                ],
+              ],
+            ),
+          ),
+
+          // ── Energy price row ──
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 14.w),
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF0EEFF),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Text(
+                '${'offer.energy_price'.tr}: ${offer.energyPriceDisplay}',
+                style: AppStyles.body4.copyWith(
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.w800),
+              ),
+            ),
+          ),
+
+          SizedBox(height: 10.h),
+
+          // ── Contract duration ──
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 14.w),
+            child: Row(
+              children: [
+                Image.asset('assets/images/pay.png',
+                    width: 24.w, height: 24.h, fit: BoxFit.contain),
+                SizedBox(width: 6.w),
+                Expanded(
+                  child: Text(
+                    '${'offer.contract_duration'.tr}: ${offer.contractDurationDisplay}',
+                    style: AppStyles.body4.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          SizedBox(height: 12.h),
+
+          // ── Fixed monthly fee ──
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 14.w),
+            child: Row(
+              children: [
+                Text(
+                  '€${offer.fixedMonthlyFee.toStringAsFixed(0)}',
+                  style: TextStyle(
+                    fontSize: 26.sp,
+                    fontWeight: FontWeight.w900,
+                    color: const Color(0xFF4CAF50),
+                  ),
+                ),
+                SizedBox(width: 8.w),
+                Text('offer.fixed_costs'.tr,
+                    style: AppStyles.body3.copyWith(
+                        color: const Color(0xFF1A1A2E),
+                        fontWeight: FontWeight.w700)),
+              ],
+            ),
+          ),
+
+          SizedBox(height: 14.h),
+
+          // ── CTA button ──
+          Padding(
+            padding: EdgeInsets.fromLTRB(14.w, 0, 14.w, 14.h),
+            child: PrimaryButton(
+              title: 'request.go_to_details'.tr,
+              height: 46.h,
+              onPress: () =>
+                  Get.to(() => OfferDetailsScreen(offerId: offer.id)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSupplierLogo(String? logoUrl) {
+    if (logoUrl != null && logoUrl.isNotEmpty) {
+      return Image.network(logoUrl,
+          width: 52.w, height: 52.w, fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => _defaultLogo());
+    }
+    return _defaultLogo();
+  }
+
+  Widget _defaultLogo() {
+    return Container(
+      width: 52.w,
+      height: 52.w,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.r),
+        gradient: const LinearGradient(
+          colors: [Color(0xFF1A0A4C), Color(0xFF3A1F8C)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Icon(Icons.bolt, color: Colors.white, size: 26.sp),
+    );
+  }
+
+  // ── My Requests tab (bills) ──
+  Widget _buildMyRequestsTab() {
+    if (_controller.isLoadingBills) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_controller.billsError.isNotEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('request.bills.load_failed'.tr, style: AppStyles.h4),
+            SizedBox(height: 8.h),
+            TextButton(
+              onPressed: () => _controller.fetchBills(),
+              child: Text('common.retry'.tr,
+                  style: AppStyles.body2
+                      .copyWith(color: AppColors.primaryColor)),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (_controller.bills.isEmpty) {
+      return _buildEmptyState();
+    }
+
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+      itemCount: _controller.bills.length,
+      itemBuilder: (_, i) => _buildBillCard(_controller.bills[i]),
+    );
+  }
+
+  // ── Bill card ──
+  Widget _buildBillCard(BillModel bill) {
+    return GestureDetector(
+      onTap: () => Get.toNamed(AppRoutes.billDetailScreen, arguments: bill.id),
+      child: Container(
+        margin: EdgeInsets.only(bottom: 10.h),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14.r),
+          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+        ),
+        padding: EdgeInsets.all(14.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 48.w,
+                  height: 48.w,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF3F0F8),
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Icon(bill.billTypeIcon,
+                      size: 24.sp, color: AppColors.primaryColor),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(bill.supplierName,
+                          style: AppStyles.h4.copyWith(fontSize: 15.sp)),
+                      SizedBox(height: 2.h),
+                      Text(bill.billTypeDisplay,
+                          style: AppStyles.body4
+                              .copyWith(fontWeight: FontWeight.w700)),
+                      if (bill.totalAmount != null) ...[
+                        SizedBox(height: 4.h),
+                        Text(
+                          '${'bills.list.amount'.tr}: ${bill.totalAmountDisplay}',
+                          style: AppStyles.body4.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                SizedBox(width: 8.w),
+                Icon(
+                  bill.status == 'analyzed'
+                      ? Icons.check_circle_outline
+                      : bill.status == 'error'
+                          ? Icons.error_outline
+                          : Icons.hourglass_top_rounded,
+                  size: 20.sp,
+                  color: bill.statusColor,
+                ),
+              ],
+            ),
+            SizedBox(height: 10.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                  decoration: BoxDecoration(
+                    color: bill.statusBgColor,
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Text(bill.statusDisplay,
+                      style: AppStyles.body4.copyWith(
+                          color: bill.statusColor,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 11.sp)),
+                ),
+                Text(bill.formattedDate,
+                    style: AppStyles.body4.copyWith(
+                        color: const Color(0xFF9810FA),
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w800)),
+              ],
+            ),
+            if (bill.status == 'analyzed') ...[
+              SizedBox(height: 10.h),
+              SizedBox(
+                width: double.infinity,
+                height: 38.h,
+                child: OutlinedButton(
+                  onPressed: () => Get.toNamed(AppRoutes.billDetailScreen,
+                      arguments: bill.id),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Color(0xFF5A1ABE)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r)),
+                  ),
+                  child: Text('request.go_to_details'.tr,
+                      style: AppStyles.body2.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: const Color(0xFF9810FA))),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ── Empty state ──
+  Widget _buildEmptyState() {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: 40.h),
+            Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: 180.w,
+                  height: 180.w,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFFF3F0F8),
+                  ),
+                  child: Center(
+                    child: Icon(Icons.receipt_long_rounded,
+                        size: 80.sp, color: const Color(0xFFD1C4E9)),
+                  ),
+                ),
+                Positioned(
+                  bottom: 10.h,
+                  right: 20.w,
+                  child: Container(
+                    width: 36.w,
+                    height: 36.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.1),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Icon(Icons.search,
+                        size: 20.sp, color: AppColors.primaryColor),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 28.h),
+            Text('common.no_data'.tr,
+                style: AppStyles.h4.copyWith(fontWeight: FontWeight.w800)),
+            SizedBox(height: 32.h),
+            PrimaryButton(
+              title: 'my_utility.upload_button'.tr,
+              prefixWidget: Icon(Icons.upload_file_rounded,
+                  color: Colors.white, size: 20.sp),
+              onPress: () => Get.toNamed(AppRoutes.billsListScreen),
+            ),
+            SizedBox(height: 40.h),
+          ],
         ),
       ),
     );
