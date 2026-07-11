@@ -417,6 +417,20 @@ final Map<String, String> itIT = {
   'offer.about_supplier_name': 'Su EnergyPlus',
   'offer.supplier_description': 'EnergyPlus è un fornitore di energia affidabile impegnato a fornire un servizio eccellente e tariffe competitive. Si specializzano in soluzioni di energia rinnovabile e hanno una comprovata esperienza di soddisfazione del cliente.',
 
+  // ==================== PERSONAL DATA ====================
+  'personal_data.title': 'Dati Personali',
+  'personal_data.subtitle': 'Aggiorna le informazioni del tuo account e come\nti contattiamo.',
+  'personal_data.change_photo': 'Cambia foto',
+  'personal_data.first_name': 'Nome',
+  'personal_data.last_name': 'Cognome',
+  'personal_data.email': 'Email',
+  'personal_data.phone': 'Numero di Telefono',
+  'personal_data.tax_code': 'Codice Fiscale',
+  'personal_data.privacy_title': 'Privacy Prima di Tutto',
+  'personal_data.privacy_desc': 'I tuoi dati sono crittografati e gestiti secondo i nostri standard di protezione premium. Non condividiamo mai i tuoi dati personali con fornitori terzi senza il tuo consenso.',
+  'personal_data.save_changes': 'Salva Modifiche',
+  'personal_data.cancel_discard': 'Annulla e scarta',
+
   // ==================== AUTH VALIDATION ====================
   'auth.validation.error': 'Errore',
   'auth.validation.warning': 'Attenzione',
@@ -438,4 +452,6 @@ final Map<String, String> itIT = {
   'auth.forgot_password.send_failed_error': 'Impossibile inviare OTP',
   'auth.signup.registration_failed_default': 'Registrazione fallita. Riprova.',
   'auth.signup.password_requirements_unmet': 'La password non soddisfa i requisiti di sicurezza',
+  'auth.session_expired.title': 'Sessione Scaduta',
+  'auth.session_expired.message': 'La tua sessione è scaduta. Accedi di nuovo.',
 };

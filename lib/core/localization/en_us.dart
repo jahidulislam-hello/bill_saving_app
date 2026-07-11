@@ -417,6 +417,20 @@ final Map<String, String> enUS = {
   'offer.about_supplier_name': 'About EnergyPlus',
   'offer.supplier_description': 'EnergyPlus is a reliable energy provider committed to delivering excellent service and competitive rates. They specialize in renewable energy solutions and have a proven track record of customer satisfaction.',
 
+  // ==================== PERSONAL DATA ====================
+  'personal_data.title': 'Personal Data',
+  'personal_data.subtitle': 'Update your account information and how\nwe contact you.',
+  'personal_data.change_photo': 'Change photo',
+  'personal_data.first_name': 'First Name',
+  'personal_data.last_name': 'Last Name',
+  'personal_data.email': 'Email',
+  'personal_data.phone': 'Phone Number',
+  'personal_data.tax_code': 'Tax Code',
+  'personal_data.privacy_title': 'Privacy First',
+  'personal_data.privacy_desc': 'Your data is encrypted and managed according to our premium protection standards. We never share your personal data with third parties without your consent.',
+  'personal_data.save_changes': 'Save Changes',
+  'personal_data.cancel_discard': 'Cancel and discard',
+
   // ==================== AUTH VALIDATION ====================
   'auth.validation.error': 'Error',
   'auth.validation.warning': 'Warning',
@@ -438,4 +452,6 @@ final Map<String, String> enUS = {
   'auth.forgot_password.send_failed_error': 'Failed to send OTP',
   'auth.signup.registration_failed_default': 'Registration failed. Please try again.',
   'auth.signup.password_requirements_unmet': 'Password does not meet security requirements',
+  'auth.session_expired.title': 'Session Expired',
+  'auth.session_expired.message': 'Your session has expired. Please sign in again.',
 };

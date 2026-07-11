@@ -5,6 +5,7 @@ import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/features/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class PersonalDataScreen extends StatefulWidget {
   final ProfileController controller;
@@ -30,7 +31,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const CustomAppBar(title: 'Dati Personali', showBackButton: true),
+      appBar: CustomAppBar(title: 'personal_data.title'.tr, showBackButton: true),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +40,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             Padding(
               padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 20.h),
               child: Text(
-                'Aggiorna le informazioni del tuo account e come\nti contattiamo.',
+                'personal_data.subtitle'.tr,
                 style: AppStyles.body3.copyWith(height: 1.5, color: AppColors.textPrimary),
               ),
             ),
@@ -153,7 +154,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
           GestureDetector(
             onTap: () {},
             child: Text(
-              'Cambia foto',
+              'personal_data.change_photo'.tr,
               style: AppStyles.body3.copyWith(fontWeight: FontWeight.w600, color: AppColors.primaryColor),
             ),
           ),
@@ -181,33 +182,33 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildField(
-            label: 'Nome',
+            label: 'personal_data.first_name'.tr,
             controller: _c.firstNameController,
             hint: '',
           ),
           SizedBox(height: 16.h),
           _buildField(
-            label: 'Cognome',
+            label: 'personal_data.last_name'.tr,
             controller: _c.lastNameController,
             hint: '',
           ),
           SizedBox(height: 16.h),
           _buildField(
-            label: 'Email',
+            label: 'personal_data.email'.tr,
             controller: _c.emailController,
             hint: 'alexsmith.mobbin@gmail.com',
             keyboardType: TextInputType.emailAddress,
           ),
           SizedBox(height: 16.h),
           _buildField(
-            label: 'Numero di Telefono',
+            label: 'personal_data.phone'.tr,
             controller: _c.phoneController,
             hint: '',
             keyboardType: TextInputType.phone,
           ),
           SizedBox(height: 16.h),
           _buildField(
-            label: 'Codice Fiscale',
+            label: 'personal_data.tax_code'.tr,
             controller: _c.codiceFiscaleController,
             hint: 'RSSMRA231X1WDF52',
           ),
@@ -277,12 +278,12 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Privacy Prima di Tutto',
+                  'personal_data.privacy_title'.tr,
                   style: AppStyles.h4.copyWith(fontSize: 13.sp),
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'I tuoi dati sono crittografati e gestiti secondo i nostri standard di protezione premium. Non condividiamo mai i tuoi dati personali con fornitori terzi senza il tuo consenso.',
+                  'personal_data.privacy_desc'.tr,
                   style: AppStyles.body4.copyWith(color: AppColors.primaryColor, height: 1.5),
                 ),
               ],
@@ -326,7 +327,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               ),
             )
                 : Text(
-              'Salva Modifiche',
+              'personal_data.save_changes'.tr,
               style: AppStyles.buttonText.copyWith(fontSize: 15.sp),
             ),
           ),
@@ -345,7 +346,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               Navigator.pop(context);
             },
             child: Text(
-              'Annulla e scarta',
+              'personal_data.cancel_discard'.tr,
               style: AppStyles.body2.copyWith(color: AppColors.textPrimary, fontWeight: FontWeight.w700),
             ),
           ),
