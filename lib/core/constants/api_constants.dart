@@ -26,8 +26,11 @@ class ApiConstants {
   static const String getMyProfile = '/api/v1/auth/me';
   static const String updateProfile = '/api/v1/users/profile';
 
-  //Active offers 
-  static const String activeOffers = '/api/v1/meters/my-meters';
+  // User activated services (utilities)
+  static const String myServices = '/api/v1/meters/my-services';
+
+  // Dashboard
+  static const String userDashboard = '/api/v1/dashboard/user';
 
 
 
@@ -59,6 +62,7 @@ class ApiConstants {
 
 
   //Bills
+  static const String billsBase = '/api/v1/bills';
   static const String uploadBills = '/api/v1/bills/upload';
   static const String getMyBills = '/api/v1/bills?page=1&limit=20';
   static const String getMyBillDetails = '/api/v1/bills/{{billId}}';
