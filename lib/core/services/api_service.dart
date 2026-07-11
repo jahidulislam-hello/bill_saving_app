@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../constants/api_constants.dart';
@@ -94,6 +95,10 @@ class ApiService {
                   options: opts,
                 );
                 return handler.resolve(response);
+              } else {
+                // Refresh token also expired — force logout
+                _forceLogout();
+                return handler.next(error);
               }
             } catch (_) {
               // Refresh failed — clear session and redirect to login
@@ -121,16 +126,32 @@ class ApiService {
     }
   }
 
-  /// Clears stored auth data and redirects to sign-in when refresh fails.
+  /// Clears stored auth data, shows session-expired message, and redirects to sign-in.
   void _forceLogout() {
     final storage = _tryGetStorage();
     if (storage != null) {
       storage.remove(StorageKeys.authToken);
       storage.remove(StorageKeys.refreshToken);
+      storage.remove(StorageKeys.userId);
+      storage.remove(StorageKeys.userEmail);
       storage.setBool(StorageKeys.isLoggedIn, false);
     }
     // Navigate to sign-in, clearing the entire back stack
     Get.offAllNamed('/sign_in_screen');
+    // Show session expired message after navigation completes
+    Future.delayed(const Duration(milliseconds: 300), () {
+      Get.snackbar(
+        'auth.session_expired.title'.tr,
+        'auth.session_expired.message'.tr,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red.shade600,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 4),
+        margin: const EdgeInsets.all(12),
+        borderRadius: 8,
+        icon: const Icon(Icons.logout, color: Colors.white),
+      );
+    });
   }
 
   StorageService? _tryGetStorage() {
