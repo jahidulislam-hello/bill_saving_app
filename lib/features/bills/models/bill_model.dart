@@ -34,6 +34,12 @@ class BillModel {
   final double? costPerUnit;
   final double? fixedCharges;
   final double? taxes;
+  final String? supplyAddress;
+  final String? codiceFiscale;
+  final String? partitaIva;
+  final String? contractNumber;
+  final String? meterNumber;
+  final String? customerName;
   final Map<String, dynamic>? rawAnalysisData;
   final String userId;
   final String? supplierId;
@@ -58,6 +64,12 @@ class BillModel {
     this.costPerUnit,
     this.fixedCharges,
     this.taxes,
+    this.supplyAddress,
+    this.codiceFiscale,
+    this.partitaIva,
+    this.contractNumber,
+    this.meterNumber,
+    this.customerName,
     this.rawAnalysisData,
     required this.userId,
     this.supplierId,
@@ -91,6 +103,12 @@ class BillModel {
       costPerUnit: _parseDouble(json['costPerUnit']),
       fixedCharges: _parseDouble(json['fixedCharges']),
       taxes: _parseDouble(json['taxes']),
+      supplyAddress: json['supplyAddress'] as String?,
+      codiceFiscale: json['codiceFiscale'] as String?,
+      partitaIva: json['partitaIva'] as String?,
+      contractNumber: json['contractNumber'] as String?,
+      meterNumber: json['meterNumber'] as String?,
+      customerName: json['customerName'] as String?,
       rawAnalysisData: json['rawAnalysisData'] as Map<String, dynamic>?,
       userId: json['userId'] as String? ?? '',
       supplierId: json['supplierId'] as String?,

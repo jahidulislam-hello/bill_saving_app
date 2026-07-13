@@ -130,6 +130,16 @@ class ApiService {
   void _forceLogout() {
     final storage = _tryGetStorage();
     if (storage != null) {
+      // Best-effort: revoke the refresh token on the server before clearing local state
+      final refreshToken = storage.getString(StorageKeys.refreshToken) ?? '';
+      if (refreshToken.isNotEmpty) {
+        _dio.post(
+          ApiConstants.authLogout,
+          data: {'refreshToken': refreshToken},
+          options: Options(extra: {'_retried': true}), // prevent retry loop
+        ).catchError((_) => null); // ignore failures — don't block local logout
+      }
+
       storage.remove(StorageKeys.authToken);
       storage.remove(StorageKeys.refreshToken);
       storage.remove(StorageKeys.userId);

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vyzi/features/profile/settings/faq_question.dart';
-import 'package:vyzi/features/profile/settings/fq.dart';
-import 'package:vyzi/features/profile/settings/fq_bill.dart';
-import 'package:vyzi/features/profile/settings/fq_utilities.dart';
-
+import 'package:vyzi/core/utils/app_assets.dart';
+import 'package:vyzi/features/support/controller/support_controller.dart';
+import 'package:vyzi/features/support/faq_dynamic_screen.dart';
+import 'package:vyzi/features/support/models/support_topic_model.dart';
+import 'package:vyzi/features/support/my_tickets_screen.dart';
 
 // ─────────────────────────────────────────────
 // DESIGN TOKENS
@@ -39,7 +39,11 @@ class SupportoScreen extends StatelessWidget {
       iconBg: _T.purpleBg,
       titleKey: 'support.getting_started',
       subtitleKey: 'support.getting_started_desc',
-      screen: const FaqScreen(),
+      screen: FaqDynamicScreen(
+        category: 'Cambio Fornitore',
+        title: 'support.getting_started'.tr,
+        heroImage: AppAssets.faqOne,
+      ),
     ),
     _SupportItem(
       icon: Icons.settings,
@@ -47,7 +51,11 @@ class SupportoScreen extends StatelessWidget {
       iconBg: _T.orangeBg,
       titleKey: 'support.utilities_setup',
       subtitleKey: 'support.utilities_setup_desc',
-      screen: const FaqUtiliesScreen(),
+      screen: FaqDynamicScreen(
+        category: 'Documenti',
+        title: 'support.utilities_setup'.tr,
+        heroImage: AppAssets.faqThree,
+      ),
     ),
     _SupportItem(
       icon: Icons.receipt_long,
@@ -55,7 +63,11 @@ class SupportoScreen extends StatelessWidget {
       iconBg: _T.orangeBg,
       titleKey: 'support.bills',
       subtitleKey: 'support.bills_desc',
-      screen: const FaqBillScreen(),
+      screen: FaqDynamicScreen(
+        category: 'Bollette',
+        title: 'support.bills'.tr,
+        heroImage: AppAssets.faqTwo,
+      ),
     ),
     _SupportItem(
       icon: Icons.headset_mic_outlined,
@@ -64,6 +76,14 @@ class SupportoScreen extends StatelessWidget {
       titleKey: 'support.contact_us',
       subtitleKey: 'support.contact_us_desc',
       screen: const SupportFormScreen(),
+    ),
+    _SupportItem(
+      icon: Icons.list_alt_rounded,
+      iconColor: _T.purple,
+      iconBg: _T.purpleBg,
+      titleKey: 'support.my_requests',
+      subtitleKey: 'support.my_requests_desc',
+      screen: const MyTicketsScreen(),
     ),
   ];
 
@@ -130,7 +150,6 @@ class SupportoScreen extends StatelessWidget {
       borderRadius: BorderRadius.circular(18),
       child: Stack(
         children: [
-          // Dark overlay background
           Container(
             height: 140,
             decoration: BoxDecoration(
@@ -148,7 +167,6 @@ class SupportoScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Content
           Positioned(
             left: 18,
             bottom: 18,
@@ -257,7 +275,7 @@ class _SupportTile extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────────
-// SCREEN 2 – SUPPORT FORM (English)
+// SCREEN 2 – SUPPORT FORM
 // ─────────────────────────────────────────────
 class SupportFormScreen extends StatefulWidget {
   const SupportFormScreen({super.key});
@@ -267,25 +285,30 @@ class SupportFormScreen extends StatefulWidget {
 }
 
 class _SupportFormScreenState extends State<SupportFormScreen> {
-  int _selectedTab = 0; // 0 = Technical Support, 1 = Billing and Payments
-  String? _selectedTopic;
+  final SupportController _controller = SupportController();
+  SupportTopicModel? _selectedTopic;
+  final _subjectCtrl = TextEditingController();
   final _messageCtrl = TextEditingController();
   bool _dropdownOpen = false;
   final _dropdownKey = GlobalKey();
   OverlayEntry? _overlayEntry;
 
-  static const _tabKeys = ['support.form.tab.technical', 'support.form.tab.billing'];
-  static const _topicKeys = [
-    'support.form.topic.billing_question',
-    'support.form.topic.technical_issue',
-    'support.form.topic.switching_process',
-    'support.form.topic.contact_question',
-    'support.form.topic.account_management',
-    'support.form.topic.other',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_onControllerUpdate);
+    _controller.fetchTopics();
+  }
+
+  void _onControllerUpdate() {
+    if (mounted) setState(() {});
+  }
 
   @override
   void dispose() {
+    _controller.removeListener(_onControllerUpdate);
+    _controller.dispose();
+    _subjectCtrl.dispose();
     _messageCtrl.dispose();
     _removeOverlay();
     super.dispose();
@@ -308,7 +331,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
 
   void _showDropdown() {
     final renderBox =
-    _dropdownKey.currentContext!.findRenderObject() as RenderBox;
+        _dropdownKey.currentContext!.findRenderObject() as RenderBox;
     final offset = renderBox.localToGlobal(Offset.zero);
     final size = renderBox.size;
 
@@ -326,11 +349,11 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
               top: offset.dy + size.height + 4,
               width: size.width,
               child: _TopicDropdownMenu(
-                items: _topicKeys,
+                items: _controller.topics,
                 selectedItem: _selectedTopic,
-                onSelect: (val) {
+                onSelect: (topic) {
                   setState(() {
-                    _selectedTopic = val;
+                    _selectedTopic = topic;
                     _dropdownOpen = false;
                   });
                   _removeOverlay();
@@ -345,140 +368,295 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
     Overlay.of(context).insert(_overlayEntry!);
   }
 
+  Future<void> _submitForm() async {
+    if (_selectedTopic == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('support.form.validation.topic'.tr)),
+      );
+      return;
+    }
+    if (_subjectCtrl.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('support.form.validation.subject'.tr)),
+      );
+      return;
+    }
+    if (_messageCtrl.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('support.form.validation.message'.tr)),
+      );
+      return;
+    }
+
+    final success = await _controller.createTicket(
+      topicId: _selectedTopic!.id,
+      subject: _subjectCtrl.text.trim(),
+      message: _messageCtrl.text.trim(),
+    );
+
+    if (!mounted) return;
+
+    if (success) {
+      _subjectCtrl.clear();
+      _messageCtrl.clear();
+      setState(() => _selectedTopic = null);
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (ctx) => Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(ctx);
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(Icons.close, color: Colors.grey, size: 22),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Container(
+                  width: 64,
+                  height: 64,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFE8F8F0),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.check_circle,
+                    color: Color(0xFF00C896),
+                    size: 42,
+                  ),
+                ),
+                const SizedBox(height: 18),
+                Text(
+                  'support.form.success_title'.tr,
+                  style: const TextStyle(
+                    color: Color(0xFF1A1A2E),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'support.form.success_subtitle'.tr,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.black54,
+                    fontSize: 13,
+                    height: 1.5,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('support.form.error'.tr),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _T.bg,
       appBar: _buildAppBar(context),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(18, 16, 18, 30),
-        children: [
-          Text(
-            'support.form.intro'.tr,
-            style: const TextStyle(
-              color: _T.textMid,
-              fontSize: 13,
-              height: 1.55,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 20),
+      body: _controller.isLoadingTopics
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
+              padding: const EdgeInsets.fromLTRB(18, 16, 18, 30),
+              children: [
+                Text(
+                  'support.form.intro'.tr,
+                  style: const TextStyle(
+                    color: _T.textMid,
+                    fontSize: 13,
+                    height: 1.55,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 22),
 
-          // ── Tab Switcher ──
-          _tabSwitcher(),
-          const SizedBox(height: 22),
-
-          // ── Topic Dropdown ──
-          Text('support.form.topic_label'.tr,
-              style: const TextStyle(
-                  color: _T.textDark,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900)),
-          const SizedBox(height: 8),
-          GestureDetector(
-            key: _dropdownKey,
-            onTap: _toggleDropdown,
-            child: Container(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-              decoration: BoxDecoration(
-                color: _T.inputBg,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: const Color(0xFFF3F3F5), width: 1.22),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    _selectedTopic?.tr ?? 'support.default_topic'.tr,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
+                // ── Topic Dropdown ──
+                Text('support.form.topic_label'.tr,
+                    style: const TextStyle(
+                        color: _T.textDark,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w900)),
+                const SizedBox(height: 8),
+                GestureDetector(
+                  key: _dropdownKey,
+                  onTap: _toggleDropdown,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                    decoration: BoxDecoration(
+                      color: _T.inputBg,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                          color: const Color(0xFFF3F3F5), width: 1.22),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _selectedTopic?.name ??
+                              'support.form.select_topic'.tr,
+                          style: TextStyle(
+                            color: _selectedTopic != null
+                                ? Colors.black
+                                : Colors.black45,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        AnimatedRotation(
+                          turns: _dropdownOpen ? 0.5 : 0,
+                          duration: const Duration(milliseconds: 200),
+                          child: const Icon(Icons.keyboard_arrow_down,
+                              color: Colors.black, size: 22),
+                        ),
+                      ],
                     ),
                   ),
-                  AnimatedRotation(
-                    turns: _dropdownOpen ? 0.5 : 0,
-                    duration: const Duration(milliseconds: 200),
-                    child: const Icon(Icons.keyboard_arrow_down,
-                        color: Colors.black, size: 22),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 18),
+                ),
+                const SizedBox(height: 18),
 
-          // ── Message ──
-          Text('support.form.message_label'.tr,
-              style: const TextStyle(
-                  color: _T.textDark,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900)),
-          const SizedBox(height: 8),
-          TextField(
-            controller: _messageCtrl,
-            maxLines: 5,
-            style: const TextStyle(
-                color: _T.cardBg, fontSize: 14, height: 1.5, fontWeight: FontWeight.w700),
-            decoration: InputDecoration(
-              hintText: 'support.form.message_hint'.tr,
-              hintStyle:
-              const TextStyle(color: Colors.black45, fontSize: 13),
-              filled: true,
-              fillColor: _T.inputBg,
-              contentPadding: const EdgeInsets.all(14),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Color(0xFFF3F3F5), width: 1),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide:
-                const BorderSide(color: _T.inputBg, width: 1.5),
-              ),
-            ),
-          ),
-          const SizedBox(height: 22),
-
-          // ── Submit Button ──
-          SizedBox(
-            width: double.infinity,
-            height: 52,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _T.textMid,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                elevation: 0,
-              ),
-              child: Text('support.form.submit'.tr,
+                // ── Subject ──
+                Text('support.form.subject_label'.tr,
+                    style: const TextStyle(
+                        color: _T.textDark,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w900)),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: _subjectCtrl,
                   style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w900)),
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700),
+                  decoration: InputDecoration(
+                    hintText: 'support.form.subject_hint'.tr,
+                    hintStyle:
+                        const TextStyle(color: Colors.black45, fontSize: 13),
+                    filled: true,
+                    fillColor: _T.inputBg,
+                    contentPadding: const EdgeInsets.all(14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                          color: Color(0xFFF3F3F5), width: 1),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                          const BorderSide(color: _T.inputBg, width: 1.5),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 18),
+
+                // ── Message ──
+                Text('support.form.message_label'.tr,
+                    style: const TextStyle(
+                        color: _T.textDark,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w900)),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: _messageCtrl,
+                  maxLines: 5,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      height: 1.5,
+                      fontWeight: FontWeight.w700),
+                  decoration: InputDecoration(
+                    hintText: 'support.form.message_hint'.tr,
+                    hintStyle:
+                        const TextStyle(color: Colors.black45, fontSize: 13),
+                    filled: true,
+                    fillColor: _T.inputBg,
+                    contentPadding: const EdgeInsets.all(14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                          color: Color(0xFFF3F3F5), width: 1),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                          const BorderSide(color: _T.inputBg, width: 1.5),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 22),
+
+                // ── Submit Button ──
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: ElevatedButton(
+                    onPressed: _controller.isSubmitting ? null : _submitForm,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _T.textMid,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      elevation: 0,
+                    ),
+                    child: _controller.isSubmitting
+                        ? const SizedBox(
+                            height: 22,
+                            width: 22,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2.5,
+                            ),
+                          )
+                        : Text('support.form.submit'.tr,
+                            style: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w900)),
+                  ),
+                ),
+                const SizedBox(height: 28),
+
+                // ── Divider ──
+                const Divider(color: Color(0xFFE5E7EB), height: 1),
+                const SizedBox(height: 24),
+
+                // ── Other Ways to Contact ──
+                Text('support.other_contact_methods'.tr,
+                    style: const TextStyle(
+                        color: _T.textDark,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w900)),
+                const SizedBox(height: 16),
+                _contactRow('support.contact.phone_label'.tr,
+                    '1-800-UTILITY', _T.darkBtn),
+                const SizedBox(height: 14),
+                _contactRow('support.contact.email_label'.tr,
+                    'support@utility.com', _T.darkBtn),
+                const SizedBox(height: 14),
+                _contactRow('support.contact.hours_label'.tr,
+                    'support.contact.hours_value'.tr, _T.textDark),
+              ],
             ),
-          ),
-          const SizedBox(height: 28),
-
-          // ── Divider ──
-          const Divider(color: Color(0xFFE5E7EB), height: 1),
-          const SizedBox(height: 24),
-
-          // ── Other Ways to Contact ──
-          Text('support.other_contact_methods'.tr,
-              style: const TextStyle(
-                  color: _T.textDark,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w900)),
-          const SizedBox(height: 16),
-          _contactRow('support.contact.phone_label'.tr, '1-800-UTILITY', _T.darkBtn),
-          const SizedBox(height: 14),
-          _contactRow('support.contact.email_label'.tr, 'support@utility.com', _T.darkBtn),
-          const SizedBox(height: 14),
-          _contactRow('support.contact.hours_label'.tr, 'support.contact.hours_value'.tr, _T.textDark),
-        ],
-      ),
     );
   }
 
@@ -492,7 +670,8 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
         onTap: () => Navigator.pop(context),
         child: const Padding(
           padding: EdgeInsets.only(left: 12),
-          child: Icon(Icons.arrow_back_rounded, color: _T.textDark, size: 28),
+          child:
+              Icon(Icons.arrow_back_rounded, color: _T.textDark, size: 28),
         ),
       ),
       title: Text('support.title'.tr,
@@ -503,54 +682,15 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
     );
   }
 
-  Widget _tabSwitcher() {
-    return Container(
-      height: 42,
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Color(0xFFEFE8F9),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFF9066D3), width: 1.22),
-      ),
-      child: Row(
-        children: List.generate(_tabKeys.length, (i) {
-          final isActive = _selectedTab == i;
-          return Expanded(
-            child: GestureDetector(
-              onTap: () => setState(() => _selectedTab = i),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                decoration: BoxDecoration(
-                  color:
-                  isActive ? _T.segmentActiveBg : Colors.transparent,
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  _tabKeys[i].tr,
-                  style: TextStyle(
-                    color:
-                    isActive ? _T.cardBg : Colors.black,
-                    fontSize: 13,
-                    fontWeight: isActive
-                        ? FontWeight.w900
-                        : FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-          );
-        }),
-      ),
-    );
-  }
-
   Widget _contactRow(String label, String value, Color valueColor) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label,
-            style: const TextStyle(color: Colors.black, fontSize: 13, fontWeight: FontWeight.w700)),
+            style: const TextStyle(
+                color: Colors.black,
+                fontSize: 13,
+                fontWeight: FontWeight.w700)),
         Text(value,
             style: TextStyle(
                 color: valueColor,
@@ -562,12 +702,12 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
 }
 
 // ─────────────────────────────────────────────
-// Custom Topic Dropdown Overlay
+// Custom Topic Dropdown Overlay (dynamic)
 // ─────────────────────────────────────────────
 class _TopicDropdownMenu extends StatelessWidget {
-  final List<String> items;
-  final String? selectedItem;
-  final ValueChanged<String> onSelect;
+  final List<SupportTopicModel> items;
+  final SupportTopicModel? selectedItem;
+  final ValueChanged<SupportTopicModel> onSelect;
 
   const _TopicDropdownMenu({
     required this.items,
@@ -575,14 +715,13 @@ class _TopicDropdownMenu extends StatelessWidget {
     required this.onSelect,
   });
 
-  // Alternating bg colors matching image 3
   static const _rowColors = [
-    Color(0xFFB2EEF8), // light cyan  – Billing Question
-    Colors.white,      // white       – Technical Issue
-    Color(0xFFFEF0E6), // light peach – Switching Process
-    Colors.white,      // white       – Contact Question
-    Color(0xFFFEF0E6), // light peach – Account Management
-    Colors.white,      // white       – Other
+    Color(0xFFB2EEF8),
+    Colors.white,
+    Color(0xFFFEF0E6),
+    Colors.white,
+    Color(0xFFFEF0E6),
+    Colors.white,
   ];
 
   @override
@@ -608,7 +747,7 @@ class _TopicDropdownMenu extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: List.generate(items.length, (i) {
             final item = items[i];
-            final isSelected = item == selectedItem;
+            final isSelected = item.id == selectedItem?.id;
             final isLast = i == items.length - 1;
             final rowBg = isSelected
                 ? _T.purpleBg
@@ -624,7 +763,7 @@ class _TopicDropdownMenu extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 18, vertical: 15),
                     child: Text(
-                      item.tr,
+                      item.name,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: isSelected ? _T.purple : Colors.black,

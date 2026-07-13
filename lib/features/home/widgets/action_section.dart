@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyzi/core/navbar/navbar_controller.dart';
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
+import 'package:vyzi/features/utility/select_utility_screen.dart';
 
 import 'action_card.dart';
 
@@ -81,7 +83,13 @@ class ActionSection extends StatelessWidget {
                 showBadge: item['showBadge'] ?? false,
                 badgeText: item['badgeText'],
                 onTap: () {
-                  debugPrint("Action tapped: ${item['title']}");
+                  if (index == 2) {
+                    // Activate Service → switch to My Request tab
+                    Get.find<NavbarController>().changeIndex(1);
+                  } else {
+                    // Change Supplier, Transfer of Ownership, Check Invoice → Select Utility
+                    Get.to(() => const SelectUtilityScreen());
+                  }
                 },
               );
             },

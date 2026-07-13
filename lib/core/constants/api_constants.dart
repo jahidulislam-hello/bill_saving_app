@@ -61,6 +61,19 @@ class ApiConstants {
 
 
 
+  // Support
+  static const String supportTopics = '/api/v1/support/topics';
+  static const String supportTickets = '/api/v1/support/tickets';
+  static String supportTicketDetail(String id) => '/api/v1/support/tickets/$id';
+  static String supportTicketMessages(String id) =>
+      '/api/v1/support/tickets/$id/messages';
+
+  // FAQ
+  static const String faqs = '/api/v1/support/faqs';
+
+  // Static Pages
+  static String staticPage(String slug) => '/api/v1/static-pages/$slug';
+
   //Bills
   static const String billsBase = '/api/v1/bills';
   static const String uploadBills = '/api/v1/bills/upload';

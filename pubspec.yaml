@@ -30,6 +30,7 @@ dependencies:
   flutter_spinkit:
   pin_code_fields:
   image_picker:
+  file_picker:
   internet_connection_checker:
   fluttertoast:
   flutter_html:
@@ -53,6 +54,10 @@ dependencies:
   flutter_typeahead:
   http:
   mobile_scanner:
+  google_mlkit_text_recognition:
+  syncfusion_flutter_pdf:
+  pdfx:
+  url_launcher:
 
   # Firebase
   firebase_core:

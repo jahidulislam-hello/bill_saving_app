@@ -149,7 +149,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
-        'Completa la tua Richiesta',
+        'request.form.complete_request_title'.tr,
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w700,
@@ -240,10 +240,10 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           ),
           SizedBox(height: 10.h),
           _buildInfoRow(Icons.credit_card_outlined, AppColors.accentBlue,
-              'Metodo di Pagamento: Bollettino Postale'),
+              'request.form.payment_method_info'.tr),
           SizedBox(height: 7.h),
           _buildInfoRow(Icons.check_circle_outline, AppColors.primary400,
-              'Compatibilità: Residenziale'),
+              'request.form.compatibility_info'.tr),
           SizedBox(height: 12.h),
           _dividerLine(),
           SizedBox(height: 12.h),
@@ -297,7 +297,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _sectionTitle('Informazioni Personali'),
+              _sectionTitle('request.form.personal_info_title'.tr),
               GestureDetector(
                 onTap: () {
                   if (_editingPersonalInfo) {
@@ -329,7 +329,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       ),
                       SizedBox(width: 4.w),
                       Text(
-                        _editingPersonalInfo ? 'common.save'.tr : 'Modifica',
+                        _editingPersonalInfo ? 'common.save'.tr : 'request.form.edit'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.background,
@@ -344,23 +344,23 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           ),
           SizedBox(height: 14.h),
           if (_editingPersonalInfo) ...[
-            _buildEditField('Nome', _firstNameCtrl),
+            _buildEditField('request.form.first_name_field'.tr, _firstNameCtrl),
             SizedBox(height: 10.h),
-            _buildEditField('Cognome', _lastNameCtrl),
+            _buildEditField('request.form.last_name_field'.tr, _lastNameCtrl),
             SizedBox(height: 10.h),
-            _buildEditField('Email', _emailCtrl,
+            _buildEditField('request.form.email_field'.tr, _emailCtrl,
                 keyboardType: TextInputType.emailAddress),
             SizedBox(height: 10.h),
-            _buildEditField('Numero POD', _podCtrl),
+            _buildEditField('request.form.pod_number_field'.tr, _podCtrl),
             SizedBox(height: 10.h),
-            _buildEditField('Telefono', _phoneCtrl,
+            _buildEditField('request.form.phone_field'.tr, _phoneCtrl,
                 keyboardType: TextInputType.phone),
           ] else ...[
-            _personalRow('Nome', _c.firstName),
-            _personalRow('Cognome', _c.lastName),
-            _personalRow('Email', _c.email),
-            _personalRow('Telefono', _c.phone),
-            _personalRow('Numero POD', _c.podNumber),
+            _personalRow('request.form.first_name_field'.tr, _c.firstName),
+            _personalRow('request.form.last_name_field'.tr, _c.lastName),
+            _personalRow('request.form.email_field'.tr, _c.email),
+            _personalRow('request.form.phone_field'.tr, _c.phone),
+            _personalRow('request.form.pod_number_field'.tr, _c.podNumber),
           ],
         ],
       ),
@@ -903,7 +903,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _sectionTitle('Verifica Identità'),
+              _sectionTitle('request.form.identity_verification_title'.tr),
               Row(
                 children: [
                   Icon(Icons.check_rounded,
@@ -1172,7 +1172,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 SizedBox(width: 10.w),
                 Expanded(
                   child: Text(
-                    'Yes, IBAN Holder & Contract Holder are same',
+                    'request.form.iban_same_as_contract'.tr,
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: AppColors.textDark,
@@ -1331,10 +1331,10 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('Metodo di Invio Fattura'),
+          _sectionTitle('request.form.invoice_delivery_title'.tr),
           SizedBox(height: 2.h),
           Text(
-              'Il nostro consiglio: invio via email per ricevere il servizio puntualmente!',
+              'request.form.invoice_delivery_tip'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -1395,7 +1395,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             borderRadius: BorderRadius.circular(10.r),
           ),
           child: Text(
-            'Pre-filled email from your profile',
+            'request.form.prefilled_email'.tr,
             style: TextStyle(
                 fontSize: 13.sp,
                 color: AppColors.primaryColor,
@@ -1410,7 +1410,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: 'Email for invoice ',
+                text: '${'request.form.email_for_invoice'.tr} ',
                 style: TextStyle(
                     fontSize: 13.sp,
                     color: AppColors.textDark,
@@ -1454,9 +1454,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         // Yes / No toggle
         Row(
           children: [
-            Expanded(child: _invoiceAddressOption('Yes', InvoiceAddressMatch.yes)),
+            Expanded(child: _invoiceAddressOption('request.form.yes'.tr, InvoiceAddressMatch.yes)),
             SizedBox(width: 10.w),
-            Expanded(child: _invoiceAddressOption('No', InvoiceAddressMatch.no)),
+            Expanded(child: _invoiceAddressOption('request.form.no'.tr, InvoiceAddressMatch.no)),
           ],
         ),
 
@@ -1544,7 +1544,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
-                    'Enter your shipping address',
+                    'request.form.enter_shipping_address'.tr,
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: AppColors.textPrimary,

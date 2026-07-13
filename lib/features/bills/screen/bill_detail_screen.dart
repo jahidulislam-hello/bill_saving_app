@@ -301,6 +301,18 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
         _DetailRowData('bills.detail.fixed_charges'.tr, bill.fixedChargesDisplay),
       if (bill.taxes != null)
         _DetailRowData('bills.detail.taxes'.tr, bill.taxesDisplay),
+      if (bill.supplyAddress != null)
+        _DetailRowData('bills.detail.supply_address'.tr, bill.supplyAddress!),
+      if (bill.codiceFiscale != null)
+        _DetailRowData('bills.detail.codice_fiscale'.tr, bill.codiceFiscale!),
+      if (bill.partitaIva != null)
+        _DetailRowData('bills.detail.partita_iva'.tr, bill.partitaIva!),
+      if (bill.contractNumber != null)
+        _DetailRowData('bills.detail.contract_number'.tr, bill.contractNumber!),
+      if (bill.meterNumber != null)
+        _DetailRowData('bills.detail.meter_number'.tr, bill.meterNumber!),
+      if (bill.customerName != null)
+        _DetailRowData('bills.detail.customer_name'.tr, bill.customerName!),
     ];
 
     return Column(

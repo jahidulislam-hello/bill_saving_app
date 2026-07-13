@@ -456,8 +456,53 @@ class UtilityDetailsScreen extends StatelessWidget {
 
             SizedBox(height: 14.h),
 
-            Obx(
-                  () => Column(
+            Obx(() {
+              if (controller.isFaqLoading.value) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
+              if (controller.faqError.value.isNotEmpty) {
+                return Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          controller.faqError.value,
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            color: Colors.red,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 8.h),
+                        GestureDetector(
+                          onTap: () => controller.fetchFaqs(),
+                          child: Text(
+                            'utility.retry'.tr,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              if (controller.faqList.isEmpty) {
+                return const SizedBox.shrink();
+              }
+
+              return Column(
                 children: List.generate(
                   controller.faqList.length,
                       (index) {
@@ -504,8 +549,8 @@ class UtilityDetailsScreen extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-            ),
+              );
+            }),
 
             SizedBox(height: 30.h),
           ],

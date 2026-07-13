@@ -42,6 +42,7 @@ class AgreementModel {
     final validFrom = json['validFrom'] as String? ?? '';
     final validUntil = json['validUntil'] as String?;
     final termsUrl = json['termsUrl'] as String? ?? '';
+    final address = json['address'] as String? ?? '';
     final id = json['id'] as String? ?? '';
 
     // Build offerDate string
@@ -75,7 +76,7 @@ class AgreementModel {
       description: description,
       offerDate: offerDate,
       discountCode: discountCode,
-      address: termsUrl,
+      address: address,
       howToUse: howToUse,
     );
   }
@@ -87,6 +88,7 @@ class AgreementsController extends ChangeNotifier {
   bool isCopied = false;
   String? copiedCode;
   bool isLoading = false;
+  String? errorMessage;
 
   List<AgreementModel> agreements = [];
 
@@ -96,6 +98,7 @@ class AgreementsController extends ChangeNotifier {
 
   Future<void> fetchAgreements() async {
     isLoading = true;
+    errorMessage = null;
     notifyListeners();
 
     try {
@@ -116,7 +119,7 @@ class AgreementsController extends ChangeNotifier {
             .toList();
       }
     } catch (_) {
-      // Keep empty list on error
+      errorMessage = 'agreements.error_loading'.tr;
     } finally {
       isLoading = false;
       notifyListeners();
