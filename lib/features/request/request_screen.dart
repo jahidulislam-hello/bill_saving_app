@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:vyzi/features/bills/models/bill_model.dart';
+import 'package:vyzi/features/utility/select_utility_screen.dart';
 
 import '../../core/appbar/custom_appbar.dart';
 import '../../routes/app_routes.dart';
@@ -594,7 +595,7 @@ class _RequestScreenState extends State<RequestScreen>
                 size: 20.sp,
               ),
               onPress: () {
-                Get.toNamed(AppRoutes.billsListScreen);
+                Get.to(() => const SelectUtilityScreen());
               },
             ),
             SizedBox(height: 40.h),
