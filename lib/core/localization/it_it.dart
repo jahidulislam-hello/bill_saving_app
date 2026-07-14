@@ -311,6 +311,7 @@ final Map<String, String> itIT = {
   'request.form.shipping_match_question': 'L\'indirizzo di spedizione corrisponde all\'indirizzo di fornitura?',
   'request.form.almost_done': 'Quasi fatto!',
   'request.form.activate_offer': 'Attiva Offerta',
+  'request.form.no_bill_warning': 'Carica prima una bolletta per attivare questa offerta. Vai alla sezione Bollette per caricare la tua bolletta energetica.',
   'request.form.scan_document': 'Scansiona Documento',
   'request.form.align_document': 'Allinea il documento nella cornice',
   'request.form.supported_formats': 'Sono supportati anche codici QR e codici a barre',

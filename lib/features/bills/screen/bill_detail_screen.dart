@@ -7,6 +7,8 @@ import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/features/bills/models/bill_model.dart';
 import 'package:vyzi/features/bills/models/bill_analysis_model.dart';
+import 'package:vyzi/features/request/models/case_model.dart';
+import 'package:vyzi/routes/app_routes.dart';
 
 class BillDetailScreen extends StatefulWidget {
   final String billId;
@@ -27,6 +29,10 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
   bool _isLoadingAnalysis = false;
   String _analysisError = '';
   BillAnalysisModel? _analysis;
+
+  // Case tracking
+  CaseModel? _caseData;
+  bool _isLoadingCase = false;
 
   @override
   void initState() {
@@ -51,6 +57,10 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
         // If analysis is included in the response, use it
         if (_bill?.analysis != null) {
           _analysis = _bill!.analysis;
+        }
+        // Fetch case data if bill has a case
+        if (_bill?.status == 'case_created') {
+          _fetchCaseByBill();
         }
       } else {
         _error = body['message']?.toString() ??
@@ -86,6 +96,21 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
       _analysisError = e.toString();
     } finally {
       if (mounted) setState(() => _isLoadingAnalysis = false);
+    }
+  }
+
+  Future<void> _fetchCaseByBill() async {
+    setState(() => _isLoadingCase = true);
+    try {
+      final response = await _api.get(ApiConstants.getCaseByBill(widget.billId));
+      final body = response.data as Map<String, dynamic>;
+      if (body['success'] == true && body['data'] != null) {
+        _caseData = CaseModel.fromJson(body['data'] as Map<String, dynamic>);
+      }
+    } catch (_) {
+      // Non-blocking
+    } finally {
+      if (mounted) setState(() => _isLoadingCase = false);
     }
   }
 
@@ -152,6 +177,16 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
         SizedBox(height: 14.h),
         _statusBanner(bill),
         SizedBox(height: 14.h),
+        if (_caseData != null) ...[
+          _caseTrackingSection(_caseData!),
+          SizedBox(height: 14.h),
+        ] else if (_isLoadingCase) ...[
+          const Center(child: Padding(
+            padding: EdgeInsets.all(16),
+            child: CircularProgressIndicator(color: AppColors.primaryColor),
+          )),
+          SizedBox(height: 14.h),
+        ],
         _billInfoSection(bill),
         SizedBox(height: 14.h),
         if (_analysis != null) ...[
@@ -268,6 +303,144 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
     );
   }
 
+  // ── Case Tracking Section ──
+  Widget _caseTrackingSection(CaseModel caseData) {
+    final steps = ['Inviata', 'In Lavorazione', 'Contratto', 'Firmato', 'Attiva'];
+    final currentStep = caseData.statusStep;
+
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: AppColors.cardBg,
+        borderRadius: BorderRadius.circular(14.r),
+        border: Border.all(color: AppColors.divider, width: 1.2),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.assignment, color: AppColors.primaryColor, size: 20.sp),
+              SizedBox(width: 8.w),
+              Expanded(
+                child: Text(
+                  'Pratica ${caseData.caseNumber ?? ''}',
+                  style: TextStyle(
+                    color: AppColors.textDark,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+                child: Text(
+                  caseData.statusLabel,
+                  style: TextStyle(
+                    color: AppColors.primaryColor,
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16.h),
+          // Stepper
+          Row(
+            children: List.generate(steps.length * 2 - 1, (index) {
+              if (index.isOdd) {
+                final stepIdx = index ~/ 2;
+                return Expanded(
+                  child: Container(
+                    height: 2.5,
+                    color: stepIdx < currentStep
+                        ? AppColors.green200
+                        : const Color(0xFFE8E8E8),
+                  ),
+                );
+              }
+              final stepIdx = index ~/ 2;
+              final isDone = stepIdx < currentStep;
+              final isCurrent = stepIdx == currentStep;
+              return Container(
+                width: 24.w,
+                height: 24.w,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isDone
+                      ? AppColors.green200
+                      : isCurrent
+                          ? AppColors.primaryColor
+                          : const Color(0xFFE8E8E8),
+                ),
+                child: Center(
+                  child: isDone
+                      ? Icon(Icons.check, size: 12.sp, color: Colors.white)
+                      : Text(
+                          '${stepIdx + 1}',
+                          style: TextStyle(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w800,
+                            color: isCurrent ? Colors.white : const Color(0xFF999999),
+                          ),
+                        ),
+                ),
+              );
+            }),
+          ),
+          SizedBox(height: 6.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: steps.map((label) {
+              return SizedBox(
+                width: 48.w,
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 8.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textMid,
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+          SizedBox(height: 14.h),
+          // View details button
+          SizedBox(
+            width: double.infinity,
+            height: 40.h,
+            child: OutlinedButton(
+              onPressed: () {
+                Get.toNamed(AppRoutes.caseDetailScreen, arguments: caseData.id);
+              },
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: AppColors.primaryColor),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+              ),
+              child: Text(
+                'Dettagli Pratica',
+                style: TextStyle(
+                  color: AppColors.primaryColor,
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   String _statusMessage(String status) {
     switch (status) {
       case 'uploaded':
@@ -278,6 +451,10 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
         return 'bills.detail.status_analyzed'.tr;
       case 'error':
         return 'bills.detail.status_error'.tr;
+      case 'case_created':
+        return 'Pratica in corso';
+      case 'offer_sent':
+        return 'Offerte disponibili';
       default:
         return status;
     }
@@ -414,15 +591,6 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
             ),
           ),
         ],
-        // Recommended offers
-        if (analysis.recommendedOffers.isNotEmpty) ...[
-          SizedBox(height: 14.h),
-          Text('bills.detail.recommended_offers'.tr,
-              style: AppStyles.h4.copyWith(fontSize: 14.sp)),
-          SizedBox(height: 8.h),
-          ...analysis.recommendedOffers
-              .map((offer) => _recommendedOfferCard(offer)),
-        ],
       ],
     );
   }
@@ -470,77 +638,6 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
               fontWeight: FontWeight.w900,
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _recommendedOfferCard(RecommendedOfferModel offer) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10.h),
-      padding: EdgeInsets.all(14.w),
-      decoration: BoxDecoration(
-        color: AppColors.cardBg,
-        borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFFB396E1), width: 1.2),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 40.w,
-            height: 40.w,
-            decoration: BoxDecoration(
-              color: const Color(0xFFF0EEFB),
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child: Icon(
-              offer.isGreenEnergy ? Icons.eco : Icons.bolt,
-              color: AppColors.purple,
-              size: 20.sp,
-            ),
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  offer.name,
-                  style: TextStyle(
-                    color: AppColors.textDark,
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                SizedBox(height: 2.h),
-                Text(
-                  offer.supplierName ?? '',
-                  style: TextStyle(
-                    color: AppColors.textMid,
-                    fontSize: 11.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          if (offer.estimatedSavings != null)
-            Container(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 8.w, vertical: 4.h),
-              decoration: BoxDecoration(
-                color: const Color(0xFFDCFCE7),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: Text(
-                offer.estimatedSavingsDisplay,
-                style: TextStyle(
-                  color: const Color(0xFF008236),
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
         ],
       ),
     );

@@ -311,6 +311,7 @@ final Map<String, String> enUS = {
   'request.form.shipping_match_question': 'Does the shipping address match the delivery address?',
   'request.form.almost_done': 'Almost done!',
   'request.form.activate_offer': 'Activate Offer',
+  'request.form.no_bill_warning': 'Please upload a bill first to activate this offer. Go to the Bills section to upload your energy bill.',
   'request.form.scan_document': 'Scan Document',
   'request.form.align_document': 'Align the document in the frame',
   'request.form.supported_formats': 'QR codes and barcodes are also supported',

@@ -239,7 +239,9 @@ class BillModel {
   }
 
   String get supplierName {
-    return supplier?.name ?? 'bills.supplier.unknown'.tr;
+    return supplier?.name ??
+        rawAnalysisData?['ocrSupplierName'] as String? ??
+        'bills.supplier.unknown'.tr;
   }
 
   String _formatDateStr(String? dateStr) {

@@ -1,5 +1,8 @@
 import 'dart:math' as math;
+import 'package:vyzi/core/navbar/navbar_controller.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/home/controller/home_controller.dart';
+import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -252,7 +255,10 @@ class RequestSuccessScreen extends StatelessWidget {
       height: 52,
       child: ElevatedButton(
         onPressed: () {
-          // Navigate to requests tab or details
+          final caseId = Get.arguments as String?;
+          if (caseId != null) {
+            Get.toNamed(AppRoutes.caseDetailScreen, arguments: caseId);
+          }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: _purple,
@@ -273,7 +279,16 @@ class RequestSuccessScreen extends StatelessWidget {
       width: double.infinity,
       height: 46,
       child: TextButton(
-        onPressed: () => Navigator.of(context).popUntil((r) => r.isFirst),
+        onPressed: () {
+          Navigator.of(context).popUntil((r) => r.isFirst);
+          // Switch to home tab and refresh dashboard to show updated savings
+          if (Get.isRegistered<NavbarController>()) {
+            Get.find<NavbarController>().changeIndex(0);
+          }
+          if (Get.isRegistered<HomeController>()) {
+            Get.find<HomeController>().fetchDashboard();
+          }
+        },
         style: TextButton.styleFrom(
           foregroundColor: _textDark,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),

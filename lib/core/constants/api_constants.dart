@@ -87,6 +87,14 @@ class ApiConstants {
   static const String casesBase = '/api/v1/cases';
   static String caseDocuments(String caseId) =>
       '/api/v1/cases/$caseId/documents';
+  static String getCaseByBill(String billId) =>
+      '/api/v1/cases/by-bill/$billId';
+  static String getCaseDetails(String caseId) => '/api/v1/cases/$caseId';
+
+  // Contracts (user-facing)
+  static const String myContracts = '/api/v1/contracts/my-contracts';
+  static String uploadSignedContract(String contractId) =>
+      '/api/v1/contracts/my-contracts/$contractId/upload-signed';
 
   // General file upload
   static const String fileUpload = '/api/v1/upload';

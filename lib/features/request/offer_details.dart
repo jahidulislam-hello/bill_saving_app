@@ -505,7 +505,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         height: 52,
         child: ElevatedButton(
           onPressed: () {
-            Get.to(() => const CompleteRequestScreen());
+            Get.to(() => CompleteRequestScreen(offer: _offer!));
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.purple,

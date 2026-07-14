@@ -1,21 +1,30 @@
-import 'package:vyzi/features/request/request_success_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:vyzi/core/constants/api_constants.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/bills/models/bill_model.dart';
+import 'package:vyzi/features/request/models/api_offer_model.dart';
 import 'complete_request_controller.dart';
 
 class CompleteRequestScreen extends StatefulWidget {
-  const CompleteRequestScreen({super.key});
+  final ApiOfferModel offer;
+  final BillModel? bill;
+
+  const CompleteRequestScreen({
+    super.key,
+    required this.offer,
+    this.bill,
+  });
 
   @override
   State<CompleteRequestScreen> createState() => _CompleteRequestScreenState();
 }
 
 class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
-  final CompleteRequestController _c = CompleteRequestController();
+  late final CompleteRequestController _c;
   final ImagePicker _picker = ImagePicker();
 
   // ── Personal Info edit ──
@@ -34,45 +43,65 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   String? _supplyProvince;
 
   // ── Payment Method extras ──
-  // shown only when directDebit selected
   bool _ibanSameAsContract = true;
-  final TextEditingController _holderFirstCtrl =
-  TextEditingController(text: 'jacob clai');
-  final TextEditingController _holderLastCtrl =
-  TextEditingController(text: 'jacob');
-  final TextEditingController _holderTaxCtrl =
-  TextEditingController(text: '1234 5678 9654 2135 6874 1312 456');
+  final TextEditingController _holderFirstCtrl = TextEditingController();
+  final TextEditingController _holderLastCtrl = TextEditingController();
+  final TextEditingController _holderTaxCtrl = TextEditingController();
 
   // ── Invoice Delivery extras ──
-  // shown only when digital selected
-  final TextEditingController _invoiceEmailCtrl =
-  TextEditingController(text: 'example@amail.com');
-  // shown only when paper selected
+  late TextEditingController _invoiceEmailCtrl;
   InvoiceAddressMatch? _invoiceAddressMatch;
-  // new address for paper invoice "No" branch
   final TextEditingController _invStreetCtrl = TextEditingController();
-  final TextEditingController _invCityCtrl =
-  TextEditingController(text: 'Milano');
-  final TextEditingController _invNumberCtrl =
-  TextEditingController(text: '20100');
-  final TextEditingController _invProvinceCtrl =
-  TextEditingController(text: 'RM');
+  final TextEditingController _invCityCtrl = TextEditingController();
+  final TextEditingController _invNumberCtrl = TextEditingController();
+  final TextEditingController _invProvinceCtrl = TextEditingController();
   String? _invZipProvince;
+
+  bool _profileSynced = false;
 
   @override
   void initState() {
     super.initState();
-    _c.addListener(() {
-      if (mounted) setState(() {});
-    });
-    _firstNameCtrl = TextEditingController(text: _c.firstName);
-    _lastNameCtrl = TextEditingController(text: _c.lastName);
-    _emailCtrl = TextEditingController(text: _c.email);
-    _phoneCtrl = TextEditingController(text: _c.phone);
-    _podCtrl = TextEditingController(text: _c.podNumber);
-    _streetCtrl = TextEditingController(text: '123 Main Street');
-    _cityCtrl = TextEditingController(text: 'Milano');
-    _zipCtrl = TextEditingController(text: '20100');
+    _c = CompleteRequestController(
+      offer: widget.offer,
+      bill: widget.bill,
+    );
+    _c.addListener(_onControllerUpdate);
+
+    _firstNameCtrl = TextEditingController();
+    _lastNameCtrl = TextEditingController();
+    _emailCtrl = TextEditingController();
+    _phoneCtrl = TextEditingController();
+    _podCtrl = TextEditingController();
+    _streetCtrl = TextEditingController();
+    _cityCtrl = TextEditingController();
+    _zipCtrl = TextEditingController();
+    _invoiceEmailCtrl = TextEditingController();
+  }
+
+  void _onControllerUpdate() {
+    if (!mounted) return;
+    // Sync text controllers once profile data arrives
+    if (!_profileSynced && !_c.isLoadingProfile && _c.firstName.isNotEmpty) {
+      _profileSynced = true;
+      _firstNameCtrl.text = _c.firstName;
+      _lastNameCtrl.text = _c.lastName;
+      _emailCtrl.text = _c.email;
+      _phoneCtrl.text = _c.phone;
+      _podCtrl.text = _c.podNumber;
+      _invoiceEmailCtrl.text = _c.email;
+      _holderFirstCtrl.text = _c.firstName;
+      _holderLastCtrl.text = _c.lastName;
+      _holderTaxCtrl.text = _c.taxCode;
+    }
+    // Sync address when bill data arrives
+    if (_streetCtrl.text.isEmpty && _c.address.isNotEmpty) {
+      _streetCtrl.text = _c.address;
+    }
+    if (_cityCtrl.text.isEmpty && _c.city.isNotEmpty) {
+      _cityCtrl.text = _c.city;
+    }
+    setState(() {});
   }
 
   @override
@@ -106,30 +135,36 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildOfferCard(),
-            _gap(),
-            _buildPersonalInfoCard(),
-            _gap(),
-            _buildSupplyAddressCard(),
-            _gap(),
-            _buildIdentityVerificationCard(),
-            _gap(),
-            _buildPaymentMethodCard(),
-            _gap(),
-            _buildInvoiceDeliveryCard(),
-            _gap(),
-            _buildAlmostThereCard(),
-            SizedBox(height: 16.h),
-            _buildActivateButton(),
-            SizedBox(height: 30.h),
-          ],
-        ),
-      ),
+      body: _c.isLoadingProfile
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildOfferCard(),
+                  _gap(),
+                  _buildPersonalInfoCard(),
+                  _gap(),
+                  _buildSupplyAddressCard(),
+                  _gap(),
+                  _buildIdentityVerificationCard(),
+                  _gap(),
+                  _buildPaymentMethodCard(),
+                  _gap(),
+                  _buildInvoiceDeliveryCard(),
+                  _gap(),
+                  _buildAlmostThereCard(),
+                  if (_c.bill == null && !_c.isLoadingBill) ...[
+                    SizedBox(height: 12.h),
+                    _buildNoBillWarning(),
+                  ],
+                  SizedBox(height: 16.h),
+                  _buildActivateButton(),
+                  SizedBox(height: 30.h),
+                ],
+              ),
+            ),
     );
   }
 
@@ -165,6 +200,10 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   // ─────────────────────────────────────────────
 
   Widget _buildOfferCard() {
+    final offer = widget.offer;
+    final supplierLogo = offer.supplier?.logoUrl;
+    final baseUrl = ApiConstants.baseUrl;
+
     return _card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,34 +212,30 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10.r),
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=200',
-                  width: 50.w,
-                  height: 50.w,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
-                    width: 50.w,
-                    height: 50.w,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary300,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Icon(Icons.bolt, color: AppColors.background, size: 24.sp),
-                  ),
-                ),
+                child: supplierLogo != null && supplierLogo.isNotEmpty
+                    ? Image.network(
+                        supplierLogo.startsWith('http')
+                            ? supplierLogo
+                            : '$baseUrl$supplierLogo',
+                        width: 50.w,
+                        height: 50.w,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => _offerIconFallback(),
+                      )
+                    : _offerIconFallback(),
               ),
               SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('request.offer.green_energy'.tr,
+                    Text(offer.name,
                         style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textDark,
                             height: 1.22)),
-                    Text('request.offer.green_offer'.tr,
+                    Text(offer.supplier?.name ?? offer.marketTypeDisplay,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textPrimary,
@@ -208,19 +243,20 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                decoration: BoxDecoration(
-                  color: AppColors.green200,
-                  borderRadius: BorderRadius.circular(20.r),
+              if (offer.isGreenEnergy)
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                  decoration: BoxDecoration(
+                    color: AppColors.green200,
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Text('request.offer.best_value'.tr,
+                      style: TextStyle(
+                          color: AppColors.background,
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w600,
+                          height: 1.22)),
                 ),
-                child: Text('request.offer.best_value'.tr,
-                    style: TextStyle(
-                        color: AppColors.background,
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w600,
-                        height: 1.22)),
-              ),
             ],
           ),
           SizedBox(height: 10.h),
@@ -231,7 +267,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               color: AppColors.primary100,
               borderRadius: BorderRadius.circular(8.r),
             ),
-            child: Text('request.offer_details.price_formula'.tr,
+            child: Text(offer.energyPriceDisplay,
                 style: TextStyle(
                     fontSize: 12.sp,
                     color: AppColors.textDark,
@@ -243,20 +279,20 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               'request.form.payment_method_info'.tr),
           SizedBox(height: 7.h),
           _buildInfoRow(Icons.check_circle_outline, AppColors.primary400,
-              'request.form.compatibility_info'.tr),
+              '${offer.contractDurationDisplay} · ${offer.target == 'business' ? 'Business' : 'Residenziale'}'),
           SizedBox(height: 12.h),
           _dividerLine(),
           SizedBox(height: 12.h),
           Row(
             children: [
-              Text('€380',
+              Text('€${offer.fixedMonthlyFee.toStringAsFixed(2)}',
                   style: TextStyle(
                       fontSize: 26.sp,
                       fontWeight: FontWeight.w800,
                       color: AppColors.green200,
                       height: 1.22)),
               SizedBox(width: 8.w),
-              Text('request.offer.annual_savings'.tr,
+              Text('/mese',
                   style: TextStyle(
                       fontSize: 13.sp,
                       color: AppColors.textDark,
@@ -266,6 +302,18 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _offerIconFallback() {
+    return Container(
+      width: 50.w,
+      height: 50.w,
+      decoration: BoxDecoration(
+        color: AppColors.primary300,
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      child: Icon(Icons.bolt, color: AppColors.background, size: 24.sp),
     );
   }
 
@@ -927,12 +975,35 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   color: AppColors.textPrimary,
                   height: 1.5)),
           SizedBox(height: 14.h),
-          if (_c.uploadedFiles.isNotEmpty) ...[
+          if (_c.isUploading)
+            Padding(
+              padding: EdgeInsets.only(bottom: 10.h),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 16.w,
+                    height: 16.w,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Text('Uploading...',
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: AppColors.textPrimary,
+                          height: 1.22)),
+                ],
+              ),
+            ),
+          if (_c.uploadedDocuments.isNotEmpty) ...[
             Wrap(
               spacing: 8.w,
               runSpacing: 6.h,
-              children: _c.uploadedFiles.asMap().entries.map((e) {
-                final name = e.value.split('/').last;
+              children: _c.uploadedDocuments.asMap().entries.map((e) {
+                final doc = e.value;
+                final name = doc.fileName;
                 return Container(
                   padding:
                   EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
@@ -957,7 +1028,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       ),
                       SizedBox(width: 6.w),
                       GestureDetector(
-                        onTap: () => _c.removeFile(e.key),
+                        onTap: () => _c.removeDocument(e.key),
                         child: Icon(Icons.close_rounded,
                             size: 12.sp, color: AppColors.linkGreen),
                       ),
@@ -975,7 +1046,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   icon: Icons.upload_rounded,
                   label: 'request.form.upload_file_button'.tr,
                   sublabel: 'request.form.upload_formats'.tr,
-                  canUpload: _c.uploadedFiles.length < 3,
+                  canUpload: _c.uploadedDocuments.length < 3 && !_c.isUploading,
                   onTap: _pickFile,
                 ),
               ),
@@ -985,7 +1056,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   icon: Icons.qr_code_scanner_rounded,
                   label: 'request.form.scan_document'.tr,
                   sublabel: 'request.form.scan_with_camera'.tr,
-                  canUpload: true,
+                  canUpload: !_c.isUploading,
                   onTap: _openScanner,
                 ),
               ),
@@ -1047,7 +1118,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         source: ImageSource.gallery,
         imageQuality: 85,
       );
-      if (file != null) _c.addUploadedFile(file.path);
+      if (file != null) await _c.uploadDocument(file.path);
     } catch (e) {
       debugPrint('File picker error: $e');
     }
@@ -1058,7 +1129,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       context,
       MaterialPageRoute(
         builder: (_) => _DocumentScannerScreen(
-          onScanned: (path) => _c.addUploadedFile(path),
+          onScanned: (path) => _c.uploadDocument(path),
         ),
       ),
     );
@@ -1504,7 +1575,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(width: 8.w),
           Expanded(
             child: Text(
-              '${'request.invoice.destination_preview'.tr} Via Roma 42, 20121 Milan (MI)',
+              '${'request.invoice.destination_preview'.tr} ${_c.address}${_c.city.isNotEmpty ? ', ${_c.city}' : ''}',
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.red200,
@@ -1868,24 +1939,62 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   //  ACTIVATE BUTTON
   // ─────────────────────────────────────────────
 
+  Widget _buildNoBillWarning() {
+    return Container(
+      padding: EdgeInsets.all(14.w),
+      decoration: BoxDecoration(
+        color: AppColors.yellowAlpha10,
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: AppColors.yellow100, width: 1),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.warning_amber_rounded,
+              color: AppColors.yellow200, size: 18.sp),
+          SizedBox(width: 10.w),
+          Expanded(
+            child: Text(
+              'request.form.no_bill_warning'.tr,
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: AppColors.textDark,
+                  height: 1.4),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildActivateButton() {
     return SizedBox(
       width: double.infinity,
       height: 54.h,
       child: ElevatedButton(
-        onPressed: () => Get.to(() => const RequestSuccessScreen()),
+        onPressed: _c.canActivate ? () => _c.activateOffer() : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryColor,
+          backgroundColor: _c.canActivate
+              ? AppColors.primaryColor
+              : AppColors.primary300,
           foregroundColor: AppColors.background,
           elevation: 0,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.r)),
         ),
-        child: Text('request.form.activate_offer'.tr,
-            style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                height: 1.22)),
+        child: _c.isSubmitting
+            ? SizedBox(
+                width: 24.w,
+                height: 24.w,
+                child: const CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2.5,
+                ),
+              )
+            : Text('request.form.activate_offer'.tr,
+                style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    height: 1.22)),
       ),
     );
   }
