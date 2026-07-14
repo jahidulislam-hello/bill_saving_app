@@ -7,6 +7,13 @@ import 'package:vyzi/features/request/models/api_offer_model.dart';
 class RequestController extends ChangeNotifier {
   final ApiService _api = ApiService();
 
+  static double? _parseDouble(dynamic v) {
+    if (v == null) return null;
+    if (v is num) return v.toDouble();
+    if (v is String) return double.tryParse(v);
+    return null;
+  }
+
   int _selectedTab = 0;
 
   // Offers state
@@ -36,56 +43,65 @@ class RequestController extends ChangeNotifier {
     }
   }
 
-  /// Fetches personalized recommended offers from the user's bill analyses.
-  /// Each analyzed bill stores its own recommended offers — this method
-  /// aggregates them across all bills, deduplicated by offer ID.
+  /// Fetches the user's sent offers from GET /api/v1/offers/my-offers.
+  /// These are offers that were sent to the user (auto or manually by admin)
+  /// after bill analysis. Deduplicates by offer ID.
   Future<void> fetchOffers() async {
     isLoadingOffers = true;
     offersError = '';
     notifyListeners();
 
     try {
-      // Step 1: Ensure bills are loaded (bills response includes analysis data)
-      if (bills.isEmpty && !isLoadingBills) {
-        await fetchBills();
-      }
+      final response = await _api.get(ApiConstants.getMyOffers);
+      final body = response.data as Map<String, dynamic>;
 
-      // Step 2: No bills means no personalized offers
-      if (bills.isEmpty) {
-        offers = [];
-        totalOffers = 0;
-        return;
-      }
+      if (body['success'] == true) {
+        final data = body['data'];
+        final rawList = data is List<dynamic> ? data : <dynamic>[];
 
-      // Step 3: Extract recommended offers from each bill's analysis
-      final seen = <String>{};
-      final allOffers = <ApiOfferModel>[];
+        final seen = <String>{};
+        final allOffers = <ApiOfferModel>[];
 
-      for (final bill in bills) {
-        if (bill.analysis == null) continue;
-        for (final rec in bill.analysis!.recommendedOffers) {
-          if (rec.id.isNotEmpty && seen.add(rec.id)) {
-            allOffers.add(ApiOfferModel(
-              id: rec.id,
-              name: rec.name,
-              energyType: rec.energyType,
-              marketType: rec.marketType,
-              pricePerKwh: rec.pricePerKwh,
-              pricePerSmc: rec.pricePerSmc,
-              fixedMonthlyFee: rec.fixedMonthlyFee ?? 0,
-              contractDurationMonths: rec.contractDurationMonths,
-              isGreenEnergy: rec.isGreenEnergy,
-              supplier: rec.supplierName != null
-                  ? OfferSupplierModel(
-                      id: rec.supplierId, name: rec.supplierName!)
-                  : null,
-            ));
+        for (final item in rawList) {
+          final map = item as Map<String, dynamic>;
+          final offerData = map['offer'] as Map<String, dynamic>?;
+          final snapshot = map['offerSnapshot'] as Map<String, dynamic>?;
+
+          // Prefer live offer data, fall back to snapshot
+          if (offerData != null) {
+            final offer = ApiOfferModel.fromJson(offerData);
+            if (offer.id.isNotEmpty && seen.add(offer.id)) {
+              allOffers.add(offer);
+            }
+          } else if (snapshot != null) {
+            final id = snapshot['id'] as String? ?? '';
+            if (id.isNotEmpty && seen.add(id)) {
+              allOffers.add(ApiOfferModel(
+                id: id,
+                name: snapshot['name'] as String? ?? '',
+                energyType: snapshot['energyType'] as String? ?? '',
+                marketType: snapshot['marketType'] as String? ?? '',
+                pricePerKwh: _parseDouble(snapshot['pricePerKwh']),
+                pricePerSmc: _parseDouble(snapshot['pricePerSmc']),
+                fixedMonthlyFee: _parseDouble(snapshot['fixedMonthlyFee']) ?? 0,
+                contractDurationMonths:
+                    snapshot['contractDurationMonths'] as int? ?? 0,
+                isGreenEnergy: snapshot['isGreenEnergy'] as bool? ?? false,
+                supplier: snapshot['supplierName'] != null
+                    ? OfferSupplierModel(
+                        id: snapshot['supplierId'] as String? ?? '',
+                        name: snapshot['supplierName'] as String)
+                    : null,
+              ));
+            }
           }
         }
-      }
 
-      offers = allOffers;
-      totalOffers = allOffers.length;
+        offers = allOffers;
+        totalOffers = allOffers.length;
+      } else {
+        offersError = body['message']?.toString() ?? 'Failed to load offers';
+      }
     } catch (e) {
       offersError = e.toString();
     } finally {

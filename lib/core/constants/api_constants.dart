@@ -50,6 +50,7 @@ class ApiConstants {
 
   //Offers
   static const String getActiveOffers = '/api/v1/offers?page=1&limit=20';
+  static const String getMyOffers = '/api/v1/offers/my-offers';
   static const String getOfferDetails = '/api/v1/offers/{{offerId}}'; 
   static const String getCompareOffers = '/api/v1/offers/compare?ids={{offerId}},o2b3c4d5-e6f7-8901-bcde-f23456789012';
   static String getRecommendedOffers(String billId) => '/api/v1/offers/recommended/$billId';
