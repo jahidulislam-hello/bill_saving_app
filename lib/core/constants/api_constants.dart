@@ -52,7 +52,7 @@ class ApiConstants {
   static const String getActiveOffers = '/api/v1/offers?page=1&limit=20';
   static const String getOfferDetails = '/api/v1/offers/{{offerId}}'; 
   static const String getCompareOffers = '/api/v1/offers/compare?ids={{offerId}},o2b3c4d5-e6f7-8901-bcde-f23456789012';
-  static const String getRecomndedOffer = '/api/v1/offers/recommended/a1b2c3d4-e5f6-7890-abcd-ef1234567890';
+  static String getRecommendedOffers(String billId) => '/api/v1/offers/recommended/$billId';
   
   //Agreements
   static const String getListMyAgreements = '/api/v1/agreements/my-agreements';
@@ -82,7 +82,13 @@ class ApiConstants {
   static const String billAnalysis = '/api/v1/bills/{{billId}}/analyze';
   static const String getBillAnalysis = '/api/v1/bills/{{billId}}/analysis';
 
+  // Cases
+  static const String casesBase = '/api/v1/cases';
+  static String caseDocuments(String caseId) =>
+      '/api/v1/cases/$caseId/documents';
 
+  // General file upload
+  static const String fileUpload = '/api/v1/upload';
 
   // Default headers (can be extended at request time)
   static Map<String, String> headers = {
