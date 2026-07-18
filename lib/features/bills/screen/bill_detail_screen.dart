@@ -171,7 +171,8 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
     final bill = _bill!;
 
     return ListView(
-      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 24.h),
+      padding: EdgeInsets.fromLTRB(
+          16.w, 12.h, 16.w, 24.h + MediaQuery.of(context).padding.bottom),
       children: [
         _supplierCard(bill),
         SizedBox(height: 14.h),
