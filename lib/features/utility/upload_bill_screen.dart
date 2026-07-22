@@ -219,7 +219,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       body: Stack(
         children: [
           SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+            padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 24.h + MediaQuery.of(context).padding.bottom),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

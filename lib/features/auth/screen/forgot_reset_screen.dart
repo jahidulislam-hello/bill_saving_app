@@ -25,7 +25,9 @@ class ResetPasswordScreen extends StatelessWidget {
       appBar: CustomAppBar(
         title: 'auth.reset_password.title'.tr,
       ),
-      body: GestureDetector(
+      body: SafeArea(
+        top: false,
+        child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         behavior: HitTestBehavior.opaque,
         child: Padding(
@@ -83,6 +85,7 @@ class ResetPasswordScreen extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
           ],
         ),
+      ),
       ),
       ),
     );

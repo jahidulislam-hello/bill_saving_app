@@ -72,7 +72,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               child: _buildActionButtons(),
             ),
 
-            SizedBox(height: 30.h),
+            SizedBox(height: 30.h + MediaQuery.of(context).padding.bottom),
           ],
         ),
       ),

@@ -120,7 +120,7 @@ class WarmupOnboarding extends StatelessWidget {
 
                   // BOTTOM INDICATOR + BUTTON
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+                    padding: EdgeInsets.fromLTRB(24, 30, 24, 30 + MediaQuery.of(context).padding.bottom),
                     child: controller.currentIndex.value == 2
                         ? PrimaryButton(
                       title: 'onboarding.next'.tr,

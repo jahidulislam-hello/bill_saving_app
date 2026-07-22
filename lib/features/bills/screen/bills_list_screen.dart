@@ -21,7 +21,9 @@ class BillsListScreen extends StatelessWidget {
         title: 'bills.title'.tr,
         showBackButton: false,
       ),
-      body: Column(
+      body: SafeArea(
+        top: false,
+        child: Column(
         children: [
           SizedBox(height: 10.h),
           _buildFilterSection(),
@@ -29,6 +31,7 @@ class BillsListScreen extends StatelessWidget {
           Expanded(child: _buildBillsList()),
           _buildPagination(),
         ],
+      ),
       ),
     );
   }
