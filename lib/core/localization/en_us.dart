@@ -701,6 +701,12 @@ final Map<String, String> enUS = {
   'bills.status.analyzing': 'Analyzing',
   'bills.status.analyzed': 'Analyzed',
   'bills.status.error': 'Error',
+  'bills.status.offer_sent': 'Offers Sent',
+  'bills.status.case_created': 'Case Created',
+  'bills.status.contract_sent': 'Contract Sent',
+  'bills.status.contract_signed': 'Contract Signed',
+  'bills.status.activated': 'Activated',
+  'bills.status.cancelled': 'Cancelled',
   'bills.supplier.unknown': 'Unknown supplier',
   'bills.period.from': 'From',
 

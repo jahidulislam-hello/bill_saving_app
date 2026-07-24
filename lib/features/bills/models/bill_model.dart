@@ -149,6 +149,18 @@ class BillModel {
         return 'bills.status.analyzed'.tr;
       case 'error':
         return 'bills.status.error'.tr;
+      case 'offer_sent':
+        return 'bills.status.offer_sent'.tr;
+      case 'case_created':
+        return 'bills.status.case_created'.tr;
+      case 'contract_sent':
+        return 'bills.status.contract_sent'.tr;
+      case 'contract_signed':
+        return 'bills.status.contract_signed'.tr;
+      case 'activated':
+        return 'bills.status.activated'.tr;
+      case 'cancelled':
+        return 'bills.status.cancelled'.tr;
       default:
         return status;
     }
@@ -164,6 +176,18 @@ class BillModel {
         return const Color(0xFF1FC16B);
       case 'error':
         return const Color(0xFFE53935);
+      case 'offer_sent':
+        return const Color(0xFF0097A7);
+      case 'case_created':
+        return const Color(0xFF7B1FA2);
+      case 'contract_sent':
+        return const Color(0xFFF57F17);
+      case 'contract_signed':
+        return const Color(0xFFE65100);
+      case 'activated':
+        return const Color(0xFF1FC16B);
+      case 'cancelled':
+        return const Color(0xFF757575);
       default:
         return const Color(0xFFDFB400);
     }
@@ -179,6 +203,18 @@ class BillModel {
         return const Color(0xFFDCFCE7);
       case 'error':
         return const Color(0xFFFFEBEE);
+      case 'offer_sent':
+        return const Color(0xFFE0F7FA);
+      case 'case_created':
+        return const Color(0xFFF3E5F5);
+      case 'contract_sent':
+        return const Color(0xFFFFF8E1);
+      case 'contract_signed':
+        return const Color(0xFFFBE9E7);
+      case 'activated':
+        return const Color(0xFFDCFCE7);
+      case 'cancelled':
+        return const Color(0xFFF5F5F5);
       default:
         return const Color(0xFFFFF3E0);
     }

@@ -701,6 +701,12 @@ final Map<String, String> itIT = {
   'bills.status.analyzing': 'In analisi',
   'bills.status.analyzed': 'Analizzata',
   'bills.status.error': 'Errore',
+  'bills.status.offer_sent': 'Offerte inviate',
+  'bills.status.case_created': 'Pratica creata',
+  'bills.status.contract_sent': 'Contratto inviato',
+  'bills.status.contract_signed': 'Contratto firmato',
+  'bills.status.activated': 'Attivata',
+  'bills.status.cancelled': 'Annullata',
   'bills.supplier.unknown': 'Fornitore sconosciuto',
   'bills.period.from': 'Dal',
 

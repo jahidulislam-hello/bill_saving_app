@@ -58,8 +58,8 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
         if (_bill?.analysis != null) {
           _analysis = _bill!.analysis;
         }
-        // Fetch case data if bill has a case
-        if (_bill?.status == 'case_created') {
+        // Fetch case data if bill has an associated case
+        if (['case_created', 'contract_sent', 'contract_signed', 'activated'].contains(_bill?.status)) {
           _fetchCaseByBill();
         }
       } else {
@@ -283,11 +283,13 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
       child: Row(
         children: [
           Icon(
-            bill.status == 'analyzed'
+            (bill.status == 'analyzed' || bill.status == 'activated')
                 ? Icons.check_circle
                 : bill.status == 'error'
                     ? Icons.error
-                    : Icons.access_time,
+                    : (bill.status == 'cancelled')
+                        ? Icons.cancel
+                        : Icons.access_time,
             color: bill.statusColor,
             size: 20.sp,
           ),
@@ -452,10 +454,18 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
         return 'bills.detail.status_analyzed'.tr;
       case 'error':
         return 'bills.detail.status_error'.tr;
-      case 'case_created':
-        return 'Pratica in corso';
       case 'offer_sent':
         return 'Offerte disponibili';
+      case 'case_created':
+        return 'Pratica in corso';
+      case 'contract_sent':
+        return 'Contratto inviato';
+      case 'contract_signed':
+        return 'Contratto firmato';
+      case 'activated':
+        return 'Utenza attivata';
+      case 'cancelled':
+        return 'Pratica annullata';
       default:
         return status;
     }
