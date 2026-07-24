@@ -150,17 +150,17 @@ class BillModel {
       case 'error':
         return 'bills.status.error'.tr;
       case 'offer_sent':
-        return 'bills.status.offer_sent'.tr;
+        return 'Offerte inviate';
       case 'case_created':
-        return 'bills.status.case_created'.tr;
+        return 'Pratica creata';
       case 'contract_sent':
-        return 'bills.status.contract_sent'.tr;
+        return 'Contratto inviato';
       case 'contract_signed':
-        return 'bills.status.contract_signed'.tr;
+        return 'Contratto firmato';
       case 'activated':
-        return 'bills.status.activated'.tr;
+        return 'Attivata';
       case 'cancelled':
-        return 'bills.status.cancelled'.tr;
+        return 'Annullata';
       default:
         return status;
     }
