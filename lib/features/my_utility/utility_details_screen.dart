@@ -3,7 +3,9 @@ import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vyzi/features/my_utility/utility_details_controller.dart';
+import 'package:vyzi/features/support/support_screen.dart';
 
 
 class UtilityDetailsScreen extends StatelessWidget {
@@ -431,6 +433,7 @@ class UtilityDetailsScreen extends StatelessWidget {
               icon: AppAssets.sendEmail,
               title: 'utility.send_email'.tr,
               subtitle: "support@utility.com",
+              onTap: () => launchUrl(Uri.parse('mailto:support@utility.com')),
             ),
 
             SizedBox(height: 12.h),
@@ -439,6 +442,7 @@ class UtilityDetailsScreen extends StatelessWidget {
               icon: AppAssets.openTicket,
               title: 'utility.open_ticket'.tr,
               subtitle: 'utility.open_ticket_desc'.tr,
+              onTap: () => Get.to(() => const SupportFormScreen()),
             ),
 
             SizedBox(height: 12.h),
@@ -448,6 +452,7 @@ class UtilityDetailsScreen extends StatelessWidget {
               title: 'utility.website'.tr,
               subtitle: "eniplenitude.it",
               isWebsite: true,
+              onTap: () => launchUrl(Uri.parse('https://eniplenitude.it'), mode: LaunchMode.externalApplication),
             ),
 
             SizedBox(height: 26.h),
@@ -627,8 +632,11 @@ class UtilityDetailsScreen extends StatelessWidget {
     required String title,
     required String subtitle,
     bool isWebsite = false,
+    VoidCallback? onTap,
   }) {
-    return Container(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
@@ -684,6 +692,7 @@ class UtilityDetailsScreen extends StatelessWidget {
             color: Colors.black,
           ),
         ],
+      ),
       ),
     );
   }
