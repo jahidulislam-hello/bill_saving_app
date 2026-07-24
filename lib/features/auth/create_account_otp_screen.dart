@@ -50,7 +50,7 @@ class CreateAccountOtpScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
                               color: isFilled
-                                  ? AppColors.linkGreen
+                                  ? AppColors.primaryColor
                                   : AppColors.divider,
                               width: 2,
                             ),
@@ -69,6 +69,7 @@ class CreateAccountOtpScreen extends StatelessWidget {
                               decoration: const InputDecoration(
                                 counterText: '',
                                 border: InputBorder.none,
+                                isDense: true,
                                 contentPadding: EdgeInsets.zero,
                               ),
                               onChanged: (val) {

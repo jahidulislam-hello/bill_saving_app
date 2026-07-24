@@ -35,7 +35,6 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 24),
 
-
               /// OTP Input Boxes
               Center(
                 child: LayoutBuilder(
@@ -61,7 +60,7 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                               color: AppColors.primary50,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: isFilled ? AppColors.linkGreen : AppColors.divider,
+                                color: isFilled ? AppColors.primaryColor : AppColors.divider,
                                 width: 2,
                               ),
                             ),
@@ -75,6 +74,7 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                                 decoration: const InputDecoration(
                                   counterText: '',
                                   border: InputBorder.none,
+                                  isDense: true,
                                   contentPadding: EdgeInsets.zero,
                                 ),
                                 onChanged: (val) {
