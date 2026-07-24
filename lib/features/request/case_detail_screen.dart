@@ -225,10 +225,8 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
           ),
           const SizedBox(height: 8),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: steps.map((label) {
-              return SizedBox(
-                width: 56,
+              return Expanded(
                 child: Text(
                   label,
                   textAlign: TextAlign.center,
