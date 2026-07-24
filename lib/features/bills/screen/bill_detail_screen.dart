@@ -308,7 +308,7 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
 
   // ── Case Tracking Section ──
   Widget _caseTrackingSection(CaseModel caseData) {
-    final steps = ['Inviata', 'In Lavorazione', 'Contratto', 'Firmato', 'Attiva'];
+    final steps = ['case.step.sent'.tr, 'case.step.in_progress'.tr, 'case.step.contract'.tr, 'case.step.signed'.tr, 'case.step.active'.tr];
     final currentStep = caseData.statusStep;
 
     return Container(
@@ -327,7 +327,7 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
               SizedBox(width: 8.w),
               Expanded(
                 child: Text(
-                  'Pratica ${caseData.caseNumber ?? ''}',
+                  '${'case.detail.pratica'.tr} ${caseData.caseNumber ?? ''}',
                   style: TextStyle(
                     color: AppColors.textDark,
                     fontSize: 14.sp,
@@ -430,7 +430,7 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
                 ),
               ),
               child: Text(
-                'Dettagli Pratica',
+                'case.detail.details_button'.tr,
                 style: TextStyle(
                   color: AppColors.primaryColor,
                   fontSize: 13.sp,
@@ -455,17 +455,17 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
       case 'error':
         return 'bills.detail.status_error'.tr;
       case 'offer_sent':
-        return 'Offerte disponibili';
+        return 'bills.status_msg.offer_sent'.tr;
       case 'case_created':
-        return 'Pratica in corso';
+        return 'bills.status_msg.case_created'.tr;
       case 'contract_sent':
-        return 'Contratto inviato';
+        return 'bills.status_msg.contract_sent'.tr;
       case 'contract_signed':
-        return 'Contratto firmato';
+        return 'bills.status_msg.contract_signed'.tr;
       case 'activated':
-        return 'Utenza attivata';
+        return 'bills.status_msg.activated'.tr;
       case 'cancelled':
-        return 'Pratica annullata';
+        return 'bills.status_msg.cancelled'.tr;
       default:
         return status;
     }

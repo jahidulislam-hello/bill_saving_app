@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class CaseModel {
   final String id;
   final String status;
@@ -54,21 +56,21 @@ class CaseModel {
   String get statusLabel {
     switch (status) {
       case 'new':
-        return 'Nuova richiesta';
+        return 'case.status.new'.tr;
       case 'in_progress':
-        return 'In lavorazione';
+        return 'case.status.in_progress'.tr;
       case 'documents_pending':
-        return 'Documenti richiesti';
+        return 'case.status.documents_pending'.tr;
       case 'contract_sent':
-        return 'Contratto inviato';
+        return 'case.status.contract_sent'.tr;
       case 'contract_signed':
-        return 'Contratto firmato';
+        return 'case.status.contract_signed'.tr;
       case 'activated':
-        return 'Utenza attivata';
+        return 'case.status.activated'.tr;
       case 'rejected':
-        return 'Richiesta rifiutata';
+        return 'case.status.rejected'.tr;
       case 'cancelled':
-        return 'Richiesta annullata';
+        return 'case.status.cancelled'.tr;
       default:
         return status;
     }
@@ -175,17 +177,17 @@ class CaseContractModel {
   String get statusLabel {
     switch (status) {
       case 'draft':
-        return 'In preparazione';
+        return 'contract.status.draft'.tr;
       case 'sent':
-        return 'Inviato';
+        return 'contract.status.sent'.tr;
       case 'signed':
-        return 'Firmato';
+        return 'contract.status.signed'.tr;
       case 'active':
-        return 'Attivo';
+        return 'contract.status.active'.tr;
       case 'expired':
-        return 'Scaduto';
+        return 'contract.status.expired'.tr;
       case 'cancelled':
-        return 'Annullato';
+        return 'contract.status.cancelled'.tr;
       default:
         return status;
     }
@@ -194,13 +196,13 @@ class CaseContractModel {
   String get deliveryMethodLabel {
     switch (deliveryMethod) {
       case 'app':
-        return 'Tramite App';
+        return 'contract.delivery.app'.tr;
       case 'email':
-        return 'Via Email';
+        return 'contract.delivery.email'.tr;
       case 'mail':
-        return 'Via Posta';
+        return 'contract.delivery.mail'.tr;
       case 'phone':
-        return 'Via Telefono';
+        return 'contract.delivery.phone'.tr;
       default:
         return deliveryMethod ?? '';
     }

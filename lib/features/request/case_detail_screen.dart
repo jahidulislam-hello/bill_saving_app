@@ -38,7 +38,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
       final caseId = Get.arguments as String?;
       if (caseId == null) {
         setState(() {
-          _error = 'ID pratica non trovato';
+          _error = 'case.detail.error.not_found'.tr;
           _isLoading = false;
         });
         return;
@@ -54,13 +54,13 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
         });
       } else {
         setState(() {
-          _error = 'Impossibile caricare i dati';
+          _error = 'case.detail.error.load_failed'.tr;
           _isLoading = false;
         });
       }
     } catch (e) {
       setState(() {
-        _error = 'Errore di connessione';
+        _error = 'case.detail.error.connection'.tr;
         _isLoading = false;
       });
     }
@@ -78,7 +78,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          _caseData?.caseNumber ?? 'Dettagli Pratica',
+          _caseData?.caseNumber ?? 'case.detail.title'.tr,
           style: const TextStyle(
             color: AppColors.textDark,
             fontSize: 17,
@@ -109,7 +109,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
             ElevatedButton(
               onPressed: _fetchCase,
               style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryColor),
-              child: const Text('Riprova', style: TextStyle(color: Colors.white)),
+              child: Text('common.retry'.tr, style: const TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -144,11 +144,11 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
   // ── Status Stepper ──
   Widget _buildStatusStepper(CaseModel caseData) {
     final steps = [
-      'Inviata',
-      'In Lavorazione',
-      'Contratto Inviato',
-      'Contratto Firmato',
-      'Attivata',
+      'case.step.sent'.tr,
+      'case.step.in_progress'.tr,
+      'case.step.contract_sent'.tr,
+      'case.step.contract_signed'.tr,
+      'case.step.activated'.tr,
     ];
     final currentStep = caseData.statusStep;
 
@@ -269,7 +269,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  offer.name ?? 'Offerta selezionata',
+                  offer.name ?? 'case.detail.selected_offer'.tr,
                   style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppColors.textDark),
                 ),
                 const SizedBox(height: 2),
@@ -306,14 +306,14 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Contratto in preparazione',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Color(0xFFF57F17)),
+                  Text(
+                    'case.detail.contract_preparing'.tr,
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Color(0xFFF57F17)),
                   ),
                   const SizedBox(height: 2),
-                  const Text(
-                    'Il contratto ti verrà inviato a breve.',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFFF9A825)),
+                  Text(
+                    'case.detail.contract_preparing_desc'.tr,
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFFF9A825)),
                   ),
                 ],
               ),
@@ -338,10 +338,10 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
             children: [
               const Icon(Icons.description_outlined, color: AppColors.primaryColor, size: 20),
               const SizedBox(width: 8),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Contratto',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: AppColors.textDark),
+                  'case.detail.contract'.tr,
+                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: AppColors.textDark),
                 ),
               ),
               Container(
@@ -365,7 +365,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
 
           // Delivery method info
           if (contract.deliveryMethod != null) ...[
-            _infoRow(Icons.send, 'Inviato: ${contract.deliveryMethodLabel}'),
+            _infoRow(Icons.send, '${'case.detail.sent_via'.tr}: ${contract.deliveryMethodLabel}'),
             const SizedBox(height: 8),
           ],
 
@@ -375,7 +375,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
               contract.status == 'sent') ...[
             _actionButton(
               icon: Icons.download,
-              label: 'Scarica Contratto',
+              label: 'case.detail.download_contract'.tr,
               color: AppColors.primaryColor,
               onTap: () => _openUrl(contract.documentUrl!),
             ),
@@ -386,7 +386,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
           if (contract.status == 'sent') ...[
             _actionButton(
               icon: Icons.upload_file,
-              label: 'Carica Contratto Firmato',
+              label: 'case.detail.upload_signed'.tr,
               color: AppColors.green200,
               isLoading: _isUploading,
               onTap: () => _uploadSignedContract(contract.id),
@@ -395,7 +395,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
 
           // Waiting for confirmation (if signed)
           if (contract.status == 'signed')
-            _infoRow(Icons.hourglass_top, 'In attesa di conferma dall\'operatore'),
+            _infoRow(Icons.hourglass_top, 'case.detail.waiting_confirmation'.tr),
 
           // Active
           if (contract.status == 'active') ...[
@@ -409,10 +409,10 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                 children: [
                   Icon(Icons.check_circle, color: AppColors.green200, size: 20),
                   const SizedBox(width: 10),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Utenza attivata!',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Color(0xFF1B8A4A)),
+                      'case.detail.utility_activated'.tr,
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Color(0xFF1B8A4A)),
                     ),
                   ),
                 ],
@@ -420,7 +420,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
             ),
             if (contract.activationDate != null) ...[
               const SizedBox(height: 8),
-              _infoRow(Icons.calendar_today, 'Attivata il: ${_formatDate(contract.activationDate!)}'),
+              _infoRow(Icons.calendar_today, '${'case.detail.activated_on'.tr}: ${_formatDate(contract.activationDate!)}'),
             ],
           ],
         ],
@@ -494,9 +494,9 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Cronologia',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: AppColors.textDark),
+        Text(
+          'case.detail.timeline'.tr,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: AppColors.textDark),
         ),
         const SizedBox(height: 12),
         ...events.map((event) => _buildEventItem(event)),
@@ -617,8 +617,8 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
       );
 
       Get.snackbar(
-        'Successo',
-        'Contratto firmato caricato con successo',
+        'common.success'.tr,
+        'case.detail.upload_success'.tr,
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: AppColors.green200,
         colorText: Colors.white,
@@ -628,8 +628,8 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
       await _fetchCase();
     } catch (e) {
       Get.snackbar(
-        'Errore',
-        'Impossibile caricare il contratto firmato',
+        'common.error'.tr,
+        'case.detail.upload_error'.tr,
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red.shade600,
         colorText: Colors.white,
