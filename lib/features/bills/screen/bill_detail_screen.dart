@@ -562,9 +562,6 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
         Text('bills.detail.analysis'.tr,
             style: AppStyles.h4.copyWith(fontSize: 16.sp)),
         SizedBox(height: 14.h),
-        // Savings card
-        _savingsCard(analysis),
-        SizedBox(height: 14.h),
         // Analysis details
         _detailRow(_DetailRowData(
             'bills.detail.monthly_avg'.tr, analysis.currentMonthlyAvgDisplay)),
@@ -593,54 +590,6 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
           ),
         ],
       ],
-    );
-  }
-
-  Widget _savingsCard(BillAnalysisModel analysis) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 28.h, horizontal: 20.w),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF4B2FB9), Color(0xFF7B5FE9)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(18.r),
-      ),
-      child: Column(
-        children: [
-          Text(
-            'bills.detail.potential_savings'.tr,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 1.2,
-            ),
-          ),
-          SizedBox(height: 10.h),
-          Text(
-            analysis.potentialSavingsDisplay,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 46.sp,
-              fontWeight: FontWeight.w900,
-              letterSpacing: -1,
-              height: 1.0,
-            ),
-          ),
-          SizedBox(height: 6.h),
-          Text(
-            'bills.detail.estimated_annual'.tr,
-            style: TextStyle(
-              color: AppColors.green,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-        ],
-      ),
     );
   }
 

@@ -93,7 +93,7 @@ class SupportoScreen extends StatelessWidget {
       backgroundColor: _T.bg,
       appBar: _buildAppBar(context),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(18, 4, 18, 24),
+        padding: EdgeInsets.fromLTRB(18, 4, 18, 24 + MediaQuery.of(context).padding.bottom),
         children: [
           const SizedBox(height: 12),
           Text(
@@ -479,7 +479,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
       body: _controller.isLoadingTopics
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-              padding: const EdgeInsets.fromLTRB(18, 16, 18, 30),
+              padding: EdgeInsets.fromLTRB(18, 16, 18, 30 + MediaQuery.of(context).padding.bottom),
               children: [
                 Text(
                   'support.form.intro'.tr,

@@ -27,8 +27,13 @@ class OfferDetailRow {
 // ─────────────────────────────────────────────
 class OfferDetailsScreen extends StatefulWidget {
   final String offerId;
+  final double? estimatedSavings;
 
-  const OfferDetailsScreen({super.key, required this.offerId});
+  const OfferDetailsScreen({
+    super.key,
+    required this.offerId,
+    this.estimatedSavings,
+  });
 
   @override
   State<OfferDetailsScreen> createState() => _OfferDetailsScreenState();
@@ -134,7 +139,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     return Stack(
       children: [
         ListView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
+          padding: EdgeInsets.fromLTRB(16, 12, 16, 100 + MediaQuery.of(context).padding.bottom),
           children: [
             _supplierCard(offer),
             const SizedBox(height: 14),
@@ -151,7 +156,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         Positioned(
           left: 0,
           right: 0,
-          bottom: 0,
+          bottom: MediaQuery.of(context).padding.bottom,
           child: _bottomButton(),
         ),
       ],
@@ -285,8 +290,9 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
   }
 
   Widget _savingsCard(ApiOfferModel offer) {
-    final monthlyCost = offer.fixedMonthlyFee;
-    final annualCost = (monthlyCost * 12).toStringAsFixed(0);
+    final savings = widget.estimatedSavings ?? offer.estimatedSavings;
+    if (savings == null || savings <= 0) return const SizedBox.shrink();
+    final savingsDisplay = '€${savings.toStringAsFixed(2).replaceAll('.', ',')}';
 
     return Container(
       width: double.infinity,
@@ -302,7 +308,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
       child: Column(
         children: [
           Text(
-            'offer.max_benefit'.tr,
+            'offer.estimated_savings'.tr,
             style: TextStyle(
               color: Colors.white,
               fontSize: 11,
@@ -312,7 +318,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
           ),
           const SizedBox(height: 10),
           Text(
-            '€$annualCost',
+            savingsDisplay,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 56,
@@ -323,7 +329,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
           ),
           const SizedBox(height: 6),
           Text(
-            'request.offer.annual_savings'.tr,
+            'offer.per_billing_period'.tr,
             style: const TextStyle(
               color: AppColors.green,
               fontSize: 16,
@@ -557,7 +563,7 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
       backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: EdgeInsets.fromLTRB(16, 14, 16, 14 + MediaQuery.of(context).padding.bottom),
         children: [
           _whatsIncludedCard(),
           const SizedBox(height: 20),

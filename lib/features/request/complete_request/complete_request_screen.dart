@@ -138,7 +138,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       body: _c.isLoadingProfile
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+              padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 14.h + MediaQuery.of(context).padding.bottom),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

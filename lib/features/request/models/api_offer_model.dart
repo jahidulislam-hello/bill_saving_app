@@ -17,6 +17,7 @@ class ApiOfferModel {
   final List<String> highlights;
   final String? offerCode;
   final OfferSupplierModel? supplier;
+  final double? estimatedSavings;
 
   const ApiOfferModel({
     required this.id,
@@ -37,6 +38,7 @@ class ApiOfferModel {
     this.highlights = const [],
     this.offerCode,
     this.supplier,
+    this.estimatedSavings,
   });
 
   static double? _parseDouble(dynamic value) {
@@ -80,7 +82,14 @@ class ApiOfferModel {
           ? OfferSupplierModel.fromJson(
               json['supplier'] as Map<String, dynamic>)
           : null,
+      estimatedSavings: _parseDouble(json['estimatedSavings']),
     );
+  }
+
+  /// Formatted estimated savings for display
+  String get estimatedSavingsDisplay {
+    if (estimatedSavings == null) return '-';
+    return '€${estimatedSavings!.toStringAsFixed(2).replaceAll('.', ',')}';
   }
 
   /// Formatted energy price string for display

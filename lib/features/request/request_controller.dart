@@ -69,7 +69,8 @@ class RequestController extends ChangeNotifier {
 
           // Prefer live offer data, fall back to snapshot
           if (offerData != null) {
-            final offer = ApiOfferModel.fromJson(offerData);
+            final enriched = {...offerData, 'estimatedSavings': map['estimatedSavings']};
+            final offer = ApiOfferModel.fromJson(enriched);
             if (offer.id.isNotEmpty && seen.add(offer.id)) {
               allOffers.add(offer);
             }
@@ -92,6 +93,7 @@ class RequestController extends ChangeNotifier {
                         id: snapshot['supplierId'] as String? ?? '',
                         name: snapshot['supplierName'] as String)
                     : null,
+                estimatedSavings: _parseDouble(map['estimatedSavings']),
               ));
             }
           }

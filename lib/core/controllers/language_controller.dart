@@ -17,7 +17,6 @@ class LanguageController extends GetxController {
     if (savedLang != null) {
       final locale = _getLocaleFromCode(savedLang);
       currentLocale.value = locale;
-      Get.updateLocale(locale);
     }
   }
 

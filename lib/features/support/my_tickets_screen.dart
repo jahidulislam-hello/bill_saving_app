@@ -95,7 +95,7 @@ class _MyTicketsScreenState extends State<MyTicketsScreen> {
               : RefreshIndicator(
                   onRefresh: () => _controller.fetchMyTickets(),
                   child: ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
+                    padding: EdgeInsets.fromLTRB(18, 8, 18, 24 + MediaQuery.of(context).padding.bottom),
                     itemCount: _controller.tickets.length,
                     itemBuilder: (context, index) {
                       final ticket = _controller.tickets[index];

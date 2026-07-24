@@ -34,9 +34,11 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
+      body: SafeArea(
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 28.h),
@@ -92,6 +94,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
             // ── Tip banner ──
             _buildTipBanner(),
           ],
+          ),
         ),
       ),
     );

@@ -16,7 +16,7 @@ class HomeController extends GetxController {
 
   /// summary data — updated from /api/v1/dashboard/user
   RxString savingAmount = '€0,00'.obs;
-  RxInt activeRequest = 0.obs;
+  RxInt activeUtilities = 0.obs;
 
   /// Full dashboard model from API
   Rx<UserDashboardModel?> dashboard = Rx<UserDashboardModel?>(null);
@@ -48,7 +48,7 @@ class HomeController extends GetxController {
         final savings = model.potentialSavings.totalSavings;
         savingAmount.value =
             '€${savings.toStringAsFixed(2).replaceAll('.', ',')}';
-        activeRequest.value = model.activeRequests.count;
+        activeUtilities.value = model.activeContracts;
       } else {
         dashboardError.value =
             body['message']?.toString() ?? 'Failed to load dashboard';

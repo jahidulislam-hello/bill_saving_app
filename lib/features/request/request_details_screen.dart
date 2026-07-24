@@ -28,7 +28,7 @@ class RequestDetailsScreen extends StatelessWidget {
       backgroundColor: _bg,
       appBar: _buildAppBar(context),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: EdgeInsets.fromLTRB(16, 14, 16, 14 + MediaQuery.of(context).padding.bottom),
         children: [
           _processingCard(),
           const SizedBox(height: 14),

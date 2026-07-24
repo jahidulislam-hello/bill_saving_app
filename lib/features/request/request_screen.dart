@@ -446,6 +446,35 @@ class _RequestScreenState extends State<RequestScreen>
             ),
           ),
 
+          // ── Estimated savings badge ──
+          if (offer.estimatedSavings != null && offer.estimatedSavings! > 0) ...[
+            SizedBox(height: 10.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE8F5E9),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.savings_outlined, color: const Color(0xFF4CAF50), size: 18.sp),
+                    SizedBox(width: 8.w),
+                    Text(
+                      '${'request.offers.estimated_savings'.tr}: ${offer.estimatedSavingsDisplay}',
+                      style: AppStyles.body4.copyWith(
+                        color: const Color(0xFF4CAF50),
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+
           SizedBox(height: 14.h),
 
           // ── CTA Button ──
@@ -455,7 +484,10 @@ class _RequestScreenState extends State<RequestScreen>
               title: 'request.go_to_details'.tr,
               height: 46.h,
               onPress: () {
-                Get.to(() => OfferDetailsScreen(offerId: offer.id));
+                Get.to(() => OfferDetailsScreen(
+                  offerId: offer.id,
+                  estimatedSavings: offer.estimatedSavings,
+                ));
               },
             ),
           ),

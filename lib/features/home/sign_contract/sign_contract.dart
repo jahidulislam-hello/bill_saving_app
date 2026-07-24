@@ -38,7 +38,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
       backgroundColor: const Color(0xFFFFFFFF),
       appBar: _buildAppBar(),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+        padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 20.h + MediaQuery.of(context).padding.bottom),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

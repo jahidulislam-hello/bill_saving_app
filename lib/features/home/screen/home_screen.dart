@@ -67,12 +67,12 @@ class HomeScreen extends StatelessWidget {
                                   icon: Image.asset(AppAssets.cir),
                                   iconColor: AppColors.primaryColor,
                                   iconBgColor: AppColors.primaryAlpha10,
-                                  title: 'home.summary.requests_title'.tr,
-                                  value: controller.activeRequest.value
+                                  title: 'home.summary.utilities_title'.tr,
+                                  value: controller.activeUtilities.value
                                       .toString()
                                       .padLeft(2, '0'),
                                   valueColor: AppColors.primaryColor,
-                                  subtitle: 'home.summary.requests_subtitle'.tr,
+                                  subtitle: 'home.summary.utilities_subtitle'.tr,
                                 ),
                               ),
                             ],
@@ -107,12 +107,12 @@ class HomeScreen extends StatelessWidget {
                                   icon: Image.asset(AppAssets.cir),
                                   iconColor: AppColors.primaryColor,
                                   iconBgColor: AppColors.primaryAlpha10,
-                                  title: 'home.summary.requests_title'.tr,
-                                  value: controller.activeRequest.value
+                                  title: 'home.summary.utilities_title'.tr,
+                                  value: controller.activeUtilities.value
                                       .toString()
                                       .padLeft(2, '0'),
                                   valueColor: AppColors.primaryColor,
-                                  subtitle: 'home.summary.requests_subtitle'.tr,
+                                  subtitle: 'home.summary.utilities_subtitle'.tr,
                                 ),
                               ),
                             ],

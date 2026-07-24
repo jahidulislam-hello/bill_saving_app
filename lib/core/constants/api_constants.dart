@@ -77,6 +77,7 @@ class ApiConstants {
 
   //Bills
   static const String billsBase = '/api/v1/bills';
+  static const String extractBill = '/api/v1/bills/extract';
   static const String uploadBills = '/api/v1/bills/upload';
   static const String getMyBills = '/api/v1/bills?page=1&limit=20';
   static const String getMyBillDetails = '/api/v1/bills/{{billId}}';

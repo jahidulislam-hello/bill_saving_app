@@ -6,6 +6,8 @@ class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'it_IT': itIT,
+        'it': itIT,
         'en_US': enUS,
+        'en': enUS,
       };
 }

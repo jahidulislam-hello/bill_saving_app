@@ -43,12 +43,9 @@ class CustomBottomNavBar extends StatelessWidget {
       child: FloatingActionButton(
         backgroundColor: AppColors.lightPurple,
         elevation: 2,
-        onPressed: () {
-          Get.to(() => SelectUtilityScreen());
-        },
+        onPressed: () => Get.to(() => SelectUtilityScreen()),
         shape: const CircleBorder(),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30.r),
+        child: ClipOval(
           child: Image.asset(
             "assets/images/VYZI.png",
             fit: BoxFit.cover,
@@ -62,20 +59,13 @@ class CustomBottomNavBar extends StatelessWidget {
 
   /// Bottom Navigation Bar
   Widget _buildBottomNavigationBar() {
-    return Container(
-      height: 64.h,
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.textPrimary.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
+    return BottomAppBar(
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 6.0,
+      color: AppColors.background,
+      elevation: 8,
+      clipBehavior: Clip.antiAlias,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Expanded(
             child: _buildNavItem(
@@ -91,7 +81,7 @@ class CustomBottomNavBar extends StatelessWidget {
               passiveImage: "assets/images/rich.png",
             ),
           ),
-          SizedBox(width: 50.w), // Space for FAB
+          SizedBox(width: 68.w), // Space for FAB notch
           Expanded(
             child: _buildNavItem(
               index: 2,
@@ -118,19 +108,18 @@ class CustomBottomNavBar extends StatelessWidget {
     required String passiveImage,
   }) {
     return Obx(() {
-      bool isSelected = _controller.selectedIndex == index;
-      return GestureDetector(
-        onTap: () {
-          _controller.changeIndex(index);
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          padding: EdgeInsets.symmetric(vertical: 8.h),
-          child: Image.asset(
-            isSelected ? activeImage : passiveImage,
-            width: 50.w,
-            height: 50.h,
-            fit: BoxFit.contain,
+      final bool isSelected = _controller.selectedIndex == index;
+      return InkResponse(
+        onTap: () => _controller.changeIndex(index),
+        child: SizedBox(
+          height: 48.h,
+          child: Center(
+            child: Image.asset(
+              isSelected ? activeImage : passiveImage,
+              width: 40.w,
+              height: 40.h,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
       );
