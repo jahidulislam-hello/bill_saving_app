@@ -640,7 +640,10 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
   }
 
   Future<void> _openUrl(String url) async {
-    final uri = Uri.parse(url);
+    final fullUrl = url.startsWith('http')
+        ? url
+        : '${ApiConstants.baseUrl}/${url.replaceAll(RegExp(r'^/'), '')}';
+    final uri = Uri.parse(fullUrl);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     }
