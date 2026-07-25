@@ -131,7 +131,9 @@ class BillOcrService {
     return _supportedExtensions.contains(ext);
   }
 
-  /// Sends the bill file to the backend for extraction via OpenAI Vision API
+  /// Sends the bill file to the backend for extraction via OpenAI Vision API.
+  /// Uses extended timeouts since OCR involves PDF-to-image conversion +
+  /// AI Vision API call + potential second-pass extraction.
   Future<BillOcrResult> extractFromFile(String filePath, String billType) async {
     final file = File(filePath);
     if (!file.existsSync()) {
@@ -147,6 +149,10 @@ class BillOcrService {
       ApiConstants.extractBill,
       file: multipartFile,
       data: {'billType': billType},
+      options: Options(
+        receiveTimeout: const Duration(seconds: 120),
+        sendTimeout: const Duration(seconds: 60),
+      ),
     );
 
     final responseData = response.data;
