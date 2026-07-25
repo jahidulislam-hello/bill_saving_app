@@ -28,6 +28,7 @@ class BillOcrResult {
   final String? meterNumber;
   final String? customerName;
   final String overallConfidence; // "high" | "medium" | "low"
+  final String? fileUrl; // Server-side file path from extraction (avoids re-upload)
 
   const BillOcrResult({
     this.supplierName,
@@ -49,6 +50,7 @@ class BillOcrResult {
     this.meterNumber,
     this.customerName,
     this.overallConfidence = 'low',
+    this.fileUrl,
   });
 
   bool get hasAnyData =>
@@ -108,6 +110,7 @@ class BillOcrResult {
       meterNumber: json['meterNumber'] as String?,
       customerName: json['customerName'] as String?,
       overallConfidence: json['overallConfidence'] as String? ?? 'low',
+      fileUrl: json['fileUrl'] as String?,
     );
   }
 

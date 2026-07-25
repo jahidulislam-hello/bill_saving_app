@@ -172,11 +172,6 @@ class UploadBillController extends GetxController {
     errorMessage.value = '';
 
     try {
-      final multipartFile = await MultipartFile.fromFile(
-        file.path,
-        filename: file.name,
-      );
-
       // Build data map with billType + any OCR-extracted fields
       final data = <String, dynamic>{
         'billType': billType,
@@ -203,16 +198,33 @@ class UploadBillController extends GetxController {
         if (ocr.customerName != null) data['customerName'] = ocr.customerName!;
       }
 
-      final response = await ApiService().uploadFileWithProgress(
-        ApiConstants.uploadBills,
-        file: multipartFile,
-        data: data,
-        onSendProgress: (sent, total) {
-          if (total > 0) {
-            uploadProgress.value = sent / total;
-          }
-        },
-      );
+      final dynamic response;
+
+      // If file was already saved during extraction, skip re-upload
+      if (ocr?.fileUrl != null) {
+        data['fileUrl'] = ocr!.fileUrl!;
+        uploadProgress.value = 1.0;
+        response = await ApiService().post(
+          ApiConstants.uploadBills,
+          data: data,
+        );
+      } else {
+        // No prior extraction — upload the file
+        final multipartFile = await MultipartFile.fromFile(
+          file.path,
+          filename: file.name,
+        );
+        response = await ApiService().uploadFileWithProgress(
+          ApiConstants.uploadBills,
+          file: multipartFile,
+          data: data,
+          onSendProgress: (sent, total) {
+            if (total > 0) {
+              uploadProgress.value = sent / total;
+            }
+          },
+        );
+      }
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = response.data;
