@@ -278,19 +278,22 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
               ],
             ),
           ),
-          Container(
-            padding:
-                EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-            decoration: BoxDecoration(
-              color: bill.statusBgColor,
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Text(
-              bill.statusDisplay,
-              style: TextStyle(
-                color: bill.statusColor,
-                fontSize: 11,
-                fontWeight: FontWeight.w900,
+          Flexible(
+            child: Container(
+              padding:
+                  EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+              decoration: BoxDecoration(
+                color: bill.statusBgColor,
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Text(
+                bill.statusDisplay,
+                style: TextStyle(
+                  color: bill.statusColor,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w900,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
@@ -324,11 +327,13 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
             size: 20.sp,
           ),
           SizedBox(width: 8.w),
-          Text(
-            _statusMessage(bill.status),
-            style: AppStyles.body3.copyWith(
-              color: bill.statusColor,
-              fontWeight: FontWeight.w700,
+          Expanded(
+            child: Text(
+              _statusMessage(bill.status),
+              style: AppStyles.body3.copyWith(
+                color: bill.statusColor,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ],
