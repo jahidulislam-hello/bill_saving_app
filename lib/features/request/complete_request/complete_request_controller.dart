@@ -54,6 +54,10 @@ class CompleteRequestController extends ChangeNotifier {
 
   // ── Address ──
   AddressMatch? addressMatch;
+  String residentialStreet = '';
+  String residentialCity = '';
+  String residentialZip = '';
+  String residentialProvince = '';
 
   // ── Invoice ──
   InvoiceMethod? selectedInvoice;
@@ -249,7 +253,8 @@ class CompleteRequestController extends ChangeNotifier {
       !isSubmitting &&
       addressMatch != null &&
       selectedPayment != null &&
-      selectedInvoice != null;
+      selectedInvoice != null &&
+      uploadedDocuments.isNotEmpty;
 
   Future<void> activateOffer() async {
     if (!canActivate) return;
@@ -260,12 +265,21 @@ class CompleteRequestController extends ChangeNotifier {
 
     try {
       // Step 1: Create the case
+      final data = <String, dynamic>{
+        'billId': bill!.id,
+        'selectedOfferId': offer.id,
+      };
+
+      if (addressMatch == AddressMatch.different) {
+        data['residentialStreet'] = residentialStreet;
+        data['residentialCity'] = residentialCity;
+        data['residentialZip'] = residentialZip;
+        data['residentialProvince'] = residentialProvince;
+      }
+
       final caseResponse = await _api.post(
         ApiConstants.casesBase,
-        data: {
-          'billId': bill!.id,
-          'selectedOfferId': offer.id,
-        },
+        data: data,
       );
 
       final caseBody = caseResponse.data as Map<String, dynamic>;

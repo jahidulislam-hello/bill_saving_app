@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:vyzi/core/constants/api_constants.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/bills/models/bill_model.dart';
@@ -42,6 +41,16 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   late TextEditingController _zipCtrl;
   String? _supplyProvince;
 
+  // ── Residential Address (when "No, it's different") ──
+  bool _residentialAddressConfirmed = false;
+  late TextEditingController _resStreetCtrl;
+  late TextEditingController _resCityCtrl;
+  late TextEditingController _resZipCtrl;
+  String? _resStreetError;
+  String? _resCityError;
+  String? _resZipError;
+  String? _resProvinceError;
+
   // ── Payment Method extras ──
   bool _ibanSameAsContract = true;
   final TextEditingController _holderFirstCtrl = TextEditingController();
@@ -77,6 +86,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     _cityCtrl = TextEditingController();
     _zipCtrl = TextEditingController();
     _invoiceEmailCtrl = TextEditingController();
+    _resStreetCtrl = TextEditingController();
+    _resCityCtrl = TextEditingController();
+    _resZipCtrl = TextEditingController();
   }
 
   void _onControllerUpdate() {
@@ -123,6 +135,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     _invCityCtrl.dispose();
     _invNumberCtrl.dispose();
     _invProvinceCtrl.dispose();
+    _resStreetCtrl.dispose();
+    _resCityCtrl.dispose();
+    _resZipCtrl.dispose();
     super.dispose();
   }
 
@@ -597,29 +612,61 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 : const SizedBox.shrink(),
           ),
 
-          SizedBox(height: 12.h),
+          if (_c.addressMatch == AddressMatch.different) ...[
+            SizedBox(height: 12.h),
+            SizedBox(
+              width: double.infinity,
+              height: 46.h,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_residentialAddressConfirmed) {
+                    // Switch to edit mode
+                    setState(() => _residentialAddressConfirmed = false);
+                  } else {
+                    // Validate before confirming
+                    final streetOk = _resStreetCtrl.text.trim().isNotEmpty;
+                    final cityOk = _resCityCtrl.text.trim().isNotEmpty;
+                    final zipOk = _resZipCtrl.text.trim().isNotEmpty;
+                    final provinceOk = _supplyProvince != null;
 
-          SizedBox(
-            width: double.infinity,
-            height: 46.h,
-            child: ElevatedButton(
-              onPressed: _c.addressMatch != null ? () {} : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _c.addressMatch != null
-                    ? AppColors.primaryColor
-                    : AppColors.primary300,
-                foregroundColor: AppColors.background,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r)),
-              ),
-              child: Text('request.form.address_verified'.tr,
+                    setState(() {
+                      _resStreetError = streetOk ? null : 'request.form.street_required'.tr;
+                      _resCityError = cityOk ? null : 'request.form.city_required'.tr;
+                      _resZipError = zipOk ? null : 'request.form.zip_required'.tr;
+                      _resProvinceError = provinceOk ? null : 'request.form.province_required'.tr;
+                    });
+
+                    if (streetOk && cityOk && zipOk && provinceOk) {
+                      // Sync to controller
+                      _c.residentialStreet = _resStreetCtrl.text.trim();
+                      _c.residentialCity = _resCityCtrl.text.trim();
+                      _c.residentialZip = _resZipCtrl.text.trim();
+                      _c.residentialProvince = _supplyProvince!;
+                      setState(() => _residentialAddressConfirmed = true);
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _residentialAddressConfirmed
+                      ? AppColors.primary300
+                      : AppColors.primaryColor,
+                  foregroundColor: AppColors.background,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r)),
+                ),
+                child: Text(
+                  _residentialAddressConfirmed
+                      ? 'request.form.edit'.tr
+                      : 'common.confirm'.tr,
                   style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
-                      height: 1.22)),
+                      height: 1.22),
+                ),
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );
@@ -746,10 +793,18 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   color: AppColors.textPrimary,
                   height: 1.22)),
           SizedBox(height: 6.h),
-          _addressTextField(TextEditingController(),
-              hint: 'Esempio: Via delle Rose 10'),
+          _addressTextField(_resStreetCtrl,
+              hint: 'Esempio: Via delle Rose 10',
+              readOnly: _residentialAddressConfirmed),
+          if (_resStreetError != null)
+            Padding(
+              padding: EdgeInsets.only(top: 4.h, left: 4.w),
+              child: Text(_resStreetError!,
+                  style: TextStyle(fontSize: 11.sp, color: AppColors.error, height: 1.22)),
+            ),
           SizedBox(height: 10.h),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Column(
@@ -761,9 +816,15 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                             color: AppColors.textPrimary,
                             height: 1.22)),
                     SizedBox(height: 6.h),
-                    _addressTextField(
-                        TextEditingController(text: 'Milano'),
-                        hint: 'Milano'),
+                    _addressTextField(_resCityCtrl,
+                        hint: 'Milano',
+                        readOnly: _residentialAddressConfirmed),
+                    if (_resCityError != null)
+                      Padding(
+                        padding: EdgeInsets.only(top: 4.h, left: 4.w),
+                        child: Text(_resCityError!,
+                            style: TextStyle(fontSize: 11.sp, color: AppColors.error, height: 1.22)),
+                      ),
                   ],
                 ),
               ),
@@ -779,10 +840,16 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                             color: AppColors.textPrimary,
                             height: 1.22)),
                     SizedBox(height: 6.h),
-                    _addressTextField(
-                        TextEditingController(text: '20100'),
+                    _addressTextField(_resZipCtrl,
                         hint: '20100',
-                        keyboardType: TextInputType.number),
+                        keyboardType: TextInputType.number,
+                        readOnly: _residentialAddressConfirmed),
+                    if (_resZipError != null)
+                      Padding(
+                        padding: EdgeInsets.only(top: 4.h, left: 4.w),
+                        child: Text(_resZipError!,
+                            style: TextStyle(fontSize: 11.sp, color: AppColors.error, height: 1.22)),
+                      ),
                   ],
                 ),
               ),
@@ -837,11 +904,22 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                             height: 1.22)),
                   ))
                       .toList(),
-                  onChanged: (v) => setState(() => _supplyProvince = v),
+                  onChanged: _residentialAddressConfirmed
+                      ? null
+                      : (v) => setState(() {
+                          _supplyProvince = v;
+                          _resProvinceError = null;
+                        }),
                 ),
               ),
             ),
           ),
+          if (_resProvinceError != null)
+            Padding(
+              padding: EdgeInsets.only(top: 4.h, left: 4.w),
+              child: Text(_resProvinceError!,
+                  style: TextStyle(fontSize: 11.sp, color: AppColors.error, height: 1.22)),
+            ),
         ],
       ),
     );
@@ -851,6 +929,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       TextEditingController ctrl, {
         String hint = '',
         TextInputType keyboardType = TextInputType.text,
+        bool readOnly = false,
       }) {
     return Container(
       decoration: BoxDecoration(
@@ -861,10 +940,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: TextField(
         controller: ctrl,
         keyboardType: keyboardType,
+        readOnly: readOnly,
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(
             fontSize: 13.sp,
-            color: AppColors.textDark,
+            color: readOnly ? AppColors.textSecondary : AppColors.textDark,
             fontWeight: FontWeight.w500,
             height: 1.22),
         decoration: InputDecoration(
@@ -883,7 +963,16 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   Widget _addressOption(String label, AddressMatch match) {
     final isSelected = _c.addressMatch == match;
     return GestureDetector(
-      onTap: () => _c.selectAddressMatch(match),
+      onTap: () {
+        _c.selectAddressMatch(match);
+        setState(() {
+          _residentialAddressConfirmed = false;
+          _resStreetError = null;
+          _resCityError = null;
+          _resZipError = null;
+          _resProvinceError = null;
+        });
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: EdgeInsets.symmetric(vertical: 11.h, horizontal: 10.w),
@@ -952,19 +1041,34 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _sectionTitle('request.form.identity_verification_title'.tr),
-              Row(
-                children: [
-                  Icon(Icons.check_rounded,
-                      color: AppColors.linkGreen, size: 14.sp),
-                  SizedBox(width: 3.w),
-                  Text('common.save'.tr,
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          color: AppColors.linkGreen,
-                          fontWeight: FontWeight.w600,
-                          height: 1.22)),
-                ],
-              ),
+              if (_c.uploadedDocuments.isNotEmpty)
+                Row(
+                  children: [
+                    Icon(Icons.check_circle_rounded,
+                        color: AppColors.linkGreen, size: 14.sp),
+                    SizedBox(width: 3.w),
+                    Text('Uploaded',
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: AppColors.linkGreen,
+                            fontWeight: FontWeight.w600,
+                            height: 1.22)),
+                  ],
+                )
+              else
+                Row(
+                  children: [
+                    Icon(Icons.error_outline_rounded,
+                        color: Colors.red.shade400, size: 14.sp),
+                    SizedBox(width: 3.w),
+                    Text('request.form.required'.tr,
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: Colors.red.shade400,
+                            fontWeight: FontWeight.w600,
+                            height: 1.22)),
+                  ],
+                ),
             ],
           ),
           SizedBox(height: 4.h),
@@ -1039,28 +1143,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ),
             SizedBox(height: 10.h),
           ],
-          Row(
-            children: [
-              Expanded(
-                child: _buildIdButton(
-                  icon: Icons.upload_rounded,
-                  label: 'request.form.upload_file_button'.tr,
-                  sublabel: 'request.form.upload_formats'.tr,
-                  canUpload: _c.uploadedDocuments.length < 3 && !_c.isUploading,
-                  onTap: _pickFile,
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: _buildIdButton(
-                  icon: Icons.qr_code_scanner_rounded,
-                  label: 'request.form.scan_document'.tr,
-                  sublabel: 'request.form.scan_with_camera'.tr,
-                  canUpload: !_c.isUploading,
-                  onTap: _openScanner,
-                ),
-              ),
-            ],
+          _buildIdButton(
+            icon: Icons.upload_rounded,
+            label: 'request.form.upload_file_button'.tr,
+            sublabel: 'request.form.upload_formats'.tr,
+            canUpload: _c.uploadedDocuments.length < 3 && !_c.isUploading,
+            onTap: _pickFile,
           ),
         ],
       ),
@@ -1124,16 +1212,6 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     }
   }
 
-  void _openScanner() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => _DocumentScannerScreen(
-          onScanned: (path) => _c.uploadDocument(path),
-        ),
-      ),
-    );
-  }
 
   // ─────────────────────────────────────────────
   //  PAYMENT METHOD
@@ -1967,35 +2045,58 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   }
 
   Widget _buildActivateButton() {
-    return SizedBox(
-      width: double.infinity,
-      height: 54.h,
-      child: ElevatedButton(
-        onPressed: _c.canActivate ? () => _c.activateOffer() : null,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: _c.canActivate
-              ? AppColors.primaryColor
-              : AppColors.primary300,
-          foregroundColor: AppColors.background,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.r)),
-        ),
-        child: _c.isSubmitting
-            ? SizedBox(
-                width: 24.w,
-                height: 24.w,
-                child: const CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 2.5,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (_c.uploadedDocuments.isEmpty)
+          Padding(
+            padding: EdgeInsets.only(bottom: 8.h),
+            child: Row(
+              children: [
+                Icon(Icons.info_outline_rounded,
+                    size: 14.sp, color: Colors.red.shade400),
+                SizedBox(width: 4.w),
+                Text(
+                  'request.form.identity_required_hint'.tr,
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      color: Colors.red.shade400,
+                      height: 1.22),
                 ),
-              )
-            : Text('request.form.activate_offer'.tr,
-                style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w700,
-                    height: 1.22)),
-      ),
+              ],
+            ),
+          ),
+        SizedBox(
+          width: double.infinity,
+          height: 54.h,
+          child: ElevatedButton(
+            onPressed: _c.canActivate ? () => _c.activateOffer() : null,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: _c.canActivate
+                  ? AppColors.primaryColor
+                  : AppColors.primary300,
+              foregroundColor: AppColors.background,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r)),
+            ),
+            child: _c.isSubmitting
+                ? SizedBox(
+                    width: 24.w,
+                    height: 24.w,
+                    child: const CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2.5,
+                    ),
+                  )
+                : Text('request.form.activate_offer'.tr,
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        height: 1.22)),
+          ),
+        ),
+      ],
     );
   }
 
@@ -2039,168 +2140,3 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
 
 enum InvoiceAddressMatch { yes, no }
 
-// ─────────────────────────────────────────────
-//  DOCUMENT SCANNER SCREEN
-// ─────────────────────────────────────────────
-
-class _DocumentScannerScreen extends StatefulWidget {
-  final void Function(String path) onScanned;
-  const _DocumentScannerScreen({required this.onScanned});
-
-  @override
-  State<_DocumentScannerScreen> createState() => _DocumentScannerScreenState();
-}
-
-class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
-  final MobileScannerController _scanCtrl = MobileScannerController();
-  bool _scanned = false;
-
-  @override
-  void dispose() {
-    _scanCtrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-        title: Text('request.form.scan_document'.tr,
-            style: TextStyle(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w600,
-                height: 1.22)),
-        actions: [
-          ValueListenableBuilder(
-            valueListenable: _scanCtrl,
-            builder: (_, state, __) => IconButton(
-              icon: Icon(
-                state.torchState == TorchState.on
-                    ? Icons.flash_on_rounded
-                    : Icons.flash_off_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () => _scanCtrl.toggleTorch(),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.flip_camera_ios_rounded, color: Colors.white),
-            onPressed: () => _scanCtrl.switchCamera(),
-          ),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Divider(height: 1, color: Colors.white),
-        ),
-      ),
-      body: Stack(
-        children: [
-          MobileScanner(
-            controller: _scanCtrl,
-            onDetect: (capture) {
-              if (_scanned) return;
-              final barcodes = capture.barcodes;
-              if (barcodes.isNotEmpty) {
-                _scanned = true;
-                final value = barcodes.first.rawValue ?? 'scanned_doc';
-                widget.onScanned(value);
-                Navigator.pop(context);
-              }
-            },
-          ),
-          Center(
-            child: Container(
-              width: 260.w,
-              height: 180.h,
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.primaryColor, width: 2.5),
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-              child: Stack(children: _cornerAccents()),
-            ),
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.62,
-            left: 0,
-            right: 0,
-            child: Column(
-              children: [
-                Text('request.form.align_document'.tr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        height: 1.22)),
-                SizedBox(height: 6.h),
-                Text('request.form.supported_formats'.tr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        color: Colors.white,
-                        height: 1.22)),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 50.h,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: GestureDetector(
-                onTap: _captureManual,
-                child: Container(
-                  width: 68.w,
-                  height: 68.w,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 3),
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 54.w,
-                      height: 54.w,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _captureManual() async {
-    final picker = ImagePicker();
-    final XFile? file =
-    await picker.pickImage(source: ImageSource.camera, imageQuality: 90);
-    if (file != null && mounted) {
-      widget.onScanned(file.path);
-      Navigator.pop(context);
-    }
-  }
-
-  List<Widget> _cornerAccents() {
-    const c = AppColors.primaryColor;
-    const size = 20.0;
-    const w = 3.0;
-    return [
-      Positioned(top: 0, left: 0, child: Container(width: size, height: w, color: c)),
-      Positioned(top: 0, left: 0, child: Container(width: w, height: size, color: c)),
-      Positioned(top: 0, right: 0, child: Container(width: size, height: w, color: c)),
-      Positioned(top: 0, right: 0, child: Container(width: w, height: size, color: c)),
-      Positioned(bottom: 0, left: 0, child: Container(width: size, height: w, color: c)),
-      Positioned(bottom: 0, left: 0, child: Container(width: w, height: size, color: c)),
-      Positioned(bottom: 0, right: 0, child: Container(width: size, height: w, color: c)),
-      Positioned(bottom: 0, right: 0, child: Container(width: w, height: size, color: c)),
-    ];
-  }
-}

@@ -446,6 +446,8 @@ final Map<String, String> itIT = {
   'request.form.payment_method_info': 'Metodo di Pagamento: Bollettino Postale',
   'request.form.compatibility_info': 'Compatibilità: Residenziale',
   'request.form.identity_verification_title': 'Verifica Identità',
+  'request.form.required': 'Obbligatorio',
+  'request.form.identity_required_hint': 'Carica il tuo documento per attivare l\'offerta.',
   'request.form.invoice_delivery_title': 'Metodo di Invio Fattura',
   'request.form.invoice_delivery_tip': 'Il nostro consiglio: invio via email per ricevere il servizio puntualmente!',
   'request.form.iban_same_as_contract': 'Sì, il titolare IBAN e il titolare del contratto sono la stessa persona',
@@ -454,6 +456,10 @@ final Map<String, String> itIT = {
   'request.form.yes': 'Sì',
   'request.form.no': 'No',
   'request.form.enter_shipping_address': 'Inserisci il tuo indirizzo di spedizione',
+  'request.form.street_required': 'Inserisci via e numero',
+  'request.form.city_required': 'Inserisci la città',
+  'request.form.zip_required': 'Inserisci il CAP',
+  'request.form.province_required': 'Seleziona una provincia',
 
   // ==================== OFFER DETAILS EXTRAS ====================
   'offer.about_supplier_name': 'Su EnergyPlus',

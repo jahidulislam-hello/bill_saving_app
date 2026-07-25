@@ -446,6 +446,8 @@ final Map<String, String> enUS = {
   'request.form.payment_method_info': 'Payment Method: Postal Slip',
   'request.form.compatibility_info': 'Compatibility: Residential',
   'request.form.identity_verification_title': 'Identity Verification',
+  'request.form.required': 'Required',
+  'request.form.identity_required_hint': 'Please upload your ID to activate the offer.',
   'request.form.invoice_delivery_title': 'Invoice Delivery Method',
   'request.form.invoice_delivery_tip': 'Our recommendation: email delivery for timely service!',
   'request.form.iban_same_as_contract': 'Yes, IBAN Holder & Contract Holder are the same',
@@ -454,6 +456,10 @@ final Map<String, String> enUS = {
   'request.form.yes': 'Yes',
   'request.form.no': 'No',
   'request.form.enter_shipping_address': 'Enter your shipping address',
+  'request.form.street_required': 'Please enter street and number',
+  'request.form.city_required': 'Please enter city',
+  'request.form.zip_required': 'Please enter ZIP code',
+  'request.form.province_required': 'Please select a province',
 
   // ==================== OFFER DETAILS EXTRAS ====================
   'offer.about_supplier_name': 'About EnergyPlus',
