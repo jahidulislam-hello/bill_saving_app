@@ -1,4 +1,5 @@
 import 'package:vyzi/core/constants/api_constants.dart';
+import 'package:vyzi/core/exceptions/app_exceptions.dart';
 import 'package:vyzi/core/services/api_service.dart';
 import 'package:vyzi/features/home/email/email_bill_receive_screen.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,14 @@ class EmailBillController extends GetxController {
           colorText: Colors.white,
         );
       }
+    } on AppException catch (e) {
+      Get.snackbar(
+        'Error',
+        e.message,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     } catch (e) {
       Get.snackbar(
         'Error',
