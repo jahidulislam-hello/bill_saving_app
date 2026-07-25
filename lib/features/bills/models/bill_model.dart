@@ -87,12 +87,58 @@ class BillModel {
     return null;
   }
 
+  /// Resolves the effective bill status from switch case statuses.
+  /// Mirrors the backend's resolveBillStatusFromCases priority logic.
+  static String _resolveEffectiveStatus(String billStatus, List<dynamic>? switchCases) {
+    if (switchCases == null || switchCases.isEmpty) return billStatus;
+
+    const caseToBill = {
+      'activated': 'activated',
+      'contract_signed': 'contract_signed',
+      'contract_sent': 'contract_sent',
+      'in_progress': 'case_created',
+      'documents_pending': 'case_created',
+      'new': 'case_created',
+      'rejected': 'cancelled',
+      'cancelled': 'cancelled',
+    };
+    const priority = {
+      'activated': 5,
+      'contract_signed': 4,
+      'contract_sent': 3,
+      'case_created': 2,
+      'offer_sent': 1,
+      'cancelled': 0,
+    };
+
+    int best = -1;
+    String resolved = billStatus;
+    for (final sc in switchCases) {
+      final cs = (sc as Map<String, dynamic>)['status'] as String? ?? '';
+      final mapped = caseToBill[cs];
+      if (mapped != null && (priority[mapped] ?? 0) > best) {
+        best = priority[mapped] ?? 0;
+        resolved = mapped;
+      }
+    }
+
+    // Only use resolved status if it's more advanced than the raw bill status
+    if (best > (priority[billStatus] ?? -1)) return resolved;
+    return billStatus;
+  }
+
   factory BillModel.fromJson(Map<String, dynamic> json) {
+    final rawStatus = json['status'] as String? ?? '';
+    final effectiveStatus = _resolveEffectiveStatus(
+      rawStatus,
+      json['switchCases'] as List<dynamic>?,
+    );
+
     return BillModel(
       id: json['id'] as String? ?? '',
       fileUrl: json['fileUrl'] as String? ?? '',
       billType: json['billType'] as String? ?? '',
-      status: json['status'] as String? ?? '',
+      status: effectiveStatus,
       podNumber: json['podNumber'] as String?,
       pdrNumber: json['pdrNumber'] as String?,
       billingPeriodStart: json['billingPeriodStart'] as String?,
