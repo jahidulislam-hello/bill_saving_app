@@ -242,15 +242,17 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
                         fontSize: 15,
                         fontWeight: FontWeight.w900)),
                 const SizedBox(height: 3),
-                Row(
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(bill.billTypeDisplay,
                         style: const TextStyle(
                             color: AppColors.textMid,
                             fontSize: 12,
                             fontWeight: FontWeight.w700)),
-                    if (bill.isEmailSource) ...[
-                      const SizedBox(width: 8),
+                    if (bill.isEmailSource)
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 6, vertical: 2),
@@ -272,7 +274,6 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
                           ],
                         ),
                       ),
-                    ],
                   ],
                 ),
               ],
