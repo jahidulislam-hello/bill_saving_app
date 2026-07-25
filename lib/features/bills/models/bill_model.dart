@@ -24,6 +24,7 @@ class BillModel {
   final String fileUrl;
   final String billType;
   final String status;
+  final String source;
   final String? podNumber;
   final String? pdrNumber;
   final String? billingPeriodStart;
@@ -54,6 +55,7 @@ class BillModel {
     required this.fileUrl,
     required this.billType,
     required this.status,
+    this.source = 'upload',
     this.podNumber,
     this.pdrNumber,
     this.billingPeriodStart,
@@ -139,6 +141,7 @@ class BillModel {
       fileUrl: json['fileUrl'] as String? ?? '',
       billType: json['billType'] as String? ?? '',
       status: effectiveStatus,
+      source: json['source'] as String? ?? 'upload',
       podNumber: json['podNumber'] as String?,
       pdrNumber: json['pdrNumber'] as String?,
       billingPeriodStart: json['billingPeriodStart'] as String?,
@@ -172,6 +175,8 @@ class BillModel {
     );
   }
 
+  bool get isEmailSource => source == 'email';
+
   // ── Display Getters ──
 
   String get billTypeDisplay {
@@ -187,6 +192,8 @@ class BillModel {
 
   String get statusDisplay {
     switch (status) {
+      case 'pending_email':
+        return 'bills.status.pending_email'.tr;
       case 'uploaded':
         return 'bills.status.uploaded'.tr;
       case 'analyzing':
@@ -214,6 +221,8 @@ class BillModel {
 
   Color get statusColor {
     switch (status) {
+      case 'pending_email':
+        return const Color(0xFF6A1B9A);
       case 'uploaded':
         return const Color(0xFFDFB400);
       case 'analyzing':
@@ -241,6 +250,8 @@ class BillModel {
 
   Color get statusBgColor {
     switch (status) {
+      case 'pending_email':
+        return const Color(0xFFF3E5F5);
       case 'uploaded':
         return const Color(0xFFFFF3E0);
       case 'analyzing':

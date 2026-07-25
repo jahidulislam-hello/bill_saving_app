@@ -179,6 +179,7 @@ final Map<String, String> itIT = {
   'common.got_it': 'Capito',
 
   // ==================== EMAIL BILL ====================
+  'home.email_bill.confirm_same_email': 'Assicurati di aver utilizzato la stessa email con cui hai creato il tuo account sulla nostra app.',
   'home.email_bill.note1': 'Se invii foto della bolletta, assicurati di allegare le prime 3 pagine.',
   'home.email_bill.note2': 'Puoi anche inviare eventuali nuove condizioni economiche o documenti utili per l\'analisi',
   'home.email_bill.button': 'Ho inviato l\'email',
@@ -406,11 +407,10 @@ final Map<String, String> itIT = {
   'profile.invite.tip_text': 'Condividi il tuo link con amici e familiari per guadagnare di più.',
 
   // ==================== EMAIL BILL RECEIVED ====================
-  'home.email_bill_received.title': 'Bolletta Ricevuta !',
-  'home.email_bill_received.subtitle': 'Abbiamo ricevuto la tua bolletta elettrica e la nostra IA la sta\nanalizzando per trovarti le migliori offerte.',
-  'home.email_bill_received.analysis_in_progress': 'Analisi in Corso',
-  'home.email_bill_received.searching_optimizations': 'Ricerca di ottimizzazioni in corso...',
-  'home.email_bill_received.analysis_time_info': 'Il tempo di analisi è di circa 24 ore al massimo. Ti informeremo non appena i risultati saranno pronti.',
+  'home.email_bill_received.title': 'Richiesta Creata!',
+  'home.email_bill_received.subtitle': 'La tua richiesta è stata creata con successo.\nIl nostro team elaborerà la tua bolletta una volta ricevuta via email.',
+  'home.email_bill_received.analysis_in_progress': 'Elaborazione della Richiesta',
+  'home.email_bill_received.analysis_time_info': 'Il nostro team sta verificando la tua bolletta, il processo richiederà 7 giorni lavorativi. Ti informeremo non appena i risultati saranno pronti.',
 
   // ==================== COMPLETE REQUEST FORM EXTRAS ====================
   'request.offer_details.price_formula': 'Prezzo Energia : PUN GME + \u20AC 0.01/KWh',
@@ -683,6 +683,7 @@ final Map<String, String> itIT = {
   'bills.detail.contract_number': 'N. Contratto',
   'bills.detail.meter_number': 'Matricola Contatore',
   'bills.detail.customer_name': 'Intestatario',
+  'bills.detail.status_pending_email': 'Il nostro team sta verificando la tua bolletta, il processo richiederà 7 giorni lavorativi',
   'bills.detail.status_uploaded': 'Bolletta caricata, in attesa di analisi',
   'bills.detail.status_analyzing': 'Analisi in corso...',
   'bills.detail.status_analyzed': 'Analisi completata',
@@ -697,6 +698,7 @@ final Map<String, String> itIT = {
   // ==================== BILL MODEL DISPLAY ====================
   'bills.type.electricity': 'Elettricita',
   'bills.type.gas': 'Gas',
+  'bills.status.pending_email': 'In attesa (Email)',
   'bills.status.uploaded': 'Caricata',
   'bills.status.analyzing': 'In analisi',
   'bills.status.analyzed': 'Analizzata',

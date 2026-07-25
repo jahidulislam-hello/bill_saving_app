@@ -1,13 +1,15 @@
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'email_bill_controller.dart';
 
 class EmailBillScreen extends StatelessWidget {
-  EmailBillScreen({super.key});
+  final String billType;
 
-  final controller = Get.put(EmailBillController());
+  EmailBillScreen({super.key, required this.billType});
+
+  late final EmailBillController controller = Get.put(EmailBillController())
+    ..billType = billType;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,37 @@ class EmailBillScreen extends StatelessWidget {
                               'assets/images/send_mail.png',
                               fit: BoxFit.contain,
                             ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    /// Warning: Use same email
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFF3E0),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: const Color(0xFFFF9800), width: 1),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.warning_amber_rounded,
+                              color: Color(0xFFFF9800), size: 22),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'home.email_bill.confirm_same_email'.tr,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Color(0xFF5D4037),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -172,8 +205,8 @@ class EmailBillScreen extends StatelessWidget {
             /// Button
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
-                onPressed: controller.onEmailSent,
+              child: Obx(() => ElevatedButton(
+                onPressed: controller.isCreating.value ? null : controller.onEmailSent,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF5A1ABE),
                   foregroundColor: Colors.white,
@@ -182,8 +215,18 @@ class EmailBillScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text('home.email_bill.button'.tr, style: const TextStyle(fontWeight: FontWeight.w900)),
-              ),
+                child: controller.isCreating.value
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text('home.email_bill.button'.tr,
+                        style: const TextStyle(fontWeight: FontWeight.w900)),
+              )),
             ),
 
             const SizedBox(height: 10),

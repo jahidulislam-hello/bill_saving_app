@@ -242,11 +242,39 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
                         fontSize: 15,
                         fontWeight: FontWeight.w900)),
                 const SizedBox(height: 3),
-                Text(bill.billTypeDisplay,
-                    style: const TextStyle(
-                        color: AppColors.textMid,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700)),
+                Row(
+                  children: [
+                    Text(bill.billTypeDisplay,
+                        style: const TextStyle(
+                            color: AppColors.textMid,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700)),
+                    if (bill.isEmailSource) ...[
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF3E5F5),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.email_outlined,
+                                size: 11, color: Color(0xFF6A1B9A)),
+                            SizedBox(width: 3),
+                            Text('Via Email',
+                                style: TextStyle(
+                                    fontSize: 10,
+                                    color: Color(0xFF6A1B9A),
+                                    fontWeight: FontWeight.w700)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ],
             ),
           ),
@@ -289,7 +317,9 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
                     ? Icons.error
                     : (bill.status == 'cancelled')
                         ? Icons.cancel
-                        : Icons.access_time,
+                        : bill.status == 'pending_email'
+                            ? Icons.email_outlined
+                            : Icons.access_time,
             color: bill.statusColor,
             size: 20.sp,
           ),
@@ -446,6 +476,8 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
 
   String _statusMessage(String status) {
     switch (status) {
+      case 'pending_email':
+        return 'bills.detail.status_pending_email'.tr;
       case 'uploaded':
         return 'bills.detail.status_uploaded'.tr;
       case 'analyzing':

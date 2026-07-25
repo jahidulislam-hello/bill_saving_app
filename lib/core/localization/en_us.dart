@@ -179,6 +179,7 @@ final Map<String, String> enUS = {
   'common.got_it': 'Got it',
 
   // ==================== EMAIL BILL ====================
+  'home.email_bill.confirm_same_email': 'Make sure you have used the same email that you used to create your account on our app.',
   'home.email_bill.note1': 'If you send photos of the bill, make sure to attach the first 3 pages.',
   'home.email_bill.note2': 'You can also send any new pricing conditions or documents useful for analysis',
   'home.email_bill.button': 'I\'ve sent the email',
@@ -406,11 +407,10 @@ final Map<String, String> enUS = {
   'profile.invite.tip_text': 'Share your link with friends and family to earn more.',
 
   // ==================== EMAIL BILL RECEIVED ====================
-  'home.email_bill_received.title': 'Bill Received!',
-  'home.email_bill_received.subtitle': 'We have received your electricity bill and our AI is\nanalyzing it to find you the best offers.',
-  'home.email_bill_received.analysis_in_progress': 'Analysis In Progress',
-  'home.email_bill_received.searching_optimizations': 'Searching for optimizations...',
-  'home.email_bill_received.analysis_time_info': 'Analysis time is approximately 24 hours maximum. We will notify you as soon as the results are ready.',
+  'home.email_bill_received.title': 'Request Created!',
+  'home.email_bill_received.subtitle': 'Your request has been created successfully.\nOur team will process your bill once received via email.',
+  'home.email_bill_received.analysis_in_progress': 'Processing Your Request',
+  'home.email_bill_received.analysis_time_info': 'Our team is checking your bill, the process will take 7 business days. We will notify you as soon as the results are ready.',
 
   // ==================== COMPLETE REQUEST FORM EXTRAS ====================
   'request.offer_details.price_formula': 'Energy Price: PUN GME + \u20AC 0.01/KWh',
@@ -683,6 +683,7 @@ final Map<String, String> enUS = {
   'bills.detail.contract_number': 'Contract No.',
   'bills.detail.meter_number': 'Meter Number',
   'bills.detail.customer_name': 'Account Holder',
+  'bills.detail.status_pending_email': 'Our team is checking your bill, the process will take 7 business days',
   'bills.detail.status_uploaded': 'Bill uploaded, awaiting analysis',
   'bills.detail.status_analyzing': 'Analysis in progress...',
   'bills.detail.status_analyzed': 'Analysis completed',
@@ -697,6 +698,7 @@ final Map<String, String> enUS = {
   // ==================== BILL MODEL DISPLAY ====================
   'bills.type.electricity': 'Electricity',
   'bills.type.gas': 'Gas',
+  'bills.status.pending_email': 'Pending (Email)',
   'bills.status.uploaded': 'Uploaded',
   'bills.status.analyzing': 'Analyzing',
   'bills.status.analyzed': 'Analyzed',

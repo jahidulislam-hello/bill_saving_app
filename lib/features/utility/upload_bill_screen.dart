@@ -952,7 +952,9 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     return GestureDetector(
       onTap: () {
         _controller.selectMethod(UploadMethod.sendEmail);
-        Get.to(() => EmailBillScreen());
+        Get.to(() => EmailBillScreen(
+          billType: widget.utilityType == UtilityType.luce ? 'electricity' : 'gas',
+        ));
       },
       child: Obx(() => AnimatedContainer(
             duration: const Duration(milliseconds: 200),

@@ -152,7 +152,9 @@ class _MyRequestsProfileState extends State<MyRequestsProfile> {
                       ? Icons.check_circle_outline
                       : bill.status == 'error'
                           ? Icons.error_outline
-                          : Icons.hourglass_top_rounded,
+                          : bill.status == 'pending_email'
+                              ? Icons.email_outlined
+                              : Icons.hourglass_top_rounded,
                   size: 20.sp,
                   color: bill.statusColor,
                 ),
@@ -162,18 +164,47 @@ class _MyRequestsProfileState extends State<MyRequestsProfile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                  decoration: BoxDecoration(
-                    color: bill.statusBgColor,
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  child: Text(bill.statusDisplay,
-                      style: AppStyles.body4.copyWith(
-                          color: bill.statusColor,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 11.sp)),
+                Row(
+                  children: [
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                      decoration: BoxDecoration(
+                        color: bill.statusBgColor,
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: Text(bill.statusDisplay,
+                          style: AppStyles.body4.copyWith(
+                              color: bill.statusColor,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 11.sp)),
+                    ),
+                    if (bill.isEmailSource) ...[
+                      SizedBox(width: 6.w),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 6.w, vertical: 3.h),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF3E5F5),
+                          borderRadius: BorderRadius.circular(6.r),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.email_outlined,
+                                size: 12.sp,
+                                color: const Color(0xFF6A1B9A)),
+                            SizedBox(width: 3.w),
+                            Text('Via Email',
+                                style: TextStyle(
+                                    fontSize: 10.sp,
+                                    color: const Color(0xFF6A1B9A),
+                                    fontWeight: FontWeight.w700)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
                 Text(bill.formattedDate,
                     style: AppStyles.body4.copyWith(
