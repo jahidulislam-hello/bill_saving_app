@@ -1165,11 +1165,17 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return GestureDetector(
       onTap: canUpload ? onTap : null,
       child: Container(
-        height: 90.h,
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: 16.h),
         decoration: BoxDecoration(
           color: canUpload ? AppColors.background : AppColors.primary50,
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: AppColors.divider, width: 1),
+          border: Border.all(
+            color: canUpload
+                ? AppColors.primaryColor.withOpacity(0.3)
+                : AppColors.divider,
+            width: 1,
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
