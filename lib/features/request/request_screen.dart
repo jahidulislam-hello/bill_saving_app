@@ -26,9 +26,6 @@ class _RequestScreenState extends State<RequestScreen>
   late final RequestController _controller;
   late final TabController _tabController;
 
-  // Filter options for "Your Offers" tab
-  List<String> get _filters => ['request.filter.all'.tr, 'request.filter.direct_debit'.tr, 'request.filter.postal_slip'.tr, 'AliKobe', 'Ordine Diretto', 'request.filter.postal_slip'.tr];
-  int _selectedFilter = 0;
 
   @override
   void initState() {
@@ -169,7 +166,6 @@ class _RequestScreenState extends State<RequestScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildFilterSection(),
         _buildOffersHeader(),
         Expanded(
           child: ListView.builder(
@@ -181,77 +177,6 @@ class _RequestScreenState extends State<RequestScreen>
           ),
         ),
       ],
-    );
-  }
-
-  // ── Payment Method filter row ──
-  Widget _buildFilterSection() {
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 12.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // ── Line 1: Filter icon + label ──
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/filter.png',
-                width: 20.w,
-                height: 20.h,
-                fit: BoxFit.contain,
-              ),
-              SizedBox(width: 4.w),
-              Text(
-                'request.filter.payment_method'.tr,
-                style: AppStyles.h4.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w700),
-              ),
-            ],
-          ),
-          SizedBox(height: 8.h),
-          // ── Line 2: Filter chips ──
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(
-                _filters.length,
-                    (i) => Padding(
-                  padding: EdgeInsets.only(right: 6.w),
-                  child: _filterChip(_filters[i], i),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _filterChip(String label, int index) {
-    final isSelected = _selectedFilter == index;
-    return GestureDetector(
-      onTap: () => setState(() => _selectedFilter = index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding:
-        EdgeInsets.symmetric(horizontal: 14.w, vertical: 7.h),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primaryColor
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(8.r),
-          border: Border.all(
-            color: const Color(0xFF5A1ABE),
-            width: 1.2,
-          ),
-        ),
-        child: Text(
-          label,
-          style: isSelected
-              ? AppStyles.body4.copyWith(color: Colors.white, fontWeight: FontWeight.w800)
-              : AppStyles.body4.copyWith(color: Colors.black, fontWeight: FontWeight.w700),
-        ),
-      ),
     );
   }
 
