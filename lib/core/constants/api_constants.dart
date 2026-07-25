@@ -1,5 +1,8 @@
 class ApiConstants {
-  static const String baseUrl = 'https://zeron-3000.ssh.bd';
+  static const String baseUrl = String.fromEnvironment(
+    'BASE_URL',
+    defaultValue: 'http://10.0.2.2:3000',
+  );
 
   // General
   static const String config = '/api/v1/config';
