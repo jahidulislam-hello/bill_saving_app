@@ -155,19 +155,6 @@ import 'complete_request_controller.dart';
 //                   ],
 //                 ),
 //               ),
-//               Container(
-//                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-//                 decoration: BoxDecoration(
-//                   color: const Color(0xFF4CAF50),
-//                   borderRadius: BorderRadius.circular(20.r),
-//                 ),
-//                 child: Text('Best Value',
-//                     style: TextStyle(
-//                         color: Colors.white,
-//                         fontSize: 11.sp,
-//                         fontWeight: FontWeight.w600,
-//                         height: 1.22)),
-//               ),
 //             ],
 //           ),
 //           SizedBox(height: 10.h),

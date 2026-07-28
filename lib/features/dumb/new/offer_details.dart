@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 // class OfferDetail {
 //   final String title;
 //   final String subtitle;
-//   final bool isBestValue;
 //   final double annualSavings;
 //   final String priceType;
 //   final String contractDuration;
@@ -19,7 +18,6 @@ import 'package:flutter/material.dart';
 //   const OfferDetail({
 //     required this.title,
 //     required this.subtitle,
-//     required this.isBestValue,
 //     required this.annualSavings,
 //     required this.priceType,
 //     required this.contractDuration,
@@ -70,7 +68,6 @@ import 'package:flutter/material.dart';
 //   final OfferDetail offer = const OfferDetail(
 //     title: 'Business Energy pro',
 //     subtitle: 'Commercial',
-//     isBestValue: true,
 //     annualSavings: 306,
 //     priceType: 'Fixed',
 //     contractDuration: '24 months',
@@ -256,23 +253,6 @@ import 'package:flutter/material.dart';
 //               ],
 //             ),
 //           ),
-//           if (offer.isBestValue)
-//             Container(
-//               padding:
-//               const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-//               decoration: BoxDecoration(
-//                 color: const Color(0xFF4CAF50),
-//                 borderRadius: BorderRadius.circular(20),
-//               ),
-//               child: const Text(
-//                 'Best Value',
-//                 style: TextStyle(
-//                   color: Colors.white,
-//                   fontSize: 11,
-//                   fontWeight: FontWeight.w600,
-//                 ),
-//               ),
-//             ),
 //         ],
 //       ),
 //     );
