@@ -292,7 +292,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
       child: Column(
         children: [
           Text(
-            'offer.estimated_savings'.tr,
+            'offer.max_benefit'.tr,
             style: TextStyle(
               color: Colors.white,
               fontSize: 11,
@@ -313,7 +313,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
           ),
           const SizedBox(height: 6),
           Text(
-            'offer.per_billing_period'.tr,
+            'request.offer.annual_savings'.tr,
             style: const TextStyle(
               color: AppColors.green,
               fontSize: 16,
