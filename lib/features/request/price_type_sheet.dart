@@ -37,26 +37,14 @@ class PriceTypeSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Title
-                    const Text(
-                      'Understanding Price Types',
+                    Text(
+                      'offer.price_type_dialog_title'.tr,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w900,
                         color: Colors.black,
                         height: 1.3,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-
-                    // Subtitle
-                    const Text(
-                      'What does it mean?',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -162,9 +150,9 @@ class _InfoCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Main description
-          const Text(
-            'An indexed price varies based on the wholesale market cost of energy (PUN).',
-            style: TextStyle(
+          Text(
+            'offer.price_type_dialog_text'.tr,
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w700,
               color: Colors.black,
@@ -173,11 +161,10 @@ class _InfoCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
 
-          // Bullet row
+          // Note row
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Teal check circle
               Container(
                 margin: const EdgeInsets.only(top: 2),
                 width: 22,
@@ -187,31 +174,20 @@ class _InfoCard extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
-                  Icons.check_circle_rounded,
+                  Icons.info_outline_rounded,
                   color: Color(0xFF2ED8B4),
-                  size: 22,
+                  size: 16,
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: RichText(
-                  text: const TextSpan(
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.black,
-                      height: 1.5,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    children: [
-                      TextSpan(text: 'It ensures you always pay a '),
-                      TextSpan(
-                        text: 'fair market rate',
-                        style: TextStyle(fontWeight: FontWeight.w900),
-                      ),
-                      TextSpan(
-                        text: ', potentially benefiting from price drops.',
-                      ),
-                    ],
+                child: Text(
+                  'offer.price_type_dialog_note'.tr,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.black,
+                    height: 1.5,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
