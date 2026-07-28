@@ -102,70 +102,47 @@ class PriceTypeSheet extends StatelessWidget {
 class _HeroBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        // ── Background: swap to your asset image ──
-        SizedBox(
-          height: 160,
-          width: double.infinity,
-          child: Image.asset(
-            'assets/images/priceType.png',
-            fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) {
-              // Fallback gradient while asset is not set up
-              return Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF0D4A3A),
-                      Color(0xFF1A6B50),
-                      Color(0xFF0A3528),
-                    ],
+    return SizedBox(
+      height: 160,
+      width: double.infinity,
+      child: Image.asset(
+        'assets/images/priceType.png',
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) {
+          return Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF0D4A3A),
+                  Color(0xFF1A6B50),
+                  Color(0xFF0A3528),
+                ],
+              ),
+            ),
+            child: Center(
+              child: Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.15),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.25),
+                    width: 1.5,
                   ),
                 ),
-              );
-            },
-          ),
-        ),
-
-        // Dark overlay for depth (optional, comment out if not needed)
-        Container(
-          height: 160,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.black.withOpacity(0.15),
-                Colors.black.withOpacity(0.35),
-              ],
+                child: const Icon(
+                  Icons.trending_up_rounded,
+                  color: Color(0xFF2ED8B4),
+                  size: 30,
+                ),
+              ),
             ),
-          ),
-        ),
-
-        // Icon badge
-        Container(
-          width: 64,
-          height: 64,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.white.withOpacity(0.25),
-              width: 1.5,
-            ),
-          ),
-          child: const Icon(
-            Icons.trending_up_rounded,
-            color: Color(0xFF2ED8B4),
-            size: 30,
-          ),
-        ),
-      ],
+          );
+        },
+      ),
     );
   }
 }
