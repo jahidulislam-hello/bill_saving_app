@@ -13,7 +13,7 @@ class PriceTypeSheet extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.15),
@@ -156,7 +156,7 @@ class _InfoCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFFF4F6F9),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
+
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
