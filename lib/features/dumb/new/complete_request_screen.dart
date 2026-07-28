@@ -199,15 +199,6 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   ],
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: _purple,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Text('Best Value',
-                    style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
-              ),
             ],
           ),
           const SizedBox(height: 14),

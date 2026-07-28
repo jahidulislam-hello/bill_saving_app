@@ -286,7 +286,6 @@ final Map<String, String> enUS = {
   // ==================== COMPLETE REQUEST FORM ====================
   'request.offer.green_energy': 'Green Energy',
   'request.offer.green_offer': 'Green Offer',
-  'request.offer.best_value': 'Best Value',
   'request.offer.annual_savings': 'Annual Savings',
   'request.form.readonly_summary': 'Read-only summary from Bill/Profile',
   'request.form.address_verified': 'Address verified',
@@ -741,7 +740,6 @@ final Map<String, String> enUS = {
   'request.filter.postal_slip': 'Postal Slip',
   'request.offers.best_for_you': 'Best Offers for You',
   'request.offers.found': 'found',
-  'request.offers.best_value': 'Best Value',
   'request.offers.energy_price_label': 'Energy Price',
   'request.offers.duration_label': 'Duration',
   'request.offers.compatibility_label': 'Compatibility',

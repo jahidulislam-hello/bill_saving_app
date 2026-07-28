@@ -286,7 +286,6 @@ final Map<String, String> itIT = {
   // ==================== COMPLETE REQUEST FORM ====================
   'request.offer.green_energy': 'Energia Verde',
   'request.offer.green_offer': 'Offerta Verde',
-  'request.offer.best_value': 'Miglior Valore',
   'request.offer.annual_savings': 'Risparmio Annuale',
   'request.form.readonly_summary': 'Riepilogo in sola lettura da Bolletta/Profilo',
   'request.form.address_verified': 'Indirizzo verificato',
@@ -741,7 +740,6 @@ final Map<String, String> itIT = {
   'request.filter.postal_slip': 'Bollettino Postale',
   'request.offers.best_for_you': 'Migliori Offerte per Te',
   'request.offers.found': 'trovate',
-  'request.offers.best_value': 'Miglior Valore',
   'request.offers.energy_price_label': 'Prezzo Energia',
   'request.offers.duration_label': 'Durata',
   'request.offers.compatibility_label': 'Compatibilità',

@@ -266,21 +266,6 @@ class _RequestScreenState extends State<RequestScreen>
                     ],
                   ),
                 ),
-                if (offer.isGreenEnergy) ...[
-                  SizedBox(width: 8.w),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 10.w, vertical: 5.h),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF4CAF50),
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    child: Text(
-                      'request.offers.best_value'.tr,
-                      style: AppStyles.body4.copyWith(color: Colors.white, fontWeight: FontWeight.w800),
-                    ),
-                  ),
-                ],
               ],
             ),
           ),

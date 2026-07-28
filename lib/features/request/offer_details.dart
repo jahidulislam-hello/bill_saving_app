@@ -240,22 +240,6 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
               ],
             ),
           ),
-          if (offer.isGreenEnergy)
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: BoxDecoration(
-                color: AppColors.green,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                'request.offer.best_value'.tr,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w900),
-              ),
-            ),
         ],
       ),
     );
