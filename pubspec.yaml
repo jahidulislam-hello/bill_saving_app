@@ -58,6 +58,7 @@ dependencies:
   # syncfusion_flutter_pdf: removed — PDF text extraction no longer needed on-device
   # pdfx: removed — PDF rendering no longer needed on-device
   url_launcher:
+  share_plus:
 
   # Firebase
   firebase_core:

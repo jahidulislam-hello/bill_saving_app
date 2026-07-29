@@ -33,64 +33,84 @@ class _InviteScreenState extends State<InviteScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ── Hero section ──
-            _buildHeroSection(),
+      body: _buildBody(),
+    );
+  }
 
-            SizedBox(height: 16.h),
+  // ─────────────────────────────────────────────
+  //  BODY (loading / error / content)
+  // ─────────────────────────────────────────────
 
-            // ── Referral link card ──
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: _buildReferralCard(),
-            ),
+  Widget _buildBody() {
+    if (_controller.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-            SizedBox(height: 12.h),
+    if (_controller.errorMessage != null) {
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.all(24.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline, size: 48.sp, color: AppColors.textSecondary),
+              SizedBox(height: 12.h),
+              Text(
+                _controller.errorMessage!,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondary),
+              ),
+              SizedBox(height: 16.h),
+              ElevatedButton(
+                onPressed: () => _controller.fetchReferralData(),
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
-            // ── You earn / Friend gets row ──
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: _buildRewardRow(),
-            ),
-
-            SizedBox(height: 24.h),
-
-            // ── Invite Statistics label ──
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Text(
-                'profile.invite.stats_title'.tr,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.textDark,
-                  height: 1.22,
-                ),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeroSection(),
+          SizedBox(height: 16.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: _buildReferralCard(),
+          ),
+          SizedBox(height: 12.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: _buildRewardRow(),
+          ),
+          SizedBox(height: 24.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Text(
+              'profile.invite.stats_title'.tr,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w900,
+                color: AppColors.textDark,
+                height: 1.22,
               ),
             ),
-
-            SizedBox(height: 10.h),
-
-            // ── Statistics card ──
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: _buildStatisticsCard(),
-            ),
-
-            SizedBox(height: 12.h),
-
-            // ── Total Earnings card ──
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: _buildEarningsCard(),
-            ),
-
-            SizedBox(height: 30.h),
-          ],
-        ),
+          ),
+          SizedBox(height: 10.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: _buildStatisticsCard(),
+          ),
+          SizedBox(height: 12.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: _buildEarningsCard(),
+          ),
+          SizedBox(height: 30.h),
+        ],
       ),
     );
   }

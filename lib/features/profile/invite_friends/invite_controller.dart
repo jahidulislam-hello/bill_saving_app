@@ -1,30 +1,65 @@
-import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:vyzi/core/services/referral_service.dart';
 
 class InviteController extends ChangeNotifier {
-  // ── Referral link ──
-  final String referralLink = 'easyrisparmio.it/ref/USER123';
+  final ReferralService _service = ReferralService();
+
+  // ── Referral data ──
+  String referralLink = '';
+  String referralCode = '';
 
   // ── Reward amounts ──
   final String youEarn = '€10';
   final String friendGets = '€10';
 
   // ── Statistics ──
-  int invitesSent = 12;
-  int completedInvites = 12;
+  int invitesSent = 0;
+  int completedInvites = 0;
 
   // ── Earnings ──
-  double totalEarnings = 40.00;
+  double totalEarnings = 0.0;
   final String earningsType = 'Buoni Amazon';
-  final String earningsStatus = 'DISPONIBILE';
-  final String progressAmount = '€10';
+  String earningsStatus = '';
+  String progressAmount = '€0';
 
+  // ── State ──
+  bool isLoading = false;
   bool isCopied = false;
+  String? errorMessage;
+
+  InviteController() {
+    fetchReferralData();
+  }
+
+  /// Fetches the user's referral code, share link, and stats from the API.
+  Future<void> fetchReferralData() async {
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+
+    try {
+      final codeData = await _service.getMyCode();
+      referralCode = codeData.referralCode;
+      referralLink = codeData.shareLink;
+      invitesSent = codeData.stats.totalInvites;
+      completedInvites = codeData.stats.rewarded;
+      totalEarnings = codeData.stats.totalEarnings;
+      earningsStatus = totalEarnings > 0 ? 'profile.invite.earnings_status'.tr : '';
+      progressAmount = '€${totalEarnings.toStringAsFixed(0)}';
+    } catch (e) {
+      errorMessage = e.toString();
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
 
   // ── Copy referral link to clipboard ──
   Future<void> copyLink(BuildContext context) async {
+    if (referralLink.isEmpty) return;
     await Clipboard.setData(ClipboardData(text: referralLink));
     isCopied = true;
     notifyListeners();
@@ -33,19 +68,12 @@ class InviteController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ── Share link (uses share_plus) ──
+  // ── Share link via native share sheet ──
   Future<void> shareLink(BuildContext context) async {
-    // If you add share_plus to pubspec:
-    // await Share.share(
-    //   'Use my referral link to save on your utility bills: https://$referralLink',
-    //   subject: 'Save on your utility bills!',
-    // );
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('profile.invite.link_shared'.tr),
-        backgroundColor: AppColors.primaryColor,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    if (referralLink.isEmpty) return;
+    await SharePlus.instance.share(
+      ShareParams(
+        text: '${'profile.invite.share_text'.tr}: $referralLink',
       ),
     );
   }

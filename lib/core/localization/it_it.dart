@@ -39,6 +39,8 @@ final Map<String, String> itIT = {
   'auth.signup.confirm_password_label': 'Conferma Password *',
   'auth.signup.confirm_password_hint': '••••••••••',
   'auth.signup.password_mismatch': 'Le password non corrispondono',
+  'auth.signup.referral_code_label': 'Codice Referral (opzionale)',
+  'auth.signup.referral_code_hint': 'es. AB3KX7WN',
   'auth.signup.terms_label': 'Accetto i Termini di Servizio e ',
   'auth.signup.privacy_label': 'l\'Informativa sulla Privacy',
   'auth.signup.terms_required': 'Devi accettare i Termini di Servizio e l\'Informativa sulla Privacy per procedere.',
@@ -404,6 +406,7 @@ final Map<String, String> itIT = {
   'profile.invite.earnings_type': 'Buoni Amazon',
   'profile.invite.tip': 'Suggerimento',
   'profile.invite.tip_text': 'Condividi il tuo link con amici e familiari per guadagnare di più.',
+  'profile.invite.share_text': 'Usa il mio link referral per risparmiare sulle bollette',
 
   // ==================== EMAIL BILL RECEIVED ====================
   'home.email_bill_received.title': 'Richiesta Creata!',

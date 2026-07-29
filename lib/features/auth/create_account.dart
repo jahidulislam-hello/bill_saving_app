@@ -33,6 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _referralCodeController = TextEditingController();
 
   bool _agreeToTerms = false;
   late String selectedRole;
@@ -41,6 +42,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void initState() {
     super.initState();
     selectedRole = Get.arguments?['role'] ?? 'personal';
+    final refCode = Get.arguments?['referralCode'] as String?;
+    if (refCode != null && refCode.isNotEmpty) {
+      _referralCodeController.text = refCode;
+    }
   }
 
   @override
@@ -51,6 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _referralCodeController.dispose();
     super.dispose();
   }
 
@@ -170,6 +176,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       v != _passwordController.text ? 'auth.signup.password_mismatch'.tr : null,
                 ),
 
+                SizedBox(height: 12.h),
+
+                // ── Referral Code (optional) ──────
+                CustomTextField(
+                  labelText: 'auth.signup.referral_code_label'.tr,
+                  controller: _referralCodeController,
+                  hintText: 'auth.signup.referral_code_hint'.tr,
+                  textCapitalization: TextCapitalization.characters,
+                  maxLength: 20,
+                ),
+
                 SizedBox(height: 16.h),
 
                 // ── Terms Checkbox ─────────────────
@@ -252,6 +269,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           lastName: _lastNameController.text.trim(),
                           phone: _phoneController.text.trim(),
                           role: selectedRole,
+                          referralCode: _referralCodeController.text.trim().isEmpty
+                              ? null
+                              : _referralCodeController.text.trim(),
                         );
 
                         // Navigate to OTP verification screen and pass email

@@ -39,6 +39,8 @@ final Map<String, String> enUS = {
   'auth.signup.confirm_password_label': 'Confirm Password *',
   'auth.signup.confirm_password_hint': '••••••••••',
   'auth.signup.password_mismatch': 'Passwords do not match',
+  'auth.signup.referral_code_label': 'Referral Code (optional)',
+  'auth.signup.referral_code_hint': 'e.g. AB3KX7WN',
   'auth.signup.terms_label': 'I accept the Terms of Service and ',
   'auth.signup.privacy_label': 'Privacy Policy',
   'auth.signup.terms_required': 'You must accept the Terms of Service and Privacy Policy to proceed.',
@@ -404,6 +406,7 @@ final Map<String, String> enUS = {
   'profile.invite.earnings_type': 'Amazon Vouchers',
   'profile.invite.tip': 'Tip',
   'profile.invite.tip_text': 'Share your link with friends and family to earn more.',
+  'profile.invite.share_text': 'Use my referral link to save on your utility bills',
 
   // ==================== EMAIL BILL RECEIVED ====================
   'home.email_bill_received.title': 'Request Created!',
