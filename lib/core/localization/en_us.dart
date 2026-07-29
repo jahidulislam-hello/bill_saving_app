@@ -602,7 +602,6 @@ final Map<String, String> enUS = {
   'offer.estimated_savings': 'ESTIMATED SAVINGS',
   'offer.per_billing_period': 'Per billing period',
   'offer.economic_conditions': 'Economic conditions',
-  'offer.activation_easy': 'Activation with Easy Saving',
   'offer.select_offer': 'Select this Offer',
   'offer.feature1_title': '100% Renewable Energy',
   'offer.feature1_desc': 'Zero carbon emissions electricity from wind and solar farms.',

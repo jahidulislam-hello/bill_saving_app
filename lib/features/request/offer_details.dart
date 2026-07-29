@@ -148,8 +148,6 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
             ...detailRows.map((row) => _detailRow(row)),
             const SizedBox(height: 10),
             _economicConditionsCard(offer),
-            const SizedBox(height: 10),
-            _easyBanner(),
             const SizedBox(height: 16),
           ],
         ),
@@ -453,30 +451,6 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     );
   }
 
-  Widget _easyBanner() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      decoration: BoxDecoration(
-        color: AppColors.cardBg,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.divider, width: 1.2),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.star_outline, color: AppColors.textMid, size: 17),
-          const SizedBox(width: 8),
-          Text(
-            'offer.activation_easy'.tr,
-            style: const TextStyle(
-                color: AppColors.textMid,
-                fontSize: 13,
-                fontWeight: FontWeight.w700),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _bottomButton() {
     return Container(

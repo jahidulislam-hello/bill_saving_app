@@ -602,7 +602,6 @@ final Map<String, String> itIT = {
   'offer.estimated_savings': 'RISPARMIO STIMATO',
   'offer.per_billing_period': 'Per periodo di fatturazione',
   'offer.economic_conditions': 'Condizioni economiche',
-  'offer.activation_easy': 'Attivazione con Easy Saving',
   'offer.select_offer': 'Seleziona questa Offerta',
   'offer.feature1_title': 'Energia 100% rinnovabile',
   'offer.feature1_desc': 'Elettricità a zero emissioni di carbonio proveniente da parchi eolici e solari.',
