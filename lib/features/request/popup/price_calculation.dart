@@ -36,9 +36,9 @@ class PriceCalculationDialog extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Title
-                    const Text(
-                      'Price Calculation',
-                      style: TextStyle(
+                    Text(
+                      'offer.price_calc_title'.tr,
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
                         color: Color(0xFF0D0D1A),
@@ -49,7 +49,7 @@ class PriceCalculationDialog extends StatelessWidget {
 
                     // Subtitle
                     Text(
-                      'The price is calculated as:',
+                      'offer.price_calc_subtitle'.tr,
                       style: TextStyle(
                         fontSize: 13.5,
                         fontWeight: FontWeight.w400,
@@ -64,7 +64,7 @@ class PriceCalculationDialog extends StatelessWidget {
 
                     // Footer note
                     Text(
-                      'This transparent formula tracks the\nofficial energy market index.',
+                      'offer.price_calc_footer'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 13,
