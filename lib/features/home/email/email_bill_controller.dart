@@ -1,5 +1,6 @@
 import 'package:vyzi/core/constants/api_constants.dart';
 import 'package:vyzi/core/exceptions/app_exceptions.dart';
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/services/api_service.dart';
 import 'package:vyzi/features/home/email/email_bill_receive_screen.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class EmailBillController extends GetxController {
         data: {'billType': billType},
       );
       if (response.data['success'] == true) {
-        Get.to(() => EmailBillReceivedScreen());
+        NavHelper.push(EmailBillReceivedScreen());
       } else {
         final msg = response.data['message']?.toString() ?? 'Failed to create request';
         Get.snackbar(

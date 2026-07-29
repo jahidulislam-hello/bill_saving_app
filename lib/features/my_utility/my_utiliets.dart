@@ -1,3 +1,4 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/home/controller/home_controller.dart';
 import 'package:vyzi/features/home/model/user_service_model.dart';
@@ -102,7 +103,7 @@ class MyUtilitiesScreen extends StatelessWidget {
             ),
             const SizedBox(height: 28),
             GestureDetector(
-              onTap: () => Get.to(() => SelectUtilityScreen()),
+              onTap: () => NavHelper.push(SelectUtilityScreen()),
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
@@ -136,7 +137,7 @@ class _ServiceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => UtilityDetailsScreen()),
+      onTap: () => NavHelper.push(UtilityDetailsScreen()),
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(14),

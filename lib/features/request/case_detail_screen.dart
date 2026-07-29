@@ -9,7 +9,8 @@ import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/request/models/case_model.dart';
 
 class CaseDetailScreen extends StatefulWidget {
-  const CaseDetailScreen({super.key});
+  final String? caseId;
+  const CaseDetailScreen({super.key, this.caseId});
 
   @override
   State<CaseDetailScreen> createState() => _CaseDetailScreenState();
@@ -35,7 +36,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
     });
 
     try {
-      final caseId = Get.arguments as String?;
+      final caseId = widget.caseId ?? Get.arguments as String?;
       if (caseId == null) {
         setState(() {
           _error = 'case.detail.error.not_found'.tr;

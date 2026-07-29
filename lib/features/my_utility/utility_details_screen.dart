@@ -1,3 +1,4 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -444,7 +445,7 @@ class UtilityDetailsScreen extends StatelessWidget {
               icon: AppAssets.openTicket,
               title: 'utility.open_ticket'.tr,
               subtitle: 'utility.open_ticket_desc'.tr,
-              onTap: () => Get.to(() => const SupportFormScreen()),
+              onTap: () => NavHelper.push(const SupportFormScreen()),
             ),
 
             SizedBox(height: 12.h),

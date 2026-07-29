@@ -1,3 +1,4 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/core/widgets/primary_button.dart';
@@ -10,8 +11,8 @@ import 'package:get/get.dart';
 import 'package:vyzi/features/bills/models/bill_model.dart';
 import 'package:vyzi/features/utility/select_utility_screen.dart';
 
+import 'package:vyzi/features/bills/screen/bill_detail_screen.dart';
 import '../../core/appbar/custom_appbar.dart';
-import '../../routes/app_routes.dart';
 import 'request_controller.dart';
 
 class RequestScreen extends StatefulWidget {
@@ -398,7 +399,7 @@ class _RequestScreenState extends State<RequestScreen>
               title: 'request.go_to_details'.tr,
               height: 46.h,
               onPress: () {
-                Get.to(() => OfferDetailsScreen(
+                NavHelper.push(OfferDetailsScreen(
                   offerId: offer.id,
                   estimatedSavings: offer.estimatedSavings,
                 ));
@@ -541,7 +542,7 @@ class _RequestScreenState extends State<RequestScreen>
                 size: 20.sp,
               ),
               onPress: () {
-                Get.to(() => const SelectUtilityScreen());
+                NavHelper.push(const SelectUtilityScreen());
               },
             ),
             SizedBox(height: 40.h),
@@ -596,7 +597,7 @@ class _RequestScreenState extends State<RequestScreen>
   Widget _buildBillCard(BillModel bill) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(AppRoutes.billDetailScreen, arguments: bill.id);
+        NavHelper.push(BillDetailScreen(billId: bill.id));
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 10.h),
@@ -703,8 +704,7 @@ class _RequestScreenState extends State<RequestScreen>
                 height: 38.h,
                 child: OutlinedButton(
                   onPressed: () {
-                    Get.toNamed(AppRoutes.billDetailScreen,
-                        arguments: bill.id);
+                    NavHelper.push(BillDetailScreen(billId: bill.id));
                   },
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Color(0xFF5A1ABE)),

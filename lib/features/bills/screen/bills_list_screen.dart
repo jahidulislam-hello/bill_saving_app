@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:vyzi/core/appbar/custom_appbar.dart';
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/features/bills/controller/bills_controller.dart';
@@ -263,7 +264,7 @@ class BillsListScreen extends StatelessWidget {
   // ── Bill Card ──
   Widget _buildBillCard(BillModel bill) {
     return GestureDetector(
-      onTap: () => Get.to(() => BillDetailScreen(billId: bill.id)),
+      onTap: () => NavHelper.push(BillDetailScreen(billId: bill.id)),
       child: Container(
         margin: EdgeInsets.only(bottom: 12.h),
         decoration: BoxDecoration(

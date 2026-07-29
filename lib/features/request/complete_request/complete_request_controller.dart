@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:vyzi/core/constants/api_constants.dart';
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/services/api_service.dart';
 import 'package:vyzi/features/bills/models/bill_model.dart';
 import 'package:vyzi/features/request/models/api_offer_model.dart';
@@ -308,7 +309,7 @@ class CompleteRequestController extends ChangeNotifier {
       }
 
       // Step 3: Navigate to success with case ID
-      Get.off(() => const RequestSuccessScreen(), arguments: createdCase.id);
+      NavHelper.pushReplacement(RequestSuccessScreen(caseId: createdCase.id));
     } catch (e) {
       error = e.toString();
       Get.snackbar(

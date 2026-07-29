@@ -1,9 +1,11 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/core/widgets/primary_button.dart';
 import 'package:vyzi/features/bills/models/bill_model.dart';
+import 'package:vyzi/features/bills/screen/bill_detail_screen.dart';
+import 'package:vyzi/features/bills/screen/bills_list_screen.dart';
 import 'package:vyzi/features/request/request_controller.dart';
-import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -98,7 +100,7 @@ class _MyRequestsProfileState extends State<MyRequestsProfile> {
   // ── Bill card ──
   Widget _buildBillCard(BillModel bill) {
     return GestureDetector(
-      onTap: () => Get.toNamed(AppRoutes.billDetailScreen, arguments: bill.id),
+      onTap: () => NavHelper.push(BillDetailScreen(billId: bill.id)),
       child: Container(
         margin: EdgeInsets.only(bottom: 10.h),
         decoration: BoxDecoration(
@@ -219,8 +221,7 @@ class _MyRequestsProfileState extends State<MyRequestsProfile> {
                 width: double.infinity,
                 height: 38.h,
                 child: OutlinedButton(
-                  onPressed: () => Get.toNamed(AppRoutes.billDetailScreen,
-                      arguments: bill.id),
+                  onPressed: () => NavHelper.push(BillDetailScreen(billId: bill.id)),
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Color(0xFF5A1ABE)),
                     shape: RoundedRectangleBorder(
@@ -295,7 +296,7 @@ class _MyRequestsProfileState extends State<MyRequestsProfile> {
               title: 'my_utility.upload_button'.tr,
               prefixWidget: Icon(Icons.upload_file_rounded,
                   color: Colors.white, size: 20.sp),
-              onPress: () => Get.toNamed(AppRoutes.billsListScreen),
+              onPress: () => NavHelper.push(BillsListScreen()),
             ),
             SizedBox(height: 40.h),
           ],

@@ -1,3 +1,4 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -88,7 +89,7 @@ class ActionSection extends StatelessWidget {
                     Get.find<NavbarController>().changeIndex(1);
                   } else {
                     // Change Supplier, Transfer of Ownership, Check Invoice → Select Utility
-                    Get.to(() => const SelectUtilityScreen());
+                    NavHelper.push(const SelectUtilityScreen());
                   }
                 },
               );

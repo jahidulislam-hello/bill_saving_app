@@ -1,3 +1,4 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/appbar/custom_appbar.dart';
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
@@ -51,7 +52,7 @@ class MoreScreen extends StatelessWidget {
                         height: 24,
                       ),
                       onTap: () {
-                        Get.to(() => PrivacyPolicyScreen());
+                        NavHelper.push(PrivacyPolicyScreen());
                       },
                     ),
                     const SizedBox(height: 12),
@@ -68,7 +69,7 @@ class MoreScreen extends StatelessWidget {
                         height: 24,
                       ),
                       onTap: () {
-                        Get.to(() => TermsCondition());
+                        NavHelper.push(TermsCondition());
                       },
                     ),
                     const SizedBox(height: 12),
@@ -85,7 +86,7 @@ class MoreScreen extends StatelessWidget {
                         height: 24,
                       ),
                       onTap: () {
-                        Get.to(() => AboutUs());
+                        NavHelper.push(AboutUs());
                       },
                     ),
                     const SizedBox(height: 12),
@@ -102,7 +103,7 @@ class MoreScreen extends StatelessWidget {
                         height: 24,
                       ),
                       onTap: () {
-                        Get.to(() => SupportoScreen());
+                        NavHelper.push(SupportoScreen());
                       },
                     ),
                     const SizedBox(height: 12),

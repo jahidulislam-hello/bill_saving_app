@@ -1,14 +1,17 @@
 import 'dart:math' as math;
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/navbar/navbar_controller.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/home/controller/home_controller.dart';
+import 'package:vyzi/features/request/case_detail_screen.dart';
 import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
 class RequestSuccessScreen extends StatelessWidget {
-  const RequestSuccessScreen({super.key});
+  final String? caseId;
+  const RequestSuccessScreen({super.key, this.caseId});
 
   static const _purple = AppColors.primaryColor;
   static const _textDark = AppColors.textDark;
@@ -255,9 +258,9 @@ class RequestSuccessScreen extends StatelessWidget {
       height: 52,
       child: ElevatedButton(
         onPressed: () {
-          final caseId = Get.arguments as String?;
-          if (caseId != null) {
-            Get.toNamed(AppRoutes.caseDetailScreen, arguments: caseId);
+          final id = caseId ?? Get.arguments as String?;
+          if (id != null) {
+            NavHelper.push(CaseDetailScreen(caseId: id));
           }
         },
         style: ElevatedButton.styleFrom(

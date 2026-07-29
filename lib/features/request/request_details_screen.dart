@@ -1,3 +1,4 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyzi/features/home/sign_contract/sign_contract.dart';
@@ -72,7 +73,7 @@ class RequestDetailsScreen extends StatelessWidget {
   // ── Processing Card ──
   Widget _processingCard() {
     return GestureDetector(
-      onTap: () => Get.to(() => const SignContractScreen()),
+      onTap: () => NavHelper.push(const SignContractScreen()),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),

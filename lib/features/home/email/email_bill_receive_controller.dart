@@ -1,13 +1,13 @@
-import 'package:vyzi/core/navbar/navbar_screen.dart';
-import 'package:vyzi/features/request/request_screen.dart';
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:get/get.dart';
 
 class EmailBillReceivedController extends GetxController {
   void goToRequests() {
-    Get.to(() => const RequestScreen());
+    NavHelper.switchTab(1);
   }
 
   void backToHome() {
-    Get.offAll(() => CustomBottomNavBar());
+    NavHelper.popToRoot();
+    NavHelper.switchTab(0);
   }
 }

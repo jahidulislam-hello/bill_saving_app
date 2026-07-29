@@ -1,4 +1,7 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/bills/screen/bill_detail_screen.dart';
+import 'package:vyzi/features/bills/screen/bills_list_screen.dart';
 import 'package:vyzi/features/home/email/email_bill_screen.dart';
 import 'package:vyzi/features/utility/controller/select_utility_controller.dart';
 import 'package:vyzi/features/utility/controller/upload_bill_controller.dart';
@@ -72,12 +75,9 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         ),
       );
       if (_controller.uploadedBillId.value.isNotEmpty) {
-        Get.offNamed(
-          AppRoutes.billDetailScreen,
-          arguments: _controller.uploadedBillId.value,
-        );
+        NavHelper.pushReplacement(BillDetailScreen(billId: _controller.uploadedBillId.value));
       } else {
-        Get.offNamed(AppRoutes.billsListScreen);
+        NavHelper.pushReplacement(BillsListScreen());
       }
     }
   }
@@ -398,7 +398,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                         child: ElevatedButton(
                           onPressed: () {
                             if (uploaded > 0) {
-                              Get.offNamed(AppRoutes.billsListScreen);
+                              NavHelper.pushReplacement(BillsListScreen());
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -1236,7 +1236,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     return GestureDetector(
       onTap: () {
         _controller.selectMethod(UploadMethod.sendEmail);
-        Get.to(() => EmailBillScreen(
+        NavHelper.push(EmailBillScreen(
               billType:
                   widget.utilityType == UtilityType.luce ? 'electricity' : 'gas',
             ));

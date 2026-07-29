@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:vyzi/core/constants/api_constants.dart';
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/services/api_service.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/features/bills/models/bill_model.dart';
 import 'package:vyzi/features/bills/models/bill_analysis_model.dart';
+import 'package:vyzi/features/request/case_detail_screen.dart';
 import 'package:vyzi/features/request/models/case_model.dart';
-import 'package:vyzi/routes/app_routes.dart';
 
 class BillDetailScreen extends StatefulWidget {
   final String billId;
@@ -460,7 +461,7 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
             height: 40.h,
             child: OutlinedButton(
               onPressed: () {
-                Get.toNamed(AppRoutes.caseDetailScreen, arguments: caseData.id);
+                NavHelper.push(CaseDetailScreen(caseId: caseData.id));
               },
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: AppColors.primaryColor),

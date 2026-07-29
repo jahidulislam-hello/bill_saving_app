@@ -1,3 +1,4 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/home/controller/home_controller.dart';
@@ -40,7 +41,7 @@ class HomeScreen extends StatelessWidget {
                       if (!hasUtilities) ...[
                         UploadSection(
                           onTap: () {
-                            Get.to(() => const SelectUtilityScreen());
+                            NavHelper.push(const SelectUtilityScreen());
                           },
                         ),
 
