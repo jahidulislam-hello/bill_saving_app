@@ -70,8 +70,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       return;
     }
 
-    final paths = await Navigator.push<List<String>>(
-      context,
+    final paths = await Navigator.of(context, rootNavigator: true).push<List<String>>(
       MaterialPageRoute(
         builder: (_) => MultiCaptureScreen(
           existingCount: existingCount,
