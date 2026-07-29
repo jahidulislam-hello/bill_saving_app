@@ -645,7 +645,6 @@ final Map<String, String> itIT = {
   'offer.price_calc_footer': 'Questa formula trasparente segue\nl\'indice ufficiale del mercato energetico.',
   'offer.max_benefit': 'MASSIMO BENEFICIO POTENZIALE',
   'offer.estimated_savings': 'RISPARMIO STIMATO',
-  'offer.per_billing_period': 'Per periodo di fatturazione',
   'offer.economic_conditions': 'Condizioni economiche',
   'offer.select_offer': 'Seleziona questa Offerta',
   'offer.feature1_title': 'Energia 100% rinnovabile',

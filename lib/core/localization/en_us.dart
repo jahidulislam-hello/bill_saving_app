@@ -645,7 +645,6 @@ final Map<String, String> enUS = {
   'offer.price_calc_footer': 'This transparent formula tracks the\nofficial energy market index.',
   'offer.max_benefit': 'MAXIMUM POTENTIAL BENEFIT',
   'offer.estimated_savings': 'ESTIMATED SAVINGS',
-  'offer.per_billing_period': 'Per billing period',
   'offer.economic_conditions': 'Economic conditions',
   'offer.select_offer': 'Select this Offer',
   'offer.feature1_title': '100% Renewable Energy',
