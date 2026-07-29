@@ -1,4 +1,8 @@
-
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/navbar/navbar_controller.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/home/screen/home_screen.dart';
@@ -6,16 +10,18 @@ import 'package:vyzi/features/my_utility/my_utiliets.dart';
 import 'package:vyzi/features/profile/profile_screen.dart';
 import 'package:vyzi/features/request/request_screen.dart';
 import 'package:vyzi/features/utility/select_utility_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
-class CustomBottomNavBar extends StatelessWidget {
-  CustomBottomNavBar({super.key});
+class CustomBottomNavBar extends StatefulWidget {
+  const CustomBottomNavBar({super.key});
 
+  @override
+  State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();
+}
+
+class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   final NavbarController _controller = Get.put(NavbarController());
 
-  final List<Widget> _screens = [
+  final List<Widget> _tabRoots = [
     HomeScreen(),
     RequestScreen(),
     MyUtilitiesScreen(),
@@ -24,13 +30,48 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        backgroundColor: AppColors.background,
-        body: _screens[_controller.selectedIndex],
-        bottomNavigationBar: _buildBottomNavigationBar(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: _buildFloatingActionButton(),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+
+        // 1. Pop within the current tab if possible
+        if (_controller.canPopCurrentTab()) {
+          _controller.popCurrentTab();
+          return;
+        }
+
+        // 2. If not on Home tab, switch to Home
+        if (_controller.selectedIndex != 0) {
+          _controller.changeIndex(0);
+          return;
+        }
+
+        // 3. Already at Home root — exit app
+        SystemNavigator.pop();
+      },
+      child: Obx(
+        () => Scaffold(
+          backgroundColor: AppColors.background,
+          body: IndexedStack(
+            index: _controller.selectedIndex,
+            children: List.generate(4, (i) => _buildTabNavigator(i)),
+          ),
+          bottomNavigationBar: _buildBottomNavigationBar(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: _buildFloatingActionButton(),
+        ),
+      ),
+    );
+  }
+
+  /// Each tab gets its own Navigator so pushes stay within the tab body.
+  Widget _buildTabNavigator(int index) {
+    return Navigator(
+      key: _controller.navigatorKeys[index],
+      onGenerateRoute: (_) => MaterialPageRoute(
+        builder: (_) => _tabRoots[index],
       ),
     );
   }
@@ -43,7 +84,7 @@ class CustomBottomNavBar extends StatelessWidget {
       child: FloatingActionButton(
         backgroundColor: AppColors.lightPurple,
         elevation: 2,
-        onPressed: () => Get.to(() => SelectUtilityScreen()),
+        onPressed: () => NavHelper.push(SelectUtilityScreen()),
         shape: const CircleBorder(),
         child: ClipOval(
           child: Image.asset(
