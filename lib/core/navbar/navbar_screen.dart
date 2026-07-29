@@ -59,52 +59,45 @@ class CustomBottomNavBar extends StatelessWidget {
 
   /// Bottom Navigation Bar
   Widget _buildBottomNavigationBar() {
-    return Builder(
-      builder: (context) {
-        final bottomInset = MediaQuery.of(context).viewPadding.bottom;
-        return BottomAppBar(
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 6.0,
-          color: AppColors.background,
-          elevation: 8,
-          clipBehavior: Clip.antiAlias,
-          height: 56.h + bottomInset,
-          padding: EdgeInsets.only(bottom: bottomInset),
-          child: Row(
-            children: [
-              Expanded(
-                child: _buildNavItem(
-                  index: 0,
-                  icon: Icons.home_outlined,
-                  label: 'navbar.home',
-                ),
-              ),
-              Expanded(
-                child: _buildNavItem(
-                  index: 1,
-                  icon: Icons.description_outlined,
-                  label: 'navbar.request',
-                ),
-              ),
-              SizedBox(width: 72.w), // Space for FAB notch
-              Expanded(
-                child: _buildNavItem(
-                  index: 2,
-                  icon: Icons.flash_on_outlined,
-                  label: 'navbar.utilities',
-                ),
-              ),
-              Expanded(
-                child: _buildNavItem(
-                  index: 3,
-                  icon: Icons.person_outline,
-                  label: 'navbar.profile',
-                ),
-              ),
-            ],
+    return BottomAppBar(
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 6.0,
+      color: AppColors.background,
+      elevation: 8,
+      clipBehavior: Clip.antiAlias,
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildNavItem(
+              index: 0,
+              icon: Icons.home_outlined,
+              label: 'navbar.home',
+            ),
           ),
-        );
-      },
+          Expanded(
+            child: _buildNavItem(
+              index: 1,
+              icon: Icons.description_outlined,
+              label: 'navbar.request',
+            ),
+          ),
+          SizedBox(width: 72.w), // Space for FAB notch
+          Expanded(
+            child: _buildNavItem(
+              index: 2,
+              icon: Icons.flash_on_outlined,
+              label: 'navbar.utilities',
+            ),
+          ),
+          Expanded(
+            child: _buildNavItem(
+              index: 3,
+              icon: Icons.person_outline,
+              label: 'navbar.profile',
+            ),
+          ),
+        ],
+      ),
     );
   }
 
