@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'core/services/cache_service.dart';
 import 'core/services/storage_service.dart';
+import 'core/services/system_ui_service.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/controllers/language_controller.dart';
 import 'app.dart';
@@ -48,16 +49,8 @@ void main() async {
   // Enable edge-to-edge display
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-  // Set system UI overlay style
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarIconBrightness: Brightness.dark,
-      systemNavigationBarDividerColor: Colors.transparent,
-    ),
-  );
+  // Set system UI overlay style (theme-aware via SystemUiService)
+  SystemUiService.setDefaultStyle();
 
   runApp(const MyApp());
 }

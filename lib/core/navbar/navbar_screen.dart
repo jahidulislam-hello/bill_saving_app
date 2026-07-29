@@ -38,8 +38,8 @@ class CustomBottomNavBar extends StatelessWidget {
   /// Floating Action Button
   Widget _buildFloatingActionButton() {
     return SizedBox(
-      height: 56.h,
-      width: 56.w,
+      height: 64.h,
+      width: 64.w,
       child: FloatingActionButton(
         backgroundColor: AppColors.lightPurple,
         elevation: 2,
@@ -59,67 +59,89 @@ class CustomBottomNavBar extends StatelessWidget {
 
   /// Bottom Navigation Bar
   Widget _buildBottomNavigationBar() {
-    return BottomAppBar(
-      shape: const CircularNotchedRectangle(),
-      notchMargin: 6.0,
-      color: AppColors.background,
-      elevation: 8,
-      clipBehavior: Clip.antiAlias,
-      child: Row(
-        children: [
-          Expanded(
-            child: _buildNavItem(
-              index: 0,
-              activeImage: "assets/images/home_act.png",
-              passiveImage: "assets/images/home.png",
-            ),
+    return Builder(
+      builder: (context) {
+        final bottomInset = MediaQuery.of(context).viewPadding.bottom;
+        return BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 6.0,
+          color: AppColors.background,
+          elevation: 8,
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildNavItem(
+                      index: 0,
+                      icon: Icons.home_outlined,
+                      label: 'navbar.home',
+                    ),
+                  ),
+                  Expanded(
+                    child: _buildNavItem(
+                      index: 1,
+                      icon: Icons.description_outlined,
+                      label: 'navbar.request',
+                    ),
+                  ),
+                  SizedBox(width: 72.w), // Space for FAB notch
+                  Expanded(
+                    child: _buildNavItem(
+                      index: 2,
+                      icon: Icons.flash_on_outlined,
+                      label: 'navbar.utilities',
+                    ),
+                  ),
+                  Expanded(
+                    child: _buildNavItem(
+                      index: 3,
+                      icon: Icons.person_outline,
+                      label: 'navbar.profile',
+                    ),
+                  ),
+                ],
+              ),
+              // Safe area padding for system navigation bar / Home Indicator
+              SizedBox(height: bottomInset),
+            ],
           ),
-          Expanded(
-            child: _buildNavItem(
-              index: 1,
-              activeImage: "assets/images/rich_act.png",
-              passiveImage: "assets/images/rich.png",
-            ),
-          ),
-          SizedBox(width: 68.w), // Space for FAB notch
-          Expanded(
-            child: _buildNavItem(
-              index: 2,
-              activeImage: "assets/images/utili_act.png",
-              passiveImage: "assets/images/utili.png",
-            ),
-          ),
-          Expanded(
-            child: _buildNavItem(
-              index: 3,
-              activeImage: "assets/images/profil_act.png",
-              passiveImage: "assets/images/profil.png",
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  /// Navigation Item with Image Icons
+  /// Navigation Item with Icon and Translated Label
   Widget _buildNavItem({
     required int index,
-    required String activeImage,
-    required String passiveImage,
+    required IconData icon,
+    required String label,
   }) {
     return Obx(() {
       final bool isSelected = _controller.selectedIndex == index;
+      final color = isSelected ? AppColors.primaryColor : Colors.grey;
       return InkResponse(
         onTap: () => _controller.changeIndex(index),
         child: SizedBox(
-          height: 48.h,
-          child: Center(
-            child: Image.asset(
-              isSelected ? activeImage : passiveImage,
-              width: 40.w,
-              height: 40.h,
-              fit: BoxFit.contain,
-            ),
+          height: 56.h,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 24.w, color: color),
+              SizedBox(height: 2.h),
+              Text(
+                label.tr,
+                style: TextStyle(
+                  fontSize: 11.sp,
+                  color: color,
+                  fontWeight:
+                      isSelected ? FontWeight.w600 : FontWeight.normal,
+                ),
+              ),
+            ],
           ),
         ),
       );
