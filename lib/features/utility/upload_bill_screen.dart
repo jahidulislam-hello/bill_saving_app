@@ -2,11 +2,11 @@ import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/home/email/email_bill_screen.dart';
 import 'package:vyzi/features/utility/controller/select_utility_controller.dart';
 import 'package:vyzi/features/utility/controller/upload_bill_controller.dart';
+import 'package:vyzi/features/utility/widgets/file_preview_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:file_picker/file_picker.dart';
 
 import '../../routes/app_routes.dart';
 
@@ -34,140 +34,30 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           ? 'upload_bill.heading_electricity'
           : 'upload_bill.heading_gas';
 
+  String get _billType =>
+      widget.utilityType == UtilityType.luce ? 'electricity' : 'gas';
+
   // ─────────────────────────────────────────────
   //  ACTIONS
   // ─────────────────────────────────────────────
 
-  /// Shows bottom sheet to choose between photo gallery and PDF document
-  void _openFilePicker() {
+  /// Opens multi-file picker for "Upload File" method
+  Future<void> _openMultiFilePicker() async {
     _controller.selectMethod(UploadMethod.uploadFile);
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-      ),
-      builder: (ctx) => SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 40.w,
-                  height: 4.h,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(2.r),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                'upload_bill.select_source'.tr,
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.black,
-                ),
-              ),
-              SizedBox(height: 16.h),
-              _buildSourceOption(
-                icon: Icons.photo_library_rounded,
-                label: 'upload_bill.photo_gallery'.tr,
-                onTap: () {
-                  Navigator.pop(ctx);
-                  _pickImageFromGallery();
-                },
-              ),
-              SizedBox(height: 8.h),
-              _buildSourceOption(
-                icon: Icons.picture_as_pdf_rounded,
-                label: 'upload_bill.pdf_document'.tr,
-                onTap: () {
-                  Navigator.pop(ctx);
-                  _pickPdfFile();
-                },
-              ),
-              SizedBox(height: 8.h),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
-  Widget _buildSourceOption({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12.r),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-        decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFFE8E8E8)),
-          borderRadius: BorderRadius.circular(12.r),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: const Color(0xFF5A1ABE), size: 24),
-            SizedBox(width: 12.w),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
-            ),
-            const Spacer(),
-            Icon(Icons.chevron_right_rounded, color: Colors.grey, size: 20),
-          ],
-        ),
-      ),
-    );
-  }
-
-  String get _billType =>
-      widget.utilityType == UtilityType.luce ? 'electricity' : 'gas';
-
-  Future<void> _pickImageFromGallery() async {
-    try {
-      final XFile? file = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 90,
+    if (_controller.isAtFileLimit) {
+      Get.snackbar(
+        'upload_bill.file_validation_title'.tr,
+        'upload_bill.max_files_reached'.tr,
+        snackPosition: SnackPosition.BOTTOM,
       );
-      if (file != null && mounted) {
-        _controller.setSelectedFile(file);
-        _controller.runOcrExtraction(_billType);
-      }
-    } catch (e) {
-      debugPrint('Gallery picker error: $e');
+      return;
     }
+
+    await _controller.pickMultipleFiles();
   }
 
-  Future<void> _pickPdfFile() async {
-    try {
-      final result = await FilePicker.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['pdf'],
-      );
-      if (result != null && result.files.single.path != null && mounted) {
-        final file = XFile(result.files.single.path!);
-        _controller.setSelectedFile(file);
-        _controller.runOcrExtraction(_billType);
-      }
-    } catch (e) {
-      debugPrint('PDF picker error: $e');
-    }
-  }
-
-  /// Opens camera to take photo of bill
+  /// Opens camera to take photo of bill (single-file flow)
   Future<void> _openCamera() async {
     _controller.selectMethod(UploadMethod.scanFile);
     try {
@@ -185,8 +75,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     }
   }
 
-  /// Triggers the actual upload
-  Future<void> _uploadBill() async {
+  /// Triggers single-file upload (scan flow)
+  Future<void> _uploadSingleBill() async {
     await _controller.uploadBill(widget.utilityType);
     if (_controller.uploadSuccess.value && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -195,7 +85,6 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           backgroundColor: const Color(0xFF1FC16B),
         ),
       );
-      // Navigate to bill detail
       if (_controller.uploadedBillId.value.isNotEmpty) {
         Get.offNamed(
           AppRoutes.billDetailScreen,
@@ -205,6 +94,21 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         Get.offNamed(AppRoutes.billsListScreen);
       }
     }
+  }
+
+  /// Triggers batch upload for multi-file flow
+  Future<void> _uploadAllFiles() async {
+    await _controller.uploadAllFiles(widget.utilityType);
+  }
+
+  /// Retries a single failed file
+  void _retrySingleFile(String fileId) {
+    _controller.retrySingleFile(fileId, widget.utilityType);
+  }
+
+  /// Retries all failed files
+  void _retryAllFailed() {
+    _controller.retryAllFailed(widget.utilityType);
   }
 
   // ─────────────────────────────────────────────
@@ -219,7 +123,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       body: Stack(
         children: [
           SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 24.h + MediaQuery.of(context).padding.bottom),
+            padding: EdgeInsets.fromLTRB(
+                16.w, 24.h, 16.w, 24.h + MediaQuery.of(context).padding.bottom),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -253,41 +158,11 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                 _buildUploadScanRow(),
                 SizedBox(height: 14.h),
 
-                // ── File preview (if selected) ──
-                Obx(() => _controller.selectedFile.value != null
-                    ? _buildFilePreview()
-                    : const SizedBox.shrink()),
-
-                // ── OCR extraction progress ──
-                Obx(() => _controller.isExtracting.value
-                    ? _buildExtractionProgress()
-                    : const SizedBox.shrink()),
-
-                // ── OCR extracted data preview ──
-                Obx(() => _controller.ocrCompleted.value &&
-                        _controller.ocrResult.value?.hasAnyData == true
-                    ? _buildOcrPreview()
-                    : const SizedBox.shrink()),
-
-                // ── Missing fields warning ──
-                Obx(() => _controller.ocrCompleted.value &&
-                        _controller.missingFields.isNotEmpty
-                    ? _buildMissingFieldsWarning()
-                    : const SizedBox.shrink()),
-
-                // ── Error message ──
-                Obx(() => _controller.errorMessage.value.isNotEmpty &&
-                        _controller.missingFields.isEmpty
-                    ? _buildErrorMessage()
-                    : const SizedBox.shrink()),
-
-                // ── Upload button (only when all fields extracted) ──
-                Obx(() => _controller.selectedFile.value != null &&
-                        !_controller.isUploading.value &&
-                        !_controller.isExtracting.value &&
-                        _controller.canUpload
-                    ? _buildUploadButton()
-                    : const SizedBox.shrink()),
+                // ── Multi-file or single-file content ──
+                Obx(() => _controller.selectedMethod.value ==
+                        UploadMethod.uploadFile
+                    ? _buildMultiFileContent()
+                    : _buildSingleFileContent()),
 
                 SizedBox(height: 14.h),
 
@@ -306,12 +181,337 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
             ),
           ),
 
-          // ── Upload progress overlay ──
+          // ── Upload progress overlay (single-file only) ──
           Obx(() => _controller.isUploading.value
               ? _buildUploadOverlay()
               : const SizedBox.shrink()),
         ],
       ),
+    );
+  }
+
+  // ─── Multi-file content ──────────────────────────────
+
+  Widget _buildMultiFileContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // File preview list
+        FilePreviewList(
+          controller: _controller,
+          onRetrySingle: _retrySingleFile,
+        ),
+
+        // Add More Files button
+        Obx(() {
+          if (_controller.selectedFiles.isEmpty) return const SizedBox.shrink();
+          if (_controller.isAtFileLimit) return const SizedBox.shrink();
+          if (_controller.isBatchUploading.value) return const SizedBox.shrink();
+
+          return Padding(
+            padding: EdgeInsets.only(top: 10.h),
+            child: Semantics(
+              label: 'upload_bill.add_more_files'.tr,
+              child: SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: _openMultiFilePicker,
+                  icon: const Icon(Icons.add_rounded, size: 18),
+                  label: Text(
+                    'upload_bill.add_more_files'.tr,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: const Color(0xFF5A1ABE),
+                    side: const BorderSide(color: Color(0xFF5A1ABE)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }),
+
+        // Overall progress during batch upload
+        Obx(() {
+          if (!_controller.isBatchUploading.value) {
+            return const SizedBox.shrink();
+          }
+          final total = _controller.totalFileCount;
+          final processed = _controller.uploadedFilesMulti.length +
+              _controller.failedFiles.length;
+          return Padding(
+            padding: EdgeInsets.only(top: 12.h),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF0EEFF),
+                borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(
+                    color: const Color(0xFF5A1ABE).withOpacity(0.3)),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 18.w,
+                        height: 18.w,
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Color(0xFF5A1ABE),
+                        ),
+                      ),
+                      SizedBox(width: 10.w),
+                      Text(
+                        'upload_bill.uploading_progress'.trParams({
+                          'current': (processed + 1).toString(),
+                          'total': total.toString(),
+                        }),
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF5A1ABE),
+                        ),
+                      ),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: _controller.cancelBatchUpload,
+                        child: Text(
+                          'upload_bill.cancel'.tr,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xFFE53935),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8.h),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4.r),
+                    child: LinearProgressIndicator(
+                      value: _controller.overallProgress,
+                      backgroundColor: const Color(0xFFE8E8E8),
+                      color: const Color(0xFF5A1ABE),
+                      minHeight: 6.h,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }),
+
+        // Post-upload summary
+        Obx(() {
+          if (!_controller.batchUploadCompleted.value) {
+            return const SizedBox.shrink();
+          }
+          final uploaded = _controller.uploadedFilesMulti.length;
+          final failed = _controller.failedFiles.length;
+
+          return Padding(
+            padding: EdgeInsets.only(top: 12.h),
+            child: Container(
+              padding: EdgeInsets.all(14.w),
+              decoration: BoxDecoration(
+                color: failed == 0
+                    ? const Color(0xFFE8F5E9)
+                    : const Color(0xFFFFF3E0),
+                borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(
+                  color: failed == 0
+                      ? const Color(0xFF43A047)
+                      : const Color(0xFFFF9800),
+                  width: 1,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        failed == 0
+                            ? Icons.check_circle_rounded
+                            : Icons.warning_amber_rounded,
+                        color: failed == 0
+                            ? const Color(0xFF43A047)
+                            : const Color(0xFFFF9800),
+                        size: 18,
+                      ),
+                      SizedBox(width: 8.w),
+                      Expanded(
+                        child: Text(
+                          'upload_bill.batch_complete'.trParams({
+                            'uploaded': uploaded.toString(),
+                            'failed': failed.toString(),
+                          }),
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 12.h),
+                  Row(
+                    children: [
+                      if (failed > 0) ...[
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: _retryAllFailed,
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: const Color(0xFFFF9800),
+                              side: const BorderSide(
+                                  color: Color(0xFFFF9800)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 10.h),
+                            ),
+                            child: Text(
+                              'upload_bill.retry_failed'.tr,
+                              style: TextStyle(
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10.w),
+                      ],
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (uploaded > 0) {
+                              Get.offNamed(AppRoutes.billsListScreen);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF5A1ABE),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            padding: EdgeInsets.symmetric(vertical: 10.h),
+                            elevation: 0,
+                          ),
+                          child: Text(
+                            'upload_bill.done'.tr,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        }),
+
+        // Upload button for multi-file
+        Obx(() {
+          if (_controller.batchUploadCompleted.value) {
+            return const SizedBox.shrink();
+          }
+          if (_controller.isBatchUploading.value) {
+            return const SizedBox.shrink();
+          }
+          final pendingCount = _controller.pendingFiles.length;
+          if (pendingCount == 0) return const SizedBox.shrink();
+
+          return Padding(
+            padding: EdgeInsets.only(top: 16.h),
+            child: Semantics(
+              label: 'upload_bill.upload_x_files'
+                  .trParams({'count': pendingCount.toString()}),
+              child: SizedBox(
+                width: double.infinity,
+                height: 50.h,
+                child: ElevatedButton(
+                  onPressed: _uploadAllFiles,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF5A1ABE),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14.r),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    'upload_bill.upload_x_files'
+                        .trParams({'count': pendingCount.toString()}),
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }),
+      ],
+    );
+  }
+
+  // ─── Single-file content (camera/scan flow) ──────────
+
+  Widget _buildSingleFileContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // File preview (if selected)
+        Obx(() => _controller.selectedFile.value != null
+            ? _buildFilePreview()
+            : const SizedBox.shrink()),
+
+        // OCR extraction progress
+        Obx(() => _controller.isExtracting.value
+            ? _buildExtractionProgress()
+            : const SizedBox.shrink()),
+
+        // OCR extracted data preview
+        Obx(() => _controller.ocrCompleted.value &&
+                _controller.ocrResult.value?.hasAnyData == true
+            ? _buildOcrPreview()
+            : const SizedBox.shrink()),
+
+        // Missing fields warning
+        Obx(() => _controller.ocrCompleted.value &&
+                _controller.missingFields.isNotEmpty
+            ? _buildMissingFieldsWarning()
+            : const SizedBox.shrink()),
+
+        // Error message
+        Obx(() => _controller.errorMessage.value.isNotEmpty &&
+                _controller.missingFields.isEmpty
+            ? _buildErrorMessage()
+            : const SizedBox.shrink()),
+
+        // Upload button (only when all fields extracted)
+        Obx(() => _controller.selectedFile.value != null &&
+                !_controller.isUploading.value &&
+                !_controller.isExtracting.value &&
+                _controller.canUpload
+            ? _buildUploadButton()
+            : const SizedBox.shrink()),
+      ],
     );
   }
 
@@ -353,7 +553,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
             children: [
               Icon(
                 Icons.info_outline_rounded,
-                color: Color(0xFF5A1ABE),
+                color: const Color(0xFF5A1ABE),
                 size: 40.w,
               ),
               SizedBox(height: 12.h),
@@ -383,7 +583,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                 child: ElevatedButton(
                   onPressed: () => Navigator.of(ctx).pop(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF5A1ABE),
+                    backgroundColor: const Color(0xFF5A1ABE),
                     padding: EdgeInsets.symmetric(vertical: 12.h),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.r),
@@ -446,9 +646,9 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w900,
-                color: Color(0xFF5A1ABE),
+                color: const Color(0xFF5A1ABE),
                 decoration: TextDecoration.underline,
-                decorationColor: Color(0xFF5A1ABE),
+                decorationColor: const Color(0xFF5A1ABE),
                 height: 1.22,
               ),
             ),
@@ -468,7 +668,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                 assetIcon: 'assets/icons/upload.png',
                 label: 'upload_bill.upload_file'.tr,
                 sublabel: 'upload_bill.upload_formats'.tr,
-                onTap: _openFilePicker,
+                onTap: _openMultiFilePicker,
               ),
             ),
             SizedBox(width: 12.w),
@@ -549,7 +749,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     );
   }
 
-  // ── File Preview Card ──
+  // ── File Preview Card (single-file) ──
   Widget _buildFilePreview() {
     final fileName = _controller.selectedFileName;
     final fileSize = _controller.selectedFileSize;
@@ -673,10 +873,9 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
   // ── Missing Fields Warning ──
   Widget _buildMissingFieldsWarning() {
     final missing = _controller.missingFields;
-    // Translate field labels (some are i18n keys, some are plain text)
     final labels = missing.map((key) {
       if (key.startsWith('upload_bill.')) return key.tr;
-      return key; // POD, PDR are already plain text
+      return key;
     }).toList();
 
     return Padding(
@@ -713,21 +912,24 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
             Wrap(
               spacing: 6.w,
               runSpacing: 6.h,
-              children: labels.map((label) => Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFCDD2),
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 11.sp,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFFC62828),
-                  ),
-                ),
-              )).toList(),
+              children: labels
+                  .map((label) => Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 5.h),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFCDD2),
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Text(
+                          label,
+                          style: TextStyle(
+                            fontSize: 11.sp,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xFFC62828),
+                          ),
+                        ),
+                      ))
+                  .toList(),
             ),
             SizedBox(height: 10.h),
             Text(
@@ -751,7 +953,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     final items = <_OcrPreviewItem>[];
 
     if (ocr.supplierName != null) {
-      items.add(_OcrPreviewItem('upload_bill.field_supplier'.tr, ocr.supplierName!));
+      items.add(
+          _OcrPreviewItem('upload_bill.field_supplier'.tr, ocr.supplierName!));
     }
     if (ocr.podNumber != null) {
       items.add(_OcrPreviewItem('upload_bill.field_pod'.tr, ocr.podNumber!));
@@ -760,51 +963,55 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       items.add(_OcrPreviewItem('upload_bill.field_pdr'.tr, ocr.pdrNumber!));
     }
     if (ocr.totalAmount != null) {
-      items.add(_OcrPreviewItem(
-          'upload_bill.field_total'.tr, '€ ${ocr.totalAmount!.toStringAsFixed(2)}'));
+      items.add(_OcrPreviewItem('upload_bill.field_total'.tr,
+          '€ ${ocr.totalAmount!.toStringAsFixed(2)}'));
     }
     if (ocr.consumptionKwh != null) {
-      items.add(_OcrPreviewItem(
-          'upload_bill.field_consumption'.tr, '${ocr.consumptionKwh!.toStringAsFixed(0)} kWh'));
+      items.add(_OcrPreviewItem('upload_bill.field_consumption'.tr,
+          '${ocr.consumptionKwh!.toStringAsFixed(0)} kWh'));
     }
     if (ocr.consumptionSmc != null) {
-      items.add(_OcrPreviewItem(
-          'upload_bill.field_consumption'.tr, '${ocr.consumptionSmc!.toStringAsFixed(0)} Smc'));
+      items.add(_OcrPreviewItem('upload_bill.field_consumption'.tr,
+          '${ocr.consumptionSmc!.toStringAsFixed(0)} Smc'));
     }
     if (ocr.costPerUnit != null) {
-      items.add(_OcrPreviewItem(
-          'upload_bill.field_cost_per_unit'.tr, '€ ${ocr.costPerUnit!.toStringAsFixed(4)}'));
+      items.add(_OcrPreviewItem('upload_bill.field_cost_per_unit'.tr,
+          '€ ${ocr.costPerUnit!.toStringAsFixed(4)}'));
     }
     if (ocr.fixedCharges != null) {
-      items.add(_OcrPreviewItem(
-          'upload_bill.field_fixed_charges'.tr, '€ ${ocr.fixedCharges!.toStringAsFixed(2)}'));
+      items.add(_OcrPreviewItem('upload_bill.field_fixed_charges'.tr,
+          '€ ${ocr.fixedCharges!.toStringAsFixed(2)}'));
     }
     if (ocr.taxes != null) {
       items.add(_OcrPreviewItem(
           'upload_bill.field_taxes'.tr, '€ ${ocr.taxes!.toStringAsFixed(2)}'));
     }
     if (ocr.billingPeriodStart != null && ocr.billingPeriodEnd != null) {
-      items.add(_OcrPreviewItem(
-          'upload_bill.field_period'.tr,
+      items.add(_OcrPreviewItem('upload_bill.field_period'.tr,
           '${ocr.billingPeriodStart} — ${ocr.billingPeriodEnd}'));
     }
     if (ocr.supplyAddress != null) {
-      items.add(_OcrPreviewItem('upload_bill.field_address'.tr, ocr.supplyAddress!));
+      items.add(
+          _OcrPreviewItem('upload_bill.field_address'.tr, ocr.supplyAddress!));
     }
     if (ocr.codiceFiscale != null) {
-      items.add(_OcrPreviewItem('upload_bill.field_tax_code'.tr, ocr.codiceFiscale!));
+      items.add(_OcrPreviewItem(
+          'upload_bill.field_tax_code'.tr, ocr.codiceFiscale!));
     }
     if (ocr.partitaIva != null) {
       items.add(_OcrPreviewItem('upload_bill.field_vat'.tr, ocr.partitaIva!));
     }
     if (ocr.contractNumber != null) {
-      items.add(_OcrPreviewItem('upload_bill.field_contract'.tr, ocr.contractNumber!));
+      items.add(_OcrPreviewItem(
+          'upload_bill.field_contract'.tr, ocr.contractNumber!));
     }
     if (ocr.meterNumber != null) {
-      items.add(_OcrPreviewItem('upload_bill.field_meter'.tr, ocr.meterNumber!));
+      items
+          .add(_OcrPreviewItem('upload_bill.field_meter'.tr, ocr.meterNumber!));
     }
     if (ocr.customerName != null) {
-      items.add(_OcrPreviewItem('upload_bill.field_customer'.tr, ocr.customerName!));
+      items.add(
+          _OcrPreviewItem('upload_bill.field_customer'.tr, ocr.customerName!));
     }
 
     return Padding(
@@ -911,28 +1118,31 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     );
   }
 
-  // ── Upload Button ──
+  // ── Upload Button (single-file) ──
   Widget _buildUploadButton() {
     return Padding(
       padding: EdgeInsets.only(top: 16.h),
-      child: SizedBox(
-        width: double.infinity,
-        height: 50.h,
-        child: ElevatedButton(
-          onPressed: _uploadBill,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF5A1ABE),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14.r),
+      child: Semantics(
+        label: 'upload_bill.upload_button'.tr,
+        child: SizedBox(
+          width: double.infinity,
+          height: 50.h,
+          child: ElevatedButton(
+            onPressed: _uploadSingleBill,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF5A1ABE),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14.r),
+              ),
+              elevation: 0,
             ),
-            elevation: 0,
-          ),
-          child: Text(
-            'upload_bill.upload_button'.tr,
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
+            child: Text(
+              'upload_bill.upload_button'.tr,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w900,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -940,7 +1150,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     );
   }
 
-  // ── Upload Progress Overlay ──
+  // ── Upload Progress Overlay (single-file) ──
   Widget _buildUploadOverlay() {
     return Container(
       color: Colors.black.withOpacity(0.5),
@@ -1024,8 +1234,9 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       onTap: () {
         _controller.selectMethod(UploadMethod.sendEmail);
         Get.to(() => EmailBillScreen(
-          billType: widget.utilityType == UtilityType.luce ? 'electricity' : 'gas',
-        ));
+              billType:
+                  widget.utilityType == UtilityType.luce ? 'electricity' : 'gas',
+            ));
       },
       child: Obx(() => AnimatedContainer(
             duration: const Duration(milliseconds: 200),
@@ -1047,8 +1258,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                 ),
               ],
             ),
-            padding:
-                EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
             child: Row(
               children: [
                 Container(
@@ -1057,8 +1267,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                   decoration: BoxDecoration(
                     color: const Color(0xFFE8F8EF),
                     borderRadius: BorderRadius.circular(12.r),
-                    border: Border.all(
-                        color: const Color(0xFF5A1ABE), width: 1),
+                    border:
+                        Border.all(color: const Color(0xFF5A1ABE), width: 1),
                   ),
                   child: const Icon(Icons.mail_outline_rounded,
                       color: Color(0xFF27AE60), size: 22),
