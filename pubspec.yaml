@@ -30,6 +30,7 @@ dependencies:
   flutter_spinkit:
   pin_code_fields:
   image_picker:
+  camera:
   file_picker:
   internet_connection_checker:
   fluttertoast:

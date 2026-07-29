@@ -9,9 +9,9 @@ import 'package:vyzi/features/utility/widgets/file_preview_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../routes/app_routes.dart';
+import 'multi_capture_screen.dart';
 
 class UploadBillScreen extends StatefulWidget {
   final UtilityType utilityType;
@@ -24,7 +24,6 @@ class UploadBillScreen extends StatefulWidget {
 
 class _UploadBillScreenState extends State<UploadBillScreen> {
   final UploadBillController _controller = Get.put(UploadBillController());
-  final ImagePicker _picker = ImagePicker();
 
   @override
   void dispose() {
@@ -57,11 +56,33 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     await _controller.pickMultipleFiles();
   }
 
-  /// Opens camera for multi-photo scanning session.
-  /// Camera reopens after each capture until user cancels or max reached.
+  /// Opens custom camera for continuous multi-photo scanning session.
   Future<void> _openCamera() async {
     _controller.selectMethod(UploadMethod.scanFile);
-    await _controller.captureMultiplePhotos(_picker);
+
+    final existingCount = _controller.selectedFiles.length;
+    if (existingCount >= UploadBillController.maxFileCount) {
+      Get.snackbar(
+        'upload_bill.file_validation_title'.tr,
+        'upload_bill.max_files_reached'.tr,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    final paths = await Navigator.push<List<String>>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => MultiCaptureScreen(
+          existingCount: existingCount,
+          maxCount: UploadBillController.maxFileCount,
+        ),
+      ),
+    );
+
+    if (paths != null && paths.isNotEmpty) {
+      await _controller.addCapturedPhotoPaths(paths);
+    }
   }
 
   /// Triggers single-file upload (scan flow)

@@ -77,6 +77,10 @@
 		<string>fbapi</string>
 		<string>fb-messenger-share-api</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>VYZI needs camera access to scan your energy bills</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>VYZI needs microphone access for camera functionality</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

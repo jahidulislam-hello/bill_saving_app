@@ -357,25 +357,28 @@ class UploadBillController extends GetxController {
     return added;
   }
 
-  /// Opens camera in a loop for continuous multi-photo capture.
-  /// After each photo, the camera reopens automatically.
-  /// Stops when user cancels the camera or max file count is reached.
-  Future<void> captureMultiplePhotos(ImagePicker picker) async {
-    while (selectedFiles.length < maxFileCount) {
-      try {
-        final XFile? photo = await picker.pickImage(
-          source: ImageSource.camera,
-          imageQuality: 90,
-          preferredCameraDevice: CameraDevice.rear,
-        );
+  /// Adds photos captured from MultiCaptureScreen to the multi-file list.
+  Future<void> addCapturedPhotoPaths(List<String> paths) async {
+    for (final path in paths) {
+      if (selectedFiles.length >= maxFileCount) break;
 
-        if (photo == null) break; // User cancelled — end session
+      final file = File(path);
+      final size = await file.length();
+      final name = path.split('/').last;
+      final ext = name.split('.').last.toLowerCase();
 
-        await addCameraPhoto(photo);
-      } catch (e) {
-        debugPrint('Camera capture error: $e');
-        break;
-      }
+      if (size > maxFileSizeBytes) continue;
+
+      final selected = SelectedFile(
+        id: '${DateTime.now().microsecondsSinceEpoch}_cam',
+        path: path,
+        name: name,
+        sizeBytes: size,
+        extension: ext,
+      );
+
+      selectedFiles.add(selected);
+      _generateThumbnail(selected);
     }
   }
 

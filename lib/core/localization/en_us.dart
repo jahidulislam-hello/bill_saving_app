@@ -583,6 +583,15 @@ final Map<String, String> enUS = {
   'upload_bill.permission_required_message': 'Storage permission is required to select files.',
   'upload_bill.open_settings': 'Settings',
   'upload_bill.take_another_photo': 'Take Another Photo',
+  'upload_bill.camera_title': 'Scan your bills',
+  'upload_bill.camera_done': 'Done',
+  'upload_bill.camera_initializing': 'Starting camera...',
+  'upload_bill.camera_error': 'Could not start camera. Please check permissions.',
+  'upload_bill.camera_limit_reached': 'Maximum photos reached',
+  'upload_bill.camera_discard_title': 'Discard photos?',
+  'upload_bill.camera_discard_message': 'You have @count photos. Discard them?',
+  'upload_bill.camera_discard_yes': 'Discard',
+  'upload_bill.camera_discard_no': 'Keep shooting',
 
   // ==================== SIGN CONTRACT ====================
   'sign_contract.appbar_title': 'Sign Your Contract',
