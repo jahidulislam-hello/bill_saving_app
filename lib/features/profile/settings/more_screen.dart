@@ -181,48 +181,51 @@ class MoreScreen extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (ctx) => Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'profile.settings.language'.tr,
-              style: AppStyles.body2.copyWith(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
+      builder: (ctx) => SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'profile.settings.language'.tr,
+                style: AppStyles.body2.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Obx(() {
-              final currentLang = langController.currentLanguageCode;
-              return Column(
-                children: [
-                  _LanguageOption(
-                    label: 'profile.settings.language_italian'.tr,
-                    code: 'it',
-                    isSelected: currentLang == 'it',
-                    onTap: () {
-                      langController.changeLanguage('it');
-                      Navigator.of(ctx).pop();
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  _LanguageOption(
-                    label: 'profile.settings.language_english'.tr,
-                    code: 'en',
-                    isSelected: currentLang == 'en',
-                    onTap: () {
-                      langController.changeLanguage('en');
-                      Navigator.of(ctx).pop();
-                    },
-                  ),
-                ],
-              );
-            }),
-            const SizedBox(height: 16),
-          ],
+              const SizedBox(height: 20),
+              Obx(() {
+                final currentLang = langController.currentLanguageCode;
+                return Column(
+                  children: [
+                    _LanguageOption(
+                      label: 'profile.settings.language_italian'.tr,
+                      code: 'it',
+                      isSelected: currentLang == 'it',
+                      onTap: () {
+                        langController.changeLanguage('it');
+                        Navigator.of(ctx).pop();
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    _LanguageOption(
+                      label: 'profile.settings.language_english'.tr,
+                      code: 'en',
+                      isSelected: currentLang == 'en',
+                      onTap: () {
+                        langController.changeLanguage('en');
+                        Navigator.of(ctx).pop();
+                      },
+                    ),
+                  ],
+                );
+              }),
+              const SizedBox(height: 24),
+            ],
+          ),
         ),
       ),
     );

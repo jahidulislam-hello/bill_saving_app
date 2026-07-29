@@ -438,94 +438,97 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
           topRight: Radius.circular(24.r),
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // ── Drag handle ──
-          SizedBox(height: 12.h),
-          Container(
-            width: 40.w,
-            height: 4.h,
-            decoration: BoxDecoration(
-              color: const Color(0xFF5A1ABE),
-              borderRadius: BorderRadius.circular(4.r),
+      child: SafeArea(
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // ── Drag handle ──
+            SizedBox(height: 12.h),
+            Container(
+              width: 40.w,
+              height: 4.h,
+              decoration: BoxDecoration(
+                color: const Color(0xFF5A1ABE),
+                borderRadius: BorderRadius.circular(4.r),
+              ),
             ),
-          ),
-          SizedBox(height: 8.h),
+            SizedBox(height: 8.h),
 
-          // ── Close button row ──
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    width: 30.w,
-                    height: 30.w,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF5F5F5),
-                      shape: BoxShape.circle,
+            // ── Close button row ──
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      width: 30.w,
+                      height: 30.w,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF5F5F5),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(Icons.close_rounded,
+                          size: 16.sp, color: Colors.black),
                     ),
-                    child: Icon(Icons.close_rounded,
-                        size: 16.sp, color: Colors.black),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
 
-          // ── PageView content ──
-          SizedBox(
-            height: 420.h,
-            child: PageView.builder(
-              controller: _pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: _steps.length,
-              itemBuilder: (_, i) => _buildStepPage(_steps[i]),
+            // ── PageView content ──
+            SizedBox(
+              height: 420.h,
+              child: PageView.builder(
+                controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _steps.length,
+                itemBuilder: (_, i) => _buildStepPage(_steps[i]),
+              ),
             ),
-          ),
 
-          // ── Dots ──
-          _buildDots(),
-          SizedBox(height: 16.h),
+            // ── Dots ──
+            _buildDots(),
+            SizedBox(height: 16.h),
 
-          // ── Next / Got it button ──
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: SizedBox(
-              width: double.infinity,
-              height: 52.h,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_c.isLastStep) {
-                    Navigator.pop(context);
-                  } else {
-                    _c.nextStep();
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14.r),
+            // ── Next / Got it button ──
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: SizedBox(
+                width: double.infinity,
+                height: 52.h,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_c.isLastStep) {
+                      Navigator.pop(context);
+                    } else {
+                      _c.nextStep();
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14.r),
+                    ),
                   ),
-                ),
-                child: Text(
-                  _c.isLastStep ? 'sign_contract.got_it'.tr : 'sign_contract.next'.tr,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w800,
-                    height: 1.22,
+                  child: Text(
+                    _c.isLastStep ? 'sign_contract.got_it'.tr : 'sign_contract.next'.tr,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w800,
+                      height: 1.22,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 32.h),
-        ],
+            SizedBox(height: 32.h),
+          ],
+        ),
       ),
     );
   }

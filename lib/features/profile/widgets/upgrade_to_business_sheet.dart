@@ -128,7 +128,9 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
         ),
       ),
       padding: EdgeInsets.fromLTRB(20, 0, 20, bottom + 0),
-      child: Column(
+      child: SafeArea(
+        top: false,
+        child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // ── Drag handle ──
@@ -339,6 +341,7 @@ class _UpgradeToBusinessSheetState extends State<_UpgradeToBusinessSheet> {
           ),
           const SizedBox(height: 28),
         ],
+      ),
       ),
     );
   }
