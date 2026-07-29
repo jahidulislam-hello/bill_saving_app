@@ -579,6 +579,7 @@ final Map<String, String> enUS = {
   'upload_bill.permission_required_title': 'Permission Required',
   'upload_bill.permission_required_message': 'Storage permission is required to select files.',
   'upload_bill.open_settings': 'Settings',
+  'upload_bill.take_another_photo': 'Take Another Photo',
 
   // ==================== SIGN CONTRACT ====================
   'sign_contract.appbar_title': 'Sign Your Contract',

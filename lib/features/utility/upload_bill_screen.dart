@@ -34,9 +34,6 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           ? 'upload_bill.heading_electricity'
           : 'upload_bill.heading_gas';
 
-  String get _billType =>
-      widget.utilityType == UtilityType.luce ? 'electricity' : 'gas';
-
   // ─────────────────────────────────────────────
   //  ACTIONS
   // ─────────────────────────────────────────────
@@ -57,22 +54,11 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     await _controller.pickMultipleFiles();
   }
 
-  /// Opens camera to take photo of bill (single-file flow)
+  /// Opens camera for multi-photo scanning session.
+  /// Camera reopens after each capture until user cancels or max reached.
   Future<void> _openCamera() async {
     _controller.selectMethod(UploadMethod.scanFile);
-    try {
-      final XFile? photo = await _picker.pickImage(
-        source: ImageSource.camera,
-        imageQuality: 90,
-        preferredCameraDevice: CameraDevice.rear,
-      );
-      if (photo != null && mounted) {
-        _controller.setSelectedFile(photo);
-        _controller.runOcrExtraction(_billType);
-      }
-    } catch (e) {
-      debugPrint('Camera error: $e');
-    }
+    await _controller.captureMultiplePhotos(_picker);
   }
 
   /// Triggers single-file upload (scan flow)
@@ -158,11 +144,15 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                 _buildUploadScanRow(),
                 SizedBox(height: 14.h),
 
-                // ── Multi-file or single-file content ──
-                Obx(() => _controller.selectedMethod.value ==
-                        UploadMethod.uploadFile
-                    ? _buildMultiFileContent()
-                    : _buildSingleFileContent()),
+                // ── Multi-file content (uploadFile & scanFile) or single-file ──
+                Obx(() {
+                  final method = _controller.selectedMethod.value;
+                  if (method == UploadMethod.uploadFile ||
+                      method == UploadMethod.scanFile) {
+                    return _buildMultiFileContent();
+                  }
+                  return _buildSingleFileContent();
+                }),
 
                 SizedBox(height: 14.h),
 
@@ -202,23 +192,33 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           onRetrySingle: _retrySingleFile,
         ),
 
-        // Add More Files button
+        // Add More Files / Take Another Photo button
         Obx(() {
           if (_controller.selectedFiles.isEmpty) return const SizedBox.shrink();
           if (_controller.isAtFileLimit) return const SizedBox.shrink();
           if (_controller.isBatchUploading.value) return const SizedBox.shrink();
+          if (_controller.batchUploadCompleted.value) return const SizedBox.shrink();
+
+          final isScanMode =
+              _controller.selectedMethod.value == UploadMethod.scanFile;
+          final label = isScanMode
+              ? 'upload_bill.take_another_photo'.tr
+              : 'upload_bill.add_more_files'.tr;
+          final icon = isScanMode
+              ? Icons.camera_alt_rounded
+              : Icons.add_rounded;
 
           return Padding(
             padding: EdgeInsets.only(top: 10.h),
             child: Semantics(
-              label: 'upload_bill.add_more_files'.tr,
+              label: label,
               child: SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
-                  onPressed: _openMultiFilePicker,
-                  icon: const Icon(Icons.add_rounded, size: 18),
+                  onPressed: isScanMode ? _openCamera : _openMultiFilePicker,
+                  icon: Icon(icon, size: 18),
                   label: Text(
-                    'upload_bill.add_more_files'.tr,
+                    label,
                     style: TextStyle(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w700,

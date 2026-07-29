@@ -579,6 +579,7 @@ final Map<String, String> itIT = {
   'upload_bill.permission_required_title': 'Permesso necessario',
   'upload_bill.permission_required_message': 'Il permesso di accesso allo storage è necessario per selezionare i file.',
   'upload_bill.open_settings': 'Impostazioni',
+  'upload_bill.take_another_photo': 'Scatta un\'altra foto',
 
   // ==================== SIGN CONTRACT ====================
   'sign_contract.appbar_title': 'Firma il tuo Contratto',

@@ -357,6 +357,67 @@ class UploadBillController extends GetxController {
     return added;
   }
 
+  /// Opens camera in a loop for continuous multi-photo capture.
+  /// After each photo, the camera reopens automatically.
+  /// Stops when user cancels the camera or max file count is reached.
+  Future<void> captureMultiplePhotos(ImagePicker picker) async {
+    while (selectedFiles.length < maxFileCount) {
+      try {
+        final XFile? photo = await picker.pickImage(
+          source: ImageSource.camera,
+          imageQuality: 90,
+          preferredCameraDevice: CameraDevice.rear,
+        );
+
+        if (photo == null) break; // User cancelled — end session
+
+        await addCameraPhoto(photo);
+      } catch (e) {
+        debugPrint('Camera capture error: $e');
+        break;
+      }
+    }
+  }
+
+  /// Adds a camera-captured photo to the multi-file list.
+  /// Returns true if the photo was added successfully.
+  Future<bool> addCameraPhoto(XFile photo) async {
+    if (selectedFiles.length >= maxFileCount) {
+      Get.snackbar(
+        'upload_bill.file_validation_title'.tr,
+        'upload_bill.max_files_reached'.tr,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    final file = File(photo.path);
+    final size = await file.length();
+    final name = photo.name;
+    final ext = name.split('.').last.toLowerCase();
+
+    if (size > maxFileSizeBytes) {
+      Get.snackbar(
+        'upload_bill.file_validation_title'.tr,
+        'upload_bill.file_too_large'.tr,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    final selected = SelectedFile(
+      id: '${DateTime.now().microsecondsSinceEpoch}_cam',
+      path: photo.path,
+      name: name,
+      sizeBytes: size,
+      extension: ext,
+    );
+
+    selectedFiles.add(selected);
+    _generateThumbnail(selected);
+    return true;
+  }
+
   void _showValidationFeedback({
     required List<String> skippedDuplicates,
     required List<String> skippedInvalid,
