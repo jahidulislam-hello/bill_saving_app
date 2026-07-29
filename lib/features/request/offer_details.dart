@@ -152,7 +152,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         _economicConditionsCard(offer),
         const SizedBox(height: 20),
         _bottomButton(),
-        const SizedBox(height: 8),
+        const SizedBox(height: 24),
       ],
     );
   }
