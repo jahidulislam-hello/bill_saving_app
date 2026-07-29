@@ -1,3 +1,4 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/constants/api_constants.dart';
 import 'package:vyzi/core/services/api_service.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
@@ -157,7 +158,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         Positioned(
           left: 0,
           right: 0,
-          bottom: MediaQuery.of(context).viewPadding.bottom,
+          bottom: 0,
           child: _bottomButton(),
         ),
       ],
@@ -187,10 +188,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
       ),
       actions: [
         GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const OfferInfoScreen()),
-          ),
+          onTap: () => NavHelper.push(const OfferInfoScreen()),
           child: Container(
             margin: const EdgeInsets.only(right: 16),
             width: 24,
@@ -472,7 +470,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         height: 52,
         child: ElevatedButton(
           onPressed: () {
-            Get.to(() => CompleteRequestScreen(offer: _offer!));
+            NavHelper.push(CompleteRequestScreen(offer: _offer!));
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.purple,
