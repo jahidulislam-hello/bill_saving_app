@@ -346,18 +346,28 @@ class _MultiCaptureScreenState extends State<MultiCaptureScreen>
     }
 
     final controller = _cameraController!;
-    return ClipRect(
-      child: OverflowBox(
-        alignment: Alignment.center,
-        child: FittedBox(
-          fit: BoxFit.cover,
-          child: SizedBox(
-            width: controller.value.previewSize!.height,
-            height: controller.value.previewSize!.width,
-            child: CameraPreview(controller),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final previewSize = controller.value.previewSize!;
+        // previewSize is in landscape orientation (width > height),
+        // so swap for portrait: aspect = sensorWidth / sensorHeight
+        final cameraAspect = previewSize.height / previewSize.width;
+        final widgetAspect = constraints.maxWidth / constraints.maxHeight;
+
+        // Scale so the preview always fills the full width
+        final scale = widgetAspect < cameraAspect
+            ? constraints.maxHeight / (constraints.maxWidth / cameraAspect)
+            : constraints.maxWidth / (constraints.maxHeight * cameraAspect);
+
+        return ClipRect(
+          child: Transform.scale(
+            scale: scale > 1 ? scale : 1,
+            child: Center(
+              child: CameraPreview(controller),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
