@@ -334,53 +334,57 @@ class _RequestScreenState extends State<RequestScreen>
 
           SizedBox(height: 12.h),
 
-          // ── Fixed monthly fee ──
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14.w),
-            child: Row(
-              children: [
-                Text(
-                  '€${offer.fixedMonthlyFee.toStringAsFixed(0)}',
-                  style: TextStyle(
-                    fontSize: 26.sp,
-                    fontWeight: FontWeight.w900,
-                    color: const Color(0xFF4CAF50),
-                  ),
-                ),
-                SizedBox(width: 8.w),
-                Text(
-                  'request.offers.monthly_fixed'.tr,
-                  style: AppStyles.body3.copyWith(color: const Color(0xFF1A1A2E), fontWeight: FontWeight.w700),
-                ),
-              ],
-            ),
-          ),
-
-          // ── Estimated savings badge ──
+          // ── Estimated annual savings (headline) ──
           if (offer.estimatedSavings != null && offer.estimatedSavings! > 0) ...[
-            SizedBox(height: 10.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 14.w),
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE8F5E9),
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.savings_outlined, color: const Color(0xFF4CAF50), size: 18.sp),
-                    SizedBox(width: 8.w),
-                    Text(
-                      '${'request.offers.estimated_savings'.tr}: ${offer.estimatedSavingsDisplay}',
-                      style: AppStyles.body4.copyWith(
-                        color: const Color(0xFF4CAF50),
-                        fontWeight: FontWeight.w800,
-                      ),
+              child: Row(
+                children: [
+                  Text(
+                    offer.estimatedSavingsDisplay,
+                    style: TextStyle(
+                      fontSize: 26.sp,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF4CAF50),
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Flexible(
+                    child: Text(
+                      'request.offers.estimated_savings'.tr,
+                      style: AppStyles.body3.copyWith(color: const Color(0xFF1A1A2E), fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 6.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
+              child: Text(
+                '€${offer.fixedMonthlyFee.toStringAsFixed(0)} ${'request.offers.monthly_fixed'.tr}',
+                style: AppStyles.body4.copyWith(color: Colors.grey[600], fontWeight: FontWeight.w600),
+              ),
+            ),
+          ] else ...[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
+              child: Row(
+                children: [
+                  Text(
+                    '€${offer.fixedMonthlyFee.toStringAsFixed(0)}',
+                    style: TextStyle(
+                      fontSize: 26.sp,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF4CAF50),
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Text(
+                    'request.offers.monthly_fixed'.tr,
+                    style: AppStyles.body3.copyWith(color: const Color(0xFF1A1A2E), fontWeight: FontWeight.w700),
+                  ),
+                ],
               ),
             ),
           ],
