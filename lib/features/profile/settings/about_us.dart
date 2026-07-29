@@ -20,9 +20,11 @@ class AboutUs extends StatelessWidget {
     return Scaffold(
       backgroundColor: _bg,
       appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        padding: EdgeInsets.fromLTRB(20, 10, 20, 10 + MediaQuery.of(context).padding.bottom),
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -94,6 +96,7 @@ class AboutUs extends StatelessWidget {
             const SizedBox(height: 30),
           ],
         ),
+      ),
       ),
     );
   }

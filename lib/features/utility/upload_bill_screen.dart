@@ -106,11 +106,13 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
-      body: Stack(
+      body: SafeArea(
+        top: false,
+        child: Stack(
         children: [
           SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
-                16.w, 24.h, 16.w, 24.h + MediaQuery.of(context).padding.bottom),
+                16.w, 24.h, 16.w, 24.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -176,6 +178,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               ? _buildUploadOverlay()
               : const SizedBox.shrink()),
         ],
+      ),
       ),
     );
   }

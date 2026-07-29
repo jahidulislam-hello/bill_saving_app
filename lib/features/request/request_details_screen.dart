@@ -27,18 +27,21 @@ class RequestDetailsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: _bg,
       appBar: _buildAppBar(context),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(16, 14, 16, 14 + MediaQuery.of(context).padding.bottom),
-        children: [
-          _processingCard(),
-          const SizedBox(height: 14),
-          _productCard(),
-          const SizedBox(height: 14),
-          _timelineCard(),
-          const SizedBox(height: 14),
-          _infoBox(),
-          const SizedBox(height: 30),
-        ],
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+          children: [
+            _processingCard(),
+            const SizedBox(height: 14),
+            _productCard(),
+            const SizedBox(height: 14),
+            _timelineCard(),
+            const SizedBox(height: 14),
+            _infoBox(),
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }

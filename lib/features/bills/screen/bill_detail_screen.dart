@@ -119,12 +119,14 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(context),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _error.isNotEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+      body: SafeArea(
+        top: false,
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : _error.isNotEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(_error,
                           textAlign: TextAlign.center,
@@ -139,6 +141,7 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
                   ),
                 )
               : _buildContent(),
+      ),
     );
   }
 
@@ -172,7 +175,7 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
 
     return ListView(
       padding: EdgeInsets.fromLTRB(
-          16.w, 12.h, 16.w, 24.h + MediaQuery.of(context).padding.bottom),
+          16.w, 12.h, 16.w, 24.h),
       children: [
         _supplierCard(bill),
         SizedBox(height: 14.h),

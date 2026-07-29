@@ -72,9 +72,11 @@ class _MyTicketsScreenState extends State<MyTicketsScreen> {
               fontWeight: FontWeight.w900),
         ),
       ),
-      body: _controller.isLoadingTickets
-          ? const Center(child: CircularProgressIndicator())
-          : _controller.tickets.isEmpty
+      body: SafeArea(
+        top: false,
+        child: _controller.isLoadingTickets
+            ? const Center(child: CircularProgressIndicator())
+            : _controller.tickets.isEmpty
               ? Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -95,7 +97,7 @@ class _MyTicketsScreenState extends State<MyTicketsScreen> {
               : RefreshIndicator(
                   onRefresh: () => _controller.fetchMyTickets(),
                   child: ListView.builder(
-                    padding: EdgeInsets.fromLTRB(18, 8, 18, 24 + MediaQuery.of(context).padding.bottom),
+                    padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
                     itemCount: _controller.tickets.length,
                     itemBuilder: (context, index) {
                       final ticket = _controller.tickets[index];
@@ -115,6 +117,7 @@ class _MyTicketsScreenState extends State<MyTicketsScreen> {
                     },
                   ),
                 ),
+      ),
     );
   }
 }

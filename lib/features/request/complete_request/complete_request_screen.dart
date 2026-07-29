@@ -150,10 +150,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
-      body: _c.isLoadingProfile
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 14.h + MediaQuery.of(context).padding.bottom),
+      body: SafeArea(
+        top: false,
+        child: _c.isLoadingProfile
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 14.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -180,6 +182,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 ],
               ),
             ),
+      ),
     );
   }
 

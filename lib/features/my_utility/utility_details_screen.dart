@@ -40,8 +40,10 @@ class UtilityDetailsScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(14.w, 0, 14.w, MediaQuery.of(context).padding.bottom),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 14.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -560,6 +562,7 @@ class UtilityDetailsScreen extends StatelessWidget {
             SizedBox(height: 30.h),
           ],
         ),
+      ),
       ),
     );
   }

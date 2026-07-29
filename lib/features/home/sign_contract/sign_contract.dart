@@ -37,8 +37,10 @@ class _SignContractScreenState extends State<SignContractScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
       appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 20.h + MediaQuery.of(context).padding.bottom),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 20.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -54,6 +56,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
             _buildHelpCard(),
           ],
         ),
+      ),
       ),
     );
   }

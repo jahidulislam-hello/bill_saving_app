@@ -92,12 +92,14 @@ class SupportoScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: _T.bg,
       appBar: _buildAppBar(context),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(18, 4, 18, 24 + MediaQuery.of(context).padding.bottom),
-        children: [
-          const SizedBox(height: 12),
-          Text(
-            'support.greeting'.tr,
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(18, 4, 18, 24),
+          children: [
+            const SizedBox(height: 12),
+            Text(
+              'support.greeting'.tr,
             style: const TextStyle(
               color: _T.textDark,
               fontSize: 22,
@@ -120,6 +122,7 @@ class SupportoScreen extends StatelessWidget {
           const SizedBox(height: 20),
           _featuredCard(),
         ],
+      ),
       ),
     );
   }
@@ -476,10 +479,12 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
     return Scaffold(
       backgroundColor: _T.bg,
       appBar: _buildAppBar(context),
-      body: _controller.isLoadingTopics
-          ? const Center(child: CircularProgressIndicator())
-          : ListView(
-              padding: EdgeInsets.fromLTRB(18, 16, 18, 30 + MediaQuery.of(context).padding.bottom),
+      body: SafeArea(
+        top: false,
+        child: _controller.isLoadingTopics
+            ? const Center(child: CircularProgressIndicator())
+            : ListView(
+                padding: const EdgeInsets.fromLTRB(18, 16, 18, 30),
               children: [
                 Text(
                   'support.form.intro'.tr,
@@ -654,6 +659,7 @@ class _SupportFormScreenState extends State<SupportFormScreen> {
                     'support.contact.hours_value'.tr, _T.textDark),
               ],
             ),
+      ),
     );
   }
 

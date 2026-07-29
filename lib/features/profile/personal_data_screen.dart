@@ -32,7 +32,9 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: CustomAppBar(title: 'personal_data.title'.tr, showBackButton: true),
-      body: SingleChildScrollView(
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -72,9 +74,10 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               child: _buildActionButtons(),
             ),
 
-            SizedBox(height: 30.h + MediaQuery.of(context).padding.bottom),
+            SizedBox(height: 30.h),
           ],
         ),
+      ),
       ),
     );
   }

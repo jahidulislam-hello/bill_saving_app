@@ -46,7 +46,9 @@ class WarmupOnboarding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Obx(() {
+      body: SafeArea(
+        top: false,
+        child: Obx(() {
         final item = data[controller.currentIndex.value];
 
         return Column(
@@ -105,7 +107,7 @@ class WarmupOnboarding extends StatelessWidget {
 
             // BOTTOM INDICATOR + BUTTON
             Padding(
-              padding: EdgeInsets.fromLTRB(24, 20, 24, 20 + MediaQuery.of(context).padding.bottom),
+              padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
               child: controller.currentIndex.value == 2
                   ? PrimaryButton(
                 title: 'onboarding.next'.tr,
@@ -170,6 +172,7 @@ class WarmupOnboarding extends StatelessWidget {
           ],
         );
       }),
+      ),
     );
   }
 }

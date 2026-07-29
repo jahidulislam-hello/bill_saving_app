@@ -110,25 +110,28 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(context),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _error.isNotEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(_error,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(color: AppColors.textPrimary)),
-                      const SizedBox(height: 12),
-                      TextButton(
-                        onPressed: _fetchOfferDetails,
-                        child: Text('common.retry'.tr),
-                      ),
-                    ],
-                  ),
-                )
-              : _buildContent(),
+      body: SafeArea(
+        top: false,
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : _error.isNotEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(_error,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: AppColors.textPrimary)),
+                        const SizedBox(height: 12),
+                        TextButton(
+                          onPressed: _fetchOfferDetails,
+                          child: Text('common.retry'.tr),
+                        ),
+                      ],
+                    ),
+                  )
+                : _buildContent(),
+      ),
     );
   }
 
@@ -139,7 +142,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     return Stack(
       children: [
         ListView(
-          padding: EdgeInsets.fromLTRB(16, 12, 16, 100 + MediaQuery.of(context).padding.bottom),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
           children: [
             _supplierCard(offer),
             const SizedBox(height: 14),
@@ -154,7 +157,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         Positioned(
           left: 0,
           right: 0,
-          bottom: MediaQuery.of(context).padding.bottom,
+          bottom: MediaQuery.of(context).viewPadding.bottom,
           child: _bottomButton(),
         ),
       ],
@@ -520,16 +523,19 @@ class _OfferInfoScreenState extends State<OfferInfoScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(16, 14, 16, 14 + MediaQuery.of(context).padding.bottom),
-        children: [
-          _whatsIncludedCard(),
-          const SizedBox(height: 20),
-          _aboutCard(),
-          const SizedBox(height: 20),
-          _faqSection(),
-          const SizedBox(height: 30),
-        ],
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+          children: [
+            _whatsIncludedCard(),
+            const SizedBox(height: 20),
+            _aboutCard(),
+            const SizedBox(height: 20),
+            _faqSection(),
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }

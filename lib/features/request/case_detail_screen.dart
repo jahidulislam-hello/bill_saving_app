@@ -87,11 +87,14 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
         ),
         centerTitle: true,
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.primaryColor))
-          : _error != null
-              ? _buildError()
-              : _buildContent(),
+      body: SafeArea(
+        top: false,
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator(color: AppColors.primaryColor))
+            : _error != null
+                ? _buildError()
+                : _buildContent(),
+      ),
     );
   }
 
@@ -124,7 +127,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
       color: AppColors.primaryColor,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.fromLTRB(20, 8, 20, 32 + MediaQuery.of(context).padding.bottom),
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
