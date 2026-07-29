@@ -337,6 +337,75 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     );
   }
 
+  // ── Why we need it popup ──
+  void _showWhyWeNeedItPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        insetPadding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+        child: Padding(
+          padding: EdgeInsets.all(20.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.info_outline_rounded,
+                color: Color(0xFF5A1ABE),
+                size: 40.w,
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                'upload_bill.info_popup_title'.tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                'upload_bill.info_popup_body'.tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black87,
+                  height: 1.5,
+                ),
+              ),
+              SizedBox(height: 20.h),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF5A1ABE),
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                  ),
+                  child: Text(
+                    'upload_bill.info_popup_close'.tr,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   // ── Info banner ──
   Widget _buildInfoBanner() {
     return Container(
@@ -371,13 +440,15 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           ),
           SizedBox(height: 8.h),
           GestureDetector(
-            onTap: () {},
+            onTap: () => _showWhyWeNeedItPopup(context),
             child: Text(
               'upload_bill.info_link'.tr,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w900,
                 color: Color(0xFF5A1ABE),
+                decoration: TextDecoration.underline,
+                decorationColor: Color(0xFF5A1ABE),
                 height: 1.22,
               ),
             ),
