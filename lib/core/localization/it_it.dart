@@ -129,7 +129,7 @@ final Map<String, String> itIT = {
   'profile.logout.cancel': 'Annulla',
   'profile.settings.privacy': 'Informativa sulla Privacy',
   'profile.settings.terms': 'Termini e Condizioni',
-  'profile.settings.about': 'Su Easy Saving',
+  'profile.settings.about': 'Su VYZI',
   'profile.settings.faq': 'Faq',
   'profile.settings.language': 'Lingua',
   'profile.settings.language_italian': 'Italiano',

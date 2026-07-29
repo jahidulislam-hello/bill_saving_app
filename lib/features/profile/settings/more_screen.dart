@@ -62,6 +62,11 @@ class MoreScreen extends StatelessWidget {
                         height: 24,
                       ),
                       title: 'profile.settings.terms'.tr,
+                      trailingIcon: Image.asset(
+                        AppAssets.arrowRight,
+                        width: 24,
+                        height: 24,
+                      ),
                       onTap: () {
                         Get.to(() => TermsCondition());
                       },
@@ -108,12 +113,23 @@ class MoreScreen extends StatelessWidget {
                       return SettingTile(
                         iconWidget: const Icon(Icons.language, size: 24, color: Colors.black54),
                         title: 'profile.settings.language'.tr,
-                        trailingIcon: Text(
-                          isItalian ? 'IT' : 'EN',
-                          style: AppStyles.body2.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.primaryColor,
-                          ),
+                        trailingIcon: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              isItalian ? 'IT' : 'EN',
+                              style: AppStyles.body2.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Image.asset(
+                              AppAssets.arrowRight,
+                              width: 24,
+                              height: 24,
+                            ),
+                          ],
                         ),
                         onTap: () {
                           _showLanguageSelector(context);
@@ -322,7 +338,7 @@ class SettingTile extends StatelessWidget {
                 style: AppStyles.body2.copyWith(fontWeight: FontWeight.w900, color: Colors.black),
               ),
             ),
-            trailingIcon ?? const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black),
+            trailingIcon ?? Image.asset(AppAssets.arrowRight, width: 24, height: 24),
           ],
         ),
       ),

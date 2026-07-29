@@ -129,7 +129,7 @@ final Map<String, String> enUS = {
   'profile.logout.cancel': 'Cancel',
   'profile.settings.privacy': 'Privacy Policy',
   'profile.settings.terms': 'Terms and Conditions',
-  'profile.settings.about': 'About Easy Saving',
+  'profile.settings.about': 'About VYZI',
   'profile.settings.faq': 'FAQ',
   'profile.settings.language': 'Language',
   'profile.settings.language_italian': 'Italiano',
