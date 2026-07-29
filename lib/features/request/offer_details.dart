@@ -140,27 +140,19 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     final offer = _offer!;
     final detailRows = _buildDetailRows(offer);
 
-    return Stack(
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
       children: [
-        ListView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
-          children: [
-            _supplierCard(offer),
-            const SizedBox(height: 14),
-            _savingsCard(offer),
-            const SizedBox(height: 6),
-            ...detailRows.map((row) => _detailRow(row)),
-            const SizedBox(height: 10),
-            _economicConditionsCard(offer),
-            const SizedBox(height: 16),
-          ],
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: _bottomButton(),
-        ),
+        _supplierCard(offer),
+        const SizedBox(height: 14),
+        _savingsCard(offer),
+        const SizedBox(height: 6),
+        ...detailRows.map((row) => _detailRow(row)),
+        const SizedBox(height: 10),
+        _economicConditionsCard(offer),
+        const SizedBox(height: 20),
+        _bottomButton(),
+        const SizedBox(height: 8),
       ],
     );
   }
@@ -454,35 +446,23 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
 
 
   Widget _bottomButton() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 28),
-      decoration: BoxDecoration(
-        color: AppColors.bg,
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 12,
-              offset: const Offset(0, -4)),
-        ],
-      ),
-      child: SizedBox(
-        width: double.infinity,
-        height: 52,
-        child: ElevatedButton(
-          onPressed: () {
-            NavHelper.push(CompleteRequestScreen(offer: _offer!));
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.purple,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14)),
-            elevation: 0,
-          ),
-          child: Text(
-            'offer.select_offer'.tr,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
-          ),
+    return SizedBox(
+      width: double.infinity,
+      height: 48,
+      child: ElevatedButton(
+        onPressed: () {
+          NavHelper.push(CompleteRequestScreen(offer: _offer!));
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.purple,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14)),
+          elevation: 0,
+        ),
+        child: Text(
+          'offer.select_offer'.tr,
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
         ),
       ),
     );
