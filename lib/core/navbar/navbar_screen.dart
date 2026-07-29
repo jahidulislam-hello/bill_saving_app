@@ -65,6 +65,8 @@ class CustomBottomNavBar extends StatelessWidget {
       color: AppColors.background,
       elevation: 8,
       clipBehavior: Clip.antiAlias,
+      height: 60,
+      padding: EdgeInsets.zero,
       child: Row(
         children: [
           Expanded(
