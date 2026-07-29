@@ -154,7 +154,7 @@ final Map<String, String> enUS = {
 
   // ==================== NAVBAR ====================
   'navbar.home': 'Home',
-  'navbar.utilities': 'Utilities',
+  'navbar.utilities': 'Supplies',
   'navbar.request': 'Request',
   'navbar.profile': 'Profile',
 
