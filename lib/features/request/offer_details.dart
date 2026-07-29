@@ -8,6 +8,7 @@ import 'package:vyzi/features/request/price_calculation_dialog.dart';
 import 'package:vyzi/features/request/price_type_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OfferDetailRow {
   final String label;
@@ -400,11 +401,22 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     );
   }
 
+  Future<void> _openUrl(String url) async {
+    final fullUrl = url.startsWith('http')
+        ? url
+        : '${ApiConstants.baseUrl}/${url.replaceAll(RegExp(r'^/'), '')}';
+    final uri = Uri.parse(fullUrl);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
   Widget _economicConditionsCard(ApiOfferModel offer) {
     return GestureDetector(
       onTap: () {
-        if (offer.termsUrl != null && offer.termsUrl!.isNotEmpty) {
-          // Could open URL in browser
+        if (offer.economicConditionsUrl != null &&
+            offer.economicConditionsUrl!.isNotEmpty) {
+          _openUrl(offer.economicConditionsUrl!);
         }
       },
       child: Container(

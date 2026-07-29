@@ -13,6 +13,7 @@ class ApiOfferModel {
   final String? validFrom;
   final String? validUntil;
   final String? termsUrl;
+  final String? economicConditionsUrl;
   final String target;
   final List<String> highlights;
   final String? offerCode;
@@ -34,6 +35,7 @@ class ApiOfferModel {
     this.validFrom,
     this.validUntil,
     this.termsUrl,
+    this.economicConditionsUrl,
     this.target = 'both',
     this.highlights = const [],
     this.offerCode,
@@ -72,6 +74,7 @@ class ApiOfferModel {
       validFrom: json['validFrom'] as String?,
       validUntil: json['validUntil'] as String?,
       termsUrl: json['termsUrl'] as String?,
+      economicConditionsUrl: json['economicConditionsUrl'] as String?,
       target: json['target'] as String? ?? 'both',
       highlights: (json['highlights'] as List<dynamic>?)
               ?.map((e) => e.toString())
