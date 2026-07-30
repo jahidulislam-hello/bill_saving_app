@@ -31,9 +31,12 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: CustomAppBar(title: 'personal_data.title'.tr, showBackButton: true),
-      body: SafeArea(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SafeArea(
         top: false,
         child: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -76,6 +79,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             SizedBox(height: 30.h),
           ],
         ),
+      ),
       ),
       ),
     );
