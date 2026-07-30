@@ -122,17 +122,22 @@ class ApiOfferModel {
     }
   }
 
-  /// Contract duration display
+  /// Contract duration display — months by default, days if < 30
   String get contractDurationDisplay {
     if (contractDurationDays <= 0) return 'Durata indeterminata';
-    if (contractDurationDays == 1) return '1 giorno';
-    return '$contractDurationDays giorni';
+    if (contractDurationDays < 30) {
+      return contractDurationDays == 1 ? '1 giorno' : '$contractDurationDays giorni';
+    }
+    final months = contractDurationDays ~/ 30;
+    return months == 1 ? '1 mese' : '$months mesi';
   }
 
-  /// Contractual binding display
+  /// Contractual binding display — months by default, days if < 30
   String get bindingDisplay {
     if (contractDurationDays <= 0) return 'Nessun vincolo';
-    return '$contractDurationDays giorni';
+    if (contractDurationDays < 30) return '$contractDurationDays giorni';
+    final months = contractDurationDays ~/ 30;
+    return '$months mesi';
   }
 }
 
