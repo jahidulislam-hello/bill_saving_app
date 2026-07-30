@@ -4,8 +4,8 @@ import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/core/widgets/primary_button.dart';
 import 'package:vyzi/features/bills/models/bill_model.dart';
 import 'package:vyzi/features/bills/screen/bill_detail_screen.dart';
-import 'package:vyzi/features/bills/screen/bills_list_screen.dart';
 import 'package:vyzi/features/request/request_controller.dart';
+import 'package:vyzi/features/utility/select_utility_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -296,7 +296,7 @@ class _MyRequestsProfileState extends State<MyRequestsProfile> {
               title: 'my_utility.upload_button'.tr,
               prefixWidget: Icon(Icons.upload_file_rounded,
                   color: Colors.white, size: 20.sp),
-              onPress: () => NavHelper.push(BillsListScreen()),
+              onPress: () => NavHelper.push(const SelectUtilityScreen()),
             ),
             SizedBox(height: 40.h),
           ],
