@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyzi/features/support/controller/support_controller.dart';
 import 'package:vyzi/features/support/models/support_ticket_model.dart';
-import 'package:vyzi/features/support/ticket_detail_screen.dart';
+import 'package:vyzi/features/support/ticket_info_screen.dart';
 
 class MyTicketsScreen extends StatefulWidget {
   const MyTicketsScreen({super.key});
@@ -109,7 +109,7 @@ class _MyTicketsScreenState extends State<MyTicketsScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (_) =>
-                                  TicketDetailScreen(ticketId: ticket.id),
+                                  TicketInfoScreen(ticketId: ticket.id),
                             ),
                           );
                         },

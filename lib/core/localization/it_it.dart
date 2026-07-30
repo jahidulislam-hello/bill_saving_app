@@ -381,6 +381,24 @@ final Map<String, String> itIT = {
   'support.ticket_detail.send_hint': 'Scrivi un messaggio...',
   'support.ticket_detail.closed_notice': 'Questo ticket è stato chiuso e non accetta più messaggi.',
 
+  // Ticket Info Screen
+  'support.ticket_info.title': 'Dettagli Ticket',
+  'support.ticket_info.conversation': 'Conversazione',
+  'support.ticket_info.messages': 'messaggi',
+  'support.ticket_info.subject': 'Oggetto',
+  'support.ticket_info.topic': 'Argomento',
+  'support.ticket_info.priority': 'Priorità',
+  'support.ticket_info.priority.low': 'Basso',
+  'support.ticket_info.priority.medium': 'Medio',
+  'support.ticket_info.priority.high': 'Alto',
+  'support.ticket_info.priority.urgent': 'Urgente',
+  'support.ticket_info.created': 'Creato',
+  'support.ticket_info.updated': 'Ultimo aggiornamento',
+  'support.ticket_info.resolved': 'Risolto',
+  'support.ticket_info.closed': 'Chiuso',
+  'support.ticket_info.original_message': 'Messaggio originale',
+  'support.ticket_info.closed_banner': 'Questo ticket è stato chiuso.',
+
   // ==================== PROFILE EXTRAS ====================
   'profile.account_type_label': 'Tipo di account',
   'profile.switch_to_business': 'Passa ad Azienda',

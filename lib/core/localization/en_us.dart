@@ -381,6 +381,24 @@ final Map<String, String> enUS = {
   'support.ticket_detail.send_hint': 'Type a message...',
   'support.ticket_detail.closed_notice': 'This ticket has been closed and no longer accepts messages.',
 
+  // Ticket Info Screen
+  'support.ticket_info.title': 'Ticket Details',
+  'support.ticket_info.conversation': 'Conversation',
+  'support.ticket_info.messages': 'messages',
+  'support.ticket_info.subject': 'Subject',
+  'support.ticket_info.topic': 'Topic',
+  'support.ticket_info.priority': 'Priority',
+  'support.ticket_info.priority.low': 'Low',
+  'support.ticket_info.priority.medium': 'Medium',
+  'support.ticket_info.priority.high': 'High',
+  'support.ticket_info.priority.urgent': 'Urgent',
+  'support.ticket_info.created': 'Created',
+  'support.ticket_info.updated': 'Last Updated',
+  'support.ticket_info.resolved': 'Resolved',
+  'support.ticket_info.closed': 'Closed',
+  'support.ticket_info.original_message': 'Original Message',
+  'support.ticket_info.closed_banner': 'This ticket has been closed.',
+
   // ==================== PROFILE EXTRAS ====================
   'profile.account_type_label': 'Account type',
   'profile.switch_to_business': 'Switch to Business',
