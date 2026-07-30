@@ -680,6 +680,13 @@ final Map<String, String> enUS = {
   'offer.estimated_savings': 'ESTIMATED SAVINGS',
   'offer.economic_conditions': 'Economic conditions',
   'offer.economic_conditions_unavailable': 'Document not yet available',
+
+  // Document Viewer
+  'document_viewer.loading': 'Loading document...',
+  'document_viewer.error': 'Unable to load document',
+  'document_viewer.save_error_title': 'Error',
+  'document_viewer.save_error_message': 'Could not save document',
+
   'offer.select_offer': 'Select this Offer',
   'offer.feature1_title': '100% Renewable Energy',
   'offer.feature1_desc': 'Zero carbon emissions electricity from wind and solar farms.',

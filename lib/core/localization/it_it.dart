@@ -680,6 +680,13 @@ final Map<String, String> itIT = {
   'offer.estimated_savings': 'RISPARMIO STIMATO',
   'offer.economic_conditions': 'Condizioni economiche',
   'offer.economic_conditions_unavailable': 'Documento non ancora disponibile',
+
+  // Document Viewer
+  'document_viewer.loading': 'Caricamento documento...',
+  'document_viewer.error': 'Impossibile caricare il documento',
+  'document_viewer.save_error_title': 'Errore',
+  'document_viewer.save_error_message': 'Impossibile salvare il documento',
+
   'offer.select_offer': 'Seleziona questa Offerta',
   'offer.feature1_title': 'Energia 100% rinnovabile',
   'offer.feature1_desc': 'Elettricità a zero emissioni di carbonio proveniente da parchi eolici e solari.',

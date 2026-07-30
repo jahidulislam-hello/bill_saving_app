@@ -3,12 +3,12 @@ import 'package:vyzi/core/constants/api_constants.dart';
 import 'package:vyzi/core/services/api_service.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/request/complete_request/complete_request_screen.dart';
+import 'package:vyzi/features/request/document_viewer_screen.dart';
 import 'package:vyzi/features/request/models/api_offer_model.dart';
 import 'package:vyzi/features/request/price_calculation_dialog.dart';
 import 'package:vyzi/features/request/price_type_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class OfferDetailRow {
   final String label;
@@ -401,14 +401,11 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
     );
   }
 
-  Future<void> _openUrl(String url) async {
-    final fullUrl = url.startsWith('http')
-        ? url
-        : '${ApiConstants.baseUrl}/${url.replaceAll(RegExp(r'^/'), '')}';
-    final uri = Uri.parse(fullUrl);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
+  void _viewDocument(String url) {
+    NavHelper.push(DocumentViewerScreen(
+      url: url,
+      title: 'offer.economic_conditions'.tr,
+    ));
   }
 
   Widget _economicConditionsCard(ApiOfferModel offer) {
@@ -416,7 +413,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
         offer.economicConditionsUrl!.isNotEmpty;
 
     return GestureDetector(
-      onTap: hasDocument ? () => _openUrl(offer.economicConditionsUrl!) : null,
+      onTap: hasDocument ? () => _viewDocument(offer.economicConditionsUrl!) : null,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         decoration: BoxDecoration(
