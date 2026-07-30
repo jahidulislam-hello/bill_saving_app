@@ -471,6 +471,8 @@ final Map<String, String> itIT = {
   'personal_data.title': 'Dati Personali',
   'personal_data.subtitle': 'Aggiorna le informazioni del tuo account e come\nti contattiamo.',
   'personal_data.change_photo': 'Cambia foto',
+  'personal_data.camera': 'Fotocamera',
+  'personal_data.gallery': 'Galleria',
   'personal_data.first_name': 'Nome',
   'personal_data.last_name': 'Cognome',
   'personal_data.email': 'Email',

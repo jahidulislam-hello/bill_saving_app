@@ -471,6 +471,8 @@ final Map<String, String> enUS = {
   'personal_data.title': 'Personal Data',
   'personal_data.subtitle': 'Update your account information and how\nwe contact you.',
   'personal_data.change_photo': 'Change photo',
+  'personal_data.camera': 'Camera',
+  'personal_data.gallery': 'Gallery',
   'personal_data.first_name': 'First Name',
   'personal_data.last_name': 'Last Name',
   'personal_data.email': 'Email',

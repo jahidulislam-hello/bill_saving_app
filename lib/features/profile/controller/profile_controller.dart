@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
+import 'package:image_picker/image_picker.dart';
 import 'package:vyzi/core/constants/api_constants.dart';
 import 'package:vyzi/core/services/api_service.dart';
 import 'package:vyzi/core/services/storage_service.dart';
 
 class ProfileController extends ChangeNotifier {
   final ApiService _api = ApiService();
+  final ImagePicker _picker = ImagePicker();
 
   // ── User Info ──
   String name = '';
@@ -14,6 +16,8 @@ class ProfileController extends ChangeNotifier {
   String accountType = 'Privato';
   String memberSince = '';
   String avatarAsset = '';
+  String avatarUrl = '';
+  bool isUploadingAvatar = false;
 
   // ── Personal Data form fields ──
   final TextEditingController firstNameController = TextEditingController();
@@ -65,6 +69,14 @@ class ProfileController extends ChangeNotifier {
             ];
             memberSince = 'Membro dal ${months[dt.month - 1]} ${dt.year}';
           }
+        }
+
+        // Avatar
+        final avatar = data['avatar'] as String?;
+        if (avatar != null && avatar.isNotEmpty) {
+          avatarUrl = avatar.startsWith('http')
+              ? avatar
+              : '${ApiConstants.baseUrl}$avatar';
         }
 
         // Populate form fields
@@ -124,6 +136,78 @@ class ProfileController extends ChangeNotifier {
       // Keep existing values on error
     } finally {
       isSaving = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> pickAndUploadAvatar(BuildContext context) async {
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt_rounded),
+              title: Text('personal_data.camera'.tr),
+              onTap: () => Navigator.pop(ctx, ImageSource.camera),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library_rounded),
+              title: Text('personal_data.gallery'.tr),
+              onTap: () => Navigator.pop(ctx, ImageSource.gallery),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (source == null) return;
+
+    final picked = await _picker.pickImage(source: source, maxWidth: 800, maxHeight: 800, imageQuality: 80);
+    if (picked == null) return;
+
+    isUploadingAvatar = true;
+    notifyListeners();
+
+    try {
+      // Upload the file
+      final multipartFile = await MultipartFile.fromFile(
+        picked.path,
+        filename: picked.name,
+      );
+
+      final uploadResponse = await _api.uploadFile(
+        ApiConstants.fileUpload,
+        file: multipartFile,
+      );
+
+      final uploadBody = uploadResponse.data as Map<String, dynamic>;
+      if (uploadBody['success'] == true) {
+        final data = uploadBody['data'] as Map<String, dynamic>;
+        final remoteUrl = data['url'] as String? ?? '';
+
+        // Update profile with the new avatar URL
+        final storage = Get.find<StorageService>();
+        final token = storage.getString(StorageKeys.authToken) ?? '';
+
+        await _api.patch(
+          ApiConstants.updateProfile,
+          data: {'avatar': remoteUrl},
+          options: Options(headers: {'Authorization': 'Bearer $token'}),
+        );
+
+        avatarUrl = remoteUrl.startsWith('http')
+            ? remoteUrl
+            : '${ApiConstants.baseUrl}$remoteUrl';
+        avatarAsset = '';
+      }
+    } catch (_) {
+      // Keep existing avatar on error
+    } finally {
+      isUploadingAvatar = false;
       notifyListeners();
     }
   }

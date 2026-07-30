@@ -211,11 +211,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     shape: BoxShape.circle,
                     color: AppColors.background.withOpacity(0.2),
                   ),
-                  child: const Icon(
-                    Icons.person_rounded,
-                    color: AppColors.background,
-                    size: 30,
-                  ),
+                  child: _controller.avatarUrl.isNotEmpty
+                      ? ClipOval(
+                          child: Image.network(
+                            _controller.avatarUrl,
+                            fit: BoxFit.cover,
+                            width: 52.w,
+                            height: 52.w,
+                            errorBuilder: (_, __, ___) => const Icon(
+                              Icons.person_rounded,
+                              color: AppColors.background,
+                              size: 30,
+                            ),
+                          ),
+                        )
+                      : const Icon(
+                          Icons.person_rounded,
+                          color: AppColors.background,
+                          size: 30,
+                        ),
                 ),
                 SizedBox(width: 14.w),
                 Expanded(

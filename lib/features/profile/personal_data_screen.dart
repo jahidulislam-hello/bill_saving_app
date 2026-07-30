@@ -1,6 +1,5 @@
 import 'package:vyzi/core/appbar/custom_appbar.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
-import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/features/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
@@ -101,45 +100,66 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
       child: Column(
         children: [
           // Avatar with edit button
-          Stack(
-            children: [
-              Container(
-                width: 90.w,
-                height: 90.w,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: AppColors.divider, width: 2),
-                  color: AppColors.primary50,
-                ),
-                child: ClipOval(
-                  child: _c.avatarAsset.isNotEmpty
-                      ? Image.asset(_c.avatarAsset, fit: BoxFit.cover)
-                      : Icon(
-                      Icons.person_rounded,
-                      size: 48.sp,
-                      color: AppColors.textSecondary,
-                    ),
-                ),
-              ),
-              // Edit icon badge
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Container(
-                  width: 26.w,
-                  height: 26.w,
+          GestureDetector(
+            onTap: _c.isUploadingAvatar ? null : () => _c.pickAndUploadAvatar(context),
+            child: Stack(
+              children: [
+                Container(
+                  width: 90.w,
+                  height: 90.w,
                   decoration: BoxDecoration(
-                    color: AppColors.darkBlue,
                     shape: BoxShape.circle,
-                    border:
-                    Border.all(color: AppColors.background, width: 2),
+                    border: Border.all(
+                        color: AppColors.divider, width: 2),
+                    color: AppColors.primary50,
                   ),
-                  child: Icon(Icons.edit_rounded,
-                      color: AppColors.background, size: 12.sp),
+                  child: ClipOval(
+                    child: _c.isUploadingAvatar
+                        ? Center(
+                            child: SizedBox(
+                              width: 28.w,
+                              height: 28.w,
+                              child: const CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          )
+                        : _c.avatarUrl.isNotEmpty
+                            ? Image.network(
+                                _c.avatarUrl,
+                                fit: BoxFit.cover,
+                                width: 90.w,
+                                height: 90.w,
+                                errorBuilder: (_, __, ___) => Icon(
+                                  Icons.person_rounded,
+                                  size: 48.sp,
+                                  color: AppColors.textSecondary,
+                                ),
+                              )
+                            : Icon(
+                                Icons.person_rounded,
+                                size: 48.sp,
+                                color: AppColors.textSecondary,
+                              ),
+                  ),
                 ),
-              ),
-            ],
+                // Edit icon badge
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Container(
+                    width: 26.w,
+                    height: 26.w,
+                    decoration: BoxDecoration(
+                      color: AppColors.darkBlue,
+                      shape: BoxShape.circle,
+                      border:
+                      Border.all(color: AppColors.background, width: 2),
+                    ),
+                    child: Icon(Icons.edit_rounded,
+                        color: AppColors.background, size: 12.sp),
+                  ),
+                ),
+              ],
+            ),
           ),
 
           SizedBox(height: 14.h),
@@ -155,7 +175,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
           ),
           SizedBox(height: 10.h),
           GestureDetector(
-            onTap: () {},
+            onTap: _c.isUploadingAvatar ? null : () => _c.pickAndUploadAvatar(context),
             child: Text(
               'personal_data.change_photo'.tr,
               style: AppStyles.body3.copyWith(fontWeight: FontWeight.w600, color: AppColors.primaryColor),
