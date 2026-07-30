@@ -13,7 +13,7 @@ class UserServiceModel {
   final String? pricePerKwh;
   final String? pricePerSmc;
   final String? fixedMonthlyFee;
-  final int? contractDurationMonths;
+  final int? contractDurationDays;
   final bool isGreenEnergy;
 
   const UserServiceModel({
@@ -31,7 +31,7 @@ class UserServiceModel {
     this.pricePerKwh,
     this.pricePerSmc,
     this.fixedMonthlyFee,
-    this.contractDurationMonths,
+    this.contractDurationDays,
     this.isGreenEnergy = false,
   });
 
@@ -51,7 +51,7 @@ class UserServiceModel {
       pricePerKwh: json['pricePerKwh']?.toString(),
       pricePerSmc: json['pricePerSmc']?.toString(),
       fixedMonthlyFee: json['fixedMonthlyFee']?.toString(),
-      contractDurationMonths: json['contractDurationMonths'] as int?,
+      contractDurationDays: json['contractDurationDays'] as int?,
       isGreenEnergy: json['isGreenEnergy'] as bool? ?? false,
     );
   }

@@ -8,7 +8,7 @@ class RecommendedOfferModel {
   final double? fixedMonthlyFee;
   final String energyType;
   final String marketType;
-  final int contractDurationMonths;
+  final int contractDurationDays;
   final bool isGreenEnergy;
   final double? estimatedSavings;
 
@@ -22,7 +22,7 @@ class RecommendedOfferModel {
     this.fixedMonthlyFee,
     required this.energyType,
     required this.marketType,
-    this.contractDurationMonths = 0,
+    this.contractDurationDays = 0,
     this.isGreenEnergy = false,
     this.estimatedSavings,
   });
@@ -45,7 +45,7 @@ class RecommendedOfferModel {
       fixedMonthlyFee: _parseDouble(json['fixedMonthlyFee']),
       energyType: json['energyType'] as String? ?? '',
       marketType: json['marketType'] as String? ?? '',
-      contractDurationMonths: json['contractDurationMonths'] as int? ?? 0,
+      contractDurationDays: json['contractDurationDays'] as int? ?? 0,
       isGreenEnergy: json['isGreenEnergy'] as bool? ?? false,
       estimatedSavings: _parseDouble(json['estimatedSavings']),
     );

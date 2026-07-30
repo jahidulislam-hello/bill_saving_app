@@ -8,7 +8,7 @@ class ApiOfferModel {
   final double? pricePerSmc;
   final double fixedMonthlyFee;
   final double activationCost;
-  final int contractDurationMonths;
+  final int contractDurationDays;
   final bool isGreenEnergy;
   final String? validFrom;
   final String? validUntil;
@@ -30,7 +30,7 @@ class ApiOfferModel {
     this.pricePerSmc,
     this.fixedMonthlyFee = 0,
     this.activationCost = 0,
-    this.contractDurationMonths = 0,
+    this.contractDurationDays = 0,
     this.isGreenEnergy = false,
     this.validFrom,
     this.validUntil,
@@ -69,7 +69,7 @@ class ApiOfferModel {
       pricePerSmc: _parseDouble(json['pricePerSmc']),
       fixedMonthlyFee: _parseDouble(json['fixedMonthlyFee']) ?? 0,
       activationCost: _parseDouble(json['activationCost']) ?? 0,
-      contractDurationMonths: _parseInt(json['contractDurationMonths']),
+      contractDurationDays: _parseInt(json['contractDurationDays']),
       isGreenEnergy: json['isGreenEnergy'] as bool? ?? false,
       validFrom: json['validFrom'] as String?,
       validUntil: json['validUntil'] as String?,
@@ -124,15 +124,15 @@ class ApiOfferModel {
 
   /// Contract duration display
   String get contractDurationDisplay {
-    if (contractDurationMonths <= 0) return 'Durata indeterminata';
-    if (contractDurationMonths == 1) return '1 mese';
-    return '$contractDurationMonths mesi';
+    if (contractDurationDays <= 0) return 'Durata indeterminata';
+    if (contractDurationDays == 1) return '1 giorno';
+    return '$contractDurationDays giorni';
   }
 
   /// Contractual binding display
   String get bindingDisplay {
-    if (contractDurationMonths <= 0) return 'Nessun vincolo';
-    return '$contractDurationMonths mesi';
+    if (contractDurationDays <= 0) return 'Nessun vincolo';
+    return '$contractDurationDays giorni';
   }
 }
 

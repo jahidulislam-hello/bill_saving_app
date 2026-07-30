@@ -85,8 +85,8 @@ class RequestController extends ChangeNotifier {
                 pricePerKwh: _parseDouble(snapshot['pricePerKwh']),
                 pricePerSmc: _parseDouble(snapshot['pricePerSmc']),
                 fixedMonthlyFee: _parseDouble(snapshot['fixedMonthlyFee']) ?? 0,
-                contractDurationMonths:
-                    snapshot['contractDurationMonths'] as int? ?? 0,
+                contractDurationDays:
+                    snapshot['contractDurationDays'] as int? ?? 0,
                 isGreenEnergy: snapshot['isGreenEnergy'] as bool? ?? false,
                 supplier: snapshot['supplierName'] != null
                     ? OfferSupplierModel(
