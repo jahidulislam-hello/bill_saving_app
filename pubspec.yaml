@@ -60,6 +60,7 @@ dependencies:
   # pdfx: removed — PDF rendering no longer needed on-device
   url_launcher:
   share_plus:
+  app_links: ^6.4.0
 
   # Firebase
   firebase_core:

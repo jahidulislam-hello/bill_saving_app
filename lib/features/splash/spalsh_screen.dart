@@ -1,5 +1,6 @@
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/core/services/deep_link_service.dart';
 import 'package:vyzi/core/services/storage_service.dart';
 import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -26,19 +27,36 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _checkUserSession() async {
     await Future.delayed(const Duration(seconds: 3));
-    
-    // Use the singleton StorageService registered in main.dart
+
     final storage = Get.find<StorageService>();
-    
+    final deepLinkService = Get.find<DeepLinkService>();
+
     final isLoggedIn = storage.getBool(StorageKeys.isLoggedIn) ?? false;
     final authToken = storage.getString(StorageKeys.authToken);
-    
+
+    // Mark splash as done so future warm-start links navigate immediately
+    deepLinkService.markSplashCompleted();
+
     if (isLoggedIn && authToken != null && authToken.isNotEmpty) {
-      // User has active session - go to navbar
+      // User has active session
       Get.offNamed(AppRoutes.navbarScreen);
+      // If a referral deep link was pending, show dialog
+      final pendingCode = deepLinkService.pendingReferralCode;
+      if (pendingCode != null && pendingCode.isNotEmpty) {
+        deepLinkService.showReferralNotAvailableDialog();
+        await deepLinkService.clearPendingReferralCode();
+      }
     } else {
-      // No active session - go to onboarding
-      Get.offNamed(AppRoutes.warmOnboardScreen);
+      // No active session
+      final pendingCode = deepLinkService.pendingReferralCode;
+      if (pendingCode != null && pendingCode.isNotEmpty) {
+        // Deep link referral — go straight to registration
+        await deepLinkService.clearPendingReferralCode();
+        Get.offNamed(AppRoutes.signUpScreen, arguments: {'referralCode': pendingCode});
+      } else {
+        // Normal flow — go to onboarding
+        Get.offNamed(AppRoutes.warmOnboardScreen);
+      }
     }
   }
 

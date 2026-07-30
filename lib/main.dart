@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'core/services/cache_service.dart';
+import 'core/services/deep_link_service.dart';
 import 'core/services/storage_service.dart';
 import 'core/services/system_ui_service.dart';
 import 'core/di/dependency_injection.dart';
@@ -23,6 +24,11 @@ void main() async {
   final storageService = StorageService();
   await storageService.init();
   Get.put<StorageService>(storageService, permanent: true);
+
+  // Initialize deep link service (must be after StorageService)
+  final deepLinkService = DeepLinkService();
+  await deepLinkService.init();
+  Get.put<DeepLinkService>(deepLinkService, permanent: true);
 
   // Initialize language controller (must be after StorageService)
   Get.put(LanguageController(), permanent: true);

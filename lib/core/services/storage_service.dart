@@ -155,8 +155,7 @@ abstract class StorageKeys {
   static const String selectedLanguage = 'selected_language';
   static const String isFirstLaunch = 'is_first_launch';
 
-  // Add more keys below as needed:
-  // static const String fcmToken = 'fcm_token';
-  // static const String lastSyncTime = 'last_sync_time';
+  // ─── Deep Linking ──────────────────────────────────────────────────────
+  static const String pendingReferralCode = 'pending_referral_code';
 }
 
