@@ -315,30 +315,33 @@ class _InviteScreenState extends State<InviteScreen> {
   // ─────────────────────────────────────────────
 
   Widget _buildRewardRow() {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildRewardCard(
-            icon: Icons.person_add_alt_1_rounded,
-            iconBg: AppColors.greenAlpha10,
-            iconColor: AppColors.green200,
-            topLabel: 'profile.invite.you_earn'.tr,
-            amount: _controller.youEarn,
-            bottomLabel: 'profile.invite.you_earn_when'.tr,
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: _buildRewardCard(
+              icon: Icons.person_add_alt_1_rounded,
+              iconBg: AppColors.greenAlpha10,
+              iconColor: AppColors.green200,
+              topLabel: 'profile.invite.you_earn'.tr,
+              amount: _controller.youEarn,
+              bottomLabel: 'profile.invite.you_earn_when'.tr,
+            ),
           ),
-        ),
-        SizedBox(width: 12.w),
-        Expanded(
-          child: _buildRewardCard(
-            icon: Icons.group_rounded,
-            iconBg: AppColors.primary100,
-            iconColor: AppColors.accentBlue,
-            topLabel: 'profile.invite.friend_gets'.tr,
-            amount: _controller.friendGets,
-            bottomLabel: 'profile.invite.friend_gets_when'.tr,
+          SizedBox(width: 12.w),
+          Expanded(
+            child: _buildRewardCard(
+              icon: Icons.group_rounded,
+              iconBg: AppColors.primary100,
+              iconColor: AppColors.accentBlue,
+              topLabel: 'profile.invite.friend_gets'.tr,
+              amount: _controller.friendGets,
+              bottomLabel: 'profile.invite.friend_gets_when'.tr,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -362,7 +365,7 @@ class _InviteScreenState extends State<InviteScreen> {
           ),
         ],
       ),
-      padding: EdgeInsets.all(14.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -377,7 +380,7 @@ class _InviteScreenState extends State<InviteScreen> {
             child: Icon(icon, color: iconColor, size: 20.sp),
           ),
 
-          SizedBox(height: 10.h),
+          SizedBox(height: 12.h),
 
           // Top label
           Text(topLabel,
@@ -389,7 +392,7 @@ class _InviteScreenState extends State<InviteScreen> {
             ),
           ),
 
-          SizedBox(height: 4.h),
+          SizedBox(height: 6.h),
 
           // Amount
           Text(
@@ -402,7 +405,7 @@ class _InviteScreenState extends State<InviteScreen> {
             ),
           ),
 
-          SizedBox(height: 6.h),
+          SizedBox(height: 8.h),
 
           // Bottom label
           Text(

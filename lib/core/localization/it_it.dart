@@ -411,7 +411,7 @@ final Map<String, String> itIT = {
   'profile.invite.copy': 'Copia',
   'profile.invite.share_link': 'Condividi link',
   'profile.invite.you_earn': 'Tu guadagni',
-  'profile.invite.you_earn_when': 'Quando il loro contratto viene\nattivato',
+  'profile.invite.you_earn_when': 'Quando il contratto del tuo amico viene attivato.',
   'profile.invite.friend_gets': 'L\'amico riceve',
   'profile.invite.friend_gets_when': 'Applicato alla loro prima\nattivazione',
   'profile.invite.stats_title': 'Statistiche Inviti',

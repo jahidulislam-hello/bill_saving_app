@@ -411,7 +411,7 @@ final Map<String, String> enUS = {
   'profile.invite.copy': 'Copy',
   'profile.invite.share_link': 'Share link',
   'profile.invite.you_earn': 'You earn',
-  'profile.invite.you_earn_when': 'When their contract is\nactivated',
+  'profile.invite.you_earn_when': 'When your friend\'s contract is activated.',
   'profile.invite.friend_gets': 'Friend gets',
   'profile.invite.friend_gets_when': 'Applied to their first\nactivation',
   'profile.invite.stats_title': 'Invite Statistics',
