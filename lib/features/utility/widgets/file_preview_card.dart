@@ -153,8 +153,7 @@ class FilePreviewCard extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (file.status == FileUploadStatus.extracting ||
-              file.status == FileUploadStatus.uploading)
+          if (file.status == FileUploadStatus.uploading)
             Padding(
               padding: EdgeInsets.only(right: 3.w),
               child: SizedBox(
@@ -219,7 +218,6 @@ class FilePreviewCard extends StatelessWidget {
         // Remove button (not for uploaded or actively processing)
         if (file.status != FileUploadStatus.uploaded &&
             file.status != FileUploadStatus.uploading &&
-            file.status != FileUploadStatus.extracting &&
             onRemove != null)
           Semantics(
             label: 'upload_bill.remove_file'.tr,
@@ -247,10 +245,6 @@ class FilePreviewCard extends StatelessWidget {
     switch (file.status) {
       case FileUploadStatus.pending:
         return 'upload_bill.status_pending'.tr;
-      case FileUploadStatus.extracting:
-        return 'upload_bill.status_extracting'.tr;
-      case FileUploadStatus.extracted:
-        return 'upload_bill.status_extracted'.tr;
       case FileUploadStatus.uploading:
         final pct = (file.progress * 100).toStringAsFixed(0);
         return '${'upload_bill.status_uploading'.tr} $pct%';
@@ -268,7 +262,6 @@ class FilePreviewCard extends StatelessWidget {
       case FileUploadStatus.failed:
         return const Color(0xFFE53935);
       case FileUploadStatus.uploading:
-      case FileUploadStatus.extracting:
         return const Color(0xFF5A1ABE);
       default:
         return const Color(0xFFE8E8E8);
@@ -279,10 +272,6 @@ class FilePreviewCard extends StatelessWidget {
     switch (file.status) {
       case FileUploadStatus.pending:
         return const Color(0xFFF5F5F5);
-      case FileUploadStatus.extracting:
-        return const Color(0xFFFFF8E1);
-      case FileUploadStatus.extracted:
-        return const Color(0xFFE8F5E9);
       case FileUploadStatus.uploading:
         return const Color(0xFFE3F2FD);
       case FileUploadStatus.uploaded:
@@ -296,10 +285,6 @@ class FilePreviewCard extends StatelessWidget {
     switch (file.status) {
       case FileUploadStatus.pending:
         return Colors.grey[600]!;
-      case FileUploadStatus.extracting:
-        return const Color(0xFFFF8F00);
-      case FileUploadStatus.extracted:
-        return const Color(0xFF43A047);
       case FileUploadStatus.uploading:
         return const Color(0xFF1976D2);
       case FileUploadStatus.uploaded:

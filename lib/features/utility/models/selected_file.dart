@@ -1,11 +1,7 @@
 import 'dart:typed_data';
 
-import '../../../core/services/bill_ocr_service.dart';
-
 enum FileUploadStatus {
   pending,
-  extracting,
-  extracted,
   uploading,
   uploaded,
   failed,
@@ -22,8 +18,6 @@ class SelectedFile {
   final double progress;
   final String? errorMessage;
   final String? uploadedBillId;
-  final String? fileUrl;
-  final BillOcrResult? ocrResult;
 
   const SelectedFile({
     required this.id,
@@ -36,8 +30,6 @@ class SelectedFile {
     this.progress = 0.0,
     this.errorMessage,
     this.uploadedBillId,
-    this.fileUrl,
-    this.ocrResult,
   });
 
   bool get isImage {
@@ -66,8 +58,6 @@ class SelectedFile {
     double? progress,
     String? errorMessage,
     String? uploadedBillId,
-    String? fileUrl,
-    BillOcrResult? ocrResult,
   }) {
     return SelectedFile(
       id: id ?? this.id,
@@ -80,8 +70,6 @@ class SelectedFile {
       progress: progress ?? this.progress,
       errorMessage: errorMessage ?? this.errorMessage,
       uploadedBillId: uploadedBillId ?? this.uploadedBillId,
-      fileUrl: fileUrl ?? this.fileUrl,
-      ocrResult: ocrResult ?? this.ocrResult,
     );
   }
 }

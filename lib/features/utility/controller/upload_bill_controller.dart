@@ -9,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../core/constants/api_constants.dart';
 import '../../../core/services/api_service.dart';
-import '../../../core/services/bill_ocr_service.dart';
 import '../models/selected_file.dart';
 import 'select_utility_controller.dart';
 
@@ -26,11 +25,6 @@ class UploadBillController extends GetxController {
   final RxString errorMessage = ''.obs;
   final RxString uploadedBillId = ''.obs;
   final RxBool uploadSuccess = false.obs;
-
-  // OCR state (single-file)
-  final Rx<BillOcrResult?> ocrResult = Rx<BillOcrResult?>(null);
-  final RxBool isExtracting = false.obs;
-  final RxBool ocrCompleted = false.obs;
 
   // ─── Multi-file state ──────────────────────────────────
   final RxList<SelectedFile> selectedFiles = <SelectedFile>[].obs;
@@ -51,10 +45,15 @@ class UploadBillController extends GetxController {
     'webp',
   ];
 
-  final BillOcrService _ocrService = BillOcrService();
-  String _currentBillType = 'electricity';
+  // Stored utility type for auto-upload triggers
+  UtilityType? _utilityType;
 
-  // ─── Single-file methods (existing, for scan/camera) ───
+  /// Must be called before file selection so auto-upload knows the bill type.
+  void init(UtilityType type) {
+    _utilityType = type;
+  }
+
+  // ─── Single-file methods ──────────────────────────────
 
   void selectMethod(UploadMethod method) {
     selectedMethod.value = method;
@@ -64,8 +63,11 @@ class UploadBillController extends GetxController {
     selectedFile.value = file;
     errorMessage.value = '';
     uploadSuccess.value = false;
-    ocrResult.value = null;
-    ocrCompleted.value = false;
+
+    // Auto-trigger upload immediately
+    if (_utilityType != null) {
+      uploadBill(_utilityType!);
+    }
   }
 
   void removeFile() {
@@ -73,8 +75,6 @@ class UploadBillController extends GetxController {
     errorMessage.value = '';
     uploadSuccess.value = false;
     uploadedBillId.value = '';
-    ocrResult.value = null;
-    ocrCompleted.value = false;
   }
 
   bool validateFile(XFile file) {
@@ -116,56 +116,6 @@ class UploadBillController extends GetxController {
     }
   }
 
-  // ─── OCR Extraction (single-file) ─────────────────────
-
-  Future<void> runOcrExtraction(String billType) async {
-    final file = selectedFile.value;
-    if (file == null) return;
-
-    if (!BillOcrService.isSupported(file.path)) {
-      ocrCompleted.value = true;
-      errorMessage.value = 'upload_bill.invalid_file_type'.tr;
-      return;
-    }
-
-    isExtracting.value = true;
-    errorMessage.value = '';
-    _currentBillType = billType;
-
-    try {
-      final result = await _ocrService.extractFromFile(file.path, billType);
-      ocrResult.value = result;
-      debugPrint('OCR completed: hasData=${result.hasAnyData}');
-
-      if (!result.hasAnyData) {
-        errorMessage.value = 'upload_bill.extraction_no_data'.tr;
-      } else {
-        final missing = result.getMissingFields(billType);
-        if (missing.isNotEmpty) {
-          errorMessage.value = 'upload_bill.extraction_missing_fields'.tr;
-        }
-      }
-    } catch (e) {
-      debugPrint('OCR extraction error: $e');
-      errorMessage.value = 'upload_bill.extraction_failed'.tr;
-    } finally {
-      isExtracting.value = false;
-      ocrCompleted.value = true;
-    }
-  }
-
-  bool get canUpload {
-    final ocr = ocrResult.value;
-    if (ocr == null) return false;
-    return ocr.isComplete(_currentBillType);
-  }
-
-  List<String> get missingFields {
-    final ocr = ocrResult.value;
-    if (ocr == null) return [];
-    return ocr.getMissingFields(_currentBillType);
-  }
-
   // ─── Upload (single-file) ─────────────────────────────
 
   Future<void> uploadBill(UtilityType utilityType) async {
@@ -190,36 +140,20 @@ class UploadBillController extends GetxController {
         'billType': billType,
       };
 
-      final ocr = ocrResult.value;
-      if (ocr != null && ocr.hasAnyData) {
-        _addOcrDataToMap(data, ocr);
-      }
-
-      final dynamic response;
-
-      if (ocr?.fileUrl != null) {
-        data['fileUrl'] = ocr!.fileUrl!;
-        uploadProgress.value = 1.0;
-        response = await ApiService().post(
-          ApiConstants.uploadBills,
-          data: data,
-        );
-      } else {
-        final multipartFile = await MultipartFile.fromFile(
-          file.path,
-          filename: file.name,
-        );
-        response = await ApiService().uploadFileWithProgress(
-          ApiConstants.uploadBills,
-          file: multipartFile,
-          data: data,
-          onSendProgress: (sent, total) {
-            if (total > 0) {
-              uploadProgress.value = sent / total;
-            }
-          },
-        );
-      }
+      final multipartFile = await MultipartFile.fromFile(
+        file.path,
+        filename: file.name,
+      );
+      final response = await ApiService().uploadFileWithProgress(
+        ApiConstants.uploadBills,
+        file: multipartFile,
+        data: data,
+        onSendProgress: (sent, total) {
+          if (total > 0) {
+            uploadProgress.value = sent / total;
+          }
+        },
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = response.data;
@@ -260,7 +194,14 @@ class UploadBillController extends GetxController {
 
       if (result == null || result.files.isEmpty) return 0;
 
-      return addFiles(result.files);
+      final added = addFiles(result.files);
+
+      // Auto-trigger upload after adding files
+      if (added > 0 && _utilityType != null) {
+        uploadAllFiles(_utilityType!);
+      }
+
+      return added;
     } on Exception catch (e) {
       debugPrint('File picker error: $e');
       // Handle permission denied or storage access errors
@@ -379,6 +320,11 @@ class UploadBillController extends GetxController {
 
       selectedFiles.add(selected);
       _generateThumbnail(selected);
+    }
+
+    // Auto-trigger upload after adding captured photos
+    if (selectedFiles.isNotEmpty && _utilityType != null) {
+      uploadAllFiles(_utilityType!);
     }
   }
 
@@ -548,7 +494,7 @@ class UploadBillController extends GetxController {
 
   // ─── 4.1: Batch upload ───────────────────────────────
 
-  /// Processes all pending files sequentially: extract → upload → next.
+  /// Processes all pending files sequentially: upload each file directly.
   Future<void> uploadAllFiles(UtilityType utilityType) async {
     final billType =
         utilityType == UtilityType.luce ? 'electricity' : 'gas';
@@ -561,11 +507,7 @@ class UploadBillController extends GetxController {
       if (isCancelled.value) break;
 
       final file = selectedFiles[i];
-      if (file.status == FileUploadStatus.uploaded ||
-          file.status == FileUploadStatus.extracted) {
-        // Already processed or partially processed — skip if uploaded
-        if (file.status == FileUploadStatus.uploaded) continue;
-      }
+      if (file.status == FileUploadStatus.uploaded) continue;
       if (file.status != FileUploadStatus.pending &&
           file.status != FileUploadStatus.failed) {
         continue;
@@ -579,73 +521,31 @@ class UploadBillController extends GetxController {
     batchUploadCompleted.value = true;
   }
 
-  // ─── 4.2 / 4.3 / 4.4: Per-file processing ───────────
+  // ─── 4.2: Per-file processing (upload only) ──────────
 
   Future<void> _processFile(int index, String billType) async {
-    // Step 1: Extract
-    try {
-      _updateFileStatus(index, FileUploadStatus.extracting);
-
-      final file = selectedFiles[index];
-      final result = await _ocrService.extractFromFile(file.path, billType);
-
-      if (isCancelled.value) return;
-
-      _updateFile(index, (f) => f.copyWith(
-        status: FileUploadStatus.extracted,
-        ocrResult: result,
-        fileUrl: result.fileUrl,
-      ));
-    } catch (e) {
-      debugPrint('Extraction failed for ${selectedFiles[index].name}: $e');
-      _updateFile(index, (f) => f.copyWith(
-        status: FileUploadStatus.failed,
-        errorMessage: _getErrorMessage(e),
-      ));
-      return; // Don't attempt upload if extraction failed
-    }
-
-    if (isCancelled.value) return;
-
-    // Step 2: Upload
     try {
       _updateFileStatus(index, FileUploadStatus.uploading);
 
       final file = selectedFiles[index];
       final data = <String, dynamic>{'billType': billType};
 
-      final ocr = file.ocrResult;
-      if (ocr != null && ocr.hasAnyData) {
-        _addOcrDataToMap(data, ocr);
-      }
-
-      final dynamic response;
-
-      if (file.fileUrl != null) {
-        data['fileUrl'] = file.fileUrl!;
-        _updateFile(index, (f) => f.copyWith(progress: 1.0));
-        response = await ApiService().post(
-          ApiConstants.uploadBills,
-          data: data,
-        );
-      } else {
-        final multipartFile = await MultipartFile.fromFile(
-          file.path,
-          filename: file.name,
-        );
-        response = await ApiService().uploadFileWithProgress(
-          ApiConstants.uploadBills,
-          file: multipartFile,
-          data: data,
-          onSendProgress: (sent, total) {
-            if (total > 0) {
-              _updateFile(index, (f) => f.copyWith(
-                progress: sent / total,
-              ));
-            }
-          },
-        );
-      }
+      final multipartFile = await MultipartFile.fromFile(
+        file.path,
+        filename: file.name,
+      );
+      final response = await ApiService().uploadFileWithProgress(
+        ApiConstants.uploadBills,
+        file: multipartFile,
+        data: data,
+        onSendProgress: (sent, total) {
+          if (total > 0) {
+            _updateFile(index, (f) => f.copyWith(
+              progress: sent / total,
+            ));
+          }
+        },
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = response.data;
@@ -754,48 +654,6 @@ class UploadBillController extends GetxController {
     }
   }
 
-  void _addOcrDataToMap(Map<String, dynamic> data, BillOcrResult ocr) {
-    if (ocr.supplierName != null) data['supplierName'] = ocr.supplierName!;
-    if (ocr.podNumber != null) data['podNumber'] = ocr.podNumber!;
-    if (ocr.pdrNumber != null) data['pdrNumber'] = ocr.pdrNumber!;
-    if (ocr.totalAmount != null) {
-      data['totalAmount'] = ocr.totalAmount.toString();
-    }
-    if (ocr.consumptionKwh != null) {
-      data['consumptionKwh'] = ocr.consumptionKwh.toString();
-    }
-    if (ocr.consumptionSmc != null) {
-      data['consumptionSmc'] = ocr.consumptionSmc.toString();
-    }
-    if (ocr.costPerUnit != null) {
-      data['costPerUnit'] = ocr.costPerUnit.toString();
-    }
-    if (ocr.fixedCharges != null) {
-      data['fixedCharges'] = ocr.fixedCharges.toString();
-    }
-    if (ocr.taxes != null) data['taxes'] = ocr.taxes.toString();
-    if (ocr.billingPeriodStart != null) {
-      data['billingPeriodStart'] = ocr.billingPeriodStart!;
-    }
-    if (ocr.billingPeriodEnd != null) {
-      data['billingPeriodEnd'] = ocr.billingPeriodEnd!;
-    }
-    if (ocr.supplyAddress != null) {
-      data['supplyAddress'] = ocr.supplyAddress!;
-    }
-    if (ocr.codiceFiscale != null) {
-      data['codiceFiscale'] = ocr.codiceFiscale!;
-    }
-    if (ocr.partitaIva != null) data['partitaIva'] = ocr.partitaIva!;
-    if (ocr.contractNumber != null) {
-      data['contractNumber'] = ocr.contractNumber!;
-    }
-    if (ocr.meterNumber != null) data['meterNumber'] = ocr.meterNumber!;
-    if (ocr.customerName != null) {
-      data['customerName'] = ocr.customerName!;
-    }
-  }
-
   String _getErrorMessage(dynamic error) {
     if (error is DioException) {
       if (error.type == DioExceptionType.connectionError ||
@@ -827,9 +685,6 @@ class UploadBillController extends GetxController {
     errorMessage.value = '';
     uploadedBillId.value = '';
     uploadSuccess.value = false;
-    ocrResult.value = null;
-    isExtracting.value = false;
-    ocrCompleted.value = false;
     clearAllFiles();
   }
 }
