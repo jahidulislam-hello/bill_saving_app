@@ -4,7 +4,6 @@ import 'package:vyzi/features/bills/screen/bills_list_screen.dart';
 import 'package:vyzi/features/home/email/email_bill_screen.dart';
 import 'package:vyzi/features/utility/controller/select_utility_controller.dart';
 import 'package:vyzi/features/utility/controller/upload_bill_controller.dart';
-import 'package:vyzi/features/utility/widgets/file_preview_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -31,13 +30,14 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     // Navigate to bills list when single-file upload succeeds
     ever(_controller.uploadSuccess, (success) {
       if (success && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('upload_bill.upload_success'.tr),
-            backgroundColor: const Color(0xFF1FC16B),
-          ),
-        );
-        NavHelper.pushReplacement(BillsListScreen());
+        _showSuccessAndNavigate();
+      }
+    });
+
+    // Navigate to bills list when batch upload completes
+    ever(_controller.batchUploadCompleted, (completed) {
+      if (completed && mounted && _controller.uploadedFilesMulti.isNotEmpty) {
+        _showSuccessAndNavigate();
       }
     });
   }
@@ -101,14 +101,14 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     }
   }
 
-  /// Retries a single failed file
-  void _retrySingleFile(String fileId) {
-    _controller.retrySingleFile(fileId, widget.utilityType);
-  }
-
-  /// Retries all failed files
-  void _retryAllFailed() {
-    _controller.retryAllFailed(widget.utilityType);
+  void _showSuccessAndNavigate() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Bill submitted successfully.'),
+        backgroundColor: Color(0xFF1FC16B),
+      ),
+    );
+    NavHelper.pushReplacement(BillsListScreen());
   }
 
   // ─────────────────────────────────────────────
@@ -187,8 +187,8 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
             ),
           ),
 
-          // ── Upload progress overlay (single-file only) ──
-          Obx(() => _controller.isUploading.value
+          // ── Upload progress overlay ──
+          Obx(() => (_controller.isUploading.value || _controller.isBatchUploading.value)
               ? _buildUploadOverlay()
               : const SizedBox.shrink()),
         ],
@@ -200,249 +200,9 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
   // ─── Multi-file content ──────────────────────────────
 
   Widget _buildMultiFileContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // File preview list
-        FilePreviewList(
-          controller: _controller,
-          onRetrySingle: _retrySingleFile,
-        ),
-
-        // Add More Files / Take Another Photo button
-        Obx(() {
-          if (_controller.selectedFiles.isEmpty) return const SizedBox.shrink();
-          if (_controller.isAtFileLimit) return const SizedBox.shrink();
-          if (_controller.isBatchUploading.value) return const SizedBox.shrink();
-          if (_controller.batchUploadCompleted.value) return const SizedBox.shrink();
-
-          final isScanMode =
-              _controller.selectedMethod.value == UploadMethod.scanFile;
-          final label = isScanMode
-              ? 'upload_bill.take_another_photo'.tr
-              : 'upload_bill.add_more_files'.tr;
-          final icon = isScanMode
-              ? Icons.camera_alt_rounded
-              : Icons.add_rounded;
-
-          return Padding(
-            padding: EdgeInsets.only(top: 10.h),
-            child: Semantics(
-              label: label,
-              child: SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: isScanMode ? _openCamera : _openMultiFilePicker,
-                  icon: Icon(icon, size: 18),
-                  label: Text(
-                    label,
-                    style: TextStyle(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color(0xFF5A1ABE),
-                    side: const BorderSide(color: Color(0xFF5A1ABE)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
-                  ),
-                ),
-              ),
-            ),
-          );
-        }),
-
-        // Overall progress during batch upload
-        Obx(() {
-          if (!_controller.isBatchUploading.value) {
-            return const SizedBox.shrink();
-          }
-          final total = _controller.totalFileCount;
-          final processed = _controller.uploadedFilesMulti.length +
-              _controller.failedFiles.length;
-          return Padding(
-            padding: EdgeInsets.only(top: 12.h),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0EEFF),
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(
-                    color: const Color(0xFF5A1ABE).withOpacity(0.3)),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 18.w,
-                        height: 18.w,
-                        child: const CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Color(0xFF5A1ABE),
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Text(
-                        'upload_bill.uploading_progress'.trParams({
-                          'current': (processed + 1).toString(),
-                          'total': total.toString(),
-                        }),
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF5A1ABE),
-                        ),
-                      ),
-                      const Spacer(),
-                      GestureDetector(
-                        onTap: _controller.cancelBatchUpload,
-                        child: Text(
-                          'upload_bill.cancel'.tr,
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFFE53935),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8.h),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(4.r),
-                    child: LinearProgressIndicator(
-                      value: _controller.overallProgress,
-                      backgroundColor: const Color(0xFFE8E8E8),
-                      color: const Color(0xFF5A1ABE),
-                      minHeight: 6.h,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }),
-
-        // Post-upload summary
-        Obx(() {
-          if (!_controller.batchUploadCompleted.value) {
-            return const SizedBox.shrink();
-          }
-          final uploaded = _controller.uploadedFilesMulti.length;
-          final failed = _controller.failedFiles.length;
-
-          return Padding(
-            padding: EdgeInsets.only(top: 12.h),
-            child: Container(
-              padding: EdgeInsets.all(14.w),
-              decoration: BoxDecoration(
-                color: failed == 0
-                    ? const Color(0xFFE8F5E9)
-                    : const Color(0xFFFFF3E0),
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(
-                  color: failed == 0
-                      ? const Color(0xFF43A047)
-                      : const Color(0xFFFF9800),
-                  width: 1,
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        failed == 0
-                            ? Icons.check_circle_rounded
-                            : Icons.warning_amber_rounded,
-                        color: failed == 0
-                            ? const Color(0xFF43A047)
-                            : const Color(0xFFFF9800),
-                        size: 18,
-                      ),
-                      SizedBox(width: 8.w),
-                      Expanded(
-                        child: Text(
-                          'upload_bill.batch_complete'.trParams({
-                            'uploaded': uploaded.toString(),
-                            'failed': failed.toString(),
-                          }),
-                          style: TextStyle(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 12.h),
-                  Row(
-                    children: [
-                      if (failed > 0) ...[
-                        Expanded(
-                          child: OutlinedButton(
-                            onPressed: _retryAllFailed,
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: const Color(0xFFFF9800),
-                              side: const BorderSide(
-                                  color: Color(0xFFFF9800)),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 10.h),
-                            ),
-                            child: Text(
-                              'upload_bill.retry_failed'.tr,
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                      ],
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (uploaded > 0) {
-                              NavHelper.pushReplacement(BillsListScreen());
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF5A1ABE),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            padding: EdgeInsets.symmetric(vertical: 10.h),
-                            elevation: 0,
-                          ),
-                          child: Text(
-                            'upload_bill.done'.tr,
-                            style: TextStyle(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        }),
-
-      ],
-    );
+    // No inline content — the upload overlay handles the UI
+    // and the ever() listener auto-navigates on completion
+    return const SizedBox.shrink();
   }
 
   // ─── Single-file content (camera/scan flow) ──────────
@@ -843,24 +603,34 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                 ),
               ),
               SizedBox(height: 16.h),
-              Obx(() => ClipRRect(
-                    borderRadius: BorderRadius.circular(8.r),
-                    child: LinearProgressIndicator(
-                      value: _controller.uploadProgress.value,
-                      backgroundColor: const Color(0xFFE8E8E8),
-                      color: const Color(0xFF5A1ABE),
-                      minHeight: 8.h,
-                    ),
-                  )),
+              Obx(() {
+                final progress = _controller.isBatchUploading.value
+                    ? _controller.overallProgress
+                    : _controller.uploadProgress.value;
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    backgroundColor: const Color(0xFFE8E8E8),
+                    color: const Color(0xFF5A1ABE),
+                    minHeight: 8.h,
+                  ),
+                );
+              }),
               SizedBox(height: 8.h),
-              Obx(() => Text(
-                    '${(_controller.uploadProgress.value * 100).toStringAsFixed(0)}%',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF5A1ABE),
-                    ),
-                  )),
+              Obx(() {
+                final progress = _controller.isBatchUploading.value
+                    ? _controller.overallProgress
+                    : _controller.uploadProgress.value;
+                return Text(
+                  '${(progress * 100).toStringAsFixed(0)}%',
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF5A1ABE),
+                  ),
+                );
+              }),
             ],
           ),
         ),
