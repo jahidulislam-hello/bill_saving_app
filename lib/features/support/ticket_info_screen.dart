@@ -369,7 +369,10 @@ class _TicketInfoScreenState extends State<TicketInfoScreen> {
           MaterialPageRoute(
             builder: (_) => TicketDetailScreen(ticketId: widget.ticketId),
           ),
-        );
+        ).then((_) {
+          // Refresh to update message count after returning from conversation
+          _controller.fetchTicketDetail(widget.ticketId);
+        });
       },
       child: Container(
         padding: const EdgeInsets.all(16),
