@@ -58,7 +58,8 @@ dependencies:
   # google_mlkit_text_recognition: removed — OCR now handled server-side via OpenAI Vision API
   # syncfusion_flutter_pdf: removed — PDF text extraction no longer needed on-device
   # pdfx: removed — PDF rendering no longer needed on-device
-  syncfusion_flutter_pdfviewer:
+  pdfrx:
+  flutter_cache_manager:
   url_launcher:
   share_plus:
   app_links: ^6.4.0

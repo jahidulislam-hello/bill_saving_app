@@ -1,14 +1,12 @@
 import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pdfrx/pdfrx.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:vyzi/core/constants/api_constants.dart';
-import 'package:vyzi/core/services/api_service.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 
 class DocumentViewerScreen extends StatefulWidget {
@@ -26,19 +24,19 @@ class DocumentViewerScreen extends StatefulWidget {
 }
 
 class _DocumentViewerScreenState extends State<DocumentViewerScreen> {
-  Uint8List? _pdfBytes;
+  File? _cachedFile;
   bool _isLoading = true;
   bool _hasError = false;
   bool _isDownloading = false;
 
-  String get _fullUrl {
-    if (widget.url.startsWith('http')) return widget.url;
-    return '${ApiConstants.baseUrl}/${widget.url.replaceAll(RegExp(r'^/'), '')}';
-  }
+  late final String _fullUrl;
 
   @override
   void initState() {
     super.initState();
+    _fullUrl = widget.url.startsWith('http')
+        ? widget.url
+        : '${ApiConstants.baseUrl}/${widget.url.replaceAll(RegExp(r'^/'), '')}';
     _loadPdf();
   }
 
@@ -49,13 +47,10 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> {
     });
 
     try {
-      final response = await ApiService().dio.get<List<int>>(
-        _fullUrl,
-        options: Options(responseType: ResponseType.bytes),
-      );
+      final file = await DefaultCacheManager().getSingleFile(_fullUrl);
       if (mounted) {
         setState(() {
-          _pdfBytes = Uint8List.fromList(response.data!);
+          _cachedFile = file;
           _isLoading = false;
         });
       }
@@ -70,24 +65,20 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> {
   }
 
   Future<void> _downloadDocument() async {
-    if (_isDownloading) return;
+    if (_cachedFile == null || _isDownloading) return;
     setState(() => _isDownloading = true);
 
     try {
       final dir = await getTemporaryDirectory();
       final fileName = widget.url.split('/').last;
-      final filePath = '${dir.path}/$fileName';
+      final targetPath = '${dir.path}/$fileName';
 
-      if (_pdfBytes != null) {
-        await File(filePath).writeAsBytes(_pdfBytes!);
-      } else {
-        await ApiService().dio.download(_fullUrl, filePath);
-      }
+      await _cachedFile!.copy(targetPath);
 
       if (mounted) {
         setState(() => _isDownloading = false);
         await SharePlus.instance.share(
-          ShareParams(files: [XFile(filePath)], title: widget.title),
+          ShareParams(files: [XFile(targetPath)], title: widget.title),
         );
       }
     } catch (_) {
@@ -133,7 +124,7 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> {
           overflow: TextOverflow.ellipsis,
         ),
         actions: [
-          if (_pdfBytes != null)
+          if (_cachedFile != null)
             GestureDetector(
               onTap: _isDownloading ? null : _downloadDocument,
               child: Container(
@@ -168,15 +159,11 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> {
   }
 
   Widget _buildViewer() {
-    return SfPdfViewer.memory(
-      _pdfBytes!,
-      canShowScrollHead: true,
-      canShowPaginationDialog: false,
-      canShowScrollStatus: true,
-      pageSpacing: 4,
-      onDocumentLoadFailed: (details) {
-        if (mounted) setState(() => _hasError = true);
-      },
+    return PdfViewer.file(
+      _cachedFile!.path,
+      params: PdfViewerParams(
+        pageDropShadow: null,
+      ),
     );
   }
 
