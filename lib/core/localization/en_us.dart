@@ -482,6 +482,10 @@ final Map<String, String> enUS = {
   'personal_data.privacy_desc': 'Your data is encrypted and managed according to our premium protection standards. We never share your personal data with third parties without your consent.',
   'personal_data.save_changes': 'Save Changes',
   'personal_data.cancel_discard': 'Cancel and discard',
+  'personal_data.update_success_title': 'Profile Updated',
+  'personal_data.update_success_message': 'Your profile has been updated successfully.',
+  'personal_data.update_error_title': 'Update Failed',
+  'personal_data.update_error_message': 'An error occurred while updating your profile. Please try again.',
 
   // ==================== SELECT UTILITY ====================
   'select_utility.title': 'Select Utility',

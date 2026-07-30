@@ -482,6 +482,10 @@ final Map<String, String> itIT = {
   'personal_data.privacy_desc': 'I tuoi dati sono crittografati e gestiti secondo i nostri standard di protezione premium. Non condividiamo mai i tuoi dati personali con fornitori terzi senza il tuo consenso.',
   'personal_data.save_changes': 'Salva Modifiche',
   'personal_data.cancel_discard': 'Annulla e scarta',
+  'personal_data.update_success_title': 'Profilo Aggiornato',
+  'personal_data.update_success_message': 'Il tuo profilo è stato aggiornato con successo.',
+  'personal_data.update_error_title': 'Aggiornamento Fallito',
+  'personal_data.update_error_message': 'Si è verificato un errore durante l\'aggiornamento del profilo. Riprova.',
 
   // ==================== SELECT UTILITY ====================
   'select_utility.title': 'Seleziona Utenza',

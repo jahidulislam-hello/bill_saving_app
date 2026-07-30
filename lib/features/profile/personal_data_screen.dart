@@ -221,6 +221,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             controller: _c.emailController,
             hint: 'alexsmith.mobbin@gmail.com',
             keyboardType: TextInputType.emailAddress,
+            readOnly: true,
           ),
           SizedBox(height: 16.h),
           _buildField(
@@ -246,6 +247,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
     required TextEditingController controller,
     required String hint,
     TextInputType keyboardType = TextInputType.text,
+    bool readOnly = false,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,12 +260,15 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
         TextField(
           controller: controller,
           keyboardType: keyboardType,
-          style: AppStyles.body2,
+          readOnly: readOnly,
+          style: AppStyles.body2.copyWith(
+            color: readOnly ? AppColors.textSecondary : null,
+          ),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: AppStyles.hintStyle,
             filled: true,
-            fillColor: Color(0xFFF3F3F5),
+            fillColor: readOnly ? const Color(0xFFE8E8EA) : const Color(0xFFF3F3F5),
             contentPadding: EdgeInsets.symmetric(
                 horizontal: 14.w, vertical: 12.h),
             enabledBorder: OutlineInputBorder(
@@ -329,8 +334,8 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             onPressed: _c.isSaving
                 ? null
                 : () async {
-              await _c.saveChanges();
-              if (mounted) Navigator.pop(context);
+              final success = await _c.saveChanges();
+              if (success && mounted) Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.textPrimary,

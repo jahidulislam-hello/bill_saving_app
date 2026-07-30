@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:image_picker/image_picker.dart';
 import 'package:vyzi/core/constants/api_constants.dart';
+import 'package:vyzi/core/exceptions/app_exceptions.dart';
 import 'package:vyzi/core/services/api_service.dart';
-import 'package:vyzi/core/services/storage_service.dart';
+import 'package:vyzi/core/utils/app_colors.dart';
 
 class ProfileController extends ChangeNotifier {
   final ApiService _api = ApiService();
@@ -38,13 +39,7 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final storage = Get.find<StorageService>();
-      final token = storage.getString(StorageKeys.authToken) ?? '';
-
-      final response = await _api.get(
-        ApiConstants.getMyProfile,
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
-      );
+      final response = await _api.get(ApiConstants.getMyProfile);
 
       final body = response.data as Map<String, dynamic>;
 
@@ -99,41 +94,87 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveChanges() async {
+  Future<bool> saveChanges() async {
     isSaving = true;
     notifyListeners();
 
     try {
-      final storage = Get.find<StorageService>();
-      final token = storage.getString(StorageKeys.authToken) ?? '';
-
-      final body = {
+      final body = <String, dynamic>{
         'firstName': firstNameController.text.trim(),
         'lastName': lastNameController.text.trim(),
-        'phone': phoneController.text.trim(),
-        'codiceFiscale': codiceFiscaleController.text.trim(),
       };
+
+      // Only include optional fields if they have a value — empty strings
+      // fail backend regex validation for codiceFiscale
+      final phone = phoneController.text.trim();
+      if (phone.isNotEmpty) {
+        body['phone'] = phone;
+      }
+
+      final codiceFiscale = codiceFiscaleController.text.trim();
+      if (codiceFiscale.isNotEmpty) {
+        body['codiceFiscale'] = codiceFiscale;
+      }
 
       final response = await _api.patch(
         ApiConstants.updateProfile,
         data: body,
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
       final resBody = response.data as Map<String, dynamic>;
-      final data = resBody['data'] as Map<String, dynamic>?;
 
-      if (data != null) {
-        final firstName = data['firstName'] as String? ?? firstNameController.text;
-        final lastName = data['lastName'] as String? ?? lastNameController.text;
-        name = '$firstName $lastName'.trim();
-        email = data['email'] as String? ?? email;
-        firstNameController.text = firstName;
-        lastNameController.text = lastName;
-        emailController.text = email;
+      if (resBody['success'] == true) {
+        final data = resBody['data'] as Map<String, dynamic>?;
+        if (data != null) {
+          final firstName = data['firstName'] as String? ?? firstNameController.text;
+          final lastName = data['lastName'] as String? ?? lastNameController.text;
+          name = '$firstName $lastName'.trim();
+          email = data['email'] as String? ?? email;
+          phoneController.text = data['phone'] as String? ?? phone;
+          codiceFiscaleController.text = data['codiceFiscale'] as String? ?? codiceFiscale;
+          firstNameController.text = firstName;
+          lastNameController.text = lastName;
+          emailController.text = email;
+        }
+
+        Get.snackbar(
+          'personal_data.update_success_title'.tr,
+          'personal_data.update_success_message'.tr,
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: AppColors.primaryColor,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 3),
+          margin: const EdgeInsets.all(12),
+          borderRadius: 8,
+        );
+        return true;
       }
+
+      return false;
+    } on ServerException catch (e) {
+      Get.snackbar(
+        'personal_data.update_error_title'.tr,
+        e.message,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red.shade600,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 4),
+        margin: const EdgeInsets.all(12),
+        borderRadius: 8,
+      );
+      return false;
     } catch (_) {
-      // Keep existing values on error
+      Get.snackbar(
+        'personal_data.update_error_title'.tr,
+        'personal_data.update_error_message'.tr,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red.shade600,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 4),
+        margin: const EdgeInsets.all(12),
+        borderRadius: 8,
+      );
+      return false;
     } finally {
       isSaving = false;
       notifyListeners();
@@ -190,13 +231,9 @@ class ProfileController extends ChangeNotifier {
         final remoteUrl = data['url'] as String? ?? '';
 
         // Update profile with the new avatar URL
-        final storage = Get.find<StorageService>();
-        final token = storage.getString(StorageKeys.authToken) ?? '';
-
         await _api.patch(
           ApiConstants.updateProfile,
           data: {'avatar': remoteUrl},
-          options: Options(headers: {'Authorization': 'Bearer $token'}),
         );
 
         avatarUrl = remoteUrl.startsWith('http')
