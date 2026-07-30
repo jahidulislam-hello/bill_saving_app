@@ -661,6 +661,7 @@ final Map<String, String> itIT = {
   'offer.max_benefit': 'MASSIMO BENEFICIO POTENZIALE',
   'offer.estimated_savings': 'RISPARMIO STIMATO',
   'offer.economic_conditions': 'Condizioni economiche',
+  'offer.economic_conditions_unavailable': 'Documento non ancora disponibile',
   'offer.select_offer': 'Seleziona questa Offerta',
   'offer.feature1_title': 'Energia 100% rinnovabile',
   'offer.feature1_desc': 'Elettricità a zero emissioni di carbonio proveniente da parchi eolici e solari.',

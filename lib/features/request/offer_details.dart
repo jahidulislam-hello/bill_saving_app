@@ -412,19 +412,22 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
   }
 
   Widget _economicConditionsCard(ApiOfferModel offer) {
+    final hasDocument = offer.economicConditionsUrl != null &&
+        offer.economicConditionsUrl!.isNotEmpty;
+
     return GestureDetector(
-      onTap: () {
-        if (offer.economicConditionsUrl != null &&
-            offer.economicConditionsUrl!.isNotEmpty) {
-          _openUrl(offer.economicConditionsUrl!);
-        }
-      },
+      onTap: hasDocument ? () => _openUrl(offer.economicConditionsUrl!) : null,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         decoration: BoxDecoration(
           color: AppColors.cardBg,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: const Color(0xFFB396E1), width: 1.2),
+          border: Border.all(
+            color: hasDocument
+                ? const Color(0xFFB396E1)
+                : const Color(0xFFE0E0E0),
+            width: 1.2,
+          ),
         ),
         child: Row(
           children: [
@@ -432,24 +435,51 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
               width: 38,
               height: 38,
               decoration: BoxDecoration(
-                color: const Color(0xFFF0EEFB),
+                color: hasDocument
+                    ? const Color(0xFFF0EEFB)
+                    : const Color(0xFFF5F5F5),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Icon(Icons.description_outlined,
-                  color: AppColors.purple, size: 20),
+              child: Icon(
+                hasDocument
+                    ? Icons.description_outlined
+                    : Icons.info_outline_rounded,
+                color: hasDocument ? AppColors.purple : const Color(0xFF9E9E9E),
+                size: 20,
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(
-                'offer.economic_conditions'.tr,
-                style: const TextStyle(
-                    color: AppColors.textDark,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'offer.economic_conditions'.tr,
+                    style: TextStyle(
+                      color: hasDocument
+                          ? AppColors.textDark
+                          : const Color(0xFF9E9E9E),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  if (!hasDocument) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      'offer.economic_conditions_unavailable'.tr,
+                      style: const TextStyle(
+                        color: Color(0xFF9E9E9E),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ],
               ),
             ),
-            const Icon(Icons.chevron_right,
-                color: AppColors.textLight, size: 22),
+            if (hasDocument)
+              const Icon(Icons.chevron_right,
+                  color: AppColors.textLight, size: 22),
           ],
         ),
       ),
