@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vyzi/core/helpers/shared_pref_helper.dart';
+import 'package:vyzi/core/services/storage_service.dart';
 import 'package:vyzi/features/support/controller/support_controller.dart';
 import 'package:vyzi/features/support/models/ticket_message_model.dart';
 
@@ -28,9 +28,16 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
     _loadCurrentUserId();
   }
 
-  Future<void> _loadCurrentUserId() async {
-    final userId = await SharedPreferencesHelper.getUserId();
-    if (mounted) setState(() => _currentUserId = userId);
+  void _loadCurrentUserId() {
+    try {
+      final storage = Get.find<StorageService>();
+      final userId = storage.getString(StorageKeys.userId);
+      if (mounted && userId != null) {
+        setState(() => _currentUserId = userId);
+      }
+    } catch (_) {
+      debugPrint('StorageService not found, cannot determine current user');
+    }
   }
 
   void _onUpdate() {
