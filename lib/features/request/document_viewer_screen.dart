@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -22,12 +26,47 @@ class DocumentViewerScreen extends StatefulWidget {
 }
 
 class _DocumentViewerScreenState extends State<DocumentViewerScreen> {
+  Uint8List? _pdfBytes;
+  bool _isLoading = true;
   bool _hasError = false;
   bool _isDownloading = false;
 
   String get _fullUrl {
     if (widget.url.startsWith('http')) return widget.url;
     return '${ApiConstants.baseUrl}/${widget.url.replaceAll(RegExp(r'^/'), '')}';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPdf();
+  }
+
+  Future<void> _loadPdf() async {
+    setState(() {
+      _isLoading = true;
+      _hasError = false;
+    });
+
+    try {
+      final response = await ApiService().dio.get<List<int>>(
+        _fullUrl,
+        options: Options(responseType: ResponseType.bytes),
+      );
+      if (mounted) {
+        setState(() {
+          _pdfBytes = Uint8List.fromList(response.data!);
+          _isLoading = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _hasError = true;
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   Future<void> _downloadDocument() async {
@@ -39,7 +78,11 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> {
       final fileName = widget.url.split('/').last;
       final filePath = '${dir.path}/$fileName';
 
-      await ApiService().dio.download(_fullUrl, filePath);
+      if (_pdfBytes != null) {
+        await File(filePath).writeAsBytes(_pdfBytes!);
+      } else {
+        await ApiService().dio.download(_fullUrl, filePath);
+      }
 
       if (mounted) {
         setState(() => _isDownloading = false);
@@ -90,7 +133,7 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> {
           overflow: TextOverflow.ellipsis,
         ),
         actions: [
-          if (!_hasError)
+          if (_pdfBytes != null)
             GestureDetector(
               onTap: _isDownloading ? null : _downloadDocument,
               child: Container(
@@ -109,17 +152,28 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> {
       ),
       body: SafeArea(
         top: false,
-        child: _hasError ? _buildError() : _buildViewer(),
+        child: _isLoading
+            ? _buildLoading()
+            : _hasError
+                ? _buildError()
+                : _buildViewer(),
       ),
     );
   }
 
+  Widget _buildLoading() {
+    return const Center(
+      child: CircularProgressIndicator(color: AppColors.purple, strokeWidth: 3),
+    );
+  }
+
   Widget _buildViewer() {
-    return SfPdfViewer.network(
-      _fullUrl,
+    return SfPdfViewer.memory(
+      _pdfBytes!,
       canShowScrollHead: true,
       canShowPaginationDialog: false,
       canShowScrollStatus: true,
+      pageSpacing: 4,
       onDocumentLoadFailed: (details) {
         if (mounted) setState(() => _hasError = true);
       },
@@ -148,9 +202,7 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> {
             SizedBox(
               height: 40,
               child: ElevatedButton(
-                onPressed: () {
-                  setState(() => _hasError = false);
-                },
+                onPressed: _loadPdf,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.purple,
                   foregroundColor: Colors.white,
