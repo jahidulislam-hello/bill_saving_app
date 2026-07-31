@@ -76,6 +76,7 @@ final Map<String, String> enUS = {
   'auth.success.button': 'Back to login',
 
   // ==================== HOME SCREEN ====================
+  'home.header.greeting': 'Hi, @name! 👋',
   'home.header.subtitle': 'Ready to save on your utilities?',
   'home.upload_section.title': 'Upload Your First\nBill',
   'home.upload_section.subtitle': 'Let us analyze your current plan\nand find better offers',

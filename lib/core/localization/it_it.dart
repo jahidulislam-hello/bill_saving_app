@@ -76,6 +76,7 @@ final Map<String, String> itIT = {
   'auth.success.button': 'Torna al login',
 
   // ==================== HOME SCREEN ====================
+  'home.header.greeting': 'Ciao, @name! 👋',
   'home.header.subtitle': 'Pronto a risparmiare sulle tue utenze?',
   'home.upload_section.title': 'Carica la tua Prima\nBolletta',
   'home.upload_section.subtitle': 'Lasciaci analizzare il tuo piano\nattuale e trovare offerte migliori',

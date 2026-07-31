@@ -59,6 +59,7 @@ class CreateAccountOtpController extends GetxController {
         if (user != null) {
           if (user['id'] != null) await storage.setString(StorageKeys.userId, user['id'].toString());
           if (user['email'] != null) await storage.setString(StorageKeys.userEmail, user['email'].toString());
+          if (user['firstName'] != null) await storage.setString(StorageKeys.userName, user['firstName'].toString());
         }
         await storage.setBool(StorageKeys.isLoggedIn, true);
       }

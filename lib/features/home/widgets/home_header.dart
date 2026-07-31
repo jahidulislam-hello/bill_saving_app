@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:vyzi/core/services/storage_service.dart';
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
 
@@ -8,6 +10,9 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final storage = Get.find<StorageService>();
+    final userName = storage.getString(StorageKeys.userName) ?? '';
+
     return Container(
       height: 180.h,
       width: double.infinity,
@@ -44,12 +49,12 @@ class HomeHeader extends StatelessWidget {
               ),
               SizedBox(height: 8.h),
               Text(
-                "Ciao, Ja! 👋",
+                'home.header.greeting'.trParams({'name': userName}),
                 style: AppStyles.h1.copyWith(color: Colors.white, fontWeight: FontWeight.w900),
               ),
               SizedBox(height: 8.h),
               Text(
-                "Pronto a risparmiare sulle tue utenze?",
+                'home.header.subtitle'.tr,
                 style: AppStyles.body2.copyWith(color: Colors.white, fontWeight: FontWeight.w800),
               ),
             ],
