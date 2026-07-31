@@ -27,119 +27,117 @@ class HomeScreen extends StatelessWidget {
           final showOnboarding = controller.isFirstVisit.value;
           final hasUtilities = controller.serviceList.isNotEmpty;
 
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                HomeHeader(isOnboarding: showOnboarding),
+          return Column(
+            children: [
+              HomeHeader(isOnboarding: showOnboarding),
 
-                SizedBox(height: 18.h),
-
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Column(
-                    children: [
-                      /// First-ever visit → show upload section + summary + how it works
-                      if (showOnboarding) ...[
-                        UploadSection(
-                          onTap: () {
-                            NavHelper.push(const SelectUtilityScreen());
-                          },
-                        ),
-
-                        SizedBox(height: 16.h),
-
-                        IntrinsicHeight(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Expanded(
-                                child: SummaryCard(
-                                  icon: Image.asset(AppAssets.down),
-                                  iconColor: AppColors.green200,
-                                  iconBgColor: AppColors.greenAlpha10,
-                                  title: 'home.summary.savings_title'.tr,
-                                  value: controller.savingAmount.value,
-                                  valueColor: AppColors.green200,
-                                  subtitle: 'home.summary.savings_subtitle'.tr,
-                                ),
-                              ),
-                              SizedBox(width: 12.w),
-                              Expanded(
-                                child: SummaryCard(
-                                  icon: Image.asset(AppAssets.cir),
-                                  iconColor: AppColors.primaryColor,
-                                  iconBgColor: AppColors.primaryAlpha10,
-                                  title: 'home.summary.utilities_title'.tr,
-                                  value: controller.activeUtilities.value
-                                      .toString()
-                                      .padLeft(2, '0'),
-                                  valueColor: AppColors.primaryColor,
-                                  subtitle: 'home.summary.utilities_subtitle'.tr,
-                                ),
-                              ),
-                            ],
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(16.w, 18.h, 16.w, 100.h),
+                    child: Column(
+                      children: [
+                        /// First-ever visit → show upload section + summary + how it works
+                        if (showOnboarding) ...[
+                          UploadSection(
+                            onTap: () {
+                              NavHelper.push(const SelectUtilityScreen());
+                            },
                           ),
-                        ),
 
-                        SizedBox(height: 20.h),
+                          SizedBox(height: 16.h),
 
-                        HowItWorksCard(),
-                      ],
-
-                      /// Returning user → show summary + utilities (if any) + actions
-                      if (!showOnboarding) ...[
-                        IntrinsicHeight(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Expanded(
-                                child: SummaryCard(
-                                  icon: Image.asset(AppAssets.down),
-                                  iconColor: AppColors.green200,
-                                  iconBgColor: AppColors.greenAlpha10,
-                                  title: 'home.summary.savings_title'.tr,
-                                  value: controller.savingAmount.value,
-                                  valueColor: AppColors.green200,
-                                  subtitle: 'home.summary.savings_subtitle'.tr,
+                          IntrinsicHeight(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Expanded(
+                                  child: SummaryCard(
+                                    icon: Image.asset(AppAssets.down),
+                                    iconColor: AppColors.green200,
+                                    iconBgColor: AppColors.greenAlpha10,
+                                    title: 'home.summary.savings_title'.tr,
+                                    value: controller.savingAmount.value,
+                                    valueColor: AppColors.green200,
+                                    subtitle: 'home.summary.savings_subtitle'.tr,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 12.w),
-                              Expanded(
-                                child: SummaryCard(
-                                  icon: Image.asset(AppAssets.cir),
-                                  iconColor: AppColors.primaryColor,
-                                  iconBgColor: AppColors.primaryAlpha10,
-                                  title: 'home.summary.utilities_title'.tr,
-                                  value: controller.activeUtilities.value
-                                      .toString()
-                                      .padLeft(2, '0'),
-                                  valueColor: AppColors.primaryColor,
-                                  subtitle: 'home.summary.utilities_subtitle'.tr,
+                                SizedBox(width: 12.w),
+                                Expanded(
+                                  child: SummaryCard(
+                                    icon: Image.asset(AppAssets.cir),
+                                    iconColor: AppColors.primaryColor,
+                                    iconBgColor: AppColors.primaryAlpha10,
+                                    title: 'home.summary.utilities_title'.tr,
+                                    value: controller.activeUtilities.value
+                                        .toString()
+                                        .padLeft(2, '0'),
+                                    valueColor: AppColors.primaryColor,
+                                    subtitle: 'home.summary.utilities_subtitle'.tr,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
 
-                        SizedBox(height: 18.h),
+                          SizedBox(height: 20.h),
 
-                        if (hasUtilities) ...[
-                          UtilitiesSection(
-                            services: controller.serviceList,
+                          HowItWorksCard(),
+                        ],
+
+                        /// Returning user → show summary + utilities (if any) + actions
+                        if (!showOnboarding) ...[
+                          IntrinsicHeight(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Expanded(
+                                  child: SummaryCard(
+                                    icon: Image.asset(AppAssets.down),
+                                    iconColor: AppColors.green200,
+                                    iconBgColor: AppColors.greenAlpha10,
+                                    title: 'home.summary.savings_title'.tr,
+                                    value: controller.savingAmount.value,
+                                    valueColor: AppColors.green200,
+                                    subtitle: 'home.summary.savings_subtitle'.tr,
+                                  ),
+                                ),
+                                SizedBox(width: 12.w),
+                                Expanded(
+                                  child: SummaryCard(
+                                    icon: Image.asset(AppAssets.cir),
+                                    iconColor: AppColors.primaryColor,
+                                    iconBgColor: AppColors.primaryAlpha10,
+                                    title: 'home.summary.utilities_title'.tr,
+                                    value: controller.activeUtilities.value
+                                        .toString()
+                                        .padLeft(2, '0'),
+                                    valueColor: AppColors.primaryColor,
+                                    subtitle: 'home.summary.utilities_subtitle'.tr,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
 
                           SizedBox(height: 18.h),
+
+                          if (hasUtilities) ...[
+                            UtilitiesSection(
+                              services: controller.serviceList,
+                            ),
+
+                            SizedBox(height: 18.h),
+                          ],
+
+                          ActionSection(),
                         ],
-
-                        ActionSection(),
                       ],
-
-                      SizedBox(height: 100.h),
-                    ],
+                    ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),
