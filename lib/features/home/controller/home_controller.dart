@@ -3,6 +3,7 @@
 import 'package:get/get.dart';
 import 'package:vyzi/core/constants/api_constants.dart';
 import 'package:vyzi/core/services/api_service.dart';
+import 'package:vyzi/core/services/storage_service.dart';
 import 'package:vyzi/features/home/model/dashboard_model.dart';
 import 'package:vyzi/features/home/model/user_service_model.dart';
 
@@ -13,6 +14,9 @@ class HomeController extends GetxController {
   RxBool isLoadingDashboard = false.obs;
   RxString servicesError = ''.obs;
   RxString dashboardError = ''.obs;
+
+  /// True only on the very first home visit for a new user.
+  RxBool isFirstVisit = false.obs;
 
   /// summary data — updated from /api/v1/dashboard/user
   RxString savingAmount = '€0,00'.obs;
@@ -27,8 +31,18 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _checkFirstVisit();
     fetchDashboard();
     fetchServices();
+  }
+
+  void _checkFirstVisit() {
+    final storage = Get.find<StorageService>();
+    final seen = storage.getBool(StorageKeys.hasSeenHome) ?? false;
+    isFirstVisit.value = !seen;
+    if (!seen) {
+      storage.setBool(StorageKeys.hasSeenHome, true);
+    }
   }
 
   /// Fetches user dashboard data (potential savings + active requests)

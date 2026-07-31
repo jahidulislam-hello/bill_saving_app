@@ -155,6 +155,9 @@ abstract class StorageKeys {
   static const String selectedLanguage = 'selected_language';
   static const String isFirstLaunch = 'is_first_launch';
 
+  // ─── Onboarding ────────────────────────────────────────────────────────
+  static const String hasSeenHome = 'has_seen_home';
+
   // ─── Deep Linking ──────────────────────────────────────────────────────
   static const String pendingReferralCode = 'pending_referral_code';
 }

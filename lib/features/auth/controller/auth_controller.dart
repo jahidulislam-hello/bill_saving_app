@@ -177,6 +177,7 @@ class AuthController extends GetxController {
     await storage.remove(StorageKeys.userId);
     await storage.remove(StorageKeys.userName);
     await storage.remove(StorageKeys.userEmail);
+    await storage.remove(StorageKeys.hasSeenHome);
     await storage.setBool(StorageKeys.isLoggedIn, false);
     Get.offAllNamed(AppRoutes.signInScreen);
   }

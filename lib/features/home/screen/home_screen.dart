@@ -24,6 +24,7 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       body: Obx(
         () {
+          final showOnboarding = controller.isFirstVisit.value;
           final hasUtilities = controller.serviceList.isNotEmpty;
 
           return SingleChildScrollView(
@@ -37,8 +38,8 @@ class HomeScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Column(
                     children: [
-                      /// No utilities → show upload section + summary + how it works
-                      if (!hasUtilities) ...[
+                      /// First-ever visit → show upload section + summary + how it works
+                      if (showOnboarding) ...[
                         UploadSection(
                           onTap: () {
                             NavHelper.push(const SelectUtilityScreen());
@@ -85,8 +86,8 @@ class HomeScreen extends StatelessWidget {
                         HowItWorksCard(),
                       ],
 
-                      /// Has utilities → show summary + utilities (max 3) + actions
-                      if (hasUtilities) ...[
+                      /// Returning user → show summary + utilities (if any) + actions
+                      if (!showOnboarding) ...[
                         IntrinsicHeight(
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -122,11 +123,13 @@ class HomeScreen extends StatelessWidget {
 
                         SizedBox(height: 18.h),
 
-                        UtilitiesSection(
-                          services: controller.serviceList,
-                        ),
+                        if (hasUtilities) ...[
+                          UtilitiesSection(
+                            services: controller.serviceList,
+                          ),
 
-                        SizedBox(height: 18.h),
+                          SizedBox(height: 18.h),
+                        ],
 
                         ActionSection(),
                       ],
