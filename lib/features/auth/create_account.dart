@@ -5,6 +5,7 @@ import 'package:vyzi/core/widgets/phone_filled.dart';
 import 'package:vyzi/core/widgets/primary_button.dart';
 import 'package:vyzi/core/widgets/social_button.dart';
 import 'package:vyzi/core/services/social_auth_service.dart';
+import 'package:vyzi/core/services/deep_link_service.dart';
 import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -273,6 +274,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ? null
                               : _referralCodeController.text.trim(),
                         );
+
+                        // Clear pending referral code from deep link storage
+                        try {
+                          final deepLinkService = Get.find<DeepLinkService>();
+                          await deepLinkService.clearPendingReferralCode();
+                        } catch (_) {}
 
                         // Navigate to OTP verification screen and pass email
                         Get.toNamed(AppRoutes.createAccountOtpScreen, arguments: {
