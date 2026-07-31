@@ -68,6 +68,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
 
   bool _profileSynced = false;
 
+  // ── Personal Info validation errors ──
+  String? _firstNameError;
+  String? _lastNameError;
+  String? _podError;
+  String? _phoneError;
+
   @override
   void initState() {
     super.initState();
@@ -105,6 +111,10 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       _holderFirstCtrl.text = _c.firstName;
       _holderLastCtrl.text = _c.lastName;
       _holderTaxCtrl.text = _c.taxCode;
+    }
+    // Sync POD number when bill data arrives (may arrive after profile sync)
+    if (_podCtrl.text.isEmpty && _c.podNumber.isNotEmpty) {
+      _podCtrl.text = _c.podNumber;
     }
     // Sync address when bill data arrives
     if (_streetCtrl.text.isEmpty && _c.address.isNotEmpty) {
@@ -353,11 +363,33 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               GestureDetector(
                 onTap: () {
                   if (_editingPersonalInfo) {
-                    _c.firstName = _firstNameCtrl.text;
-                    _c.lastName = _lastNameCtrl.text;
-                    _c.email = _emailCtrl.text;
-                    _c.phone = _phoneCtrl.text;
-                    _c.podNumber = _podCtrl.text;
+                    // Validate required fields
+                    final firstNameOk = _firstNameCtrl.text.trim().isNotEmpty;
+                    final lastNameOk = _lastNameCtrl.text.trim().isNotEmpty;
+                    final podOk = _podCtrl.text.trim().isNotEmpty;
+                    final phoneOk = _phoneCtrl.text.trim().isNotEmpty;
+
+                    setState(() {
+                      _firstNameError = firstNameOk ? null : 'request.form.first_name_required'.tr;
+                      _lastNameError = lastNameOk ? null : 'request.form.last_name_required'.tr;
+                      _podError = podOk ? null : 'request.form.pod_number_required'.tr;
+                      _phoneError = phoneOk ? null : 'request.form.phone_required'.tr;
+                    });
+
+                    if (!firstNameOk || !lastNameOk || !podOk || !phoneOk) return;
+
+                    _c.firstName = _firstNameCtrl.text.trim();
+                    _c.lastName = _lastNameCtrl.text.trim();
+                    _c.phone = _phoneCtrl.text.trim();
+                    _c.podNumber = _podCtrl.text.trim();
+                  } else {
+                    // Entering edit mode — clear errors
+                    setState(() {
+                      _firstNameError = null;
+                      _lastNameError = null;
+                      _podError = null;
+                      _phoneError = null;
+                    });
                   }
                   setState(() => _editingPersonalInfo = !_editingPersonalInfo);
                 },
@@ -396,17 +428,26 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           ),
           SizedBox(height: 14.h),
           if (_editingPersonalInfo) ...[
-            _buildEditField('request.form.first_name_field'.tr, _firstNameCtrl),
+            _buildEditField('request.form.first_name_field'.tr, _firstNameCtrl,
+                errorText: _firstNameError,
+                onChanged: (_) => setState(() => _firstNameError = null)),
             SizedBox(height: 10.h),
-            _buildEditField('request.form.last_name_field'.tr, _lastNameCtrl),
+            _buildEditField('request.form.last_name_field'.tr, _lastNameCtrl,
+                errorText: _lastNameError,
+                onChanged: (_) => setState(() => _lastNameError = null)),
             SizedBox(height: 10.h),
             _buildEditField('request.form.email_field'.tr, _emailCtrl,
-                keyboardType: TextInputType.emailAddress),
+                keyboardType: TextInputType.emailAddress,
+                readOnly: true),
             SizedBox(height: 10.h),
-            _buildEditField('request.form.pod_number_field'.tr, _podCtrl),
+            _buildEditField('request.form.pod_number_field'.tr, _podCtrl,
+                errorText: _podError,
+                onChanged: (_) => setState(() => _podError = null)),
             SizedBox(height: 10.h),
             _buildEditField('request.form.phone_field'.tr, _phoneCtrl,
-                keyboardType: TextInputType.phone),
+                keyboardType: TextInputType.phone,
+                errorText: _phoneError,
+                onChanged: (_) => setState(() => _phoneError = null)),
           ] else ...[
             _personalRow('request.form.first_name_field'.tr, _c.firstName),
             _personalRow('request.form.last_name_field'.tr, _c.lastName),
@@ -423,6 +464,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       String label,
       TextEditingController ctrl, {
         TextInputType keyboardType = TextInputType.text,
+        String? errorText,
+        bool readOnly = false,
+        ValueChanged<String>? onChanged,
       }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -436,17 +480,22 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         SizedBox(height: 6.h),
         Container(
           decoration: BoxDecoration(
-            color: AppColors.shortcardbg,
+            color: readOnly ? AppColors.primary50 : AppColors.shortcardbg,
             borderRadius: BorderRadius.circular(10.r),
-            border: Border.all(color: AppColors.shortcardbg, width: 1),
+            border: Border.all(
+              color: errorText != null ? AppColors.error : AppColors.shortcardbg,
+              width: 1,
+            ),
           ),
           child: TextField(
             controller: ctrl,
             keyboardType: keyboardType,
+            readOnly: readOnly,
+            onChanged: onChanged,
             textAlignVertical: TextAlignVertical.center,
             style: TextStyle(
                 fontSize: 13.sp,
-                color: AppColors.textDark,
+                color: readOnly ? AppColors.textSecondary : AppColors.textDark,
                 fontWeight: FontWeight.w500,
                 height: 1.22),
             decoration: InputDecoration(
@@ -457,6 +506,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ),
           ),
         ),
+        if (errorText != null)
+          Padding(
+            padding: EdgeInsets.only(top: 4.h, left: 4.w),
+            child: Text(errorText,
+                style: TextStyle(fontSize: 11.sp, color: AppColors.error, height: 1.22)),
+          ),
       ],
     );
   }
@@ -2040,9 +2095,36 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   }
 
   Widget _buildActivateButton() {
+    final missingPersonalFields = <String>[];
+    if (_c.firstName.trim().isEmpty) missingPersonalFields.add('request.form.first_name_field'.tr);
+    if (_c.lastName.trim().isEmpty) missingPersonalFields.add('request.form.last_name_field'.tr);
+    if (_c.phone.trim().isEmpty) missingPersonalFields.add('request.form.phone_field'.tr);
+    if (_c.podNumber.trim().isEmpty) missingPersonalFields.add('request.form.pod_number_field'.tr);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (missingPersonalFields.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.only(bottom: 8.h),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.info_outline_rounded,
+                    size: 14.sp, color: Colors.red.shade400),
+                SizedBox(width: 4.w),
+                Expanded(
+                  child: Text(
+                    '${missingPersonalFields.join(', ')} ${missingPersonalFields.length == 1 ? 'is' : 'are'} required.',
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Colors.red.shade400,
+                        height: 1.22),
+                  ),
+                ),
+              ],
+            ),
+          ),
         if (_c.uploadedDocuments.isEmpty)
           Padding(
             padding: EdgeInsets.only(bottom: 8.h),

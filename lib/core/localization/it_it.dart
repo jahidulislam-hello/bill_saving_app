@@ -486,6 +486,10 @@ final Map<String, String> itIT = {
   'request.form.city_required': 'Inserisci la città',
   'request.form.zip_required': 'Inserisci il CAP',
   'request.form.province_required': 'Seleziona una provincia',
+  'request.form.first_name_required': 'Il nome è obbligatorio',
+  'request.form.last_name_required': 'Il cognome è obbligatorio',
+  'request.form.pod_number_required': 'Il numero POD è obbligatorio',
+  'request.form.phone_required': 'Il numero di telefono è obbligatorio',
 
   // ==================== OFFER DETAILS EXTRAS ====================
   'offer.about_supplier_name': 'Su EnergyPlus',

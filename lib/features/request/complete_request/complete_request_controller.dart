@@ -252,6 +252,10 @@ class CompleteRequestController extends ChangeNotifier {
   bool get canActivate =>
       bill != null &&
       !isSubmitting &&
+      firstName.trim().isNotEmpty &&
+      lastName.trim().isNotEmpty &&
+      phone.trim().isNotEmpty &&
+      podNumber.trim().isNotEmpty &&
       addressMatch != null &&
       selectedPayment != null &&
       selectedInvoice != null &&

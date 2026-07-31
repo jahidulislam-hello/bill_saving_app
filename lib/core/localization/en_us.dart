@@ -486,6 +486,10 @@ final Map<String, String> enUS = {
   'request.form.city_required': 'Please enter city',
   'request.form.zip_required': 'Please enter ZIP code',
   'request.form.province_required': 'Please select a province',
+  'request.form.first_name_required': 'First name is required',
+  'request.form.last_name_required': 'Last name is required',
+  'request.form.pod_number_required': 'POD number is required',
+  'request.form.phone_required': 'Phone number is required',
 
   // ==================== OFFER DETAILS EXTRAS ====================
   'offer.about_supplier_name': 'About EnergyPlus',
