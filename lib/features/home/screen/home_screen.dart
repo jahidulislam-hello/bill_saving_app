@@ -1,5 +1,4 @@
 import 'package:vyzi/core/navbar/nav_helper.dart';
-import 'package:vyzi/core/services/storage_service.dart';
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
@@ -80,9 +79,6 @@ class HomeScreen extends StatelessWidget {
 
   // ── Collapsible regular header ──────────────────────────────────────────
   Widget _buildCollapsibleHeader(BuildContext context) {
-    final storage = Get.find<StorageService>();
-    final userName = storage.getString(StorageKeys.userName) ?? '';
-
     return SliverAppBar(
       expandedHeight: 163.h,
       toolbarHeight: 80.h,
@@ -122,8 +118,7 @@ class HomeScreen extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'home.header.greeting'
-                                    .trParams({'name': userName}),
+                                'home.header.greeting'.tr,
                                 style: AppStyles.h1.copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w900,

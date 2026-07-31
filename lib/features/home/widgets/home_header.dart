@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:vyzi/core/services/storage_service.dart';
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
@@ -20,9 +19,6 @@ class HomeHeader extends StatelessWidget {
   }
 
   Widget _buildRegularHeader(double topPadding) {
-    final storage = Get.find<StorageService>();
-    final userName = storage.getString(StorageKeys.userName) ?? '';
-
     return Container(
       height: 163.h + topPadding,
       width: double.infinity,
@@ -49,7 +45,7 @@ class HomeHeader extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'home.header.greeting'.trParams({'name': userName}),
+                          'home.header.greeting'.tr,
                           style: AppStyles.h1.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w900,
