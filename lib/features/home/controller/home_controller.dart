@@ -15,11 +15,8 @@ class HomeController extends GetxController {
   RxString servicesError = ''.obs;
   RxString dashboardError = ''.obs;
 
-  /// True only for a genuinely new user who has zero server-side activity.
+  /// True only for a genuinely new user who has no bills.
   RxBool isFirstVisit = false.obs;
-
-  /// Whether the first-visit decision still needs server data.
-  bool _needsServerCheck = false;
 
   /// summary data — updated from /api/v1/dashboard/user
   RxString savingAmount = '€0,00'.obs;
@@ -34,47 +31,34 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _checkFirstVisitLocal();
+    _resolveFirstVisit();
     fetchDashboard();
     fetchServices();
   }
 
-  /// Fast path: if the local flag is already set, skip onboarding immediately.
-  /// Otherwise, defer the decision until API data arrives.
-  void _checkFirstVisitLocal() {
+  /// If the local flag is set, skip immediately. Otherwise check the
+  /// server for existing bills — if the user has uploaded any bill,
+  /// they are not new.
+  Future<void> _resolveFirstVisit() async {
     final storage = Get.find<StorageService>();
     final userId = storage.getString(StorageKeys.userId) ?? '';
     final key = '${StorageKeys.hasSeenHome}_$userId';
-    final seen = storage.getBool(key) ?? false;
 
-    if (seen) {
+    if (storage.getBool(key) ?? false) {
       isFirstVisit.value = false;
-      _needsServerCheck = false;
-    } else {
-      // Don't show onboarding yet — wait for API to confirm the user is new
-      isFirstVisit.value = false;
-      _needsServerCheck = true;
+      return;
     }
-  }
 
-  /// Called after each API finishes. Once both are done, decides whether
-  /// the user is truly new (zero activity) or an existing user on a new device.
-  void _resolveFirstVisit() {
-    if (!_needsServerCheck) return;
-    if (isLoadingDashboard.value || isLoadingServices.value) return;
+    try {
+      final response = await _api.get(ApiConstants.getMyBills);
+      final body = response.data as Map<String, dynamic>;
+      final bills = body['data'] as List<dynamic>? ?? [];
+      isFirstVisit.value = bills.isEmpty;
+    } catch (_) {
+      // On error default to regular layout
+      isFirstVisit.value = false;
+    }
 
-    _needsServerCheck = false;
-
-    final hasActivity = (dashboard.value?.totalCases ?? 0) > 0 ||
-        (dashboard.value?.activeContracts ?? 0) > 0 ||
-        serviceList.isNotEmpty;
-
-    isFirstVisit.value = !hasActivity;
-
-    // Persist the flag so we never check again for this user
-    final storage = Get.find<StorageService>();
-    final userId = storage.getString(StorageKeys.userId) ?? '';
-    final key = '${StorageKeys.hasSeenHome}_$userId';
     storage.setBool(key, true);
   }
 
@@ -104,7 +88,6 @@ class HomeController extends GetxController {
       dashboardError.value = e.toString();
     } finally {
       isLoadingDashboard.value = false;
-      _resolveFirstVisit();
     }
   }
 
@@ -131,7 +114,6 @@ class HomeController extends GetxController {
       servicesError.value = e.toString();
     } finally {
       isLoadingServices.value = false;
-      _resolveFirstVisit();
     }
   }
 }
