@@ -255,12 +255,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 // Input bar
                 if (!isClosed)
                   Container(
-                    padding: EdgeInsets.fromLTRB(
-                      16,
-                      12,
-                      16,
-                      12 + MediaQuery.of(context).padding.bottom,
-                    ),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 48),
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       border: Border(
@@ -326,12 +321,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   )
                 else
                   Container(
-                    padding: EdgeInsets.fromLTRB(
-                      16,
-                      16,
-                      16,
-                      16 + MediaQuery.of(context).padding.bottom,
-                    ),
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 48),
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       border: Border(
