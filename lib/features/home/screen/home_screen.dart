@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
-                const HomeHeader(),
+                HomeHeader(isOnboarding: showOnboarding),
 
                 SizedBox(height: 18.h),
 

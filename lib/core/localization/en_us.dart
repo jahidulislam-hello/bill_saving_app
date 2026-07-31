@@ -78,6 +78,8 @@ final Map<String, String> enUS = {
   // ==================== HOME SCREEN ====================
   'home.header.greeting': 'Hi, @name! 👋',
   'home.header.subtitle': 'Ready to save on your utilities?',
+  'home.header.onboarding_greeting': 'Hello, there! 👋',
+  'home.header.onboarding_subtitle': 'Take control of your utilities today',
   'home.upload_section.title': 'Upload Your First\nBill',
   'home.upload_section.subtitle': 'Let us analyze your current plan\nand find better offers',
   'home.upload_section.button': 'Start Saving',

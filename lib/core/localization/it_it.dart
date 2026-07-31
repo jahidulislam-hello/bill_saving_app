@@ -78,6 +78,8 @@ final Map<String, String> itIT = {
   // ==================== HOME SCREEN ====================
   'home.header.greeting': 'Ciao, @name! 👋',
   'home.header.subtitle': 'Pronto a risparmiare sulle tue utenze?',
+  'home.header.onboarding_greeting': 'Ciao! 👋',
+  'home.header.onboarding_subtitle': 'Prendi il controllo delle tue utenze oggi',
   'home.upload_section.title': 'Carica la tua Prima\nBolletta',
   'home.upload_section.subtitle': 'Lasciaci analizzare il tuo piano\nattuale e trovare offerte migliori',
   'home.upload_section.button': 'Inizia a Risparmiare',
