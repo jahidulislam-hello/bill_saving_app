@@ -30,14 +30,15 @@ class HomeHeader extends StatelessWidget {
         image: DecorationImage(
           image: AssetImage(AppAssets.homeRegularBg),
           fit: BoxFit.cover,
+          alignment: Alignment.bottomCenter,
         ),
       ),
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 14.h),
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -57,9 +58,10 @@ class HomeHeader extends StatelessWidget {
                         SizedBox(height: 4.h),
                         Text(
                           'home.header.subtitle'.tr,
-                          style: AppStyles.body2.copyWith(
-                            color: Colors.white.withValues(alpha: 0.85),
-                            fontWeight: FontWeight.w600,
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white.withValues(alpha: 0.75),
                           ),
                         ),
                       ],
@@ -67,8 +69,8 @@ class HomeHeader extends StatelessWidget {
                   ),
                   Image.asset(
                     AppAssets.notification,
-                    width: 28.w,
-                    height: 28.h,
+                    width: 32.w,
+                    height: 32.h,
                     fit: BoxFit.contain,
                   ),
                 ],
