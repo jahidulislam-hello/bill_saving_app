@@ -25,7 +25,7 @@ class HomeHeader extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(AppAssets.homeBg),
+          image: AssetImage(AppAssets.homeRegularBg),
           fit: BoxFit.cover,
         ),
       ),
