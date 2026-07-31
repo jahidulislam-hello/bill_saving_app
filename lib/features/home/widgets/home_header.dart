@@ -14,7 +14,6 @@ class HomeHeader extends StatelessWidget {
     final userName = storage.getString(StorageKeys.userName) ?? '';
 
     return Container(
-      height: 180.h,
       width: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -23,39 +22,43 @@ class HomeHeader extends StatelessWidget {
         ),
       ),
       child: SafeArea(
+        bottom: false,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Row(
-                children: [
-
-                  Image.asset(
-                    AppAssets.homeLogo,
-                    width: 48.w,
-                    height: 48.h,
-                    fit: BoxFit.contain,
-                  ),
-
-                  const Spacer(),
-                  Image.asset(
-                    AppAssets.notification,
-                    width: 24.w,
-                    height: 24.h,
-                    fit: BoxFit.contain,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'home.header.greeting'.trParams({'name': userName}),
+                      style: AppStyles.h1.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      'home.header.subtitle'.tr,
+                      style: AppStyles.body2.copyWith(
+                        color: Colors.white.withValues(alpha: 0.85),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 8.h),
-              Text(
-                'home.header.greeting'.trParams({'name': userName}),
-                style: AppStyles.h1.copyWith(color: Colors.white, fontWeight: FontWeight.w900),
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                'home.header.subtitle'.tr,
-                style: AppStyles.body2.copyWith(color: Colors.white, fontWeight: FontWeight.w800),
+              Padding(
+                padding: EdgeInsets.only(bottom: 8.h),
+                child: Image.asset(
+                  AppAssets.notification,
+                  width: 28.w,
+                  height: 28.h,
+                  fit: BoxFit.contain,
+                ),
               ),
             ],
           ),
