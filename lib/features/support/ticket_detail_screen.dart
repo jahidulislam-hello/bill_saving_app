@@ -114,8 +114,8 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
       final yesterday = today.subtract(const Duration(days: 1));
       final msgDate = DateTime(date.year, date.month, date.day);
 
-      if (msgDate == today) return 'Oggi';
-      if (msgDate == yesterday) return 'Ieri';
+      if (msgDate == today) return 'support.ticket_detail.today'.tr;
+      if (msgDate == yesterday) return 'support.ticket_detail.yesterday'.tr;
       return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
     } catch (_) {
       return dateStr;

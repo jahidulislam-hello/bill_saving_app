@@ -383,6 +383,8 @@ final Map<String, String> enUS = {
   'support.ticket_detail.title': 'Ticket Detail',
   'support.ticket_detail.send_hint': 'Type a message...',
   'support.ticket_detail.closed_notice': 'This ticket has been closed and no longer accepts messages.',
+  'support.ticket_detail.today': 'Today',
+  'support.ticket_detail.yesterday': 'Yesterday',
 
   // Ticket Info Screen
   'support.ticket_info.title': 'Ticket Details',
@@ -400,6 +402,7 @@ final Map<String, String> enUS = {
   'support.ticket_info.resolved': 'Resolved',
   'support.ticket_info.closed': 'Closed',
   'support.ticket_info.original_message': 'Original Message',
+  'support.ticket_info.not_found': 'Ticket not found',
   'support.ticket_info.closed_banner': 'This ticket has been closed.',
 
   // ==================== PROFILE EXTRAS ====================

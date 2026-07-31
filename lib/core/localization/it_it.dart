@@ -383,6 +383,8 @@ final Map<String, String> itIT = {
   'support.ticket_detail.title': 'Dettaglio Ticket',
   'support.ticket_detail.send_hint': 'Scrivi un messaggio...',
   'support.ticket_detail.closed_notice': 'Questo ticket è stato chiuso e non accetta più messaggi.',
+  'support.ticket_detail.today': 'Oggi',
+  'support.ticket_detail.yesterday': 'Ieri',
 
   // Ticket Info Screen
   'support.ticket_info.title': 'Dettagli Ticket',
@@ -400,6 +402,7 @@ final Map<String, String> itIT = {
   'support.ticket_info.resolved': 'Risolto',
   'support.ticket_info.closed': 'Chiuso',
   'support.ticket_info.original_message': 'Messaggio originale',
+  'support.ticket_info.not_found': 'Ticket non trovato',
   'support.ticket_info.closed_banner': 'Questo ticket è stato chiuso.',
 
   // ==================== PROFILE EXTRAS ====================

@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'support_topic_model.dart';
 
 class SupportTicketModel {
@@ -45,13 +46,13 @@ class SupportTicketModel {
   String get statusDisplay {
     switch (status) {
       case 'open':
-        return 'Aperto';
+        return 'support.tickets.status.open'.tr;
       case 'in_progress':
-        return 'In Corso';
+        return 'support.tickets.status.in_progress'.tr;
       case 'resolved':
-        return 'Risolto';
+        return 'support.tickets.status.resolved'.tr;
       case 'closed':
-        return 'Chiuso';
+        return 'support.tickets.status.closed'.tr;
       default:
         return status;
     }

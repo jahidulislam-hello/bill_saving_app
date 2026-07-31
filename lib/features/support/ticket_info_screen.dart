@@ -126,9 +126,9 @@ class _TicketInfoScreenState extends State<TicketInfoScreen> {
                       const Icon(Icons.error_outline,
                           size: 64, color: Color(0xFFCBD5E1)),
                       const SizedBox(height: 16),
-                      const Text(
-                        'Ticket not found',
-                        style: TextStyle(
+                      Text(
+                        'support.ticket_info.not_found'.tr,
+                        style: const TextStyle(
                           color: Color(0xFF94A3B8),
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
