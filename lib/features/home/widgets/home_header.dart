@@ -13,15 +13,18 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isOnboarding ? _buildOnboardingHeader() : _buildRegularHeader();
+    final topPadding = MediaQuery.of(context).padding.top;
+    return isOnboarding
+        ? _buildOnboardingHeader(topPadding)
+        : _buildRegularHeader(topPadding);
   }
 
-  Widget _buildRegularHeader() {
+  Widget _buildRegularHeader(double topPadding) {
     final storage = Get.find<StorageService>();
     final userName = storage.getString(StorageKeys.userName) ?? '';
 
     return Container(
-      height: 163.h,
+      height: 163.h + topPadding,
       width: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -77,7 +80,7 @@ class HomeHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildOnboardingHeader() {
+  Widget _buildOnboardingHeader(double topPadding) {
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
