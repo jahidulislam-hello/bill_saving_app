@@ -23,6 +23,16 @@ class CompleteRequestScreen extends StatefulWidget {
 
 class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   late final CompleteRequestController _c;
+  final ScrollController _scrollCtrl = ScrollController();
+
+  // ── Section keys for scroll-to-error ──
+  final _personalInfoKey = GlobalKey();
+  final _firstNameKey = GlobalKey();
+  final _lastNameKey = GlobalKey();
+  final _podKey = GlobalKey();
+  final _phoneKey = GlobalKey();
+  final _identityKey = GlobalKey();
+  final _paymentKey = GlobalKey();
 
   // ── Personal Info edit ──
   bool _editingPersonalInfo = false;
@@ -129,9 +139,65 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     setState(() {});
   }
 
+  void _scrollToKey(GlobalKey key) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final ctx = key.currentContext;
+      if (ctx != null) {
+        Scrollable.ensureVisible(
+          ctx,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeInOut,
+          alignment: 0.2,
+        );
+      }
+    });
+  }
+
+  void _scrollToFirstIncomplete() {
+    // Personal info missing → open edit mode and scroll to the card
+    if (_c.firstName.trim().isEmpty ||
+        _c.lastName.trim().isEmpty ||
+        _c.phone.trim().isEmpty ||
+        _c.podNumber.trim().isEmpty) {
+      if (!_editingPersonalInfo) {
+        setState(() => _editingPersonalInfo = true);
+      }
+      // Set errors so the user sees which fields need attention
+      setState(() {
+        _firstNameError = _c.firstName.trim().isEmpty
+            ? 'request.form.first_name_required'.tr
+            : null;
+        _lastNameError = _c.lastName.trim().isEmpty
+            ? 'request.form.last_name_required'.tr
+            : null;
+        _podError = _c.podNumber.trim().isEmpty
+            ? 'request.form.pod_number_required'.tr
+            : null;
+        _phoneError = _c.phone.trim().isEmpty
+            ? 'request.form.phone_required'.tr
+            : null;
+      });
+      _scrollToKey(_personalInfoKey);
+      return;
+    }
+    // Identity documents missing
+    if (_c.uploadedDocuments.isEmpty) {
+      _scrollToKey(_identityKey);
+      return;
+    }
+    // Payment / IBAN missing
+    if (_c.selectedPayment == null) {
+      _scrollToKey(_paymentKey);
+      return;
+    }
+    // Fallback — scroll to top
+    _scrollToKey(_personalInfoKey);
+  }
+
   @override
   void dispose() {
     _c.dispose();
+    _scrollCtrl.dispose();
     _firstNameCtrl.dispose();
     _lastNameCtrl.dispose();
     _emailCtrl.dispose();
@@ -169,19 +235,20 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         child: _c.isLoadingProfile
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
+              controller: _scrollCtrl,
               padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 14.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildOfferCard(),
                   _gap(),
-                  _buildPersonalInfoCard(),
+                  Container(key: _personalInfoKey, child: _buildPersonalInfoCard()),
                   _gap(),
                   _buildSupplyAddressCard(),
                   _gap(),
-                  _buildIdentityVerificationCard(),
+                  Container(key: _identityKey, child: _buildIdentityVerificationCard()),
                   _gap(),
-                  _buildPaymentMethodCard(),
+                  Container(key: _paymentKey, child: _buildPaymentMethodCard()),
                   _gap(),
                   _buildInvoiceDeliveryCard(),
                   _gap(),
@@ -380,7 +447,18 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       _phoneError = phoneOk ? null : 'request.form.phone_required'.tr;
                     });
 
-                    if (!firstNameOk || !lastNameOk || !podOk || !phoneOk) return;
+                    if (!firstNameOk || !lastNameOk || !podOk || !phoneOk) {
+                      // Scroll to first errored field
+                      final errorKey = !firstNameOk
+                          ? _firstNameKey
+                          : !lastNameOk
+                              ? _lastNameKey
+                              : !podOk
+                                  ? _podKey
+                                  : _phoneKey;
+                      _scrollToKey(errorKey);
+                      return;
+                    }
 
                     _c.firstName = _firstNameCtrl.text.trim();
                     _c.lastName = _lastNameCtrl.text.trim();
@@ -432,26 +510,38 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           ),
           SizedBox(height: 14.h),
           if (_editingPersonalInfo) ...[
-            _buildEditField('request.form.first_name_field'.tr, _firstNameCtrl,
-                errorText: _firstNameError,
-                onChanged: (_) => setState(() => _firstNameError = null)),
+            Container(
+              key: _firstNameKey,
+              child: _buildEditField('request.form.first_name_field'.tr, _firstNameCtrl,
+                  errorText: _firstNameError,
+                  onChanged: (_) => setState(() => _firstNameError = null)),
+            ),
             SizedBox(height: 10.h),
-            _buildEditField('request.form.last_name_field'.tr, _lastNameCtrl,
-                errorText: _lastNameError,
-                onChanged: (_) => setState(() => _lastNameError = null)),
+            Container(
+              key: _lastNameKey,
+              child: _buildEditField('request.form.last_name_field'.tr, _lastNameCtrl,
+                  errorText: _lastNameError,
+                  onChanged: (_) => setState(() => _lastNameError = null)),
+            ),
             SizedBox(height: 10.h),
             _buildEditField('request.form.email_field'.tr, _emailCtrl,
                 keyboardType: TextInputType.emailAddress,
                 readOnly: true),
             SizedBox(height: 10.h),
-            _buildEditField('request.form.pod_number_field'.tr, _podCtrl,
-                errorText: _podError,
-                onChanged: (_) => setState(() => _podError = null)),
+            Container(
+              key: _podKey,
+              child: _buildEditField('request.form.pod_number_field'.tr, _podCtrl,
+                  errorText: _podError,
+                  onChanged: (_) => setState(() => _podError = null)),
+            ),
             SizedBox(height: 10.h),
-            _buildEditField('request.form.phone_field'.tr, _phoneCtrl,
-                keyboardType: TextInputType.phone,
-                errorText: _phoneError,
-                onChanged: (_) => setState(() => _phoneError = null)),
+            Container(
+              key: _phoneKey,
+              child: _buildEditField('request.form.phone_field'.tr, _phoneCtrl,
+                  keyboardType: TextInputType.phone,
+                  errorText: _phoneError,
+                  onChanged: (_) => setState(() => _phoneError = null)),
+            ),
           ] else ...[
             _personalRow('request.form.first_name_field'.tr, _c.firstName),
             _personalRow('request.form.last_name_field'.tr, _c.lastName),
@@ -2241,7 +2331,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           width: double.infinity,
           height: 54.h,
           child: ElevatedButton(
-            onPressed: _c.canActivate ? () => _c.activateOffer() : null,
+            onPressed: _c.canActivate
+                ? () => _c.activateOffer()
+                : () => _scrollToFirstIncomplete(),
             style: ElevatedButton.styleFrom(
               backgroundColor: _c.canActivate
                   ? AppColors.primaryColor
