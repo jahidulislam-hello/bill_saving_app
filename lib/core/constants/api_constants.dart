@@ -93,6 +93,10 @@ class ApiConstants {
   static const String getMyBillDetails = '/api/v1/bills/{{billId}}';
   static const String billAnalysis = '/api/v1/bills/{{billId}}/analyze';
   static const String getBillAnalysis = '/api/v1/bills/{{billId}}/analysis';
+  static String getBillVerification(String billId) =>
+      '/api/v1/bills/$billId/verification';
+  static String submitBillVerification(String billId) =>
+      '/api/v1/bills/$billId/verification/submit';
 
   // Cases
   static const String casesBase = '/api/v1/cases';

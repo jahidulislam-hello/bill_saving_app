@@ -202,6 +202,8 @@ class BillModel {
         return 'bills.status.analyzed'.tr;
       case 'error':
         return 'bills.status.error'.tr;
+      case 'verification_required':
+        return 'Verification Required';
       case 'offer_sent':
         return 'bills.status.offer_sent'.tr;
       case 'case_created':
@@ -231,6 +233,8 @@ class BillModel {
         return const Color(0xFF1FC16B);
       case 'error':
         return const Color(0xFFE53935);
+      case 'verification_required':
+        return const Color(0xFFE65100);
       case 'offer_sent':
         return const Color(0xFF0097A7);
       case 'case_created':
@@ -260,6 +264,8 @@ class BillModel {
         return const Color(0xFFDCFCE7);
       case 'error':
         return const Color(0xFFFFEBEE);
+      case 'verification_required':
+        return const Color(0xFFFFF3E0);
       case 'offer_sent':
         return const Color(0xFFE0F7FA);
       case 'case_created':

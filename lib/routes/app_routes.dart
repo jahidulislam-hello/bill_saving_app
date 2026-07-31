@@ -6,6 +6,7 @@ import 'package:vyzi/features/auth/screen/forgot_email_screen.dart';
 import 'package:vyzi/features/auth/screen/forgot_reset_screen.dart';
 import 'package:vyzi/features/auth/signin_screen.dart';
 import 'package:vyzi/features/bills/screen/bill_detail_screen.dart';
+import 'package:vyzi/features/bills/screen/bill_verification_screen.dart';
 import 'package:vyzi/features/request/case_detail_screen.dart';
 import 'package:vyzi/features/home/screen/home_screen.dart';
 import 'package:vyzi/features/onboarding/warmup.dart';
@@ -94,6 +95,7 @@ class AppRoutes {
   static String familyGroupScreen = "/familyGroupScreen";
   static String navbarScreen = "/navbarScreen";
   static String billDetailScreen = "/bill_detail_screen";
+  static String billVerificationScreen = "/bill_verification_screen";
   static String caseDetailScreen = "/case_detail_screen";
 
 //======================>>>> List PAge
@@ -125,6 +127,7 @@ class AppRoutes {
     GetPage(name: onboardScreen, page: () =>  OnboardingScreen()),
     GetPage(name: navbarScreen, page: () =>  CustomBottomNavBar(), middlewares: [AuthMiddleware()]),
     GetPage(name: billDetailScreen, page: () => BillDetailScreen(billId: Get.arguments as String), middlewares: [AuthMiddleware()]),
+    GetPage(name: billVerificationScreen, page: () => const BillVerificationScreen(), middlewares: [AuthMiddleware()]),
     GetPage(name: caseDetailScreen, page: () => const CaseDetailScreen(), middlewares: [AuthMiddleware()]),
     GetPage(name: signInScreen, page: () => const SignInScreen()),
     GetPage(name: signUpScreen, page: () => const RegisterScreen()),

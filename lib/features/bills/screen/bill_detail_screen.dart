@@ -10,6 +10,7 @@ import 'package:vyzi/features/bills/models/bill_model.dart';
 import 'package:vyzi/features/bills/models/bill_analysis_model.dart';
 import 'package:vyzi/features/request/case_detail_screen.dart';
 import 'package:vyzi/features/request/models/case_model.dart';
+import 'package:vyzi/routes/app_routes.dart';
 
 class BillDetailScreen extends StatefulWidget {
   final String billId;
@@ -192,6 +193,8 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
           )),
           SizedBox(height: 14.h),
         ],
+        if (bill.status == 'verification_required')
+          _verificationRequiredBanner(bill),
         _billInfoSection(bill),
         SizedBox(height: 14.h),
         if (_analysis != null) ...[
@@ -496,6 +499,8 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
         return 'bills.detail.status_analyzed'.tr;
       case 'error':
         return 'bills.detail.status_error'.tr;
+      case 'verification_required':
+        return 'Verification required — please provide the requested information';
       case 'offer_sent':
         return 'bills.status_msg.offer_sent'.tr;
       case 'case_created':
@@ -511,6 +516,73 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
       default:
         return status;
     }
+  }
+
+  // ── Verification Required Banner ──
+  Widget _verificationRequiredBanner(BillModel bill) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 14.h),
+      child: GestureDetector(
+        onTap: () => Get.toNamed(
+          AppRoutes.billVerificationScreen,
+          arguments: bill.id,
+        ),
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(14.w),
+          decoration: BoxDecoration(
+            color: Colors.orange.shade50,
+            borderRadius: BorderRadius.circular(14.r),
+            border: Border.all(color: Colors.orange.shade300),
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8.w),
+                decoration: BoxDecoration(
+                  color: Colors.orange.shade100,
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: Icon(
+                  Icons.warning_amber_rounded,
+                  color: Colors.orange.shade700,
+                  size: 22.w,
+                ),
+              ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Verification Required',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.orange.shade800,
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Text(
+                      'Tap to review and submit the requested information',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Colors.orange.shade600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 16.w,
+                color: Colors.orange.shade400,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // ── Bill Info Section ──
