@@ -21,6 +21,7 @@ class HomeHeader extends StatelessWidget {
     final userName = storage.getString(StorageKeys.userName) ?? '';
 
     return Container(
+      height: 163.h,
       width: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -31,41 +32,43 @@ class HomeHeader extends StatelessWidget {
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 14.h),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'home.header.greeting'.trParams({'name': userName}),
-                      style: AppStyles.h1.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                      ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'home.header.greeting'.trParams({'name': userName}),
+                          style: AppStyles.h1.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          'home.header.subtitle'.tr,
+                          style: AppStyles.body2.copyWith(
+                            color: Colors.white.withValues(alpha: 0.85),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      'home.header.subtitle'.tr,
-                      style: AppStyles.body2.copyWith(
-                        color: Colors.white.withValues(alpha: 0.85),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 8.h),
-                child: Image.asset(
-                  AppAssets.notification,
-                  width: 28.w,
-                  height: 28.h,
-                  fit: BoxFit.contain,
-                ),
+                  ),
+                  Image.asset(
+                    AppAssets.notification,
+                    width: 28.w,
+                    height: 28.h,
+                    fit: BoxFit.contain,
+                  ),
+                ],
               ),
             ],
           ),
