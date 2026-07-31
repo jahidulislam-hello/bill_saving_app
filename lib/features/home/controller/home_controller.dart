@@ -38,10 +38,12 @@ class HomeController extends GetxController {
 
   void _checkFirstVisit() {
     final storage = Get.find<StorageService>();
-    final seen = storage.getBool(StorageKeys.hasSeenHome) ?? false;
+    final userId = storage.getString(StorageKeys.userId) ?? '';
+    final key = '${StorageKeys.hasSeenHome}_$userId';
+    final seen = storage.getBool(key) ?? false;
     isFirstVisit.value = !seen;
     if (!seen) {
-      storage.setBool(StorageKeys.hasSeenHome, true);
+      storage.setBool(key, true);
     }
   }
 
