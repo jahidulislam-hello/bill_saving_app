@@ -494,7 +494,9 @@ class UploadBillController extends GetxController {
 
   // ─── 4.1: Batch upload ───────────────────────────────
 
-  /// Processes all pending files sequentially: upload each file directly.
+  /// Processes all pending files sequentially.
+  /// The first file creates the bill via POST /bills/upload.
+  /// Subsequent files attach to that bill via POST /bills/:id/files.
   Future<void> uploadAllFiles(UtilityType utilityType) async {
     final billType =
         utilityType == UtilityType.luce ? 'electricity' : 'gas';
@@ -502,6 +504,17 @@ class UploadBillController extends GetxController {
     isBatchUploading.value = true;
     batchUploadCompleted.value = false;
     isCancelled.value = false;
+
+    // Find or use existing bill ID from a previously uploaded file
+    String? billId;
+    for (final file in selectedFiles) {
+      if (file.status == FileUploadStatus.uploaded &&
+          file.uploadedBillId != null &&
+          file.uploadedBillId!.isNotEmpty) {
+        billId = file.uploadedBillId;
+        break;
+      }
+    }
 
     for (int i = 0; i < selectedFiles.length; i++) {
       if (isCancelled.value) break;
@@ -514,16 +527,23 @@ class UploadBillController extends GetxController {
       }
 
       currentUploadIndex.value = i;
-      await _processFile(i, billType);
+
+      if (billId == null) {
+        // First file: create the bill
+        billId = await _processFirstFile(i, billType);
+      } else {
+        // Subsequent files: attach to existing bill
+        await _processAdditionalFile(i, billId);
+      }
     }
 
     isBatchUploading.value = false;
     batchUploadCompleted.value = true;
   }
 
-  // ─── 4.2: Per-file processing (upload only) ──────────
+  // ─── 4.2: First file — creates the bill ──────────────
 
-  Future<void> _processFile(int index, String billType) async {
+  Future<String?> _processFirstFile(int index, String billType) async {
     try {
       _updateFileStatus(index, FileUploadStatus.uploading);
 
@@ -555,12 +575,62 @@ class UploadBillController extends GetxController {
             : responseData;
 
         final billId = respBody?['id']?.toString() ?? '';
+        uploadedBillId.value = billId;
         _updateFile(index, (f) => f.copyWith(
           status: FileUploadStatus.uploaded,
           uploadedBillId: billId,
           progress: 1.0,
         ));
-        debugPrint('File uploaded: ${file.name} → bill $billId');
+        debugPrint('Bill created: ${file.name} → bill $billId');
+        return billId.isNotEmpty ? billId : null;
+      } else {
+        _updateFile(index, (f) => f.copyWith(
+          status: FileUploadStatus.failed,
+          errorMessage: 'upload_bill.upload_failed'.tr,
+        ));
+        return null;
+      }
+    } catch (e) {
+      debugPrint('Upload failed for ${selectedFiles[index].name}: $e');
+      _updateFile(index, (f) => f.copyWith(
+        status: FileUploadStatus.failed,
+        errorMessage: _getErrorMessage(e),
+      ));
+      return null;
+    }
+  }
+
+  // ─── 4.2b: Additional files — attach to existing bill ──
+
+  Future<void> _processAdditionalFile(int index, String billId) async {
+    try {
+      _updateFileStatus(index, FileUploadStatus.uploading);
+
+      final file = selectedFiles[index];
+
+      final multipartFile = await MultipartFile.fromFile(
+        file.path,
+        filename: file.name,
+      );
+      final response = await ApiService().uploadFileWithProgress(
+        ApiConstants.addFileToBill(billId),
+        file: multipartFile,
+        onSendProgress: (sent, total) {
+          if (total > 0) {
+            _updateFile(index, (f) => f.copyWith(
+              progress: sent / total,
+            ));
+          }
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        _updateFile(index, (f) => f.copyWith(
+          status: FileUploadStatus.uploaded,
+          uploadedBillId: billId,
+          progress: 1.0,
+        ));
+        debugPrint('File attached: ${file.name} → bill $billId');
       } else {
         _updateFile(index, (f) => f.copyWith(
           status: FileUploadStatus.failed,
@@ -597,7 +667,15 @@ class UploadBillController extends GetxController {
 
     isBatchUploading.value = true;
     isCancelled.value = false;
-    await _processFile(index, billType);
+
+    // Check if a bill was already created by a previous file
+    final existingBillId = _findExistingBillId();
+    if (existingBillId != null) {
+      await _processAdditionalFile(index, existingBillId);
+    } else {
+      await _processFirstFile(index, billType);
+    }
+
     isBatchUploading.value = false;
   }
 
@@ -622,15 +700,33 @@ class UploadBillController extends GetxController {
     batchUploadCompleted.value = false;
     isCancelled.value = false;
 
+    String? billId = _findExistingBillId();
+
     for (int i = 0; i < selectedFiles.length; i++) {
       if (isCancelled.value) break;
       if (selectedFiles[i].status != FileUploadStatus.pending) continue;
       currentUploadIndex.value = i;
-      await _processFile(i, billType);
+
+      if (billId == null) {
+        billId = await _processFirstFile(i, billType);
+      } else {
+        await _processAdditionalFile(i, billId);
+      }
     }
 
     isBatchUploading.value = false;
     batchUploadCompleted.value = true;
+  }
+
+  String? _findExistingBillId() {
+    for (final file in selectedFiles) {
+      if (file.status == FileUploadStatus.uploaded &&
+          file.uploadedBillId != null &&
+          file.uploadedBillId!.isNotEmpty) {
+        return file.uploadedBillId;
+      }
+    }
+    return uploadedBillId.value.isNotEmpty ? uploadedBillId.value : null;
   }
 
   // ─── 4.7: Cancel upload ──────────────────────────────
