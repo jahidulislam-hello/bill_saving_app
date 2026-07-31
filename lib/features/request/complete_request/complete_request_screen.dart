@@ -51,6 +51,8 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
 
   // ── Payment Method extras ──
   bool _ibanSameAsContract = true;
+  final TextEditingController _ibanCtrl = TextEditingController();
+  String? _ibanError;
   final TextEditingController _holderFirstCtrl = TextEditingController();
   final TextEditingController _holderLastCtrl = TextEditingController();
   final TextEditingController _holderTaxCtrl = TextEditingController();
@@ -109,6 +111,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       _holderFirstCtrl.text = _c.firstName;
       _holderLastCtrl.text = _c.lastName;
       _holderTaxCtrl.text = _c.taxCode;
+      _c.holderFirstName = _c.firstName;
+      _c.holderLastName = _c.lastName;
+      _c.holderTaxCode = _c.taxCode;
     }
     // Sync POD number when bill data arrives (may arrive after profile sync)
     if (_podCtrl.text.isEmpty && _c.podNumber.isNotEmpty) {
@@ -135,6 +140,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     _streetCtrl.dispose();
     _cityCtrl.dispose();
     _zipCtrl.dispose();
+    _ibanCtrl.dispose();
     _holderFirstCtrl.dispose();
     _holderLastCtrl.dispose();
     _holderTaxCtrl.dispose();
@@ -1298,10 +1304,98 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // ── IBAN Input Field ──
+        Row(
+          children: [
+            Text(
+              'request.form.iban_label'.tr,
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w500,
+                height: 1.22,
+              ),
+            ),
+            Text(' *',
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: AppColors.error,
+                height: 1.22,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 6.h),
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.shortcardbg,
+            borderRadius: BorderRadius.circular(10.r),
+            border: Border.all(
+              color: _ibanError != null ? AppColors.error : AppColors.shortcardbg,
+              width: 1,
+            ),
+          ),
+          child: TextField(
+            controller: _ibanCtrl,
+            textCapitalization: TextCapitalization.characters,
+            textAlignVertical: TextAlignVertical.center,
+            maxLength: 27,
+            style: TextStyle(
+              fontSize: 13.sp,
+              color: AppColors.textDark,
+              fontWeight: FontWeight.w500,
+              height: 1.22,
+            ),
+            decoration: InputDecoration(
+              hintText: 'request.form.iban_hint'.tr,
+              hintStyle: TextStyle(
+                fontSize: 13.sp,
+                color: AppColors.textSecondary,
+                height: 1.22,
+              ),
+              contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+              border: InputBorder.none,
+              isDense: true,
+              counterText: '',
+            ),
+            onChanged: (value) {
+              final cleaned = value.replaceAll(RegExp(r'\s'), '').toUpperCase();
+              _c.iban = cleaned;
+              setState(() {
+                if (cleaned.isEmpty) {
+                  _ibanError = null;
+                } else if (!CompleteRequestController.isValidItalianIban(cleaned)) {
+                  _ibanError = 'request.form.iban_error'.tr;
+                } else {
+                  _ibanError = null;
+                }
+              });
+            },
+          ),
+        ),
+        if (_ibanError != null)
+          Padding(
+            padding: EdgeInsets.only(top: 4.h, left: 4.w),
+            child: Text(
+              _ibanError!,
+              style: TextStyle(fontSize: 11.sp, color: AppColors.error, height: 1.22),
+            ),
+          ),
+        SizedBox(height: 14.h),
+
         // ── Yes, IBAN checkbox ──
         GestureDetector(
           onTap: () => setState(() {
             _ibanSameAsContract = !_ibanSameAsContract;
+            _c.ibanSameAsContract = _ibanSameAsContract;
+            if (_ibanSameAsContract) {
+              _holderFirstCtrl.text = _c.firstName;
+              _holderLastCtrl.text = _c.lastName;
+              _holderTaxCtrl.text = _c.taxCode;
+              _c.holderFirstName = _c.firstName;
+              _c.holderLastName = _c.lastName;
+              _c.holderTaxCode = _c.taxCode;
+            }
           }),
           child: Container(
             width: double.infinity,
@@ -1404,12 +1498,23 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ],
           ),
           SizedBox(height: 12.h),
-          _buildEditField('request.form.first_name'.tr, _holderFirstCtrl),
+          _buildEditField('request.form.first_name'.tr, _holderFirstCtrl,
+              onChanged: (v) {
+                _c.holderFirstName = v.trim();
+                setState(() {});
+              }),
           SizedBox(height: 10.h),
-          _buildEditField('request.form.last_name'.tr, _holderLastCtrl),
+          _buildEditField('request.form.last_name'.tr, _holderLastCtrl,
+              onChanged: (v) {
+                _c.holderLastName = v.trim();
+                setState(() {});
+              }),
           SizedBox(height: 10.h),
           _buildEditField('request.form.tax_code_full'.tr, _holderTaxCtrl,
-              keyboardType: TextInputType.number),
+              onChanged: (v) {
+                _c.holderTaxCode = v.trim();
+                setState(() {});
+              }),
         ],
       ),
     );
@@ -2107,6 +2212,27 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       fontSize: 12.sp,
                       color: Colors.red.shade400,
                       height: 1.22),
+                ),
+              ],
+            ),
+          ),
+        if (_c.selectedPayment == PaymentMethod.directDebit &&
+            !CompleteRequestController.isValidItalianIban(_c.iban))
+          Padding(
+            padding: EdgeInsets.only(bottom: 8.h),
+            child: Row(
+              children: [
+                Icon(Icons.info_outline_rounded,
+                    size: 14.sp, color: Colors.red.shade400),
+                SizedBox(width: 4.w),
+                Expanded(
+                  child: Text(
+                    'request.form.iban_required_hint'.tr,
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Colors.red.shade400,
+                        height: 1.22),
+                  ),
                 ),
               ],
             ),

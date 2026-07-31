@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:vyzi/core/constants/api_constants.dart';
@@ -17,13 +18,13 @@ enum AddressMatch { same, different }
 
 class UploadedDocumentInfo {
   final String localPath;
-  final String remoteUrl;
+  String? remoteUrl;
   final String fileName;
   final String documentType;
 
-  const UploadedDocumentInfo({
+  UploadedDocumentInfo({
     required this.localPath,
-    required this.remoteUrl,
+    this.remoteUrl,
     required this.fileName,
     required this.documentType,
   });
@@ -52,6 +53,11 @@ class CompleteRequestController extends ChangeNotifier {
   String fullName = '';
   String taxCode = '';
   PaymentMethod? selectedPayment;
+  String iban = '';
+  bool ibanSameAsContract = true;
+  String holderFirstName = '';
+  String holderLastName = '';
+  String holderTaxCode = '';
 
   // ── Address ──
   AddressMatch? addressMatch;
@@ -181,66 +187,98 @@ class CompleteRequestController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ── Document upload ──
-  Future<void> uploadDocument(String filePath) async {
-    if (uploadedDocuments.length >= 3) return;
+  // ── IBAN validation ──
+  static bool isValidItalianIban(String value) {
+    final cleaned = value.replaceAll(RegExp(r'\s'), '').toUpperCase();
+    if (cleaned.length != 27) return false;
+    if (!cleaned.startsWith('IT')) return false;
+    return RegExp(r'^[A-Z0-9]+$').hasMatch(cleaned);
+  }
 
-    isUploading = true;
-    notifyListeners();
+  bool get _isPaymentValid {
+    if (selectedPayment != PaymentMethod.directDebit) return true;
+    if (!isValidItalianIban(iban)) return false;
+    if (!ibanSameAsContract) {
+      return holderFirstName.trim().isNotEmpty &&
+          holderLastName.trim().isNotEmpty &&
+          holderTaxCode.trim().isNotEmpty;
+    }
+    return true;
+  }
+
+  // ── Document selection (multi-file, deferred upload) ──
+  Future<void> pickDocuments() async {
+    final remaining = 3 - uploadedDocuments.length;
+    if (remaining <= 0) return;
 
     try {
-      final fileName = filePath.split('/').last;
-      final multipartFile = await MultipartFile.fromFile(
-        filePath,
-        filename: fileName,
+      final result = await FilePicker.pickFiles(
+        allowMultiple: true,
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png', 'webp'],
       );
 
-      final response = await _api.uploadFile(
-        ApiConstants.fileUpload,
-        file: multipartFile,
-      );
+      if (result == null || result.files.isEmpty) return;
 
-      final body = response.data as Map<String, dynamic>;
-      if (body['success'] == true) {
-        final data = body['data'] as Map<String, dynamic>;
-        final remoteUrl = data['url'] as String? ?? '';
-        final remoteName = data['originalName'] as String? ?? fileName;
+      final filesToAdd = result.files.take(remaining);
+      for (final file in filesToAdd) {
+        if (file.path == null) continue;
+        final fileName = file.name;
+        final currentCount = uploadedDocuments.length;
 
-        // Default to id_card for first doc, codice_fiscale for second
         String docType = 'id_card';
-        if (uploadedDocuments.length == 1) {
+        if (currentCount == 1) {
           docType = 'codice_fiscale';
-        } else if (uploadedDocuments.length >= 2) {
-          docType = 'id_card';
         }
 
         uploadedDocuments.add(UploadedDocumentInfo(
-          localPath: filePath,
-          remoteUrl: remoteUrl,
-          fileName: remoteName,
+          localPath: file.path!,
+          fileName: fileName,
           documentType: docType,
         ));
-      } else {
-        Get.snackbar(
-          'Upload Error',
-          body['message']?.toString() ?? 'Failed to upload file',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red.shade600,
-          colorText: Colors.white,
-        );
       }
+      notifyListeners();
     } catch (e) {
       Get.snackbar(
-        'Upload Error',
+        'File Selection Error',
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red.shade600,
         colorText: Colors.white,
       );
-    } finally {
-      isUploading = false;
-      notifyListeners();
     }
+  }
+
+  /// Uploads all pending local documents to the server.
+  /// Returns true if all uploads succeeded.
+  Future<bool> _uploadPendingDocuments() async {
+    bool allSucceeded = true;
+    for (final doc in uploadedDocuments) {
+      if (doc.remoteUrl != null) continue; // already uploaded
+
+      try {
+        final multipartFile = await MultipartFile.fromFile(
+          doc.localPath,
+          filename: doc.fileName,
+        );
+
+        final response = await _api.uploadFile(
+          ApiConstants.fileUpload,
+          file: multipartFile,
+        );
+
+        final body = response.data as Map<String, dynamic>;
+        if (body['success'] == true) {
+          final data = body['data'] as Map<String, dynamic>;
+          doc.remoteUrl = data['url'] as String? ?? '';
+        } else {
+          allSucceeded = false;
+        }
+      } catch (_) {
+        allSucceeded = false;
+      }
+    }
+    return allSucceeded;
   }
 
   void removeDocument(int index) {
@@ -259,7 +297,8 @@ class CompleteRequestController extends ChangeNotifier {
       addressMatch != null &&
       selectedPayment != null &&
       selectedInvoice != null &&
-      uploadedDocuments.isNotEmpty;
+      uploadedDocuments.isNotEmpty &&
+      _isPaymentValid;
 
   Future<void> activateOffer() async {
     if (!canActivate) return;
@@ -269,7 +308,13 @@ class CompleteRequestController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // Step 1: Create the case
+      // Step 1: Upload all pending identity documents
+      final uploadSuccess = await _uploadPendingDocuments();
+      if (!uploadSuccess) {
+        throw Exception('Failed to upload one or more identity documents');
+      }
+
+      // Step 2: Create the case
       final data = <String, dynamic>{
         'billId': bill!.id,
         'selectedOfferId': offer.id,
@@ -280,6 +325,22 @@ class CompleteRequestController extends ChangeNotifier {
         data['residentialCity'] = residentialCity;
         data['residentialZip'] = residentialZip;
         data['residentialProvince'] = residentialProvince;
+      }
+
+      // Payment method & IBAN
+      data['paymentMethod'] = selectedPayment == PaymentMethod.directDebit
+          ? 'rid_bancario'
+          : 'postal_order';
+      data['invoiceDelivery'] = selectedInvoice == InvoiceMethod.digital
+          ? 'digital'
+          : 'paper';
+      if (selectedPayment == PaymentMethod.directDebit) {
+        data['iban'] = iban.replaceAll(RegExp(r'\s'), '').toUpperCase();
+        if (!ibanSameAsContract) {
+          data['ibanHolderFirstName'] = holderFirstName;
+          data['ibanHolderLastName'] = holderLastName;
+          data['ibanHolderTaxCode'] = holderTaxCode;
+        }
       }
 
       final caseResponse = await _api.post(
@@ -296,14 +357,14 @@ class CompleteRequestController extends ChangeNotifier {
       final caseData = caseBody['data'] as Map<String, dynamic>;
       final createdCase = CaseModel.fromJson(caseData);
 
-      // Step 2: Attach uploaded documents
+      // Step 3: Attach uploaded documents
       for (final doc in uploadedDocuments) {
         try {
           await _api.post(
             ApiConstants.caseDocuments(createdCase.id),
             data: {
               'documentType': doc.documentType,
-              'fileUrl': doc.remoteUrl,
+              'fileUrl': doc.remoteUrl ?? '',
               'fileName': doc.fileName,
             },
           );
@@ -312,7 +373,7 @@ class CompleteRequestController extends ChangeNotifier {
         }
       }
 
-      // Step 3: Navigate to success with case ID
+      // Step 4: Navigate to success with case ID
       NavHelper.pushReplacement(RequestSuccessScreen(caseId: createdCase.id));
     } catch (e) {
       error = e.toString();
