@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:vyzi/core/constants/api_constants.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/bills/models/bill_model.dart';
@@ -24,7 +23,6 @@ class CompleteRequestScreen extends StatefulWidget {
 
 class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   late final CompleteRequestController _c;
-  final ImagePicker _picker = ImagePicker();
 
   // ── Personal Info edit ──
   bool _editingPersonalInfo = false;
@@ -484,7 +482,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             borderRadius: BorderRadius.circular(10.r),
             border: Border.all(
               color: errorText != null ? AppColors.error : AppColors.shortcardbg,
-              width: 1,
+              width: errorText != null ? 1.5 : 1,
             ),
           ),
           child: TextField(
@@ -1091,7 +1089,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     Icon(Icons.check_circle_rounded,
                         color: AppColors.linkGreen, size: 14.sp),
                     SizedBox(width: 3.w),
-                    Text('Uploaded',
+                    Text('${_c.uploadedDocuments.length} ${'request.form.files_selected'.tr}',
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.linkGreen,
@@ -1123,28 +1121,6 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   color: AppColors.textPrimary,
                   height: 1.5)),
           SizedBox(height: 14.h),
-          if (_c.isUploading)
-            Padding(
-              padding: EdgeInsets.only(bottom: 10.h),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 16.w,
-                    height: 16.w,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                  SizedBox(width: 8.w),
-                  Text('Uploading...',
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          color: AppColors.textPrimary,
-                          height: 1.22)),
-                ],
-              ),
-            ),
           if (_c.uploadedDocuments.isNotEmpty) ...[
             Wrap(
               spacing: 8.w,
@@ -1191,7 +1167,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             icon: Icons.upload_rounded,
             label: 'request.form.upload_file_button'.tr,
             sublabel: 'request.form.upload_formats'.tr,
-            canUpload: _c.uploadedDocuments.length < 3 && !_c.isUploading,
+            canUpload: _c.uploadedDocuments.length < 3,
             onTap: _pickFile,
           ),
         ],
@@ -1251,15 +1227,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   }
 
   Future<void> _pickFile() async {
-    try {
-      final XFile? file = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 85,
-      );
-      if (file != null) await _c.uploadDocument(file.path);
-    } catch (e) {
-      debugPrint('File picker error: $e');
-    }
+    await _c.pickDocuments();
   }
 
 
