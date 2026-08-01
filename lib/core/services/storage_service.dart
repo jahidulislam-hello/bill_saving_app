@@ -160,5 +160,8 @@ abstract class StorageKeys {
 
   // ─── Deep Linking ──────────────────────────────────────────────────────
   static const String pendingReferralCode = 'pending_referral_code';
+
+  // ─── Push Notifications ───────────────────────────────────────────────
+  static const String fcmToken = 'fcm_token';
 }
 

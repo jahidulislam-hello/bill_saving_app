@@ -130,6 +130,13 @@ class ApiService {
   void _forceLogout() {
     final storage = _tryGetStorage();
     if (storage != null) {
+      // Best-effort: deactivate push token on the server
+      final fcmToken = storage.getString(StorageKeys.fcmToken) ?? '';
+      if (fcmToken.isNotEmpty) {
+        _dio.delete(ApiConstants.removePushToken(fcmToken))
+            .catchError((_) => null);
+      }
+
       // Best-effort: revoke the refresh token on the server before clearing local state
       final refreshToken = storage.getString(StorageKeys.refreshToken) ?? '';
       if (refreshToken.isNotEmpty) {

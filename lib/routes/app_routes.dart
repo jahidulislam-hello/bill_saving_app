@@ -7,6 +7,7 @@ import 'package:vyzi/features/auth/screen/forgot_reset_screen.dart';
 import 'package:vyzi/features/auth/signin_screen.dart';
 import 'package:vyzi/features/bills/screen/bill_detail_screen.dart';
 import 'package:vyzi/features/bills/screen/bill_verification_screen.dart';
+import 'package:vyzi/features/notifications/screen/notification_screen.dart';
 import 'package:vyzi/features/request/case_detail_screen.dart';
 import 'package:vyzi/features/home/screen/home_screen.dart';
 import 'package:vyzi/features/onboarding/warmup.dart';
@@ -129,6 +130,7 @@ class AppRoutes {
     GetPage(name: billDetailScreen, page: () => BillDetailScreen(billId: Get.arguments as String), middlewares: [AuthMiddleware()]),
     GetPage(name: billVerificationScreen, page: () => const BillVerificationScreen(), middlewares: [AuthMiddleware()]),
     GetPage(name: caseDetailScreen, page: () => const CaseDetailScreen(), middlewares: [AuthMiddleware()]),
+    GetPage(name: notificationsScreen, page: () => const NotificationScreen(), middlewares: [AuthMiddleware()]),
     GetPage(name: signInScreen, page: () => const SignInScreen()),
     GetPage(name: signUpScreen, page: () => const RegisterScreen()),
     GetPage(

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
+import 'package:vyzi/features/notifications/controller/notification_controller.dart';
+import 'package:vyzi/routes/app_routes.dart';
 
 class HomeHeader extends StatelessWidget {
   final bool isOnboarding;
@@ -63,11 +65,9 @@ class HomeHeader extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Image.asset(
-                    AppAssets.notification,
-                    width: 32.w,
-                    height: 32.h,
-                    fit: BoxFit.contain,
+                  GestureDetector(
+                    onTap: () => Get.toNamed(AppRoutes.notificationsScreen),
+                    child: _buildNotificationIcon(26),
                   ),
                 ],
               ),
@@ -75,6 +75,51 @@ class HomeHeader extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildNotificationIcon(double iconSize) {
+    return GetBuilder<NotificationController>(
+      init: Get.isRegistered<NotificationController>()
+          ? Get.find<NotificationController>()
+          : Get.put(NotificationController()),
+      builder: (controller) => Obx(() {
+        final count = controller.unreadCount.value;
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            Image.asset(
+              AppAssets.notification,
+              width: iconSize.w,
+              height: iconSize.h,
+              fit: BoxFit.contain,
+            ),
+            if (count > 0)
+              Positioned(
+                top: 4.h,
+                right: 4.w,
+                child: Container(
+                  width: 16.w,
+                  height: 16.w,
+                  decoration: const BoxDecoration(
+                    color: AppColors.red100,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text(
+                      count > 99 ? '99+' : '$count',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 9.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        );
+      }),
     );
   }
 
@@ -136,45 +181,16 @@ class HomeHeader extends StatelessWidget {
                           ),
                         ),
                         // Notification with badge
-                        Container(
-                          width: 48.w,
-                          height: 48.w,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(14.r),
-                          ),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Image.asset(
-                                AppAssets.notification,
-                                width: 26.w,
-                                height: 26.h,
-                                fit: BoxFit.contain,
-                              ),
-                              Positioned(
-                                top: 8.h,
-                                right: 8.w,
-                                child: Container(
-                                  width: 16.w,
-                                  height: 16.w,
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.red100,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '0',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 9.sp,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                        GestureDetector(
+                          onTap: () => Get.toNamed(AppRoutes.notificationsScreen),
+                          child: Container(
+                            width: 48.w,
+                            height: 48.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(14.r),
+                            ),
+                            child: _buildNotificationIcon(26),
                           ),
                         ),
                       ],

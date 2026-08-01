@@ -111,6 +111,14 @@ class ApiConstants {
   static String uploadSignedContract(String contractId) =>
       '/api/v1/contracts/my-contracts/$contractId/upload-signed';
 
+  // Notifications
+  static const String notifications = '/api/v1/notifications';
+  static const String notificationsUnreadCount = '/api/v1/notifications/unread-count';
+  static String notificationMarkRead(String id) => '/api/v1/notifications/$id/read';
+  static const String notificationsMarkAllRead = '/api/v1/notifications/read-all';
+  static const String registerPushToken = '/api/v1/notifications/push-token';
+  static String removePushToken(String token) => '/api/v1/notifications/push-token/$token';
+
   // General file upload
   static const String fileUpload = '/api/v1/upload';
 

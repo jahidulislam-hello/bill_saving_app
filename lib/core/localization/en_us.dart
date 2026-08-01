@@ -939,4 +939,18 @@ final Map<String, String> enUS = {
   'bills.status_msg.contract_signed': 'Contract signed',
   'bills.status_msg.activated': 'Utility activated',
   'bills.status_msg.cancelled': 'Case cancelled',
+
+  // ==================== NOTIFICATIONS ====================
+  'notifications.title': 'Notifications',
+  'notifications.empty': 'No notifications',
+  'notifications.mark_all_read': 'Mark all as read',
+  'notifications.all_read': 'All notifications marked as read',
+  'notifications.load_more': 'Load more',
+  'notifications.type.bill_analyzed': 'Bill Analyzed',
+  'notifications.type.bill_verification': 'Verification Required',
+  'notifications.type.offer_available': 'New Offer',
+  'notifications.type.case_update': 'Case Update',
+  'notifications.type.contract_status': 'Contract Update',
+  'notifications.type.referral_status': 'Referral Update',
+  'notifications.type.general': 'General',
 };

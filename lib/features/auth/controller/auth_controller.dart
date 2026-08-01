@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vyzi/core/services/auth_service.dart';
+import 'package:vyzi/core/services/notification_service.dart';
 import 'package:vyzi/core/services/social_auth_service.dart';
 import 'package:vyzi/core/services/storage_service.dart';
 import 'package:vyzi/core/exceptions/app_exceptions.dart';
@@ -88,6 +89,9 @@ class AuthController extends GetxController {
           if (user['firstName'] != null) await storage.setString(StorageKeys.userName, user['firstName'].toString());
         }
         await storage.setBool(StorageKeys.isLoggedIn, true);
+
+        // Register FCM push token after successful login
+        Get.find<NotificationService>().registerToken();
       }
 
       return res;
@@ -122,6 +126,9 @@ class AuthController extends GetxController {
           if (user['firstName'] != null) await storage.setString(StorageKeys.userName, user['firstName'].toString());
         }
         await storage.setBool(StorageKeys.isLoggedIn, true);
+
+        // Register FCM push token after successful social login
+        Get.find<NotificationService>().registerToken();
       }
     } on AppException catch (e) {
       error.value = e.message;

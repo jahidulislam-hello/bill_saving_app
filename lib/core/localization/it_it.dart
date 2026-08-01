@@ -939,4 +939,18 @@ final Map<String, String> itIT = {
   'bills.status_msg.contract_signed': 'Contratto firmato',
   'bills.status_msg.activated': 'Utenza attivata',
   'bills.status_msg.cancelled': 'Pratica annullata',
+
+  // ==================== NOTIFICHE ====================
+  'notifications.title': 'Notifiche',
+  'notifications.empty': 'Nessuna notifica',
+  'notifications.mark_all_read': 'Segna tutto come letto',
+  'notifications.all_read': 'Tutte le notifiche segnate come lette',
+  'notifications.load_more': 'Carica altro',
+  'notifications.type.bill_analyzed': 'Bolletta Analizzata',
+  'notifications.type.bill_verification': 'Verifica Richiesta',
+  'notifications.type.offer_available': 'Nuova Offerta',
+  'notifications.type.case_update': 'Aggiornamento Pratica',
+  'notifications.type.contract_status': 'Aggiornamento Contratto',
+  'notifications.type.referral_status': 'Aggiornamento Referral',
+  'notifications.type.general': 'Generale',
 };
