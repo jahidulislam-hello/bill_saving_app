@@ -20,18 +20,20 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const CustomAppBar(
-        title: 'Verifica OTP',
+      appBar: CustomAppBar(
+        title: 'auth.otp.title'.tr,
         showBackButton: true,
       ),
-      body: SafeArea(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 24),
-
 
               /// OTP Input Boxes
               Center(
@@ -58,7 +60,7 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                               color: AppColors.primary50,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: isFilled ? AppColors.linkGreen : AppColors.divider,
+                                color: isFilled ? AppColors.primaryColor : AppColors.divider,
                                 width: 2,
                               ),
                             ),
@@ -72,6 +74,7 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                                 decoration: const InputDecoration(
                                   counterText: '',
                                   border: InputBorder.none,
+                                  isDense: true,
                                   contentPadding: EdgeInsets.zero,
                                 ),
                                 onChanged: (val) {
@@ -101,8 +104,8 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                   if (controller.secondsRemaining.value == 0) {
                     return GestureDetector(
                       onTap: controller.resendCode,
-                      child: const Text(
-                        "Invia di nuovo OTP",
+                      child: Text(
+                        'auth.otp.resend'.tr,
                         style: TextStyle(
                           fontSize: 14,
                           color: AppColors.primaryColor,
@@ -119,8 +122,8 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                       text: TextSpan(
                         style: const TextStyle(fontSize: 14, fontFamily: 'Open Sans'),
                         children: [
-                          const TextSpan(
-                            text: 'Invia di nuovo OTP ',
+                          TextSpan(
+                            text: '${'auth.otp.resend'.tr} ',
                             style: TextStyle(
                               color: AppColors.textPrimary,
                               fontWeight: FontWeight.w700,
@@ -146,12 +149,12 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: PrimaryButton(
-                  title: "Verifica OTP",
+                  title: 'auth.otp.button'.tr,
                   onPress: () {
                     if (controller.isOtpComplete()) {
                       controller.verifyAndProceed();
                     } else {
-                      Get.snackbar('Errore', 'Inserisci il codice OTP completo');
+                      Get.snackbar('auth.validation.error'.tr, 'auth.otp.error_incomplete'.tr);
                     }
                   },
                 ),
@@ -159,6 +162,7 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

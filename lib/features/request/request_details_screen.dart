@@ -1,3 +1,4 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyzi/features/home/sign_contract/sign_contract.dart';
@@ -27,18 +28,21 @@ class RequestDetailsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: _bg,
       appBar: _buildAppBar(context),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        children: [
-          _processingCard(),
-          const SizedBox(height: 14),
-          _productCard(),
-          const SizedBox(height: 14),
-          _timelineCard(),
-          const SizedBox(height: 14),
-          _infoBox(),
-          const SizedBox(height: 30),
-        ],
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+          children: [
+            _processingCard(),
+            const SizedBox(height: 14),
+            _productCard(),
+            const SizedBox(height: 14),
+            _timelineCard(),
+            const SizedBox(height: 14),
+            _infoBox(),
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }
@@ -55,9 +59,9 @@ class RequestDetailsScreen extends StatelessWidget {
           child: Icon(Icons.chevron_left, color: _textDark, size: 28),
         ),
       ),
-      title: const Text(
-        'Dettagli Richiesta',
-        style: TextStyle(
+      title: Text(
+        'request.details.title'.tr,
+        style: const TextStyle(
           color: _textDark,
           fontSize: 17,
           fontWeight: FontWeight.w900,
@@ -69,7 +73,7 @@ class RequestDetailsScreen extends StatelessWidget {
   // ── Processing Card ──
   Widget _processingCard() {
     return GestureDetector(
-      onTap: () => Get.to(() => const SignContractScreen()),
+      onTap: () => NavHelper.push(const SignContractScreen()),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
@@ -98,10 +102,10 @@ class RequestDetailsScreen extends StatelessWidget {
                   color: _purple, size: 32),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Elaborazione della tua Richiesta',
+            Text(
+              'request.details.processing_title'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: _textDark,
                 fontSize: 18,
                 fontWeight: FontWeight.w900,
@@ -109,10 +113,10 @@ class RequestDetailsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              "Stiamo lavorando al tuo passaggio. Nessuna azione\nrichiesta da parte tua al momento.",
+            Text(
+              'request.details.processing_desc'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: _textMid,
                 fontSize: 13,
                 height: 1.55,
@@ -228,18 +232,18 @@ class RequestDetailsScreen extends StatelessWidget {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    'DATA DI INVIO',
-                    style: TextStyle(
+                    'request.details.submission_date'.tr,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 10,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 0.8,
                     ),
                   ),
-                  SizedBox(height: 3),
-                  Text(
+                  const SizedBox(height: 3),
+                  const Text(
                     '3/30/2026',
                     style: TextStyle(
                       color: _textDark,
@@ -258,12 +262,12 @@ class RequestDetailsScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
-                  children: const [
-                    Icon(Icons.circle, color: _yellowBadgeText, size: 8),
-                    SizedBox(width: 5),
+                  children: [
+                    const Icon(Icons.circle, color: _yellowBadgeText, size: 8),
+                    const SizedBox(width: 5),
                     Text(
-                      'In Analisi',
-                      style: TextStyle(
+                      'request.details.in_analysis'.tr,
+                      style: const TextStyle(
                         color: _yellowBadgeText,
                         fontSize: 12,
                         fontWeight: FontWeight.w800,
@@ -283,16 +287,16 @@ class RequestDetailsScreen extends StatelessWidget {
           _timelineStep(
             assetIcon: 'assets/images/thik.png',
             connectorColor: _green,
-            title: 'Inviata',
-            subtitle: 'Richiesta ricevuta con successo',
+            title: 'request.status.sent'.tr,
+            subtitle: 'request.status.sent_desc'.tr,
             isActive: true,
             isLast: false,
           ),
           _timelineStep(
             assetIcon: 'assets/images/reverse.png',
             connectorColor: _grey,
-            title: 'Analisi in corso',
-            subtitle: 'I nostri esperti stanno verificando i dati',
+            title: 'request.status.analyzing'.tr,
+            subtitle: 'request.status.analyzing_desc'.tr,
             isActive: true,
             isLast: false,
             isCurrentStep: true,
@@ -300,8 +304,8 @@ class RequestDetailsScreen extends StatelessWidget {
           _timelineStep(
             assetIcon: 'assets/images/cont.png',
             connectorColor: Colors.transparent,
-            title: 'Contratto',
-            subtitle: 'Conferma finale del passaggio',
+            title: 'request.status.contract'.tr,
+            subtitle: 'request.status.contract_desc'.tr,
             isActive: false,
             isLast: true,
           ),
@@ -429,10 +433,10 @@ class RequestDetailsScreen extends StatelessWidget {
             child: const Icon(Icons.info_outline, color: _purple, size: 16),
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Text(
-              'The verification process typically takes 3-5 business days. We will notify you once completed.',
-              style: TextStyle(
+              'request.details.info_message'.tr,
+              style: const TextStyle(
                 color: _grey,
                 fontSize: 13,
                 height: 1.5,

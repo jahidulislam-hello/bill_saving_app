@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 
 class PriceTypeSheet extends StatelessWidget {
   const PriceTypeSheet({super.key});
@@ -13,7 +13,7 @@ class PriceTypeSheet extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: const Color(0xFF5A1ABE), width: 1.22),
+
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.15),
@@ -37,26 +37,14 @@ class PriceTypeSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Title
-                    const Text(
-                      'Understanding Price Types',
+                    Text(
+                      'offer.price_type_dialog_title'.tr,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w900,
                         color: Colors.black,
                         height: 1.3,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-
-                    // Subtitle
-                    const Text(
-                      'What does it mean?',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -84,7 +72,7 @@ class PriceTypeSheet extends StatelessWidget {
                             letterSpacing: 0.3,
                           ),
                         ),
-                        child: const Text('Got It'),
+                        child: Text('common.got_it'.tr),
                       ),
                     ),
                   ],
@@ -102,70 +90,47 @@ class PriceTypeSheet extends StatelessWidget {
 class _HeroBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        // ── Background: swap to your asset image ──
-        SizedBox(
-          height: 160,
-          width: double.infinity,
-          child: Image.asset(
-            'assets/images/priceType.png',
-            fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) {
-              // Fallback gradient while asset is not set up
-              return Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF0D4A3A),
-                      Color(0xFF1A6B50),
-                      Color(0xFF0A3528),
-                    ],
+    return SizedBox(
+      height: 160,
+      width: double.infinity,
+      child: Image.asset(
+        'assets/images/priceType.png',
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) {
+          return Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF0D4A3A),
+                  Color(0xFF1A6B50),
+                  Color(0xFF0A3528),
+                ],
+              ),
+            ),
+            child: Center(
+              child: Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.15),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.25),
+                    width: 1.5,
                   ),
                 ),
-              );
-            },
-          ),
-        ),
-
-        // Dark overlay for depth (optional, comment out if not needed)
-        Container(
-          height: 160,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.black.withOpacity(0.15),
-                Colors.black.withOpacity(0.35),
-              ],
+                child: const Icon(
+                  Icons.trending_up_rounded,
+                  color: Color(0xFF2ED8B4),
+                  size: 30,
+                ),
+              ),
             ),
-          ),
-        ),
-
-        // Icon badge
-        Container(
-          width: 64,
-          height: 64,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.white.withOpacity(0.25),
-              width: 1.5,
-            ),
-          ),
-          child: const Icon(
-            Icons.trending_up_rounded,
-            color: Color(0xFF2ED8B4),
-            size: 30,
-          ),
-        ),
-      ],
+          );
+        },
+      ),
     );
   }
 }
@@ -179,15 +144,15 @@ class _InfoCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFFF4F6F9),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
+
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Main description
-          const Text(
-            'An indexed price varies based on the wholesale market cost of energy (PUN).',
-            style: TextStyle(
+          Text(
+            'offer.price_type_dialog_text'.tr,
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w700,
               color: Colors.black,
@@ -196,11 +161,10 @@ class _InfoCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
 
-          // Bullet row
+          // Note row
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Teal check circle
               Container(
                 margin: const EdgeInsets.only(top: 2),
                 width: 22,
@@ -210,31 +174,20 @@ class _InfoCard extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
-                  Icons.check_circle_rounded,
+                  Icons.info_outline_rounded,
                   color: Color(0xFF2ED8B4),
-                  size: 22,
+                  size: 16,
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: RichText(
-                  text: const TextSpan(
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.black,
-                      height: 1.5,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    children: [
-                      TextSpan(text: 'It ensures you always pay a '),
-                      TextSpan(
-                        text: 'fair market rate',
-                        style: TextStyle(fontWeight: FontWeight.w900),
-                      ),
-                      TextSpan(
-                        text: ', potentially benefiting from price drops.',
-                      ),
-                    ],
+                child: Text(
+                  'offer.price_type_dialog_note'.tr,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.black,
+                    height: 1.5,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

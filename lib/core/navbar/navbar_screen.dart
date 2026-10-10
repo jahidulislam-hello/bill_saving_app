@@ -1,4 +1,8 @@
-
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/navbar/navbar_controller.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/home/screen/home_screen.dart';
@@ -6,16 +10,18 @@ import 'package:vyzi/features/my_utility/my_utiliets.dart';
 import 'package:vyzi/features/profile/profile_screen.dart';
 import 'package:vyzi/features/request/request_screen.dart';
 import 'package:vyzi/features/utility/select_utility_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
-class CustomBottomNavBar extends StatelessWidget {
-  CustomBottomNavBar({super.key});
+class CustomBottomNavBar extends StatefulWidget {
+  const CustomBottomNavBar({super.key});
 
+  @override
+  State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();
+}
+
+class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   final NavbarController _controller = Get.put(NavbarController());
 
-  final List<Widget> _screens = [
+  final List<Widget> _tabRoots = [
     HomeScreen(),
     RequestScreen(),
     MyUtilitiesScreen(),
@@ -24,13 +30,48 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        backgroundColor: AppColors.background,
-        body: _screens[_controller.selectedIndex],
-        bottomNavigationBar: _buildBottomNavigationBar(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: _buildFloatingActionButton(),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+
+        // 1. Pop within the current tab if possible
+        if (_controller.canPopCurrentTab()) {
+          _controller.popCurrentTab();
+          return;
+        }
+
+        // 2. If not on Home tab, switch to Home
+        if (_controller.selectedIndex != 0) {
+          _controller.changeIndex(0);
+          return;
+        }
+
+        // 3. Already at Home root — exit app
+        SystemNavigator.pop();
+      },
+      child: Obx(
+        () => Scaffold(
+          backgroundColor: AppColors.background,
+          body: IndexedStack(
+            index: _controller.selectedIndex,
+            children: List.generate(4, (i) => _buildTabNavigator(i)),
+          ),
+          bottomNavigationBar: _buildBottomNavigationBar(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: _buildFloatingActionButton(),
+        ),
+      ),
+    );
+  }
+
+  /// Each tab gets its own Navigator so pushes stay within the tab body.
+  Widget _buildTabNavigator(int index) {
+    return Navigator(
+      key: _controller.navigatorKeys[index],
+      onGenerateRoute: (_) => MaterialPageRoute(
+        builder: (_) => _tabRoots[index],
       ),
     );
   }
@@ -38,17 +79,14 @@ class CustomBottomNavBar extends StatelessWidget {
   /// Floating Action Button
   Widget _buildFloatingActionButton() {
     return SizedBox(
-      height: 56.h,
-      width: 56.w,
+      height: 64.h,
+      width: 64.w,
       child: FloatingActionButton(
         backgroundColor: AppColors.lightPurple,
         elevation: 2,
-        onPressed: () {
-          Get.to(() => SelectUtilityScreen());
-        },
+        onPressed: () => NavHelper.push(SelectUtilityScreen()),
         shape: const CircleBorder(),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30.r),
+        child: ClipOval(
           child: Image.asset(
             "assets/images/VYZI.png",
             fit: BoxFit.cover,
@@ -62,48 +100,43 @@ class CustomBottomNavBar extends StatelessWidget {
 
   /// Bottom Navigation Bar
   Widget _buildBottomNavigationBar() {
-    return Container(
-      height: 64.h,
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.textPrimary.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
+    return BottomAppBar(
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 6.0,
+      color: AppColors.background,
+      elevation: 8,
+      clipBehavior: Clip.antiAlias,
+      height: 60,
+      padding: EdgeInsets.zero,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Expanded(
             child: _buildNavItem(
               index: 0,
-              activeImage: "assets/images/home_act.png",
-              passiveImage: "assets/images/home.png",
+              icon: Icons.home_outlined,
+              label: 'navbar.home',
             ),
           ),
           Expanded(
             child: _buildNavItem(
               index: 1,
-              activeImage: "assets/images/rich_act.png",
-              passiveImage: "assets/images/rich.png",
+              icon: Icons.description_outlined,
+              label: 'navbar.request',
             ),
           ),
-          SizedBox(width: 50.w), // Space for FAB
+          SizedBox(width: 72.w), // Space for FAB notch
           Expanded(
             child: _buildNavItem(
               index: 2,
-              activeImage: "assets/images/utili_act.png",
-              passiveImage: "assets/images/utili.png",
+              icon: Icons.flash_on_outlined,
+              label: 'navbar.utilities',
             ),
           ),
           Expanded(
             child: _buildNavItem(
               index: 3,
-              activeImage: "assets/images/profil_act.png",
-              passiveImage: "assets/images/profil.png",
+              icon: Icons.person_outline,
+              label: 'navbar.profile',
             ),
           ),
         ],
@@ -111,26 +144,35 @@ class CustomBottomNavBar extends StatelessWidget {
     );
   }
 
-  /// Navigation Item with Image Icons
+  /// Navigation Item with Icon and Translated Label
   Widget _buildNavItem({
     required int index,
-    required String activeImage,
-    required String passiveImage,
+    required IconData icon,
+    required String label,
   }) {
     return Obx(() {
-      bool isSelected = _controller.selectedIndex == index;
-      return GestureDetector(
-        onTap: () {
-          _controller.changeIndex(index);
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          padding: EdgeInsets.symmetric(vertical: 8.h),
-          child: Image.asset(
-            isSelected ? activeImage : passiveImage,
-            width: 50.w,
-            height: 50.h,
-            fit: BoxFit.contain,
+      final bool isSelected = _controller.selectedIndex == index;
+      final color = isSelected ? AppColors.primaryColor : Colors.grey;
+      return InkResponse(
+        onTap: () => _controller.changeIndex(index),
+        child: SizedBox(
+          height: 56.h,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 24.w, color: color),
+              SizedBox(height: 2.h),
+              Text(
+                label.tr,
+                style: TextStyle(
+                  fontSize: 11.sp,
+                  color: color,
+                  fontWeight:
+                      isSelected ? FontWeight.w600 : FontWeight.normal,
+                ),
+              ),
+            ],
           ),
         ),
       );

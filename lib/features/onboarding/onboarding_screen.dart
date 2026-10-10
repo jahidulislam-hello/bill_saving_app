@@ -17,27 +17,25 @@ class OnboardingScreen extends StatefulWidget {
 
 class _SelectProfileScreenState extends State<OnboardingScreen> {
   int selectedIndex = 0; // 0 = Private, 1 = Business
-  final List<Map<String, dynamic>> accountTypes = [
+  List<Map<String, dynamic>> get accountTypes => [
     {
-      "title": "Private",
-      "subtitle":
-      "For Personal use and management\nof household utilities",
+      "title": 'onboarding.private'.tr,
+      "subtitle": 'onboarding.private_desc'.tr,
       "icon": AppAssets.private,
       "points": [
-        "Manage your home electricity & gas",
-        "Compare personal energy offers",
-        "Track savings and consumption",
+        'onboarding.private_point1'.tr,
+        'onboarding.private_point2'.tr,
+        'onboarding.private_point3'.tr,
       ]
     },
     {
-      "title": "Business",
-      "subtitle":
-      "For Companies, Professionals and\nBusinesses with utilities",
+      "title": 'onboarding.business'.tr,
+      "subtitle": 'onboarding.business_desc'.tr,
       "icon": AppAssets.business,
       "points": [
-        "Manage multiple business utilities",
-        "Business-specific energy offers",
-        "VAT/P.IVA and company details",
+        'onboarding.business_point1'.tr,
+        'onboarding.business_point2'.tr,
+        'onboarding.business_point3'.tr,
       ]
     },
   ];
@@ -87,7 +85,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
 
 
                     Text(
-                      "How do you want to use VYZI?",
+                      'onboarding.question'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20.sp,
@@ -99,7 +97,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                     SizedBox(height: 10.h),
 
                     Text(
-                      "Choose how to register on VYZI",
+                      'onboarding.subtitle'.tr,
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
@@ -328,7 +326,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       ),
                       child: Center(
                         child: Text(
-                          "Sign in",
+                          'onboarding.sign_in'.tr,
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w800,
@@ -360,7 +358,7 @@ class _SelectProfileScreenState extends State<OnboardingScreen> {
                       ),
                       child: Center(
                         child: Text(
-                          "Create an Account",
+                          'onboarding.create_account'.tr,
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w800,

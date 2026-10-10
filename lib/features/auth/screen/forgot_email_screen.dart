@@ -20,12 +20,15 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Password Dimenticata',
+      appBar: CustomAppBar(
+        title: 'auth.forgot_password.title'.tr,
         showBackButton: true,
       ),
       backgroundColor: Colors.white,
-      body: SafeArea(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
 
@@ -36,13 +39,13 @@ class ForgotPasswordScreen extends StatelessWidget {
                 const SizedBox(height: 24),
                 // ── Email ──────────────────────────
                 _labeledField(
-                  label: 'Indirizzo Email *',
+                  label: 'auth.forgot_password.email_label'.tr,
                   child: CustomTextField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     hintText: 'you@example.com',
                     validator: (v) =>
-                    v == null || !v.contains('@') ? 'Inserisci un\'email valida' : null,
+                    v == null || !v.contains('@') ? 'auth.forgot_password.email_error'.tr : null,
                   ),
                 ),
 
@@ -53,7 +56,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: PrimaryButton(
-                    title: "Ottieni OTP",
+                    title: 'auth.forgot_password.button'.tr,
                     onPress: controller.forgetPass,
 
                   ),
@@ -62,6 +65,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }

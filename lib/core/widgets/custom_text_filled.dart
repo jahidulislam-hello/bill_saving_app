@@ -29,6 +29,8 @@ class CustomTextField extends StatefulWidget {
   final VoidCallback? onTap;
   final Color? borderColor;
   final double? height;
+  final TextCapitalization textCapitalization;
+  final int? maxLength;
 
   const CustomTextField({
     super.key,
@@ -49,6 +51,8 @@ class CustomTextField extends StatefulWidget {
     this.onTap,
     this.borderColor,
     this.height,
+    this.textCapitalization = TextCapitalization.none,
+    this.maxLength,
   });
 
   @override
@@ -113,6 +117,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 controller: widget.controller,
                 focusNode: _focusNode,
                 keyboardType: widget.keyboardType,
+                textCapitalization: widget.textCapitalization,
+                maxLength: widget.maxLength,
                 obscureText: widget.isPassword ? _obscure : false,
                 obscuringCharacter: '•',
                 maxLines: widget.maxLines,
@@ -128,6 +134,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 ),
                 decoration: InputDecoration(
                   isDense: true,
+                  counterText: '',
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: widget.contentPaddingH ?? 14.w,
                     vertical: widget.contentPaddingV ?? 8.h,

@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/home/email/email_bill_screen.dart';
 import 'package:vyzi/features/utility/controller/select_utility_controller.dart';
@@ -7,9 +6,8 @@ import 'package:vyzi/features/utility/controller/upload_bill_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 
+import 'multi_capture_screen.dart';
 
 class UploadBillScreen extends StatefulWidget {
   final UtilityType utilityType;
@@ -21,57 +19,146 @@ class UploadBillScreen extends StatefulWidget {
 }
 
 class _UploadBillScreenState extends State<UploadBillScreen> {
-  final UploadBillController _controller = UploadBillController();
-  final ImagePicker _picker = ImagePicker();
+  final UploadBillController _controller = Get.put(UploadBillController());
 
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() {
-      if (mounted) setState(() {});
+    _controller.init(widget.utilityType);
+
+    // Navigate to bills list when single-file upload succeeds
+    ever(_controller.uploadSuccess, (success) {
+      if (success && mounted) {
+        _showSuccessAndNavigate();
+      }
+    });
+
+    // Navigate to bills list when batch upload completes
+    ever(_controller.batchUploadCompleted, (completed) {
+      if (completed && mounted && _controller.uploadedFilesMulti.isNotEmpty) {
+        _showSuccessAndNavigate();
+      }
     });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller.clearState();
     super.dispose();
   }
 
-  String get _title =>
-      widget.utilityType == UtilityType.luce ? 'elettricità' : 'gas';
+  String get _headingKey =>
+      widget.utilityType == UtilityType.luce
+          ? 'upload_bill.heading_electricity'
+          : 'upload_bill.heading_gas';
 
   // ─────────────────────────────────────────────
   //  ACTIONS
   // ─────────────────────────────────────────────
 
-  /// Opens phone gallery / file picker
-  Future<void> _openFilePicker() async {
+  /// Opens multi-file picker for "Upload File" method
+  Future<void> _openMultiFilePicker() async {
     _controller.selectMethod(UploadMethod.uploadFile);
-    try {
-      final XFile? file = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 90,
+
+    if (_controller.isAtFileLimit) {
+      Get.snackbar(
+        'upload_bill.file_validation_title'.tr,
+        'upload_bill.max_files_reached'.tr,
+        snackPosition: SnackPosition.BOTTOM,
       );
-      if (file != null && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('File selezionato: ${file.name}'),
-            backgroundColor: const Color(0xFF5A1ABE),
-          ),
-        );
-      }
-    } catch (e) {
-      debugPrint('File picker error: $e');
+      return;
+    }
+
+    await _controller.pickMultipleFiles();
+  }
+
+  /// Opens custom camera for continuous multi-photo scanning session.
+  Future<void> _openCamera() async {
+    _controller.selectMethod(UploadMethod.scanFile);
+
+    final existingCount = _controller.selectedFiles.length;
+    if (existingCount >= UploadBillController.maxFileCount) {
+      Get.snackbar(
+        'upload_bill.file_validation_title'.tr,
+        'upload_bill.max_files_reached'.tr,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    final paths = await Navigator.of(context, rootNavigator: true).push<List<String>>(
+      MaterialPageRoute(
+        builder: (_) => MultiCaptureScreen(
+          existingCount: existingCount,
+          maxCount: UploadBillController.maxFileCount,
+        ),
+      ),
+    );
+
+    if (paths != null && paths.isNotEmpty) {
+      await _controller.addCapturedPhotoPaths(paths);
     }
   }
 
-  /// Opens camera scanner
-  void _openScanner() {
-    _controller.selectMethod(UploadMethod.scanFile);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const _ScannerScreen()),
+  void _showSuccessAndNavigate() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(24.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.check_circle_rounded,
+                color: const Color(0xFF1FC16B),
+                size: 56.w,
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                'Bill submitted successfully.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 20.h),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    NavHelper.popToRoot();
+                    NavHelper.switchTab(0);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF5A1ABE),
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -84,55 +171,107 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ── Heading ──
-            Text(
-              'Carica la tua bolletta di $_title',
-              style: TextStyle(
-                fontSize: 22.sp,
-                fontWeight: FontWeight.w900,
-                color: Colors.black,
-                height: 1.28,
-              ),
+      body: SafeArea(
+        top: false,
+        child: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(
+                16.w, 24.h, 16.w, 24.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // ── Heading ──
+                Text(
+                  _headingKey.tr,
+                  style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black,
+                    height: 1.28,
+                  ),
+                ),
+                SizedBox(height: 6.h),
+                Text(
+                  'upload_bill.subtitle'.tr,
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    height: 1.22,
+                  ),
+                ),
+                SizedBox(height: 20.h),
+
+                // ── Info banner ──
+                _buildInfoBanner(),
+                SizedBox(height: 20.h),
+
+                // ── Upload / Scan cards ──
+                _buildUploadScanRow(),
+                SizedBox(height: 14.h),
+
+                // ── Multi-file content (uploadFile & scanFile) or single-file ──
+                Obx(() {
+                  final method = _controller.selectedMethod.value;
+                  if (method == UploadMethod.uploadFile ||
+                      method == UploadMethod.scanFile) {
+                    return _buildMultiFileContent();
+                  }
+                  return _buildSingleFileContent();
+                }),
+
+                SizedBox(height: 14.h),
+
+                // ── OR divider ──
+                _buildOrDivider(),
+                SizedBox(height: 14.h),
+
+                // ── Send Our Email card ──
+                _buildEmailCard(),
+                SizedBox(height: 24.h),
+
+                // ── What we are looking for ──
+                _buildLookingForCard(),
+                SizedBox(height: 30.h),
+              ],
             ),
-            SizedBox(height: 6.h),
-            Text(
-              "Scegli il metodo più comodo per te",
-              style: TextStyle(
-                fontSize: 13.sp,
-                color: Colors.black,
-                fontWeight: FontWeight.w700,
-                height: 1.22,
-              ),
-            ),
-            SizedBox(height: 20.h),
+          ),
 
-            // ── Info banner ──
-            _buildInfoBanner(),
-            SizedBox(height: 20.h),
-
-            // ── Upload / Scan cards ──
-            _buildUploadScanRow(),
-            SizedBox(height: 14.h),
-
-            // ── OR divider ──
-            _buildOrDivider(),
-            SizedBox(height: 14.h),
-
-            // ── Send Our Email card ──
-            _buildEmailCard(),
-            SizedBox(height: 24.h),
-
-            // ── What we are looking for ──
-            _buildLookingForCard(),
-            SizedBox(height: 30.h),
-          ],
-        ),
+          // ── Upload progress overlay ──
+          Obx(() => (_controller.isUploading.value || _controller.isBatchUploading.value)
+              ? _buildUploadOverlay()
+              : const SizedBox.shrink()),
+        ],
       ),
+      ),
+    );
+  }
+
+  // ─── Multi-file content ──────────────────────────────
+
+  Widget _buildMultiFileContent() {
+    // No inline content — the upload overlay handles the UI
+    // and the ever() listener auto-navigates on completion
+    return const SizedBox.shrink();
+  }
+
+  // ─── Single-file content (camera/scan flow) ──────────
+
+  Widget _buildSingleFileContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // File preview (if selected)
+        Obx(() => _controller.selectedFile.value != null
+            ? _buildFilePreview()
+            : const SizedBox.shrink()),
+
+        // Error message
+        Obx(() => _controller.errorMessage.value.isNotEmpty
+            ? _buildErrorMessage()
+            : const SizedBox.shrink()),
+      ],
     );
   }
 
@@ -147,7 +286,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
-        'Carica la tua bolletta',
+        'upload_bill.appbar_title'.tr,
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w800,
@@ -155,11 +294,75 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           height: 1.22,
         ),
       ),
-      // bottom: PreferredSize(
-      //   preferredSize: const Size.fromHeight(1),
-      //   child: const Divider(
-      //       height: 1, thickness: 1, color: Color(0xFF5A1ABE)),
-      // ),
+    );
+  }
+
+  // ── Why we need it popup ──
+  void _showWhyWeNeedItPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        insetPadding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+        child: Padding(
+          padding: EdgeInsets.all(20.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.info_outline_rounded,
+                color: const Color(0xFF5A1ABE),
+                size: 40.w,
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                'upload_bill.info_popup_title'.tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                'upload_bill.info_popup_body'.tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black87,
+                  height: 1.5,
+                ),
+              ),
+              SizedBox(height: 20.h),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF5A1ABE),
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                  ),
+                  child: Text(
+                    'upload_bill.info_popup_close'.tr,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -182,10 +385,10 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               const Icon(Icons.help_outline_rounded,
                   color: Color(0xFF5A1ABE), size: 18),
               SizedBox(width: 8.w),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Abbiamo bisogno della tua bolletta per analizzare il tuo piano attuale e trovare le migliori offerte.',
-                  style: TextStyle(
+                  'upload_bill.info_text'.tr,
+                  style: const TextStyle(
                     fontSize: 13,
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
@@ -197,13 +400,15 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           ),
           SizedBox(height: 8.h),
           GestureDetector(
-            onTap: () {},
-            child: const Text(
-              'Perché ne abbiamo bisogno?',
+            onTap: () => _showWhyWeNeedItPopup(context),
+            child: Text(
+              'upload_bill.info_link'.tr,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w900,
-                color: Color(0xFF5A1ABE),
+                color: const Color(0xFF5A1ABE),
+                decoration: TextDecoration.underline,
+                decorationColor: const Color(0xFF5A1ABE),
                 height: 1.22,
               ),
             ),
@@ -215,31 +420,29 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
 
   // ── Upload File + Scan File row ──
   Widget _buildUploadScanRow() {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildMethodCard(
-            method: UploadMethod.uploadFile,
-            assetIcon: 'assets/icons/upload.png',
-            label: 'Carica File',
-            sublabel: 'PDF, Foto',
-            onTap: _openFilePicker,
-          ),
-        ),
-
-        SizedBox(width: 12.w),
-
-        Expanded(
-          child: _buildMethodCard(
-            method: UploadMethod.scanFile,
-            assetIcon: 'assets/icons/scannn.png',
-            label: 'Scansiona File',
-            sublabel: 'Usa la fotocamera',
-            onTap: _openScanner,
-          ),
-        ),
-      ],
-    );
+    return Obx(() => Row(
+          children: [
+            Expanded(
+              child: _buildMethodCard(
+                method: UploadMethod.uploadFile,
+                assetIcon: 'assets/icons/upload.png',
+                label: 'upload_bill.upload_file'.tr,
+                sublabel: 'upload_bill.upload_formats'.tr,
+                onTap: _openMultiFilePicker,
+              ),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: _buildMethodCard(
+                method: UploadMethod.scanFile,
+                assetIcon: 'assets/icons/scannn.png',
+                label: 'upload_bill.scan_file'.tr,
+                sublabel: 'upload_bill.scan_use_camera'.tr,
+                onTap: _openCamera,
+              ),
+            ),
+          ],
+        ));
   }
 
   Widget _buildMethodCard({
@@ -249,7 +452,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     required String sublabel,
     required VoidCallback onTap,
   }) {
-    final isSelected = _controller.selectedMethod == method;
+    final isSelected = _controller.selectedMethod.value == method;
 
     return GestureDetector(
       onTap: onTap,
@@ -271,7 +474,6 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
             ),
           ],
         ),
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -281,9 +483,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
               height: 56.w,
               fit: BoxFit.contain,
             ),
-
             SizedBox(height: 10.h),
-
             Text(
               label,
               style: TextStyle(
@@ -293,9 +493,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
                 height: 1.22,
               ),
             ),
-
             SizedBox(height: 3.h),
-
             Text(
               sublabel,
               style: TextStyle(
@@ -311,6 +509,186 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     );
   }
 
+  // ── File Preview Card (single-file) ──
+  Widget _buildFilePreview() {
+    final fileName = _controller.selectedFileName;
+    final fileSize = _controller.selectedFileSize;
+    final ext = fileName.split('.').last.toLowerCase();
+    final isPdf = ext == 'pdf';
+
+    return Padding(
+      padding: EdgeInsets.only(top: 14.h),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF8F7FF),
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 44.w,
+              height: 44.w,
+              decoration: BoxDecoration(
+                color: isPdf
+                    ? const Color(0xFFFFEBEE)
+                    : const Color(0xFFE8F5E9),
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Icon(
+                isPdf
+                    ? Icons.picture_as_pdf_rounded
+                    : Icons.image_rounded,
+                color: isPdf
+                    ? const Color(0xFFE53935)
+                    : const Color(0xFF43A047),
+                size: 24,
+              ),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    fileName,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    '${ext.toUpperCase()} • $fileSize',
+                    style: TextStyle(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: _controller.removeFile,
+              child: Container(
+                padding: EdgeInsets.all(6.w),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFEBEE),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: const Icon(
+                  Icons.close_rounded,
+                  color: Color(0xFFE53935),
+                  size: 18,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  // ── Error Message ──
+  Widget _buildErrorMessage() {
+    return Padding(
+      padding: EdgeInsets.only(top: 10.h),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFEBEE),
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.error_outline, color: Color(0xFFE53935), size: 18),
+            SizedBox(width: 8.w),
+            Expanded(
+              child: Text(
+                _controller.errorMessage.value,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFFE53935),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ── Upload Progress Overlay (single-file) ──
+  Widget _buildUploadOverlay() {
+    return Container(
+      color: Colors.black.withOpacity(0.5),
+      child: Center(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 40.w),
+          padding: EdgeInsets.all(28.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(
+                color: Color(0xFF5A1ABE),
+                strokeWidth: 3,
+              ),
+              SizedBox(height: 20.h),
+              Text(
+                'upload_bill.uploading'.tr,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Obx(() {
+                final progress = _controller.isBatchUploading.value
+                    ? _controller.overallProgress
+                    : _controller.uploadProgress.value;
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    backgroundColor: const Color(0xFFE8E8E8),
+                    color: const Color(0xFF5A1ABE),
+                    minHeight: 8.h,
+                  ),
+                );
+              }),
+              SizedBox(height: 8.h),
+              Obx(() {
+                final progress = _controller.isBatchUploading.value
+                    ? _controller.overallProgress
+                    : _controller.uploadProgress.value;
+                return Text(
+                  '${(progress * 100).toStringAsFixed(0)}%',
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF5A1ABE),
+                  ),
+                );
+              }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   // ── OR divider ──
   Widget _buildOrDivider() {
     return Row(
@@ -320,7 +698,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           child: Text(
-            'OPPURE',
+            'upload_bill.or_divider'.tr,
             style: TextStyle(
               fontSize: 12.sp,
               color: Colors.black,
@@ -340,84 +718,88 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
     return GestureDetector(
       onTap: () {
         _controller.selectMethod(UploadMethod.sendEmail);
-        Get.to(() => EmailBillScreen());
+        NavHelper.push(EmailBillScreen(
+              billType:
+                  widget.utilityType == UtilityType.luce ? 'electricity' : 'gas',
+            ));
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14.r),
-          border: Border.all(
-            color: const Color(0xFF5A1ABE),
-            width:
-            _controller.selectedMethod == UploadMethod.sendEmail
-                ? 2.0
-                : 1.2,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
-        child: Row(
-          children: [
-            Container(
-              width: 44.w,
-              height: 44.w,
-              decoration: BoxDecoration(
-                color: const Color(0xFFE8F8EF),
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(color: const Color(0xFF5A1ABE), width: 1),
+      child: Obx(() => AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(14.r),
+              border: Border.all(
+                color: const Color(0xFF5A1ABE),
+                width:
+                    _controller.selectedMethod.value == UploadMethod.sendEmail
+                        ? 2.0
+                        : 1.2,
               ),
-              child: const Icon(Icons.mail_outline_rounded,
-                  color: Color(0xFF27AE60), size: 22),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.04),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
-            SizedBox(width: 14.w),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Invia via Email',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.black,
-                      height: 1.22,
-                    ),
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
+            child: Row(
+              children: [
+                Container(
+                  width: 44.w,
+                  height: 44.w,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE8F8EF),
+                    borderRadius: BorderRadius.circular(12.r),
+                    border:
+                        Border.all(color: const Color(0xFF5A1ABE), width: 1),
                   ),
-                  SizedBox(height: 3.h),
-                  Text(
-                    'Inoltra a Bills@Example.com',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                      height: 1.22,
-                    ),
+                  child: const Icon(Icons.mail_outline_rounded,
+                      color: Color(0xFF27AE60), size: 22),
+                ),
+                SizedBox(width: 14.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'upload_bill.send_email'.tr,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black,
+                          height: 1.22,
+                        ),
+                      ),
+                      SizedBox(height: 3.h),
+                      Text(
+                        'upload_bill.send_email_address'.tr,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                          height: 1.22,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const Icon(Icons.chevron_right_rounded,
+                    color: Colors.black, size: 20),
+              ],
             ),
-            const Icon(Icons.chevron_right_rounded,
-                color: Colors.black, size: 20),
-          ],
-        ),
-      ),
+          )),
     );
   }
 
   // ── What we are looking for card ──
   Widget _buildLookingForCard() {
-    const bullets = [
-      'Fornitore attuale e tariffa',
-      'Consumo mensile e costi',
-      'Data di fine contratto',
-      'Numero del contatore e punto di fornitura',
+    final bullets = [
+      'upload_bill.looking_for_1'.tr,
+      'upload_bill.looking_for_2'.tr,
+      'upload_bill.looking_for_3'.tr,
+      'upload_bill.looking_for_4'.tr,
     ];
 
     return Container(
@@ -439,7 +821,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Cosa stiamo cercando:',
+            'upload_bill.looking_for_title'.tr,
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w900,
@@ -449,7 +831,7 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
           ),
           SizedBox(height: 10.h),
           ...bullets.map(
-                (b) => Padding(
+            (b) => Padding(
               padding: EdgeInsets.only(bottom: 6.h),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -482,118 +864,4 @@ class _UploadBillScreenState extends State<UploadBillScreen> {
       ),
     );
   }
-  }
-
-  // ─────────────────────────────────────────────
-  //  SCANNER SCREEN  (uses mobile_scanner)
-  // ─────────────────────────────────────────────
-
-  class _ScannerScreen extends StatefulWidget {
-  const _ScannerScreen();
-
-  @override
-  State<_ScannerScreen> createState() => _ScannerScreenState();
-  }
-
-  class _ScannerScreenState extends State<_ScannerScreen> {
-  final MobileScannerController _scanController = MobileScannerController();
-  bool _scanned = false;
-
-  @override
-  void dispose() {
-    _scanController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-        title: Text(
-          'Scansiona la tua bolletta',
-          style: TextStyle(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w900,
-              height: 1.22),
-        ),
-        actions: [
-          IconButton(
-            icon: ValueListenableBuilder(
-              valueListenable: _scanController,
-              builder: (_, state, __) => Icon(
-                state.torchState == TorchState.on
-                    ? Icons.flash_on_rounded
-                    : Icons.flash_off_rounded,
-                color: Colors.white,
-              ),
-            ),
-            onPressed: () => _scanController.toggleTorch(),
-          ),
-          IconButton(
-            icon: const Icon(Icons.flip_camera_ios_rounded,
-                color: Colors.white),
-            onPressed: () => _scanController.switchCamera(),
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          // ── Camera preview ──
-          MobileScanner(
-            controller: _scanController,
-            onDetect: (capture) {
-              if (_scanned) return;
-              final barcodes = capture.barcodes;
-              if (barcodes.isNotEmpty) {
-                _scanned = true;
-                final value = barcodes.first.rawValue ?? '';
-                Navigator.pop(context, value);
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Scansionato: $value'),
-                      backgroundColor: const Color(0xFF5A1ABE),
-                    ),
-                  );
-                }
-              }
-            },
-          ),
-
-          // ── Overlay: scan frame ──
-          Center(
-            child: Container(
-              width: 240.w,
-              height: 240.w,
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: const Color(0xFF5A1ABE), width: 2.5),
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-            ),
-          ),
-
-          // ── Hint text ──
-          Positioned(
-            bottom: 60.h,
-            left: 0,
-            right: 0,
-            child: Text(
-              'Allinea la tua bolletta nella cornice',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
-                height: 1.22,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  }
+}

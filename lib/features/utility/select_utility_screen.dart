@@ -2,6 +2,7 @@ import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/features/utility/controller/select_utility_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'upload_bill_screen.dart';
 
 class SelectUtilityScreen extends StatefulWidget {
@@ -33,16 +34,18 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
+      body: SafeArea(
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 28.h),
 
             // ── Heading ──
              Text(
-              'Quali utenze vuoi\nottimizzare?',
+              'select_utility.heading'.tr,
               style: TextStyle(
                 fontSize: 22.sp,
                 fontWeight: FontWeight.w900,
@@ -54,7 +57,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
 
             // ── Subtitle ──
              Text(
-              'Seleziona il servizio per cui vuoi trovare le migliori offerte',
+              'select_utility.subtitle'.tr,
               style: TextStyle(
                 fontSize: 13.sp,
                 color: AppColors.textPrimary,
@@ -72,7 +75,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                     type: UtilityType.luce,
                     icon: Icons.bolt_rounded,
                     label: 'LUCE',
-                    sublabel: 'Ottimizza la tua bolletta elettrica',
+                    sublabel: 'select_utility.luce_sublabel'.tr,
                   ),
                 ),
                 SizedBox(width: 12.w),
@@ -81,7 +84,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                     type: UtilityType.gas,
                     icon: Icons.local_fire_department_rounded,
                     label: 'GAS',
-                    sublabel: 'Riduci le tue spese del gas',
+                    sublabel: 'select_utility.gas_sublabel'.tr,
                   ),
                 ),
               ],
@@ -91,6 +94,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
             // ── Tip banner ──
             _buildTipBanner(),
           ],
+          ),
         ),
       ),
     );
@@ -107,7 +111,7 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
         onPressed: () => Navigator.pop(context),
       ),
       title:  Text(
-        'Seleziona Utenza',
+        'select_utility.title'.tr,
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w800,
@@ -275,12 +279,12 @@ class _SelectUtilityScreenState extends State<SelectUtilityScreen> {
                 ),
                 children: [
                   TextSpan(
-                    text: 'Consiglio: ',
+                    text: 'select_utility.tip_label'.tr,
                     style: TextStyle(fontWeight: FontWeight.w900),
                   ),
                   TextSpan(
                     text:
-                    'Puoi caricare altre bollette in seguito per confrontare tutte le tue utenze.',
+                    'select_utility.tip_text'.tr,
                     style: TextStyle(fontWeight: FontWeight.w700),
                   ),
                 ],

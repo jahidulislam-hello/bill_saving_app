@@ -145,25 +145,6 @@ import 'package:flutter/material.dart';
 //                                     width: 72,
 //                                     height: 24,
 //                                     clipBehavior: Clip.antiAlias,
-//                                     decoration: ShapeDecoration(
-//                                       color: const Color(0xFF1FC16B),
-//                                       shape: RoundedRectangleBorder(
-//                                         borderRadius: BorderRadius.circular(8),
-//                                       ),
-//                                     ),
-//                                     child: const Center(
-//                                       child: Text(
-//                                         'Best Value',
-//                                         style: TextStyle(
-//                                           color: Colors.white,
-//                                           fontSize: 12,
-//                                           fontFamily: 'Open Sans',
-//                                           fontWeight: FontWeight.w400,
-//                                           height: 1.33,
-//                                         ),
-//                                       ),
-//                                     ),
-//                                   ),
 //                                 ],
 //                               ),
 //                               const SizedBox(height: 12),

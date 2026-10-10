@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../constants/api_constants.dart';
 import '../exceptions/app_exceptions.dart';
 import 'storage_service.dart';
@@ -8,6 +12,7 @@ import 'storage_service.dart';
 class ApiService {
   static final ApiService _instance = ApiService._internal();
   late Dio _dio;
+  Completer<String?>? _refreshCompleter;
 
   factory ApiService() {
     return _instance;
@@ -37,19 +42,44 @@ class ApiService {
                 )) {
               options.headers['Authorization'] = 'Bearer $token';
             }
+            // Inject Accept-Language header for i18n
+            final lang = storage.getString(StorageKeys.selectedLanguage) ?? 'it';
+            options.headers['Accept-Language'] = lang;
           }
           return handler.next(options);
         },
         onError: (error, handler) async {
+          // Skip token refresh for auth endpoints that naturally return 401
+          final path = error.requestOptions.path;
+          final isAuthEndpoint = path.contains('/auth/login') ||
+              path.contains('/auth/register') ||
+              path.contains('/auth/social-login');
+
           if (error.response?.statusCode == 401 &&
+              !isAuthEndpoint &&
               !(error.requestOptions.extra['_retried'] as bool? ?? false)) {
-            // Mark so we don't retry again
             error.requestOptions.extra['_retried'] = true;
 
             try {
-              final newToken = await _refreshAccessToken();
+              // If a refresh is already in progress, wait for it
+              String? newToken;
+              if (_refreshCompleter != null) {
+                newToken = await _refreshCompleter!.future;
+              } else {
+                _refreshCompleter = Completer<String?>();
+                try {
+                  final result = await _refreshAccessToken();
+                  _refreshCompleter!.complete(result);
+                  newToken = result;
+                } catch (e) {
+                  _refreshCompleter!.complete(null);
+                  newToken = null;
+                } finally {
+                  _refreshCompleter = null;
+                }
+              }
+
               if (newToken != null) {
-                // Retry original request with new token
                 final opts = Options(
                   method: error.requestOptions.method,
                   headers: {
@@ -65,59 +95,80 @@ class ApiService {
                   options: opts,
                 );
                 return handler.resolve(response);
+              } else {
+                // Refresh token also expired — force logout
+                _forceLogout();
+                return handler.next(error);
               }
             } catch (_) {
-              // Refresh failed — fall through to original error
+              // Refresh failed — clear session and redirect to login
+              _forceLogout();
             }
           }
 
-          // Debug logging
-          assert(() {
-            if (kDebugMode) {
-              print(
-                'ERROR[${error.response?.statusCode}] => PATH: ${error.requestOptions.path}',
-              );
-              print('ERROR_BODY => ${error.response?.data}');
-              print('ERROR_MESSAGE => ${error.message}');
-            }
-            return true;
-          }());
-
           return handler.next(error);
         },
       ),
     );
 
-    // Logging interceptor
-    _dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) {
-          assert(() {
-            if (kDebugMode) {
-              print('REQUEST[${options.method}] => PATH: ${options.path}');
-              print('REQUEST_BODY => ${options.data}');
-              print('REQUEST_HEADERS => ${options.headers}');
-            }
-            return true;
-          }());
-          return handler.next(options);
-        },
-        onResponse: (response, handler) {
-          assert(() {
-            if (kDebugMode) {
-              print(
-                'RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}',
-              );
-            }
-            return true;
-          }());
-          return handler.next(response);
-        },
-        onError: (error, handler) {
-          return handler.next(error);
-        },
-      ),
-    );
+    // Pretty logging interceptor — only in debug mode
+    if (kDebugMode) {
+      _dio.interceptors.add(
+        PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+          responseHeader: true,
+          responseBody: true,
+          error: true,
+          compact: false,
+        ),
+      );
+    }
+  }
+
+  /// Clears stored auth data, shows session-expired message, and redirects to sign-in.
+  void _forceLogout() {
+    final storage = _tryGetStorage();
+    if (storage != null) {
+      // Best-effort: deactivate push token on the server
+      final fcmToken = storage.getString(StorageKeys.fcmToken) ?? '';
+      if (fcmToken.isNotEmpty) {
+        _dio.delete(ApiConstants.removePushToken(fcmToken))
+            .catchError((_) => null);
+      }
+
+      // Best-effort: revoke the refresh token on the server before clearing local state
+      final refreshToken = storage.getString(StorageKeys.refreshToken) ?? '';
+      if (refreshToken.isNotEmpty) {
+        _dio.post(
+          ApiConstants.authLogout,
+          data: {'refreshToken': refreshToken},
+          options: Options(extra: {'_retried': true}), // prevent retry loop
+        ).catchError((_) => null); // ignore failures — don't block local logout
+      }
+
+      storage.remove(StorageKeys.authToken);
+      storage.remove(StorageKeys.refreshToken);
+      storage.remove(StorageKeys.userId);
+      storage.remove(StorageKeys.userEmail);
+      storage.setBool(StorageKeys.isLoggedIn, false);
+    }
+    // Navigate to sign-in, clearing the entire back stack
+    Get.offAllNamed('/sign_in_screen');
+    // Show session expired message after navigation completes
+    Future.delayed(const Duration(milliseconds: 300), () {
+      Get.snackbar(
+        'auth.session_expired.title'.tr,
+        'auth.session_expired.message'.tr,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red.shade600,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 4),
+        margin: const EdgeInsets.all(12),
+        borderRadius: 8,
+        icon: const Icon(Icons.logout, color: Colors.white),
+      );
+    });
   }
 
   StorageService? _tryGetStorage() {
@@ -369,8 +420,20 @@ class ApiService {
 
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
-        final message = error.response?.statusMessage ?? 'Server error';
-        return ServerException(message, statusCode, error.message);
+        // Extract message from API response body first, fall back to HTTP status message
+        String message = error.response?.statusMessage ?? 'Server error';
+        final responseData = error.response?.data;
+        Map<String, dynamic>? responseMap;
+        if (responseData is Map<String, dynamic>) {
+          responseMap = responseData;
+          final apiMsg = responseData['message'];
+          if (apiMsg is String && apiMsg.isNotEmpty) {
+            message = apiMsg;
+          } else if (apiMsg is List && apiMsg.isNotEmpty) {
+            message = apiMsg.map((e) => e.toString()).join(', ');
+          }
+        }
+        return ServerException(message, statusCode, error.message, responseMap);
 
       case DioExceptionType.cancel:
         return UnknownException('Request cancelled');

@@ -1,16 +1,19 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
-import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/core/widgets/primary_button.dart';
-import 'package:vyzi/features/request/request_details_screen.dart';
+import 'package:vyzi/features/request/models/api_offer_model.dart';
 import 'package:vyzi/features/request/offer_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import 'package:vyzi/features/bills/models/bill_model.dart';
+import 'package:vyzi/features/utility/select_utility_screen.dart';
+
+import 'package:vyzi/features/bills/screen/bill_detail_screen.dart';
 import '../../core/appbar/custom_appbar.dart';
 import 'request_controller.dart';
-import 'request_model.dart';
 
 class RequestScreen extends StatefulWidget {
   const RequestScreen({super.key});
@@ -24,10 +27,6 @@ class _RequestScreenState extends State<RequestScreen>
   late final RequestController _controller;
   late final TabController _tabController;
 
-  // Filter options for "Your Offers" tab
-  final List<String> _filters = ['Tutti', 'Addebito Diretto', 'Bollettino Postale','AliKobe', 'Ordine Diretto', 'Bollettino Postale'];
-  int _selectedFilter = 0;
-  bool _isBillUploaded = false;
 
   @override
   void initState() {
@@ -44,6 +43,8 @@ class _RequestScreenState extends State<RequestScreen>
     _controller.addListener(() {
       if (mounted) setState(() {});
     });
+
+    _controller.fetchOffers();
   }
 
   @override
@@ -61,12 +62,11 @@ class _RequestScreenState extends State<RequestScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const CustomAppBar(
-        title: 'Richiesta',
+      appBar: CustomAppBar(
+        title: 'request.title'.tr,
         showBackButton: false,
       ),
-      body: _isBillUploaded
-          ? Column(
+      body: Column(
         children: [
           SizedBox(height: 10.h),
           _buildTabBar(),
@@ -76,19 +76,6 @@ class _RequestScreenState extends State<RequestScreen>
                 : _buildMyRequestsTab(),
           ),
         ],
-      )
-          : GestureDetector(
-        onTap: () {
-          setState(() {
-            _isBillUploaded = true;
-          });
-        },
-        child: Center(
-          child: Image.asset(
-            'assets/images/uploadBill.png',
-            fit: BoxFit.contain,
-          ),
-        ),
       ),
     );
   }
@@ -102,8 +89,8 @@ class _RequestScreenState extends State<RequestScreen>
       color: Colors.white,
       child: Row(
         children: [
-          _tabItem('Le Tue Offerte', 0),
-          _tabItem('Le Mie Richieste', 1),
+          _tabItem('request.tab.your_offers'.tr, 0),
+          _tabItem('request.tab.my_requests'.tr, 1),
         ],
       ),
     );
@@ -148,10 +135,38 @@ class _RequestScreenState extends State<RequestScreen>
   // ─────────────────────────────────────────────
 
   Widget _buildOffersTab() {
+    if (_controller.isLoadingOffers) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_controller.offersError.isNotEmpty) {
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.all(24.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('request.offers.load_failed'.tr, style: AppStyles.h4),
+              SizedBox(height: 8.h),
+              TextButton(
+                onPressed: () => _controller.fetchOffers(),
+                child: Text('common.retry'.tr,
+                    style: AppStyles.body2
+                        .copyWith(color: AppColors.primaryColor)),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (_controller.offers.isEmpty) {
+      return _buildEmptyState();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildFilterSection(),
         _buildOffersHeader(),
         Expanded(
           child: ListView.builder(
@@ -166,77 +181,6 @@ class _RequestScreenState extends State<RequestScreen>
     );
   }
 
-  // ── Payment Method filter row ──
-  Widget _buildFilterSection() {
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 12.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // ── Line 1: Filter icon + label ──
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/filter.png',
-                width: 20.w,
-                height: 20.h,
-                fit: BoxFit.contain,
-              ),
-              SizedBox(width: 4.w),
-              Text(
-                'Metodo di Pagamento:',
-                style: AppStyles.h4.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w700),
-              ),
-            ],
-          ),
-          SizedBox(height: 8.h),
-          // ── Line 2: Filter chips ──
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(
-                _filters.length,
-                    (i) => Padding(
-                  padding: EdgeInsets.only(right: 6.w),
-                  child: _filterChip(_filters[i], i),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _filterChip(String label, int index) {
-    final isSelected = _selectedFilter == index;
-    return GestureDetector(
-      onTap: () => setState(() => _selectedFilter = index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding:
-        EdgeInsets.symmetric(horizontal: 14.w, vertical: 7.h),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primaryColor
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(8.r),
-          border: Border.all(
-            color: const Color(0xFF5A1ABE),
-            width: 1.2,
-          ),
-        ),
-        child: Text(
-          label,
-          style: isSelected 
-              ? AppStyles.body4.copyWith(color: Colors.white, fontWeight: FontWeight.w800)
-              : AppStyles.body4.copyWith(color: Colors.black, fontWeight: FontWeight.w700),
-        ),
-      ),
-    );
-  }
-
   // ── Offers count header ──
   Widget _buildOffersHeader() {
     return Padding(
@@ -245,11 +189,11 @@ class _RequestScreenState extends State<RequestScreen>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Migliori Offerte per Te',
+            'request.offers.best_for_you'.tr,
             style: AppStyles.h4.copyWith(fontSize: 15.sp),
           ),
           Text(
-            '${_controller.offers.length} trovate',
+            '${_controller.offers.length} ${'request.offers.found'.tr}',
             style: AppStyles.body4.copyWith(fontWeight: FontWeight.w800),
           ),
         ],
@@ -257,8 +201,11 @@ class _RequestScreenState extends State<RequestScreen>
     );
   }
 
-  // ── Offer card (matches screenshot 1) ──
-  Widget _buildOfferCard(OfferModel offer) {
+  // ── Offer card ──
+  Widget _buildOfferCard(ApiOfferModel offer) {
+    final supplierName = offer.supplier?.name ?? offer.name;
+    final subtitle = offer.supplier != null ? offer.name : (offer.description ?? '');
+
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
@@ -279,7 +226,7 @@ class _RequestScreenState extends State<RequestScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Top: image + title + badge ──
+          // ── Top: logo + title + badge ──
           Padding(
             padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 10.h),
             child: Row(
@@ -288,26 +235,7 @@ class _RequestScreenState extends State<RequestScreen>
                 // Thumbnail
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10.r),
-                  child: offer.imagePath.isNotEmpty
-                      ? Image.asset(
-                    offer.imagePath,
-                    width: 52.w,
-                    height: 52.w,
-                    fit: BoxFit.cover,
-                  )
-                      : Container(
-                    width: 52.w,
-                    height: 52.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.r),
-                      image: const DecorationImage(
-                        image: NetworkImage(
-                          'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=200',
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                  child: _buildSupplierLogo(offer.supplier?.logoUrl),
                 ),
                 SizedBox(width: 12.w),
                 // Title & subtitle
@@ -316,42 +244,29 @@ class _RequestScreenState extends State<RequestScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        offer.title,
+                        supplierName,
                         style: AppStyles.h4.copyWith(fontSize: 15.sp),
                       ),
                       SizedBox(height: 2.h),
-    Container(
-     padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
-      decoration: BoxDecoration(
-         borderRadius: BorderRadius.circular(8.r),
-          border: Border.all(
-          color: const Color(0xFF5A1ABE),
-          width: 1.22,
-           ),
-          ),
-       child: Text(
-        offer.subtitle,
-        style: AppStyles.body4.copyWith(fontWeight: FontWeight.w700),
-          ),
-    ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(
+                            color: const Color(0xFF5A1ABE),
+                            width: 1.22,
+                          ),
+                        ),
+                        child: Text(
+                          subtitle,
+                          style: AppStyles.body4.copyWith(fontWeight: FontWeight.w700),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                if (offer.isBestValue) ...[
-                  SizedBox(width: 8.w),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 10.w, vertical: 5.h),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF4CAF50),
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    child: Text(
-                      'Miglior Valore',
-                      style: AppStyles.body4.copyWith(color: Colors.white, fontWeight: FontWeight.w800),
-                    ),
-                  ),
-                ],
               ],
             ),
           ),
@@ -368,7 +283,7 @@ class _RequestScreenState extends State<RequestScreen>
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: Text(
-                'Prezzo Energia : PUN GME + € 0.01/KWh',
+                '${'request.offers.energy_price_label'.tr} : ${offer.energyPriceDisplay}',
                 style: AppStyles.body4.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.w800),
               ),
             ),
@@ -376,7 +291,7 @@ class _RequestScreenState extends State<RequestScreen>
 
           SizedBox(height: 10.h),
 
-          // ── Payment method row ──
+          // ── Contract info row ──
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 14.w),
             child: _buildInfoRow(
@@ -387,60 +302,93 @@ class _RequestScreenState extends State<RequestScreen>
                 fit: BoxFit.contain,
               ),
               iconColor: const Color(0xFF5B7FD8),
-              text: 'Metodo di Pagamento: Bollettino Postale',
+              text: '${'request.offers.duration_label'.tr}: ${offer.contractDurationDisplay}',
             ),
           ),
 
           SizedBox(height: 8.h),
 
-          // ── Compatibility row ──
+          // ── Target row ──
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 14.w),
-    child: Column(
-         children: [
-          _buildInfoRow(
-          icon: Image.asset(
-            'assets/images/compat.png',
-            width: 24.w,
-            height: 24.h,
-            fit: BoxFit.contain,
-          ),
-           iconColor: const Color(0xFF9B59B6),
-            text: 'Compatibilità: Residenziale',
-          ),
-         SizedBox(height: 12.h),
-        Divider(
-          height: 1,
-           thickness: 1,
-         color: Colors.grey,
-      ),
-       ],
-    ),
-          ),
-
-          SizedBox(height: 12.h),
-
-          // ── Annual savings ──
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14.w),
-            child: Row(
+            child: Column(
               children: [
-                Text(
-                  '€${offer.savings.toStringAsFixed(0)}',
-                  style: TextStyle(
-                    fontSize: 26.sp,
-                    fontWeight: FontWeight.w900,
-                    color: const Color(0xFF4CAF50),
+                _buildInfoRow(
+                  icon: Image.asset(
+                    'assets/images/compat.png',
+                    width: 24.w,
+                    height: 24.h,
+                    fit: BoxFit.contain,
                   ),
+                  iconColor: const Color(0xFF9B59B6),
+                  text: '${'request.offers.compatibility_label'.tr}: ${offer.target == 'personal' ? 'request.offers.residential'.tr : offer.target == 'business' ? 'request.offers.business'.tr : 'request.offers.all_types'.tr}',
                 ),
-                SizedBox(width: 8.w),
-                Text(
-                  'Risparmio Annuale',
-                  style: AppStyles.body3.copyWith(color: const Color(0xFF1A1A2E), fontWeight: FontWeight.w700),
+                SizedBox(height: 12.h),
+                Divider(
+                  height: 1,
+                  thickness: 1,
+                  color: Colors.grey,
                 ),
               ],
             ),
           ),
+
+          SizedBox(height: 12.h),
+
+          // ── Estimated annual savings (headline) ──
+          if (offer.estimatedSavings != null && offer.estimatedSavings! > 0) ...[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
+              child: Row(
+                children: [
+                  Text(
+                    offer.estimatedSavingsDisplay,
+                    style: TextStyle(
+                      fontSize: 26.sp,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF4CAF50),
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Flexible(
+                    child: Text(
+                      'request.offers.estimated_savings'.tr,
+                      style: AppStyles.body3.copyWith(color: const Color(0xFF1A1A2E), fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 6.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
+              child: Text(
+                '€${offer.fixedMonthlyFee.toStringAsFixed(0)} ${'request.offers.monthly_fixed'.tr}',
+                style: AppStyles.body4.copyWith(color: Colors.grey[600], fontWeight: FontWeight.w600),
+              ),
+            ),
+          ] else ...[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
+              child: Row(
+                children: [
+                  Text(
+                    '€${offer.fixedMonthlyFee.toStringAsFixed(0)}',
+                    style: TextStyle(
+                      fontSize: 26.sp,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF4CAF50),
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Text(
+                    'request.offers.monthly_fixed'.tr,
+                    style: AppStyles.body3.copyWith(color: const Color(0xFF1A1A2E), fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
+            ),
+          ],
 
           SizedBox(height: 14.h),
 
@@ -448,15 +396,47 @@ class _RequestScreenState extends State<RequestScreen>
           Padding(
             padding: EdgeInsets.fromLTRB(14.w, 0, 14.w, 14.h),
             child: PrimaryButton(
-              title: 'Vai ai Dettagli e procedi',
+              title: 'request.go_to_details'.tr,
               height: 46.h,
               onPress: () {
-                Get.to(()=> OfferDetailsScreen());
+                NavHelper.push(OfferDetailsScreen(
+                  offerId: offer.id,
+                  estimatedSavings: offer.estimatedSavings,
+                ));
               },
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildSupplierLogo(String? logoUrl) {
+    if (logoUrl != null && logoUrl.isNotEmpty) {
+      return Image.network(
+        logoUrl,
+        width: 52.w,
+        height: 52.w,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _defaultLogo(),
+      );
+    }
+    return _defaultLogo();
+  }
+
+  Widget _defaultLogo() {
+    return Container(
+      width: 52.w,
+      height: 52.w,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.r),
+        gradient: const LinearGradient(
+          colors: [Color(0xFF1A0A4C), Color(0xFF3A1F8C)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Icon(Icons.bolt, color: Colors.white, size: 26.sp),
     );
   }
 
@@ -468,216 +448,282 @@ class _RequestScreenState extends State<RequestScreen>
     return Row(
       children: [
         icon,
-
         SizedBox(width: 6.w),
-
-        Text(
-          text,
-          style: AppStyles.body4.copyWith(color: Colors.black, fontWeight: FontWeight.w700),
+        Expanded(
+          child: Text(
+            text,
+            style: AppStyles.body4.copyWith(color: Colors.black, fontWeight: FontWeight.w700),
+          ),
         ),
       ],
     );
   }
 
   // ─────────────────────────────────────────────
-  //  MY REQUESTS TAB
+  //  EMPTY STATE
+  // ─────────────────────────────────────────────
+
+  Widget _buildEmptyState() {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: 40.h),
+            // Circular illustration with bill icon and magnifier
+            Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: 180.w,
+                  height: 180.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: const Color(0xFFF3F0F8),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.receipt_long_rounded,
+                      size: 80.sp,
+                      color: const Color(0xFFD1C4E9),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 10.h,
+                  right: 20.w,
+                  child: Container(
+                    width: 36.w,
+                    height: 36.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      Icons.search,
+                      size: 20.sp,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 28.h),
+            Text(
+              'request.offers.empty_title'.tr,
+              style: AppStyles.h4.copyWith(
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            SizedBox(height: 12.h),
+            Text(
+              'request.offers.empty_desc'.tr,
+              textAlign: TextAlign.center,
+              style: AppStyles.body2.copyWith(
+                color: Colors.grey[600],
+                height: 1.5,
+              ),
+            ),
+            SizedBox(height: 32.h),
+            PrimaryButton(
+              title: 'my_utility.upload_button'.tr,
+              prefixWidget: Icon(
+                Icons.upload_file_rounded,
+                color: Colors.white,
+                size: 20.sp,
+              ),
+              onPress: () {
+                NavHelper.push(const SelectUtilityScreen());
+              },
+            ),
+            SizedBox(height: 40.h),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ─────────────────────────────────────────────
+  //  MY REQUESTS TAB (Bills)
   // ─────────────────────────────────────────────
 
   Widget _buildMyRequestsTab() {
+    if (_controller.isLoadingBills) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_controller.billsError.isNotEmpty) {
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.all(24.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('request.bills.load_failed'.tr, style: AppStyles.h4),
+              SizedBox(height: 8.h),
+              TextButton(
+                onPressed: () => _controller.fetchBills(),
+                child: Text('common.retry'.tr,
+                    style: AppStyles.body2
+                        .copyWith(color: AppColors.primaryColor)),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (_controller.bills.isEmpty) {
+      return _buildEmptyState();
+    }
+
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
-      itemCount: _controller.requests.length,
+      itemCount: _controller.bills.length,
       itemBuilder: (context, index) =>
-          _buildRequestCard(_controller.requests[index]),
+          _buildBillCard(_controller.bills[index]),
     );
   }
 
-  Widget _buildRequestCard(RequestModel request) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(
-          color: const Color(0xFF5A1ABE),
-          width: 1.22,
+  Widget _buildBillCard(BillModel bill) {
+    return GestureDetector(
+      onTap: () {
+        NavHelper.push(BillDetailScreen(billId: bill.id));
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 10.h),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14.r),
+          border: Border.all(
+            color: const Color(0xFF5A1ABE),
+            width: 1.22,
+          ),
         ),
-      ),
-      padding: EdgeInsets.all(14.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // ── Top row: icon + title + status icon ──
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Icon box
-              SizedBox(
-                width: 48.w,
-                height: 48.w,
-                child: Image.asset(
-                  'assets/images/request.png',
-                  width: 20.sp,
-                  height: 20.sp,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              SizedBox(width: 12.w),
-
-              // Title + subtitle + description
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      request.title,
-                      style: AppStyles.h4.copyWith(fontSize: 15.sp),
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      request.subtitle,
-                      style: AppStyles.body4.copyWith(fontWeight: FontWeight.w700),
-                    ),
-                    // Extended description for readyToSign / completed
-                    if (request.status != RequestStatus.processing) ...[
-                      SizedBox(height: 4.h),
-                      Text(
-                        'Il tuo prezzo attuale è nel top 10% del mercato.',
-                        style: AppStyles.body4.copyWith(color: Colors.black, fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-
-              SizedBox(width: 8.w),
-              // Status icon (top right)
-              _buildStatusIcon(request.status),
-            ],
-          ),
-
-          SizedBox(height: 10.h),
-
-          // ── Bottom row: status chip + date ──
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildStatusChip(request.status),
-              Text(
-                request.date,
-                style: AppStyles.body4.copyWith(color: const Color(0xFF9810FA), fontSize: 11.sp, fontWeight: FontWeight.w800),
-              ),
-            ],
-          ),
-
-
-          // ── "View Alternatives" button for readyToSign ──
-          if (request.status == RequestStatus.readyToSign) ...[
-            SizedBox(height: 10.h),
-            SizedBox(
-              width: double.infinity,
-              height: 38.h,
-              child: OutlinedButton(
-                onPressed: () {
-                  Get.to(()=>RequestDetailsScreen());
-                },
-
-
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFF5A1ABE)),
-                  shape: RoundedRectangleBorder(
+        padding: EdgeInsets.all(14.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ── Top row: icon + title + status icon ──
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 48.w,
+                  height: 48.w,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF3F0F8),
                     borderRadius: BorderRadius.circular(10.r),
                   ),
+                  child: Icon(
+                    bill.billTypeIcon,
+                    size: 24.sp,
+                    color: AppColors.primaryColor,
+                  ),
                 ),
-                child: Text(
-                  'Visualizza Alternative',
-                  style: AppStyles.body2.copyWith(fontWeight: FontWeight.w800, color: const Color(0xFF9810FA)),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        bill.supplierName,
+                        style: AppStyles.h4.copyWith(fontSize: 15.sp),
+                      ),
+                      SizedBox(height: 2.h),
+                      Text(
+                        bill.billTypeDisplay,
+                        style: AppStyles.body4
+                            .copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      if (bill.totalAmount != null) ...[
+                        SizedBox(height: 4.h),
+                        Text(
+                          '${'request.offers.amount_label'.tr}: ${bill.totalAmountDisplay}',
+                          style: AppStyles.body4.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                SizedBox(width: 8.w),
+                Icon(
+                  bill.status == 'analyzed'
+                      ? Icons.check_circle_outline
+                      : bill.status == 'error'
+                          ? Icons.error_outline
+                          : Icons.hourglass_top_rounded,
+                  size: 20.sp,
+                  color: bill.statusColor,
+                ),
+              ],
+            ),
+            SizedBox(height: 10.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                  decoration: BoxDecoration(
+                    color: bill.statusBgColor,
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Text(
+                    bill.statusDisplay,
+                    style: AppStyles.body4.copyWith(
+                        color: bill.statusColor,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 11.sp),
+                  ),
+                ),
+                Text(
+                  bill.formattedDate,
+                  style: AppStyles.body4.copyWith(
+                      color: const Color(0xFF9810FA),
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w800),
+                ),
+              ],
+            ),
+            if (bill.status == 'analyzed') ...[
+              SizedBox(height: 10.h),
+              SizedBox(
+                width: double.infinity,
+                height: 38.h,
+                child: OutlinedButton(
+                  onPressed: () {
+                    NavHelper.push(BillDetailScreen(billId: bill.id));
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Color(0xFF5A1ABE)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                  ),
+                  child: Text(
+                    'request.offers.view_details'.tr,
+                    style: AppStyles.body2.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: const Color(0xFF9810FA)),
+                  ),
                 ),
               ),
-            ),
+            ],
           ],
-        ],
+        ),
       ),
     );
-  }
-
-  Widget _buildStatusChip(RequestStatus status) {
-    switch (status) {
-      case RequestStatus.processing:
-        return _chip(
-          label: 'In elaborazione',
-          bg: const Color(0xFFFFF3E0),
-          fg: const Color(0xFFDFB400),
-        );
-      case RequestStatus.readyToSign:
-        return _chip(
-          label: '↘ Offerta Competitiva Trovata',
-          bg: const Color(0xFFDCFCE7),
-          fg: const Color(0xFF008236),
-        );
-      case RequestStatus.completed:
-        return _chip(
-          label: '✓ Contratto Confermato',
-          bg: const Color(0xFFDBEAFE),
-          fg: const Color(0xFF1447E6),
-          icon: Icons.verified_outlined,
-          iconColor: const Color(0xFF1565C0),
-        );
-    }
-  }
-
-  Widget _chip({
-    required String label,
-    required Color bg,
-    required Color fg,
-    IconData? icon,
-    Color? iconColor,
-  }) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon != null) ...[
-            Icon(icon, size: 12.sp, color: iconColor),
-            SizedBox(width: 4.w),
-          ],
-          Text(
-            label,
-            style: AppStyles.body4.copyWith(color: fg, fontWeight: FontWeight.w900, fontSize: 11.sp),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatusIcon(RequestStatus status) {
-    switch (status) {
-      case RequestStatus.processing:
-        return Image.asset(
-          'assets/images/process.png',
-          width: 20.sp,
-          height: 20.sp,
-          fit: BoxFit.contain,
-        );
-      case RequestStatus.readyToSign:
-        return Image.asset(
-          'assets/images/doc.png',
-          width: 20.sp,
-          height: 20.sp,
-          fit: BoxFit.contain,
-        );
-      case RequestStatus.completed:
-        return Image.asset(
-          'assets/images/doc.png',
-          width: 20.sp,
-          height: 20.sp,
-          fit: BoxFit.contain,
-        );
-    }
   }
 }

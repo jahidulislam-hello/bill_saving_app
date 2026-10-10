@@ -1,6 +1,7 @@
 import 'package:vyzi/features/profile/agreements/agreements_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'agreements_controller.dart';
 
 
@@ -33,26 +34,117 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F7),
       appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ── Your Benefits banner ──
-            _buildBenefitsBanner(),
-            SizedBox(height: 16.h),
+      body: RefreshIndicator(
+        color: const Color(0xFF27AE60),
+        onRefresh: () => _controller.fetchAgreements(),
+        child: _controller.isLoading
+            ? const Center(
+                child: CircularProgressIndicator(color: Color(0xFF27AE60)),
+              )
+            : _buildBody(),
+      ),
+    );
+  }
 
-            // ── Agreement list ──
-            ..._controller.agreements.map(
-                  (item) => Padding(
-                padding: EdgeInsets.only(bottom: 10.h),
-                child: _buildAgreementCard(item),
-              ),
+  Widget _buildBody() {
+    // Error state
+    if (_controller.errorMessage != null) {
+      return ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: [
+          SizedBox(height: 120.h),
+          Center(
+            child: Column(
+              children: [
+                Icon(Icons.error_outline_rounded,
+                    size: 48.sp, color: Colors.grey[400]),
+                SizedBox(height: 12.h),
+                Text(
+                  _controller.errorMessage!,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.grey[500],
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                GestureDetector(
+                  onTap: () => _controller.fetchAgreements(),
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF27AE60),
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    child: Text(
+                      'agreements.retry'.tr,
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+          ),
+        ],
+      );
+    }
 
-            SizedBox(height: 16.h),
-          ],
-        ),
+    // Empty state
+    if (_controller.agreements.isEmpty) {
+      return ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        children: [
+          _buildBenefitsBanner(),
+          SizedBox(height: 60.h),
+          Center(
+            child: Column(
+              children: [
+                Icon(Icons.local_offer_outlined,
+                    size: 48.sp, color: Colors.grey[400]),
+                SizedBox(height: 12.h),
+                Text(
+                  'agreements.no_agreements'.tr,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.grey[500],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
+    // Normal list
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // ── Your Benefits banner ──
+          _buildBenefitsBanner(),
+          SizedBox(height: 16.h),
+
+          // ── Agreement list ──
+          ..._controller.agreements.map(
+            (item) => Padding(
+              padding: EdgeInsets.only(bottom: 10.h),
+              child: _buildAgreementCard(item),
+            ),
+          ),
+
+          SizedBox(height: 16.h),
+        ],
       ),
     );
   }
@@ -71,7 +163,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Convenzioni',
+            'agreements.title'.tr,
             style: TextStyle(
               fontSize: 17.sp,
               fontWeight: FontWeight.w900,
@@ -80,7 +172,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
             ),
           ),
           Text(
-            'Sconti esclusivi per te',
+            'agreements.subtitle'.tr,
             style: TextStyle(
               fontSize: 11.sp,
               color: Colors.black,
@@ -126,7 +218,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'I Tuoi Vantaggi',
+                  'agreements.your_benefits'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w900,
@@ -136,7 +228,7 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'Goditi sconti esclusivi presso i nostri ristoranti partner come membro prezioso.',
+                  'agreements.benefits_desc'.tr,
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: Colors.black,
@@ -232,13 +324,17 @@ class _AgreementsScreenState extends State<AgreementsScreen> {
                           size: 12.sp,
                           color: const Color(0xFF27AE60)),
                       SizedBox(width: 4.w),
-                      Text(
-                        item.discount,
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF27AE60),
-                          height: 1.22,
+                      Expanded(
+                        child: Text(
+                          item.discount,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF27AE60),
+                            height: 1.22,
+                          ),
                         ),
                       ),
                     ],

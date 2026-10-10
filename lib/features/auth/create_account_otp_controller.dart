@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:vyzi/core/services/storage_service.dart';
 import 'package:vyzi/features/auth/controller/auth_controller.dart';
 
 class CreateAccountOtpController extends GetxController {
@@ -39,17 +39,35 @@ class CreateAccountOtpController extends GetxController {
   Future<void> verifyAndProceed() async {
     final code = otpDigits.join();
     if (code.length < 6) {
-      Get.snackbar('Errore', 'Inserisci il codice OTP completo');
+      Get.snackbar('auth.validation.error'.tr, 'auth.otp.error_incomplete'.tr);
       return;
     }
 
     final auth = Get.put(AuthController());
     try {
-      await auth.verifyOtp(email: email.value, code: code, type: 'email_verification');
-      Get.snackbar('Successo', 'OTP verificato');
+      final res = await auth.verifyOtp(email: email.value, code: code, type: 'email_verification');
+
+      // Persist tokens from the OTP verify response if present
+      final data = res['data'] as Map<String, dynamic>?;
+      if (data != null) {
+        final storage = Get.find<StorageService>();
+        final accessToken = data['accessToken'] as String?;
+        final refreshToken = data['refreshToken'] as String?;
+        final user = data['user'] as Map<String, dynamic>?;
+        if (accessToken != null) await storage.setString(StorageKeys.authToken, accessToken);
+        if (refreshToken != null) await storage.setString(StorageKeys.refreshToken, refreshToken);
+        if (user != null) {
+          if (user['id'] != null) await storage.setString(StorageKeys.userId, user['id'].toString());
+          if (user['email'] != null) await storage.setString(StorageKeys.userEmail, user['email'].toString());
+          if (user['firstName'] != null) await storage.setString(StorageKeys.userName, user['firstName'].toString());
+        }
+        await storage.setBool(StorageKeys.isLoggedIn, true);
+      }
+
+      Get.snackbar('auth.validation.success'.tr, 'auth.otp.verified_success'.tr);
       Get.offAllNamed('/navbarScreen');
     } catch (e) {
-      Get.snackbar('Errore', auth.error.value.isNotEmpty ? auth.error.value : 'Verifica OTP fallita');
+      Get.snackbar('auth.validation.error'.tr, auth.error.value.isNotEmpty ? auth.error.value : 'auth.otp.verification_failed'.tr);
     }
   }
 
@@ -62,7 +80,7 @@ class CreateAccountOtpController extends GetxController {
     startTimer();
 
     // TODO: optional API call to resend OTP
-    Get.snackbar("OTP Sent", "A new OTP has been sent to your email.");
+    Get.snackbar('auth.otp.resend_title'.tr, 'auth.otp.resend_message'.tr);
   }
 
   /// Start countdown timer for OTP resend

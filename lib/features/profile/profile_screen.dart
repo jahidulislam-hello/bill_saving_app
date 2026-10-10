@@ -1,11 +1,13 @@
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
+import 'package:vyzi/features/auth/controller/auth_controller.dart';
 import 'package:vyzi/features/profile/agreements/agreements_screen.dart';
 import 'package:vyzi/features/profile/controller/profile_controller.dart';
 import 'package:vyzi/features/profile/invite_friends/invite_friends.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:vyzi/features/profile/settings/my_requests_profile.dart';
 import 'package:vyzi/features/profile/settings/my_utilities_profile_screen.dart';
 import 'package:vyzi/features/support/support_screen.dart';
@@ -44,25 +46,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // ─────────────────────────────────────────────
 
   // Account Management — 3 items
-  final List<_MenuItem> _accountItems = const [
+  final List<_MenuItem> _accountItems = [
     _MenuItem(
       assetIcon: AppAssets.menuPersonal,
-      title: 'Dati Personali',
-      subtitle: 'Modifica le informazioni del tuo profilo',
+      titleKey: 'profile.menu.personal_data',
+      subtitleKey: 'profile.menu.personal_data_desc',
       route: 'personal_data',
     ),
 
     _MenuItem(
       assetIcon: AppAssets.menuUtilities,
-      title: 'Le tue utenze',
-      subtitle: 'Visualizza i servizi attivi',
+      titleKey: 'profile.menu.utilities',
+      subtitleKey: 'profile.menu.utilities_desc',
       route: 'utilities',
     ),
 
     _MenuItem(
       assetIcon: AppAssets.menuRequests,
-      title: 'Le tue richieste',
-      subtitle: 'Segui i tuoi passaggi',
+      titleKey: 'profile.menu.requests',
+      subtitleKey: 'profile.menu.requests_desc',
       route: 'requests',
     ),
 
@@ -70,34 +72,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ];
 
 // Invite and Rewards — 1 item
-  final List<_MenuItem> _inviteItems = const [
+  final List<_MenuItem> _inviteItems = [
     _MenuItem(
       assetIcon: AppAssets.menuInvite,
-      title: 'Invita e Guadagna',
-      subtitle: 'Condividi il tuo link e guadagna 10',
+      titleKey: 'profile.menu.invite',
+      subtitleKey: 'profile.menu.invite_desc',
       route: 'invite',
     ),
   ];
 
 // Others — 3 items
-  final List<_MenuItem> _otherItems = const [
+  final List<_MenuItem> _otherItems = [
 
     _MenuItem(
       assetIcon: AppAssets.menuSupport,
-      title: 'Supporto',
-      subtitle: 'Ricevi aiuto e contattaci',
+      titleKey: 'profile.menu.support',
+      subtitleKey: 'profile.menu.support_desc',
       route: 'supports',
     ),
     _MenuItem(
       assetIcon: AppAssets.menuAgreements,
-      title: 'Convenzioni',
-      subtitle: 'Sconti esclusivi dei partner',
+      titleKey: 'profile.menu.agreements',
+      subtitleKey: 'profile.menu.agreements_desc',
       route: 'agreements',
     ),
     _MenuItem(
       assetIcon: AppAssets.menuMore,
-      title: 'Altro',
-      subtitle: 'Privacy Legale',
+      titleKey: 'profile.menu.more',
+      subtitleKey: 'profile.menu.more_desc',
       route: 'more',
     ),
   ];
@@ -124,15 +126,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     _buildProfileCard(),
                     SizedBox(height: 24.h),
-                    _buildSectionLabel('Gestione Account'),
+                    _buildSectionLabel('profile.section.account'.tr),
                     SizedBox(height: 10.h),
                     _buildMenuCard(_accountItems),
                     SizedBox(height: 24.h),
-                    _buildSectionLabel('Invita e Premi'),
+                    _buildSectionLabel('profile.section.invite'.tr),
                     SizedBox(height: 10.h),
                     _buildMenuCard(_inviteItems),
                     SizedBox(height: 24.h),
-                    _buildSectionLabel('Altro'),
+                    _buildSectionLabel('profile.section.other'.tr),
                     SizedBox(height: 10.h),
                     _buildMenuCard(_otherItems),
                     SizedBox(height: 24.h),
@@ -161,12 +163,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Profilo',
+                  'profile.title'.tr,
                   style: AppStyles.h2.copyWith(color: AppColors.textDark, fontWeight: FontWeight.w900),
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  'Gestisci le impostazioni del tuo account',
+                  'profile.subtitle'.tr,
                   style: AppStyles.body3.copyWith(fontWeight: FontWeight.w700),
                 ),
               ],
@@ -209,11 +211,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     shape: BoxShape.circle,
                     color: AppColors.background.withOpacity(0.2),
                   ),
-                  child: const Icon(
-                    Icons.person_rounded,
-                    color: AppColors.background,
-                    size: 30,
-                  ),
+                  child: _controller.avatarUrl.isNotEmpty
+                      ? ClipOval(
+                          child: Image.network(
+                            _controller.avatarUrl,
+                            fit: BoxFit.cover,
+                            width: 52.w,
+                            height: 52.w,
+                            errorBuilder: (_, __, ___) => const Icon(
+                              Icons.person_rounded,
+                              color: AppColors.background,
+                              size: 30,
+                            ),
+                          ),
+                        )
+                      : const Icon(
+                          Icons.person_rounded,
+                          color: AppColors.background,
+                          size: 30,
+                        ),
                 ),
                 SizedBox(width: 14.w),
                 Expanded(
@@ -254,7 +270,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Tipo di account',
+                      'profile.account_type_label'.tr,
                       style: AppStyles.caption.copyWith(color: AppColors.background.withOpacity(0.85), fontWeight: FontWeight.w700),
                     ),
                     SizedBox(height: 2.h),
@@ -297,8 +313,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SizedBox(width: 5.w),
                         Text(
                           _controller.accountType == 'Privato'
-                              ? 'Passa ad Azienda'
-                              : 'Passa a Privato',
+                              ? 'profile.switch_to_business'.tr
+                              : 'profile.switch_to_personal'.tr,
                           style: AppStyles.label.copyWith(
                             fontSize: 12.sp,
                             color: AppColors.primaryColor,
@@ -398,7 +414,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.title,
+                    item.titleKey.tr,
                     style: AppStyles.body2.copyWith(
                       fontWeight: FontWeight.w900,
                       color: AppColors.textDark,
@@ -408,7 +424,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 2.h),
 
                   Text(
-                    item.subtitle,
+                    item.subtitleKey.tr,
                     style: AppStyles.body4.copyWith(fontWeight: FontWeight.w700),
                   ),
                 ],
@@ -443,7 +459,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(14.r),
-        onTap: () {},
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text('profile.menu.logout'.tr),
+              content: Text('profile.logout.confirm'.tr),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: Text('common.cancel'.tr),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    final auth = Get.put(AuthController());
+                    auth.logout();
+                  },
+                  child: Text('profile.menu.logout'.tr, style: TextStyle(color: AppColors.error)),
+                ),
+              ],
+            ),
+          );
+        },
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 16.h),
           child: Row(
@@ -453,7 +491,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: AppColors.error, size: 18.sp),
               SizedBox(width: 8.w),
               Text(
-                'Disconnetti',
+                'profile.menu.logout'.tr,
                 style: AppStyles.body2.copyWith(
                   fontWeight: FontWeight.w900,
                   color: AppColors.error,
@@ -534,14 +572,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 // ── Menu item data class ──
 class _MenuItem {
   final String assetIcon;
-  final String title;
-  final String subtitle;
+  final String titleKey;
+  final String subtitleKey;
   final String route;
 
   const _MenuItem({
     required this.assetIcon,
-    required this.title,
-    required this.subtitle,
+    required this.titleKey,
+    required this.subtitleKey,
     required this.route,
   });
 }

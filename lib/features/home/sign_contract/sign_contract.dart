@@ -1,6 +1,7 @@
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'sign_contract_controller.dart';
 
 class SignContractScreen extends StatefulWidget {
@@ -36,8 +37,10 @@ class _SignContractScreenState extends State<SignContractScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
       appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 20.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -53,6 +56,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
             _buildHelpCard(),
           ],
         ),
+      ),
       ),
     );
   }
@@ -71,7 +75,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
-        'Firma il tuo Contratto',
+        'sign_contract.appbar_title'.tr,
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w700,
@@ -102,7 +106,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
-              'Azione Richiesta',
+              'sign_contract.action_required'.tr,
               style: TextStyle(
                 fontSize: 11.sp,
                 fontWeight: FontWeight.w800,
@@ -116,7 +120,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
 
           // ── Title ──
           Text(
-            'Pronto da Firmare',
+            'sign_contract.ready_title'.tr,
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w900,
@@ -129,7 +133,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
 
           // ── Description ──
           Text(
-            'Il tuo contratto è pronto! Firmalo per completare il tuo passaggio a EnergyPlus.',
+            'sign_contract.ready_desc'.tr,
             style: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w600,
@@ -189,7 +193,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Fornitore',
+                    'sign_contract.supplier_label'.tr,
                     style: TextStyle(
                       fontSize: 10.sp,
                       fontWeight: FontWeight.w700,
@@ -223,7 +227,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
 
           // ── Offer Name ──
           _buildCardField(
-            label: 'Nome Offerta',
+            label: 'sign_contract.offer_name_label'.tr,
             value: 'Next e-Business Sunlight',
             valueColor: const Color(0xFF64FBCB),
           ),
@@ -232,7 +236,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
 
           // ── Activation Date ──
           _buildCardField(
-            label: 'Data di Attivazione',
+            label: 'sign_contract.activation_date_label'.tr,
             value: '12 Marzo 2026',
             valueColor: Colors.white,
           ),
@@ -284,7 +288,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hai bisogno di aiuto per firmare?',
+              'sign_contract.help_question'.tr,
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
@@ -296,7 +300,7 @@ class _SignContractScreenState extends State<SignContractScreen> {
             Row(
               children: [
                 Text(
-                  'Visualizza Tutorial di Firma',
+                  'sign_contract.view_tutorial'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -378,30 +382,27 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
   SignContractController get _c => widget.controller;
 
   // ── Tutorial step data ──
-  final List<_TutorialStep> _steps = const [
+  List<_TutorialStep> get _steps => [
     _TutorialStep(
       illustration: _IllustrationType.emailCheck,
       stepNumber: 1,
       icon: Icons.mail_outline_rounded,
-      title: 'Controlla i tuoi SMS/Email',
-      description:
-      'Invieremo un codice di verifica unico a 6 cifre al tuo numero di cellulare registrato e all\'indirizzo email per verificare la tua identità.',
+      title: 'sign_contract.tutorial_step1_title'.tr,
+      description: 'sign_contract.tutorial_step1_desc'.tr,
     ),
     _TutorialStep(
       illustration: _IllustrationType.sign,
       stepNumber: 2,
       icon: Icons.edit_outlined,
-      title: 'Firma il Contratto',
-      description:
-      'Inserisci il codice di verifica e rivedi i dettagli del contratto. Una volta confermato, apponi la tua firma digitale per procedere.',
+      title: 'sign_contract.tutorial_step2_title'.tr,
+      description: 'sign_contract.tutorial_step2_desc'.tr,
     ),
     _TutorialStep(
       illustration: _IllustrationType.done,
       stepNumber: 3,
       icon: Icons.check_circle_outline_rounded,
-      title: 'Sei a Posto!',
-      description:
-      'Il tuo contratto è firmato e il tuo passaggio a EnergyPlus è completo. Benvenuto a bordo — i tuoi risparmi iniziano ora!',
+      title: 'sign_contract.tutorial_step3_title'.tr,
+      description: 'sign_contract.tutorial_step3_desc'.tr,
     ),
   ];
 
@@ -440,94 +441,97 @@ class _TutorialBottomSheetState extends State<_TutorialBottomSheet>
           topRight: Radius.circular(24.r),
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // ── Drag handle ──
-          SizedBox(height: 12.h),
-          Container(
-            width: 40.w,
-            height: 4.h,
-            decoration: BoxDecoration(
-              color: const Color(0xFF5A1ABE),
-              borderRadius: BorderRadius.circular(4.r),
+      child: SafeArea(
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // ── Drag handle ──
+            SizedBox(height: 12.h),
+            Container(
+              width: 40.w,
+              height: 4.h,
+              decoration: BoxDecoration(
+                color: const Color(0xFF5A1ABE),
+                borderRadius: BorderRadius.circular(4.r),
+              ),
             ),
-          ),
-          SizedBox(height: 8.h),
+            SizedBox(height: 8.h),
 
-          // ── Close button row ──
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    width: 30.w,
-                    height: 30.w,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF5F5F5),
-                      shape: BoxShape.circle,
+            // ── Close button row ──
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      width: 30.w,
+                      height: 30.w,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF5F5F5),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(Icons.close_rounded,
+                          size: 16.sp, color: Colors.black),
                     ),
-                    child: Icon(Icons.close_rounded,
-                        size: 16.sp, color: Colors.black),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
 
-          // ── PageView content ──
-          SizedBox(
-            height: 420.h,
-            child: PageView.builder(
-              controller: _pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: _steps.length,
-              itemBuilder: (_, i) => _buildStepPage(_steps[i]),
+            // ── PageView content ──
+            SizedBox(
+              height: 420.h,
+              child: PageView.builder(
+                controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _steps.length,
+                itemBuilder: (_, i) => _buildStepPage(_steps[i]),
+              ),
             ),
-          ),
 
-          // ── Dots ──
-          _buildDots(),
-          SizedBox(height: 16.h),
+            // ── Dots ──
+            _buildDots(),
+            SizedBox(height: 16.h),
 
-          // ── Next / Got it button ──
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: SizedBox(
-              width: double.infinity,
-              height: 52.h,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_c.isLastStep) {
-                    Navigator.pop(context);
-                  } else {
-                    _c.nextStep();
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14.r),
+            // ── Next / Got it button ──
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: SizedBox(
+                width: double.infinity,
+                height: 52.h,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_c.isLastStep) {
+                      Navigator.pop(context);
+                    } else {
+                      _c.nextStep();
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14.r),
+                    ),
                   ),
-                ),
-                child: Text(
-                  _c.isLastStep ? 'Capito' : 'Avanti',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w800,
-                    height: 1.22,
+                  child: Text(
+                    _c.isLastStep ? 'sign_contract.got_it'.tr : 'sign_contract.next'.tr,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w800,
+                      height: 1.22,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 32.h),
-        ],
+            SizedBox(height: 32.h),
+          ],
+        ),
       ),
     );
   }

@@ -5,11 +5,13 @@ import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:vyzi/core/widgets/custom_text_filled.dart';
 import 'package:vyzi/core/widgets/primary_button.dart';
 import 'package:vyzi/core/widgets/social_button.dart';
+import 'package:vyzi/core/services/social_auth_service.dart';
 import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyzi/core/exceptions/app_exceptions.dart';
 import 'package:vyzi/features/auth/controller/auth_controller.dart';
 
 
@@ -38,15 +40,30 @@ class _SignInScreenState extends State<SignInScreen> {
       backgroundColor: AppColors.background,
       appBar: CustomAppBar(
         showBackButton: true,
-        onLeadingPressed: () => Get.back(),
+        onLeadingPressed: () {
+          if (Navigator.of(context).canPop()) {
+            Get.back();
+          } else {
+            Get.offAllNamed(AppRoutes.onboardScreen);
+          }
+        },
         actions: [
           IconButton(
             icon: Icon(Icons.close, size: 22.sp, color: AppColors.textPrimary),
-            onPressed: () => Navigator.maybePop(context),
+            onPressed: () {
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              } else {
+                Get.offAllNamed(AppRoutes.onboardScreen);
+              }
+            },
           ),
         ],
       ),
-      body: SafeArea(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Form(
@@ -58,7 +75,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                 // ── Title ──────────────────────────
                 Text(
-                  'Accedi al tuo account',
+                  'auth.login.title'.tr,
                   style: AppStyles.h2,
                 ),
 
@@ -67,23 +84,27 @@ class _SignInScreenState extends State<SignInScreen> {
 
                 // ── Email ──────────────────────────
                 CustomTextField(
-                  labelText: 'Indirizzo Email *',
+                  labelText: 'auth.login.email_label'.tr,
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  hintText: 'you@example.com',
-                  validator: (v) =>
-                      v == null || !v.contains('@') ? 'Inserisci un\'email valida' : null,
+                  hintText: 'auth.login.email_hint'.tr,
+                  validator: (v) {
+                    if (v == null || v.isEmpty) return 'auth.login.email_error'.tr;
+                    final emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
+                    if (!emailRegex.hasMatch(v)) return 'auth.login.email_error'.tr;
+                    return null;
+                  },
                 ),
 
                 SizedBox(height: 12.h),
 
                 // ── Password ───────────────────────
                 CustomTextField(
-                  labelText: 'Password *',
+                  labelText: 'auth.login.password_label'.tr,
                   controller: _passwordController,
                   isPassword: true,
-                  hintText: '••••••••••',
-                  validator: (v) => v == null || v.length < 6 ? 'Minimo 6 caratteri' : null,
+                  hintText: 'auth.login.password_hint'.tr,
+                  validator: (v) => v == null || v.length < 8 ? 'auth.login.password_error'.tr : null,
                 ),
 
                 SizedBox(height: 12.h),
@@ -99,9 +120,9 @@ class _SignInScreenState extends State<SignInScreen> {
                         text: TextSpan(
                           style: AppStyles.body3,
                           children: [
-                            const TextSpan(text: 'Hai dimenticato la password?    '),
+                            TextSpan(text: '${'auth.login.forgot_password'.tr}    '),
                             TextSpan(
-                              text: 'Reimposta ora',
+                              text: 'auth.login.reset_now'.tr,
                               style: AppStyles.body3.copyWith(
                                 color: AppColors.primaryColor,
                                 fontWeight: FontWeight.w500,
@@ -122,7 +143,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                 // ── Register Button ────────────────
                 PrimaryButton(
-                  title: 'Accedi',
+                  title: 'auth.login.button'.tr,
                   onPress: () async {
                     if (_formKey.currentState!.validate()) {
                       final auth = Get.put(AuthController());
@@ -133,8 +154,25 @@ class _SignInScreenState extends State<SignInScreen> {
                         );
                         // Navigate to navbar only if login is successful
                         Get.offNamed(AppRoutes.navbarScreen);
+                      } on ServerException catch (e) {
+                        if (e.statusCode == 403 && e.message.contains('not verified')) {
+                          Get.snackbar('auth.validation.info'.tr, 'auth.login.error.not_verified'.tr);
+                          Get.toNamed(
+                            AppRoutes.createAccountOtpScreen,
+                            arguments: {'email': _emailController.text.trim()},
+                          );
+                        } else {
+                          String errorMessage = 'auth.login.error.failed'.tr;
+                          final rawError = auth.error.value;
+                          if (rawError.contains('Invalid email or password')) {
+                            errorMessage = 'auth.login.error.invalid_credentials'.tr;
+                          } else if (rawError.contains('suspended')) {
+                            errorMessage = 'auth.login.error.suspended'.tr;
+                          }
+                          Get.snackbar('auth.validation.error'.tr, errorMessage);
+                        }
                       } catch (e) {
-                        Get.snackbar('Errore', auth.error.value.isNotEmpty ? auth.error.value : 'Login fallito');
+                        Get.snackbar('auth.validation.error'.tr, 'auth.login.error.failed'.tr);
                       }
                     }
                   },
@@ -149,7 +187,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: Text(
-                        'Oppure accedi con',
+                        'auth.login.divider'.tr,
                         style: AppStyles.caption,
                       ),
                     ),
@@ -161,27 +199,27 @@ class _SignInScreenState extends State<SignInScreen> {
 
                 // ── Facebook ───────────────────────
                 SocialButton(
-                  label: 'Accedi con Facebook',
+                  label: 'auth.login.facebook'.tr,
                   logo: _facebookLogo(),
-                  onPress: () {},
+                  onPress: () => _handleSocialLogin(SocialProvider.facebook),
                 ),
 
                 SizedBox(height: 10.h),
 
                 // ── Apple ──────────────────────────
                 SocialButton(
-                  label: 'Accedi con Apple',
+                  label: 'auth.login.apple'.tr,
                   logo: _appleLogo(),
-                  onPress: () {},
+                  onPress: () => _handleSocialLogin(SocialProvider.apple),
                 ),
 
                 SizedBox(height: 10.h),
 
                 // ── Google ─────────────────────────
                 SocialButton(
-                  label: 'Accedi con Google',
+                  label: 'auth.login.google'.tr,
                   logo: _googleLogo(),
-                  onPress: () {},
+                  onPress: () => _handleSocialLogin(SocialProvider.google),
                 ),
 
                 SizedBox(height: 20.h),
@@ -192,9 +230,9 @@ class _SignInScreenState extends State<SignInScreen> {
                     text: TextSpan(
                       style: AppStyles.body3,
                       children: [
-                        const TextSpan(text: 'Non hai un account?'),
+                        TextSpan(text: 'auth.login.no_account'.tr),
                         TextSpan(
-                          text: 'Registrati ora',
+                          text: 'auth.login.signup'.tr,
                           style: AppStyles.body3.copyWith(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.w500,
@@ -215,9 +253,27 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
         ),
       ),
+      ),
     );
   }
 
+
+  Future<void> _handleSocialLogin(SocialProvider provider) async {
+    final auth = Get.put(AuthController());
+    try {
+      await auth.socialLogin(provider);
+      Get.offAllNamed(AppRoutes.navbarScreen);
+    } catch (e) {
+      String errorMessage = 'auth.login.error.social_failed'.tr;
+      final rawError = auth.error.value;
+      if (rawError.contains('suspended')) {
+        errorMessage = 'auth.login.error.suspended'.tr;
+      } else if (rawError.contains('annullato')) {
+        errorMessage = rawError;
+      }
+      Get.snackbar('auth.validation.error'.tr, errorMessage);
+    }
+  }
 
   // ── Labeled field wrapper ──────────────────
   Widget _labeledField({required String label, required Widget child}) {

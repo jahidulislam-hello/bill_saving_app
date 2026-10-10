@@ -4,7 +4,6 @@ class OfferModel {
   final String title;
   final String subtitle;
   final String imagePath;
-  final bool isBestValue;
   final double monthlyCost;
   final double savings;
   final int savingsPercent;
@@ -15,7 +14,6 @@ class OfferModel {
     required this.title,
     required this.subtitle,
     required this.imagePath,
-    required this.isBestValue,
     required this.monthlyCost,
     required this.savings,
     required this.savingsPercent,

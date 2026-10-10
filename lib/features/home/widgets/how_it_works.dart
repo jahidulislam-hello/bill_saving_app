@@ -1,6 +1,7 @@
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class HowItWorksCard extends StatelessWidget {
   const HowItWorksCard({super.key});
@@ -34,7 +35,7 @@ class HowItWorksCard extends StatelessWidget {
               ),
               SizedBox(width: 8.w),
                Text(
-                "Come Funziona",
+                'home.how_it_works.title'.tr,
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w900,
@@ -48,20 +49,20 @@ class HowItWorksCard extends StatelessWidget {
 
           _stepItem(
             "1",
-            "Carica la tua Bolletta",
-            "Scatta una foto alla tua bolletta o carica direttamente un PDF dall'app.",
+            'home.how_it_works.step1_title'.tr,
+            'home.how_it_works.step1_desc'.tr,
           ),
 
           _stepItem(
             "2",
-            "Analizziamo e proponiamo",
-            "Il team VYZI analizza la tua situazione attuale. Riceverai una notifica con le offerte più adatte.",
+            'home.how_it_works.step2_title'.tr,
+            'home.how_it_works.step2_desc'.tr,
           ),
 
           _stepItem(
             "3",
-            "Scegli e attiva",
-            "Confronta le offerte selezionate e scegli quella che preferisci. Noi gestiamo l'attivazione.",
+            'home.how_it_works.step3_title'.tr,
+            'home.how_it_works.step3_desc'.tr,
             isLast: true,
           ),
         ],

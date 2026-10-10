@@ -59,12 +59,15 @@ class SummaryCard extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 8.w),
-              Text(
-                title,
-                style: TextStyle(
-                  color: AppColors.textDark,
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: AppColors.textDark,
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

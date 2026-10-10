@@ -1,6 +1,8 @@
+import 'dart:math' as math;
+
 import 'package:vyzi/core/navbar/navbar_controller.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
-import 'package:vyzi/features/home/model/meter_model.dart';
+import 'package:vyzi/features/home/model/user_service_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,11 +10,13 @@ import 'package:get/get.dart';
 import 'single_utility_card.dart';
 
 class UtilitiesSection extends StatelessWidget {
-  final RxList<MeterModel> meters;
+  final RxList<UserServiceModel> services;
+  final int maxItems;
 
   const UtilitiesSection({
     super.key,
-    required this.meters,
+    required this.services,
+    this.maxItems = 3,
   });
 
   @override
@@ -36,7 +40,7 @@ class UtilitiesSection extends StatelessWidget {
           Row(
             children: [
               Text(
-                "Le tue Utenze",
+                'home.utilities_section.title'.tr,
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w900,
@@ -50,7 +54,7 @@ class UtilitiesSection extends StatelessWidget {
                   navCtrl.changeIndex(2); // Index for MyUtilitiesScreen
                 },
                 child: Text(
-                  "Visualizza Tutto",
+                  'home.utilities_section.view_all'.tr,
                   style: TextStyle(
                     color: AppColors.primaryColor,
                     fontSize: 14.sp,
@@ -67,18 +71,19 @@ class UtilitiesSection extends StatelessWidget {
             () => ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: meters.length,
+              itemCount: math.min(services.length, maxItems),
               separatorBuilder: (_, __) => SizedBox(height: 12.h),
               itemBuilder: (_, index) {
-                final meter = meters[index];
+                final service = services[index];
 
                 return UtilityCard(
-                  title: meter.supplier.name,
-                  subtitle: meter.utilityType,
-                  logoUrl: meter.supplier.logoUrl,
+                  title: service.supplierName ?? service.offerName ?? '',
+                  subtitle: service.energyType ?? '',
+                  trailingText: service.monthlyEstimate != null
+                      ? '€${service.monthlyEstimate}'
+                      : null,
                   onTap: () {
-                    // Handle utility card tap — full MeterModel is accessible via meters[index]
-                    debugPrint("Utility tapped: ${meter.supplier.name} (${meter.utilityType})");
+                    debugPrint("Service tapped: ${service.supplierName} (${service.energyType})");
                   },
                 );
               },

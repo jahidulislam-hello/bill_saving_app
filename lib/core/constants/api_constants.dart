@@ -1,5 +1,8 @@
 class ApiConstants {
-  static const String baseUrl = 'https://zeron-3000.ssh.bd';
+  static const String baseUrl = String.fromEnvironment(
+    'BASE_URL',
+    defaultValue: 'https://zeron-3000.ssh.bd',
+  );
 
   // General
   static const String config = '/api/v1/config';
@@ -18,14 +21,19 @@ class ApiConstants {
   static const String authForgotPassword = '/api/v1/auth/forgot-password';
   static const String authResetPassword = '/api/v1/auth/reset-password';
   static const String authRefreshToken = '/api/v1/auth/refresh-token';
+  static const String authLogout = '/api/v1/auth/logout';
+  static const String authSocialLogin = '/api/v1/auth/social-login';
 
 
   //Get My Profile
   static const String getMyProfile = '/api/v1/auth/me';
   static const String updateProfile = '/api/v1/users/profile';
 
-  //Active offers 
-  static const String activeOffers = '/api/v1/meters/my-meters';
+  // User activated services (utilities)
+  static const String myServices = '/api/v1/meters/my-services';
+
+  // Dashboard
+  static const String userDashboard = '/api/v1/dashboard/user';
 
 
 
@@ -36,6 +44,11 @@ class ApiConstants {
   static const String getListMyReferral = '/api/v1/referrals/my-referrals?page=1&limit=20';
   static const String createReferral = '/api/v1/referrals/invite';
 
+  // Referral reward display amounts (update when backend adds settings endpoint)
+  static const String referralYouEarn = '€10';
+  static const String referralFriendGets = '€10';
+  static const double referralEarningsMilestone = 50.0;
+
 
 
   //Suppliers
@@ -45,9 +58,10 @@ class ApiConstants {
 
   //Offers
   static const String getActiveOffers = '/api/v1/offers?page=1&limit=20';
+  static const String getMyOffers = '/api/v1/offers/my-offers';
   static const String getOfferDetails = '/api/v1/offers/{{offerId}}'; 
   static const String getCompareOffers = '/api/v1/offers/compare?ids={{offerId}},o2b3c4d5-e6f7-8901-bcde-f23456789012';
-  static const String getRecomndedOffer = '/api/v1/offers/recommended/a1b2c3d4-e5f6-7890-abcd-ef1234567890';
+  static String getRecommendedOffers(String billId) => '/api/v1/offers/recommended/$billId';
   
   //Agreements
   static const String getListMyAgreements = '/api/v1/agreements/my-agreements';
@@ -56,14 +70,57 @@ class ApiConstants {
 
 
 
+  // Support
+  static const String supportTopics = '/api/v1/support/topics';
+  static const String supportTickets = '/api/v1/support/tickets';
+  static String supportTicketDetail(String id) => '/api/v1/support/tickets/$id';
+  static String supportTicketMessages(String id) =>
+      '/api/v1/support/tickets/$id/messages';
+
+  // FAQ
+  static const String faqs = '/api/v1/support/faqs';
+
+  // Static Pages
+  static String staticPage(String slug) => '/api/v1/static-pages/$slug';
+
   //Bills
+  static const String billsBase = '/api/v1/bills';
+  static const String extractBill = '/api/v1/bills/extract';
   static const String uploadBills = '/api/v1/bills/upload';
+  static String addFileToBill(String billId) => '/api/v1/bills/$billId/files';
+  static const String createEmailBillRequest = '/api/v1/bills/email-request';
   static const String getMyBills = '/api/v1/bills?page=1&limit=20';
   static const String getMyBillDetails = '/api/v1/bills/{{billId}}';
   static const String billAnalysis = '/api/v1/bills/{{billId}}/analyze';
   static const String getBillAnalysis = '/api/v1/bills/{{billId}}/analysis';
+  static String getBillVerification(String billId) =>
+      '/api/v1/bills/$billId/verification';
+  static String submitBillVerification(String billId) =>
+      '/api/v1/bills/$billId/verification/submit';
 
+  // Cases
+  static const String casesBase = '/api/v1/cases';
+  static String caseDocuments(String caseId) =>
+      '/api/v1/cases/$caseId/documents';
+  static String getCaseByBill(String billId) =>
+      '/api/v1/cases/by-bill/$billId';
+  static String getCaseDetails(String caseId) => '/api/v1/cases/$caseId';
 
+  // Contracts (user-facing)
+  static const String myContracts = '/api/v1/contracts/my-contracts';
+  static String uploadSignedContract(String contractId) =>
+      '/api/v1/contracts/my-contracts/$contractId/upload-signed';
+
+  // Notifications
+  static const String notifications = '/api/v1/notifications';
+  static const String notificationsUnreadCount = '/api/v1/notifications/unread-count';
+  static String notificationMarkRead(String id) => '/api/v1/notifications/$id/read';
+  static const String notificationsMarkAllRead = '/api/v1/notifications/read-all';
+  static const String registerPushToken = '/api/v1/notifications/push-token';
+  static String removePushToken(String token) => '/api/v1/notifications/push-token/$token';
+
+  // General file upload
+  static const String fileUpload = '/api/v1/upload';
 
   // Default headers (can be extended at request time)
   static Map<String, String> headers = {

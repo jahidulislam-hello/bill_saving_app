@@ -41,6 +41,7 @@ class AppAssets {
   static const String logo = '$_imagePath/logo.png';
   static const String splashBg = '$_imagePath/home_bg.png';
   static const String homeBg = '$_imagePath/home_bg.png';
+  static const String homeRegularBg = '$_imagePath/home_regular_bg.png';
   static const String circle = '$_imagePath/circle.png';
   static const String success = '$_imagePath/success.png';
   static String swapIcon = '$_imagePath/switch.png';

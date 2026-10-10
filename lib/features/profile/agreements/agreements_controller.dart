@@ -42,6 +42,7 @@ class AgreementModel {
     final validFrom = json['validFrom'] as String? ?? '';
     final validUntil = json['validUntil'] as String?;
     final termsUrl = json['termsUrl'] as String? ?? '';
+    final address = json['address'] as String? ?? '';
     final id = json['id'] as String? ?? '';
 
     // Build offerDate string
@@ -59,10 +60,10 @@ class AgreementModel {
 
     // How to use steps
     final howToUse = [
-      'Copia il tuo codice sconto usando il pulsante in alto',
-      'Visita il sito del partner: $termsUrl',
-      'Inserisci il codice sconto al momento del pagamento',
-      'Goditi il tuo sconto esclusivo!',
+      'agreements.how_to_1'.tr,
+      '${'agreements.how_to_2'.tr}$termsUrl',
+      'agreements.how_to_3'.tr,
+      'agreements.how_to_4'.tr,
     ];
 
     return AgreementModel(
@@ -75,7 +76,7 @@ class AgreementModel {
       description: description,
       offerDate: offerDate,
       discountCode: discountCode,
-      address: termsUrl,
+      address: address,
       howToUse: howToUse,
     );
   }
@@ -87,6 +88,7 @@ class AgreementsController extends ChangeNotifier {
   bool isCopied = false;
   String? copiedCode;
   bool isLoading = false;
+  String? errorMessage;
 
   List<AgreementModel> agreements = [];
 
@@ -96,6 +98,7 @@ class AgreementsController extends ChangeNotifier {
 
   Future<void> fetchAgreements() async {
     isLoading = true;
+    errorMessage = null;
     notifyListeners();
 
     try {
@@ -116,7 +119,7 @@ class AgreementsController extends ChangeNotifier {
             .toList();
       }
     } catch (_) {
-      // Keep empty list on error
+      errorMessage = 'agreements.error_loading'.tr;
     } finally {
       isLoading = false;
       notifyListeners();

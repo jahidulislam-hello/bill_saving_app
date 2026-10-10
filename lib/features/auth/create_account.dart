@@ -4,6 +4,8 @@ import 'package:vyzi/core/widgets/custom_text_filled.dart';
 import 'package:vyzi/core/widgets/phone_filled.dart';
 import 'package:vyzi/core/widgets/primary_button.dart';
 import 'package:vyzi/core/widgets/social_button.dart';
+import 'package:vyzi/core/services/social_auth_service.dart';
+import 'package:vyzi/core/services/deep_link_service.dart';
 import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _referralCodeController = TextEditingController();
 
   bool _agreeToTerms = false;
   late String selectedRole;
@@ -40,6 +43,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void initState() {
     super.initState();
     selectedRole = Get.arguments?['role'] ?? 'personal';
+    final refCode = Get.arguments?['referralCode'] as String?;
+    if (refCode != null && refCode.isNotEmpty) {
+      _referralCodeController.text = refCode;
+    }
   }
 
   @override
@@ -50,6 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _referralCodeController.dispose();
     super.dispose();
   }
 
@@ -58,7 +66,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
-      body: SafeArea(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Form(
@@ -70,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Title ──────────────────────────
                 Text(
-                  'Crea un account',
+                  'auth.signup.title'.tr,
                   style: TextStyle(
                     fontSize: 22.sp,
                     fontWeight: FontWeight.w700,
@@ -85,18 +96,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     Expanded(
                       child: CustomTextField(
-                        labelText: 'Nome *',
+                        labelText: 'auth.signup.first_name_label'.tr,
                         controller: _firstNameController,
-                        hintText: 'Alex',
+                        hintText: 'auth.signup.first_name_hint'.tr,
                         validator: (v) => v == null || v.isEmpty ? 'Obbligatorio' : null,
                       ),
                     ),
                     SizedBox(width: 10.w),
                     Expanded(
                       child: CustomTextField(
-                        labelText: 'Cognome *',
+                        labelText: 'auth.signup.last_name_label'.tr,
                         controller: _lastNameController,
-                        hintText: 'Smith',
+                        hintText: 'auth.signup.last_name_hint'.tr,
                         validator: (v) => v == null || v.isEmpty ? 'Obbligatorio' : null,
                       ),
                     ),
@@ -107,10 +118,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Email ──────────────────────────
                 CustomTextField(
-                  labelText: 'Indirizzo Email *',
+                  labelText: 'auth.signup.email_label'.tr,
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  hintText: 'you@example.com',
+                  hintText: 'auth.signup.email_hint'.tr,
                   prefixIcon: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 14.w),
                     child: Icon(
@@ -119,15 +130,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       size: 20.sp,
                     ),
                   ),
-                  validator: (v) =>
-                      v == null || !v.contains('@') ? 'Inserisci un\'email valida' : null,
+                  validator: (v) {
+                    if (v == null || v.isEmpty) return 'auth.login.email_error'.tr;
+                    final emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
+                    if (!emailRegex.hasMatch(v)) return 'auth.login.email_error'.tr;
+                    return null;
+                  },
                 ),
 
                 SizedBox(height: 12.h),
 
                 // ── Phone with flag (inline) ───────
                 PhoneTextField(
-                  labelText: 'Numero di telefono (opzionale)',
+                  labelText: 'auth.signup.phone_label'.tr,
                   controller: _phoneController,
                 ),
 
@@ -135,23 +150,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Password ───────────────────────
                 CustomTextField(
-                  labelText: 'Password *',
+                  labelText: 'auth.signup.password_label'.tr,
                   controller: _passwordController,
                   isPassword: true,
-                  hintText: '••••••••••',
-                  validator: (v) => v == null || v.length < 6 ? 'Minimo 6 caratteri' : null,
+                  hintText: 'auth.signup.password_hint'.tr,
+                  validator: (v) {
+                    if (v == null || v.isEmpty) return 'auth.login.password_error'.tr;
+                    if (v.length < 8) return 'auth.login.password_error'.tr;
+                    if (!RegExp(r'[a-z]').hasMatch(v)) return 'auth.signup.password_lowercase'.tr;
+                    if (!RegExp(r'[A-Z]').hasMatch(v)) return 'auth.signup.password_uppercase'.tr;
+                    if (!RegExp(r'\d').hasMatch(v)) return 'auth.signup.password_number'.tr;
+                    if (!RegExp(r'[!@#$%^&*()_+\-=\[\]{};:"|,.<>/?\\]').hasMatch(v)) return 'auth.signup.password_special'.tr;
+                    return null;
+                  },
                 ),
 
                 SizedBox(height: 12.h),
 
                 // ── Confirm Password ───────────────
                 CustomTextField(
-                  labelText: 'Conferma Password *',
+                  labelText: 'auth.signup.confirm_password_label'.tr,
                   controller: _confirmPasswordController,
                   isPassword: true,
-                  hintText: '••••••••••',
+                  hintText: 'auth.signup.confirm_password_hint'.tr,
                   validator: (v) =>
-                      v != _passwordController.text ? 'Le password non corrispondono' : null,
+                      v != _passwordController.text ? 'auth.signup.password_mismatch'.tr : null,
+                ),
+
+                SizedBox(height: 12.h),
+
+                // ── Referral Code (optional) ──────
+                CustomTextField(
+                  labelText: 'auth.signup.referral_code_label'.tr,
+                  controller: _referralCodeController,
+                  hintText: 'auth.signup.referral_code_hint'.tr,
+                  textCapitalization: TextCapitalization.characters,
+                  maxLength: 20,
                 ),
 
                 SizedBox(height: 16.h),
@@ -193,10 +227,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             height: 1.5,
                           ),
                           children: [
-                            const TextSpan(
-                                text: 'Accetto i Termini di Servizio e '),
                             TextSpan(
-                              text: "l'Informativa sulla Privacy",
+                                text: 'auth.signup.terms_label'.tr),
+                            TextSpan(
+                              text: 'auth.signup.privacy_label'.tr,
                               style: TextStyle(
                                 color: AppColors.primaryColor,
                                 fontWeight: FontWeight.w500,
@@ -215,9 +249,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Register Button ────────────────
                 PrimaryButton(
-                  title: 'Registrati',
+                  title: 'auth.signup.button'.tr,
                   onPress: () async {
-                    if (_formKey.currentState!.validate() && _agreeToTerms) {
+                    if (!_agreeToTerms) {
+                      Get.snackbar(
+                        'auth.validation.warning'.tr,
+                        'auth.signup.terms_required'.tr,
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                      return;
+                    }
+                    if (_formKey.currentState!.validate()) {
                       final auth = Get.put(AuthController());
                       try {
                         await auth.register(
@@ -228,7 +270,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           lastName: _lastNameController.text.trim(),
                           phone: _phoneController.text.trim(),
                           role: selectedRole,
+                          referralCode: _referralCodeController.text.trim().isEmpty
+                              ? null
+                              : _referralCodeController.text.trim(),
                         );
+
+                        // Clear pending referral code from deep link storage
+                        try {
+                          final deepLinkService = Get.find<DeepLinkService>();
+                          await deepLinkService.clearPendingReferralCode();
+                        } catch (_) {}
 
                         // Navigate to OTP verification screen and pass email
                         Get.toNamed(AppRoutes.createAccountOtpScreen, arguments: {
@@ -236,7 +287,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           'type': 'email_verification'
                         });
                       } catch (e) {
-                        Get.snackbar('Errore', auth.error.value.isNotEmpty ? auth.error.value : 'Registrazione fallita');
+                        String errorMessage = 'auth.signup.registration_failed_default'.tr;
+                        final rawError = auth.error.value;
+                        if (rawError.contains('Email already registered')) {
+                          errorMessage = 'auth.signup.error.email_exists'.tr;
+                        } else if (rawError.contains('Password must contain')) {
+                          errorMessage = 'auth.signup.password_requirements_unmet'.tr;
+                        }
+                        Get.snackbar('auth.validation.error'.tr, errorMessage);
                       }
                     }
                   },
@@ -251,7 +309,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: Text(
-                        'Oppure accedi con',
+                        'auth.login.divider'.tr,
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: AppColors.textSecondary,
@@ -266,27 +324,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // ── Facebook ───────────────────────
                 SocialButton(
-                  label: 'Accedi con Facebook',
+                  label: 'auth.login.facebook'.tr,
                   logo: _facebookLogo(),
-                  onPress: () {},
+                  onPress: () => _handleSocialLogin(SocialProvider.facebook),
                 ),
 
                 SizedBox(height: 10.h),
 
                 // ── Apple ──────────────────────────
                 SocialButton(
-                  label: 'Accedi con Apple',
+                  label: 'auth.login.apple'.tr,
                   logo: _appleLogo(),
-                  onPress: () {},
+                  onPress: () => _handleSocialLogin(SocialProvider.apple),
                 ),
 
                 SizedBox(height: 10.h),
 
                 // ── Google ─────────────────────────
                 SocialButton(
-                  label: 'Accedi con Google',
+                  label: 'auth.login.google'.tr,
                   logo: _googleLogo(),
-                  onPress: () {},
+                  onPress: () => _handleSocialLogin(SocialProvider.google),
                 ),
 
                 SizedBox(height: 20.h),
@@ -300,11 +358,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         color: AppColors.textSecondary,
                       ),
                       children: [
-                        const TextSpan(
-                          text: 'Hai già un account? ',
+                        TextSpan(
+                          text: 'auth.signup.have_account'.tr,
                         ),
                         TextSpan(
-                          text: 'Accedi',
+                          text: 'auth.signup.login'.tr,
                           style: TextStyle(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.w500,
@@ -326,7 +384,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
+      ),
     );
+  }
+
+  Future<void> _handleSocialLogin(SocialProvider provider) async {
+    final auth = Get.put(AuthController());
+    try {
+      await auth.socialLogin(provider);
+      Get.offAllNamed(AppRoutes.navbarScreen);
+    } catch (e) {
+      String errorMessage = 'auth.login.error.social_failed'.tr;
+      final rawError = auth.error.value;
+      if (rawError.contains('suspended')) {
+        errorMessage = 'auth.login.error.suspended'.tr;
+      } else if (rawError.contains('annullato')) {
+        errorMessage = rawError;
+      }
+      Get.snackbar('auth.validation.error'.tr, errorMessage);
+    }
   }
 
   // ── Custom AppBar ──────────────────────────

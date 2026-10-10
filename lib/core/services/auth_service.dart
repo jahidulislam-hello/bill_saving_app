@@ -87,6 +87,22 @@ class AuthService {
     }
   }
 
+  /// Authenticates via social provider. Sends Firebase ID token to backend.
+  Future<Map<String, dynamic>> socialLogin({required String idToken}) async {
+    final body = {'idToken': idToken};
+    try {
+      final resp = await _api.post(ApiConstants.authSocialLogin, data: body);
+      final data = resp.data as Map<String, dynamic>;
+      if (data['success'] == true) return data;
+      final msg = _extractApiMessage(data);
+      throw ServerException(msg, data['statusCode'] as int?);
+    } on AppException {
+      rethrow;
+    } catch (e) {
+      throw ParsingException(e.toString());
+    }
+  }
+
   /// Triggers forgot-password flow: sends reset code if email exists.
   Future<Map<String, dynamic>> forgotPassword({required String email}) async {
     final body = {'email': email};
@@ -120,6 +136,15 @@ class AuthService {
       rethrow;
     } catch (e) {
       throw ParsingException(e.toString());
+    }
+  }
+
+  /// Calls backend to revoke the refresh token on logout.
+  Future<void> logoutFromServer({required String refreshToken}) async {
+    try {
+      await _api.post(ApiConstants.authLogout, data: {'refreshToken': refreshToken});
+    } catch (_) {
+      // Best-effort — don't block local logout if server call fails
     }
   }
 

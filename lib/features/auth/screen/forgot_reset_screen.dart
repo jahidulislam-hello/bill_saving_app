@@ -23,9 +23,14 @@ class ResetPasswordScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
-        title: "Reimposta Password",
+        title: 'auth.reset_password.title'.tr,
       ),
-      body: Padding(
+      body: SafeArea(
+        top: false,
+        child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,13 +40,13 @@ class ResetPasswordScreen extends StatelessWidget {
 
             // ── Password ───────────────────────
             _labeledField(
-              label: 'Password *',
+              label: 'auth.reset_password.password_label'.tr,
               child: CustomTextField(
                 controller: controller.passwordController,
                 isPassword: true,
                 hintText: '••••••••••',
                 validator: (v) =>
-                v == null || v.length < 6 ? 'Minimo 6 caratteri' : null,
+                v == null || v.length < 6 ? 'auth.reset_password.password_error'.tr : null,
               ),
             ),
 
@@ -49,13 +54,13 @@ class ResetPasswordScreen extends StatelessWidget {
 
             // ── Confirm Password ───────────────
             _labeledField(
-              label: 'Conferma Password *',
+              label: 'auth.reset_password.confirm_label'.tr,
               child: CustomTextField(
                 controller: controller.confirmPasswordController,
                 isPassword: true,
                 hintText: '••••••••••',
                 validator: (v) => v != controller.passwordController.text
-                    ? 'Le password non corrispondono'
+                    ? 'auth.reset_password.mismatch'.tr
                     : null,
               ),
             ),
@@ -68,7 +73,7 @@ class ResetPasswordScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: Obx(() => PrimaryButton(
-                title: controller.isLoading.value ? "Reimpostazione..." : "Reimposta Password",
+                title: controller.isLoading.value ? 'common.loading'.tr : 'auth.reset_password.button'.tr,
                 onPress: controller.isLoading.value
                     ? () {}
                     : () {
@@ -80,6 +85,8 @@ class ResetPasswordScreen extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
           ],
         ),
+      ),
+      ),
       ),
     );
   }

@@ -4,6 +4,14 @@ A production-grade Flutter food delivery application demonstrating **offline-fir
 
 ---
 
+## Commit Guideline
+
+- never use `Co-Authored-By: Claude` or something like this.
+- always commit and push after your work
+- commit message should be in the format: `feat: add new feature` or `fix: fix bug` etc.
+- use conventional commits.
+- never commit everything at once, do commit for each feature, module or fix. always follow conventional commits, principles and standards. always make sure your changes are tested before committing.
+
 ## Table of Contents
 
 - [Quick Start](#quick-start)
@@ -12,23 +20,23 @@ A production-grade Flutter food delivery application demonstrating **offline-fir
 - [Project Structure](#project-structure)
 - [Data Flow](#data-flow)
 - [Core Services](#core-services)
-  - [ApiService](#1-apiservice)
-  - [CacheService](#2-cacheservice)
-  - [ConnectivityService](#3-connectivityservice)
-  - [StorageService](#4-storageservice)
+    - [ApiService](#1-apiservice)
+    - [CacheService](#2-cacheservice)
+    - [ConnectivityService](#3-connectivityservice)
+    - [StorageService](#4-storageservice)
 - [Navigation System](#navigation-system)
-  - [AppRoutes](#approutes)
-  - [AppPages & Bindings](#apppages--bindings)
-  - [Activating Named Routing](#activating-named-routing)
-  - [Navigation Examples](#navigation-examples)
+    - [AppRoutes](#approutes)
+    - [AppPages & Bindings](#apppages--bindings)
+    - [Activating Named Routing](#activating-named-routing)
+    - [Navigation Examples](#navigation-examples)
 - [Dependency Injection](#dependency-injection)
 - [Exception Handling](#exception-handling)
 - [Feature: Home](#feature-home)
-  - [Data Models](#data-models)
-  - [Repository Layer](#repository-layer)
-  - [Service Layer (Domain)](#service-layer-domain)
-  - [Controller (Presentation)](#controller-presentation)
-  - [Widgets](#widgets)
+    - [Data Models](#data-models)
+    - [Repository Layer](#repository-layer)
+    - [Service Layer (Domain)](#service-layer-domain)
+    - [Controller (Presentation)](#controller-presentation)
+    - [Widgets](#widgets)
 - [API Reference](#api-reference)
 - [Using This Project as a Template](#using-this-project-as-a-template)
 - [Dependencies](#dependencies)
@@ -204,14 +212,14 @@ This project follows **Clean Architecture** with a **Repository Pattern** and us
 
 ### Design Patterns Used
 
-| Pattern | Where | Purpose |
-|---------|-------|---------|
-| **Singleton** | ApiService, CacheService, ConnectivityService | Single instance across app |
-| **Repository** | HomeRepository | Abstract data source (API + Cache) |
-| **Service Layer** | HomeService | Business logic separate from data access |
-| **Observer** | GetX Rx/Obx | Reactive UI updates |
-| **Factory** | Model.fromJson() | Object creation from JSON |
-| **Dependency Injection** | DependencyInjection class | Loose coupling via GetX |
+| Pattern                  | Where                                         | Purpose                                  |
+| ------------------------ | --------------------------------------------- | ---------------------------------------- |
+| **Singleton**            | ApiService, CacheService, ConnectivityService | Single instance across app               |
+| **Repository**           | HomeRepository                                | Abstract data source (API + Cache)       |
+| **Service Layer**        | HomeService                                   | Business logic separate from data access |
+| **Observer**             | GetX Rx/Obx                                   | Reactive UI updates                      |
+| **Factory**              | Model.fromJson()                              | Object creation from JSON                |
+| **Dependency Injection** | DependencyInjection class                     | Loose coupling via GetX                  |
 
 ---
 
@@ -975,6 +983,7 @@ static const String fcmToken = 'fcm_token';
 ## Navigation System
 
 **Files:**
+
 - `lib/core/routes/app_routes.dart` — route name constants
 - `lib/core/routes/app_pages.dart` — `GetPage` definitions and `Bindings`
 
@@ -1109,6 +1118,7 @@ final tab = Get.parameters['tab']; // 'orders'
 **File:** `lib/core/di/dependency_injection.dart`
 
 All services, repositories, and controllers are registered via GetX's `Get.lazyPut()`. This ensures:
+
 - **Lazy initialization** - created only when first accessed
 - **Singleton behavior** - `fenix: true` recreates if disposed
 - **Testability** - swap implementations easily
@@ -1202,15 +1212,15 @@ AppException (abstract base)
 
 ### Mapping from Dio to App Exceptions
 
-| Dio Error Type | App Exception |
-|---|---|
-| `connectionTimeout`, `sendTimeout`, `receiveTimeout` | `TimeoutException` |
-| `connectionError` | `NoInternetException` |
-| `badResponse` (4xx, 5xx) | `ServerException` |
-| `cancel` | `UnknownException` |
-| `badCertificate` | `ServerException` |
-| `unknown` + SocketException | `NoInternetException` |
-| `unknown` (other) | `UnknownException` |
+| Dio Error Type                                       | App Exception         |
+| ---------------------------------------------------- | --------------------- |
+| `connectionTimeout`, `sendTimeout`, `receiveTimeout` | `TimeoutException`    |
+| `connectionError`                                    | `NoInternetException` |
+| `badResponse` (4xx, 5xx)                             | `ServerException`     |
+| `cancel`                                             | `UnknownException`    |
+| `badCertificate`                                     | `ServerException`     |
+| `unknown` + SocketException                          | `NoInternetException` |
+| `unknown` (other)                                    | `UnknownException`    |
 
 ### Usage in Controllers
 
@@ -1262,6 +1272,7 @@ class RateLimitException extends AppException {
 ### Data Models
 
 All models live in `lib/features/home/data/models/` and follow these conventions:
+
 - Nullable fields (API may omit them)
 - `factory fromJson()` constructor for deserialization
 - `toJson()` method for serialization (needed for caching)
@@ -1535,13 +1546,13 @@ The GetX controller manages all UI state, scroll behavior, pagination, and conne
 enum LoadingState { initial, loading, loaded, error, offline }
 ```
 
-| State | UI Shows | When |
-|-------|----------|------|
-| `initial` | Nothing (brief) | App just opened |
-| `loading` | Shimmer skeleton | No cache, fetching data |
-| `loaded` | Full content | Data available (from cache or API) |
-| `error` | Error + Retry button | API failed, no cache |
-| `offline` | Offline icon + Retry | No internet, no cache |
+| State     | UI Shows             | When                               |
+| --------- | -------------------- | ---------------------------------- |
+| `initial` | Nothing (brief)      | App just opened                    |
+| `loading` | Shimmer skeleton     | No cache, fetching data            |
+| `loaded`  | Full content         | Data available (from cache or API) |
+| `error`   | Error + Retry button | API failed, no cache               |
+| `offline` | Offline icon + Retry | No internet, no cache              |
 
 #### Reactive Properties
 
@@ -1568,7 +1579,6 @@ Obx(() {
   }
 });
 ```
-
 
 ### Widgets
 
@@ -1607,6 +1617,7 @@ HomePage (Scaffold)
 #### Key Widget Examples
 
 **SectionHeader** - Reusable section title with optional "View All" button:
+
 ```dart
 SectionHeader(
   title: 'Popular Food Nearby',
@@ -1621,6 +1632,7 @@ SectionHeader(title: 'Restaurants')
 ```
 
 **FoodCard** - Vertical card for product display:
+
 ```dart
 FoodCard(product: productModel)
 // Displays: image (120h), name, restaurant name, price, star rating
@@ -1628,6 +1640,7 @@ FoodCard(product: productModel)
 ```
 
 **PriceDisplayWidget** - Smart price with discount:
+
 ```dart
 PriceDisplayWidget(
   originalPrice: 15.99,
@@ -1637,12 +1650,14 @@ PriceDisplayWidget(
 ```
 
 **StarRatingWidget** - Fractional star display:
+
 ```dart
 StarRatingWidget(rating: 4.5)
 // Renders: ★ ★ ★ ★ ½ (4 full + 1 half star)
 ```
 
 **BannerCarousel** - Auto-playing, infinite-scroll carousel:
+
 ```dart
 BannerCarousel(banners: controller.banners)
 // Features:
@@ -1653,6 +1668,7 @@ BannerCarousel(banners: controller.banners)
 ```
 
 **ShimmerWidgets** - Loading skeletons:
+
 ```dart
 // Full page shimmer (used during initial load):
 ShimmerWidgets.buildLoadingShimmer()
@@ -1665,6 +1681,7 @@ ShimmerWidgets.buildRestaurantCardShimmer()
 ```
 
 **RetryWidget** - Error/offline screen:
+
 ```dart
 RetryWidget(
   message: 'No internet connection. Please try again.',
@@ -1674,7 +1691,6 @@ RetryWidget(
 ```
 
 ---
-
 
 ## Using This Project as a Template
 
@@ -1945,18 +1961,18 @@ class OrdersPage extends StatelessWidget {
 
 ## Dependencies
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `get` | ^4.6.6 | State management, DI, navigation, snackbars |
-| `dio` | ^5.7.0 | HTTP client with interceptors, multipart uploads |
-| `cached_network_image` | ^3.4.1 | Image loading with disk/memory cache |
-| `shimmer` | ^3.0.0 | Skeleton loading animations |
-| `flutter_screenutil` | ^5.9.3 | Responsive sizing (base: 375x812) |
-| `hive` | ^2.2.3 | Fast local key-value storage |
-| `hive_flutter` | ^1.1.0 | Flutter bindings for Hive |
-| `connectivity_plus` | ^6.0.5 | Network connectivity monitoring |
-| `path_provider` | ^2.1.4 | Platform file paths (used by Hive) |
-| `google_fonts` | ^6.2.1 | Google Fonts (Roboto) |
+| Package                | Version | Purpose                                          |
+| ---------------------- | ------- | ------------------------------------------------ |
+| `get`                  | ^4.6.6  | State management, DI, navigation, snackbars      |
+| `dio`                  | ^5.7.0  | HTTP client with interceptors, multipart uploads |
+| `cached_network_image` | ^3.4.1  | Image loading with disk/memory cache             |
+| `shimmer`              | ^3.0.0  | Skeleton loading animations                      |
+| `flutter_screenutil`   | ^5.9.3  | Responsive sizing (base: 375x812)                |
+| `hive`                 | ^2.2.3  | Fast local key-value storage                     |
+| `hive_flutter`         | ^1.1.0  | Flutter bindings for Hive                        |
+| `connectivity_plus`    | ^6.0.5  | Network connectivity monitoring                  |
+| `path_provider`        | ^2.1.4  | Platform file paths (used by Hive)               |
+| `google_fonts`         | ^6.2.1  | Google Fonts (Roboto)                            |
 
 ### Responsive Sizing with ScreenUtil
 
@@ -2011,11 +2027,13 @@ flutter analyze
 ```
 
 ### Images not loading
+
 - Verify the device has internet
 - Check that `NSAllowsArbitraryLoads` is `true` in Info.plist (iOS)
 - Clear cached images: uninstall and reinstall the app
 
 ### Offline mode not working
+
 - The app needs to fetch data **at least once** while online to populate the cache
 - If cache appears corrupted, clear app data and re-launch online
 
@@ -2033,8 +2051,8 @@ flutter run -d ios
 ```
 
 ### "Cache service not initialized" error
+
 - Ensure `await CacheService().init()` is called in `main()` before `runApp()`
 - This is already handled in `main.dart` but may be missed if you modify the startup sequence
 
 ---
-

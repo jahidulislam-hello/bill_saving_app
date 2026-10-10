@@ -1,37 +1,57 @@
 import 'package:get/get.dart';
+import 'package:vyzi/core/constants/api_constants.dart';
+import 'package:vyzi/core/services/api_service.dart';
+import 'package:vyzi/core/services/storage_service.dart';
+import 'package:vyzi/features/support/models/faq_model.dart';
 
 class UtilityDetailsController extends GetxController {
-  RxList<FaqModel> faqList = <FaqModel>[
-    FaqModel(
-      question: "How does the switching process work?",
-      answer:
-      "The switching process usually takes a few business days and does not interrupt your utility service.",
-    ),
-    FaqModel(
-      question: "Will my service be interrupted?",
-      answer:
-      "No, your electricity or gas service will continue without interruption.",
-    ),
-    FaqModel(
-      question: "What if I’m still under contract?",
-      answer:
-      "You can still switch providers depending on your current contract conditions.",
-    ),
-    FaqModel(
-      question:
-      "How long does it take to receive my contract?",
-      answer:
-      "The contract is usually sent within 24-48 hours after activation.",
-    ),
-  ].obs;
-}
+  final ApiService _api = ApiService();
 
-class FaqModel {
-  final String question;
-  final String answer;
+  RxBool isFaqLoading = false.obs;
+  RxString faqError = ''.obs;
+  RxList<FaqModel> faqList = <FaqModel>[].obs;
 
-  FaqModel({
-    required this.question,
-    required this.answer,
-  });
+  @override
+  void onInit() {
+    super.onInit();
+    fetchFaqs();
+  }
+
+  Future<void> fetchFaqs() async {
+    isFaqLoading.value = true;
+    faqError.value = '';
+
+    try {
+      final queryParams = <String, dynamic>{
+        'category': 'Cambio Fornitore',
+      };
+
+      final storage = Get.find<StorageService>();
+      final lang =
+          storage.getString(StorageKeys.selectedLanguage) ?? 'it';
+      queryParams['locale'] = lang;
+
+      final response = await _api.get(
+        ApiConstants.faqs,
+        queryParameters: queryParams,
+      );
+      final body = response.data as Map<String, dynamic>;
+
+      if (body['success'] == true) {
+        final data = body['data'] as List<dynamic>;
+        faqList.assignAll(
+          data
+              .map((e) => FaqModel.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        );
+      } else {
+        faqError.value =
+            body['message']?.toString() ?? 'Failed to load FAQs';
+      }
+    } catch (e) {
+      faqError.value = e.toString();
+    } finally {
+      isFaqLoading.value = false;
+    }
+  }
 }

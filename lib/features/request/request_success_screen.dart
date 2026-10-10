@@ -1,10 +1,17 @@
 import 'dart:math' as math;
+import 'package:vyzi/core/navbar/nav_helper.dart';
+import 'package:vyzi/core/navbar/navbar_controller.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/home/controller/home_controller.dart';
+import 'package:vyzi/features/request/case_detail_screen.dart';
+import 'package:vyzi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 class RequestSuccessScreen extends StatelessWidget {
-  const RequestSuccessScreen({super.key});
+  final String? caseId;
+  const RequestSuccessScreen({super.key, this.caseId});
 
   static const _purple = AppColors.primaryColor;
   static const _textDark = AppColors.textDark;
@@ -45,8 +52,8 @@ class RequestSuccessScreen extends StatelessWidget {
 
               const SizedBox(height: 28),
 
-              const Text(
-                'Richiesta Inviata con Successo',
+              Text(
+                'request.success.title'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: _textDark,
@@ -57,8 +64,8 @@ class RequestSuccessScreen extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              const Text(
-                'Abbiamo ricevuto la tua richiesta di\nattivazione.',
+              Text(
+                'request.success.subtitle'.tr,
                 textAlign: TextAlign.center,
               ),
 
@@ -106,8 +113,8 @@ class RequestSuccessScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Cosa succede ora',
+          Text(
+            'request.success.what_happens'.tr,
             style: TextStyle(
               color: _textDark,
               fontSize: 15,
@@ -117,18 +124,18 @@ class RequestSuccessScreen extends StatelessWidget {
           const SizedBox(height: 14),
           _stepItem(
             icon: Icons.fact_check_outlined,
-            title: 'Verifichiamo i dati inseriti',
-            subtitle: 'I nostri sistemi automatizzati verificano l\'accuratezza delle tue informazioni.',
+            title: 'request.success.step1'.tr,
+            subtitle: 'request.success.step1_desc'.tr,
           ),
           _stepItem(
             icon: Icons.handshake_outlined,
-            title: 'Prepariamo la pratica',
-            subtitle: 'Ci coordiniamo con i fornitori di servizi per avviare la tua richiesta.',
+            title: 'request.success.step2'.tr,
+            subtitle: 'request.success.step2_desc'.tr,
           ),
           _stepItem(
             icon: Icons.description_outlined,
-            title: 'Il contratto sarà disponibile entro 24 ore',
-            subtitle: 'La tua documentazione sarà generata e inviata per la firma.',
+            title: 'request.success.step3'.tr,
+            subtitle: 'request.success.step3_desc'.tr,
             last: true,
           ),
         ],
@@ -213,12 +220,12 @@ class RequestSuccessScreen extends StatelessWidget {
             child: const Icon(Icons.info_outline, color: _purple, size: 17),
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Come completerai la richiesta?',
+                  'request.success.info_title'.tr,
                   style: TextStyle(
                     color: _textDark,
                     fontSize: 13,
@@ -228,7 +235,7 @@ class RequestSuccessScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Riceverai le istruzioni per firmare il contratto via SMS, email o link dedicato, in base al fornitore scelto.',
+                  'request.success.info_desc'.tr,
                   style: TextStyle(
                     color: _textGrey,
                     fontSize: 12,
@@ -251,7 +258,10 @@ class RequestSuccessScreen extends StatelessWidget {
       height: 52,
       child: ElevatedButton(
         onPressed: () {
-          // Navigate to requests tab or details
+          final id = caseId ?? Get.arguments as String?;
+          if (id != null) {
+            NavHelper.push(CaseDetailScreen(caseId: id));
+          }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: _purple,
@@ -259,8 +269,8 @@ class RequestSuccessScreen extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           elevation: 0,
         ),
-        child: const Text(
-          'Visualizza la Mia Richiesta',
+        child: Text(
+          'request.success.view_request'.tr,
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
         ),
       ),
@@ -272,13 +282,22 @@ class RequestSuccessScreen extends StatelessWidget {
       width: double.infinity,
       height: 46,
       child: TextButton(
-        onPressed: () => Navigator.of(context).popUntil((r) => r.isFirst),
+        onPressed: () {
+          Navigator.of(context).popUntil((r) => r.isFirst);
+          // Switch to home tab and refresh dashboard to show updated savings
+          if (Get.isRegistered<NavbarController>()) {
+            Get.find<NavbarController>().changeIndex(0);
+          }
+          if (Get.isRegistered<HomeController>()) {
+            Get.find<HomeController>().fetchDashboard();
+          }
+        },
         style: TextButton.styleFrom(
           foregroundColor: _textDark,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
-        child: const Text(
-          'Torna alla Home',
+        child: Text(
+          'request.success.back_home'.tr,
           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
         ),
       ),

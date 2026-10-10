@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'agreements_controller.dart';
 
@@ -108,7 +110,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
         ),
       ),
       title: Text(
-        'Dettagli Convenzione',
+        'agreements.details_title'.tr,
         style: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.w900,
@@ -183,7 +185,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
             ),
             children: [
               TextSpan(
-                text: 'Data Offerta : ',
+                text: 'agreements.offer_date'.tr,
                 style: TextStyle(
                   fontWeight: FontWeight.w800,
                   color: const Color(0xFF1A1A2E),
@@ -221,7 +223,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                   color: Colors.white.withOpacity(0.85), size: 14.sp),
               SizedBox(width: 6.w),
               Text(
-                'Il Tuo Sconto Esclusivo',
+                'agreements.exclusive_discount'.tr,
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: Colors.white.withOpacity(0.85),
@@ -263,7 +265,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Codice Sconto',
+                        'agreements.discount_code'.tr,
                         style: TextStyle(
                           fontSize: 11.sp,
                           color: Colors.black,
@@ -322,7 +324,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
                         ),
                         SizedBox(width: 5.w),
                         Text(
-                          isCopied ? 'Copiato!' : 'Copia',
+                          isCopied ? 'agreements.copied'.tr : 'agreements.copy'.tr,
                           style: TextStyle(
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w800,
@@ -346,61 +348,95 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
 
   // ── Location card ──
   Widget _buildLocationCard() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFFE5E7EB), width: 1.2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      padding: EdgeInsets.all(14.w),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 38.w,
-            height: 38.w,
-            decoration: BoxDecoration(
-              color: const Color(0xFFEAF0FF),
-              borderRadius: BorderRadius.circular(10.r),
+    if (_a.address.isEmpty) return const SizedBox.shrink();
+
+    return GestureDetector(
+      onTap: () => _openInGoogleMaps(_a.address),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14.r),
+          border: Border.all(color: const Color(0xFFE5E7EB), width: 1.2),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
-            child: Icon(Icons.location_on_outlined,
+          ],
+        ),
+        padding: EdgeInsets.all(14.w),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 38.w,
+              height: 38.w,
+              decoration: BoxDecoration(
+                color: const Color(0xFFEAF0FF),
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Icon(Icons.location_on_outlined,
+                  color: const Color(0xFF5B7FD8), size: 20.sp),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'agreements.location'.tr,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF1A1A2E),
+                      height: 1.22,
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Text(
+                    _a.address,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                      height: 1.5,
+                    ),
+                  ),
+                  SizedBox(height: 6.h),
+                  Row(
+                    children: [
+                      Icon(Icons.open_in_new_rounded,
+                          size: 12.sp, color: const Color(0xFF5B7FD8)),
+                      SizedBox(width: 4.w),
+                      Text(
+                        'agreements.open_maps'.tr,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w800,
+                          color: const Color(0xFF5B7FD8),
+                          height: 1.22,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.chevron_right_rounded,
                 color: const Color(0xFF5B7FD8), size: 20.sp),
-          ),
-          SizedBox(width: 12.w),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Posizione',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF1A1A2E),
-                  height: 1.22,
-                ),
-              ),
-              SizedBox(height: 4.h),
-              Text(
-                _a.address,
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                  height: 1.5,
-                ),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+  Future<void> _openInGoogleMaps(String address) async {
+    final encodedAddress = Uri.encodeComponent(address);
+    final url = Uri.parse('https://www.google.com/maps/search/?api=1&query=$encodedAddress');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    }
   }
 
   // ── How to use card ──
@@ -416,7 +452,7 @@ class _AgreementDetailsScreenState extends State<AgreementDetailsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Come Usare il Tuo Sconto',
+            'agreements.how_to_use'.tr,
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w900,

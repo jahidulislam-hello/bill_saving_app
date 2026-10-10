@@ -1,10 +1,10 @@
 import 'package:vyzi/core/appbar/custom_appbar.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
-import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_styles.dart';
 import 'package:vyzi/features/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class PersonalDataScreen extends StatefulWidget {
   final ProfileController controller;
@@ -30,8 +30,13 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const CustomAppBar(title: 'Dati Personali', showBackButton: true),
-      body: SingleChildScrollView(
+      appBar: CustomAppBar(title: 'personal_data.title'.tr, showBackButton: true),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -39,7 +44,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             Padding(
               padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 20.h),
               child: Text(
-                'Aggiorna le informazioni del tuo account e come\nti contattiamo.',
+                'personal_data.subtitle'.tr,
                 style: AppStyles.body3.copyWith(height: 1.5, color: AppColors.textPrimary),
               ),
             ),
@@ -75,6 +80,8 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
           ],
         ),
       ),
+      ),
+      ),
     );
   }
 
@@ -97,45 +104,66 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
       child: Column(
         children: [
           // Avatar with edit button
-          Stack(
-            children: [
-              Container(
-                width: 90.w,
-                height: 90.w,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: AppColors.divider, width: 2),
-                  color: AppColors.primary50,
-                ),
-                child: ClipOval(
-                  child: _c.avatarAsset.isNotEmpty
-                      ? Image.asset(_c.avatarAsset, fit: BoxFit.cover)
-                      : Icon(
-                      Icons.person_rounded,
-                      size: 48.sp,
-                      color: AppColors.textSecondary,
-                    ),
-                ),
-              ),
-              // Edit icon badge
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Container(
-                  width: 26.w,
-                  height: 26.w,
+          GestureDetector(
+            onTap: _c.isUploadingAvatar ? null : () => _c.pickAndUploadAvatar(context),
+            child: Stack(
+              children: [
+                Container(
+                  width: 90.w,
+                  height: 90.w,
                   decoration: BoxDecoration(
-                    color: AppColors.darkBlue,
                     shape: BoxShape.circle,
-                    border:
-                    Border.all(color: AppColors.background, width: 2),
+                    border: Border.all(
+                        color: AppColors.divider, width: 2),
+                    color: AppColors.primary50,
                   ),
-                  child: Icon(Icons.edit_rounded,
-                      color: AppColors.background, size: 12.sp),
+                  child: ClipOval(
+                    child: _c.isUploadingAvatar
+                        ? Center(
+                            child: SizedBox(
+                              width: 28.w,
+                              height: 28.w,
+                              child: const CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          )
+                        : _c.avatarUrl.isNotEmpty
+                            ? Image.network(
+                                _c.avatarUrl,
+                                fit: BoxFit.cover,
+                                width: 90.w,
+                                height: 90.w,
+                                errorBuilder: (_, __, ___) => Icon(
+                                  Icons.person_rounded,
+                                  size: 48.sp,
+                                  color: AppColors.textSecondary,
+                                ),
+                              )
+                            : Icon(
+                                Icons.person_rounded,
+                                size: 48.sp,
+                                color: AppColors.textSecondary,
+                              ),
+                  ),
                 ),
-              ),
-            ],
+                // Edit icon badge
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Container(
+                    width: 26.w,
+                    height: 26.w,
+                    decoration: BoxDecoration(
+                      color: AppColors.darkBlue,
+                      shape: BoxShape.circle,
+                      border:
+                      Border.all(color: AppColors.background, width: 2),
+                    ),
+                    child: Icon(Icons.edit_rounded,
+                        color: AppColors.background, size: 12.sp),
+                  ),
+                ),
+              ],
+            ),
           ),
 
           SizedBox(height: 14.h),
@@ -151,9 +179,9 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
           ),
           SizedBox(height: 10.h),
           GestureDetector(
-            onTap: () {},
+            onTap: _c.isUploadingAvatar ? null : () => _c.pickAndUploadAvatar(context),
             child: Text(
-              'Cambia foto',
+              'personal_data.change_photo'.tr,
               style: AppStyles.body3.copyWith(fontWeight: FontWeight.w600, color: AppColors.primaryColor),
             ),
           ),
@@ -181,33 +209,34 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildField(
-            label: 'Nome',
+            label: 'personal_data.first_name'.tr,
             controller: _c.firstNameController,
             hint: '',
           ),
           SizedBox(height: 16.h),
           _buildField(
-            label: 'Cognome',
+            label: 'personal_data.last_name'.tr,
             controller: _c.lastNameController,
             hint: '',
           ),
           SizedBox(height: 16.h),
           _buildField(
-            label: 'Email',
+            label: 'personal_data.email'.tr,
             controller: _c.emailController,
             hint: 'alexsmith.mobbin@gmail.com',
             keyboardType: TextInputType.emailAddress,
+            readOnly: true,
           ),
           SizedBox(height: 16.h),
           _buildField(
-            label: 'Numero di Telefono',
+            label: 'personal_data.phone'.tr,
             controller: _c.phoneController,
             hint: '',
             keyboardType: TextInputType.phone,
           ),
           SizedBox(height: 16.h),
           _buildField(
-            label: 'Codice Fiscale',
+            label: 'personal_data.tax_code'.tr,
             controller: _c.codiceFiscaleController,
             hint: 'RSSMRA231X1WDF52',
           ),
@@ -222,6 +251,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
     required TextEditingController controller,
     required String hint,
     TextInputType keyboardType = TextInputType.text,
+    bool readOnly = false,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,12 +264,15 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
         TextField(
           controller: controller,
           keyboardType: keyboardType,
-          style: AppStyles.body2,
+          readOnly: readOnly,
+          style: AppStyles.body2.copyWith(
+            color: readOnly ? AppColors.textSecondary : null,
+          ),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: AppStyles.hintStyle,
             filled: true,
-            fillColor: Color(0xFFF3F3F5),
+            fillColor: readOnly ? const Color(0xFFE8E8EA) : const Color(0xFFF3F3F5),
             contentPadding: EdgeInsets.symmetric(
                 horizontal: 14.w, vertical: 12.h),
             enabledBorder: OutlineInputBorder(
@@ -277,12 +310,12 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Privacy Prima di Tutto',
+                  'personal_data.privacy_title'.tr,
                   style: AppStyles.h4.copyWith(fontSize: 13.sp),
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'I tuoi dati sono crittografati e gestiti secondo i nostri standard di protezione premium. Non condividiamo mai i tuoi dati personali con fornitori terzi senza il tuo consenso.',
+                  'personal_data.privacy_desc'.tr,
                   style: AppStyles.body4.copyWith(color: AppColors.primaryColor, height: 1.5),
                 ),
               ],
@@ -305,8 +338,8 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
             onPressed: _c.isSaving
                 ? null
                 : () async {
-              await _c.saveChanges();
-              if (mounted) Navigator.pop(context);
+              final success = await _c.saveChanges();
+              if (success && mounted) Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.textPrimary,
@@ -326,7 +359,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               ),
             )
                 : Text(
-              'Salva Modifiche',
+              'personal_data.save_changes'.tr,
               style: AppStyles.buttonText.copyWith(fontSize: 15.sp),
             ),
           ),
@@ -345,7 +378,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               Navigator.pop(context);
             },
             child: Text(
-              'Annulla e scarta',
+              'personal_data.cancel_discard'.tr,
               style: AppStyles.body2.copyWith(color: AppColors.textPrimary, fontWeight: FontWeight.w700),
             ),
           ),

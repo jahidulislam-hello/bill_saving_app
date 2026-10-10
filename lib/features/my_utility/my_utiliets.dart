@@ -1,52 +1,21 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
-import 'package:vyzi/features/dumb/my_utility_details_screen.dart';
+import 'package:vyzi/features/home/controller/home_controller.dart';
+import 'package:vyzi/features/home/model/user_service_model.dart';
+import 'package:vyzi/features/utility/select_utility_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:vyzi/features/my_utility/utility_details_screen.dart';
-
-
-
-class UtilityModel {
-  final String name;
-  final String type;
-  final String monthID;
-  final String offerType;
-  final String activeSince;
-
-  const UtilityModel({
-    required this.name,
-    required this.type,
-    required this.monthID,
-    required this.offerType,
-    required this.activeSince,
-  });
-}
-
-
-
 
 class MyUtilitiesScreen extends StatelessWidget {
   const MyUtilitiesScreen({super.key});
 
-  static final _utilities = [
-    const UtilityModel(
-      name: 'EnergyPlus',
-      type: 'Gas',
-      monthID: 'IT001EXXXXXXXXX',
-      offerType: 'Piano a Tariffa Fissa',
-      activeSince: '26/03/2026',
-    ),
-    const UtilityModel(
-      name: 'EnergyPlus',
-      type: 'Gas',
-      monthID: 'IT001EXXXXXXXXX',
-      offerType: 'Piano a Tariffa Fissa',
-      activeSince: '26/03/2026',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final HomeController controller = Get.find<HomeController>();
+    controller.fetchServices();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -55,14 +24,23 @@ class MyUtilitiesScreen extends StatelessWidget {
           children: [
             _header(),
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(16, 10, 16, 20),
-                children: [
-                  ..._utilities.map((u) => _UtilityTile(utility: u)),
-                  const SizedBox(height: 16),
-                  _saveBanner(),
-                ],
-              ),
+              child: Obx(() {
+                if (controller.isLoadingServices.value) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (controller.serviceList.isEmpty) {
+                  return _emptyState();
+                }
+
+                return ListView(
+                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 20),
+                  children: [
+                    ...controller.serviceList
+                        .map((s) => _ServiceTile(service: s)),
+                  ],
+                );
+              }),
             ),
           ],
         ),
@@ -71,98 +49,96 @@ class MyUtilitiesScreen extends StatelessWidget {
   }
 
   Widget _header() {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(18, 20, 18, 8),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(18, 20, 18, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Le Mie Utenze',
+          Text('my_utility.title'.tr,
               style: TextStyle(
                   color: AppColors.textDark,
                   fontSize: 24,
                   fontWeight: FontWeight.w800,
                   letterSpacing: -0.4)),
           SizedBox(height: 4),
-          Text('Gestisci i tuoi servizi attivi',
+          Text('my_utility.subtitle'.tr,
               style: TextStyle(color: AppColors.textPrimary, fontSize: 13)),
         ],
       ),
     );
   }
 
-  Widget _saveBanner() {
-    return Container(
-      width: double.infinity,
-      height: 192.h,
-      padding: const EdgeInsets.fromLTRB(20, 22, 20, 22),
-      decoration: BoxDecoration(
-        color: Color(0xFF001C13),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Stack(
-        children: [
-          // Background bolt decoration
-          Positioned(
-            right: -10,
-            bottom: -10,
-            child: Icon(Icons.menu_book_outlined,
-                size: 110, color: AppColors.background.withOpacity(0.05)),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Risparmia sulla tua prossima bolletta',
-                  style: TextStyle(
-                      color: AppColors.background,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800)),
-              const SizedBox(height: 8),
-              const Text(
-                'Analizziamo i tuoi consumi per\ntrovare tariffe migliori ogni mese.',
-                style: TextStyle(
-                    color: AppColors.green100, fontSize: 13, height: 1.5),
+  Widget _emptyState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor.withOpacity(0.08),
+                shape: BoxShape.circle,
               ),
-              const SizedBox(height: 28),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 11),
-                  decoration: BoxDecoration(
-                    color: AppColors.green100,
-                    borderRadius: BorderRadius.circular(30),
+              child: Icon(Icons.electrical_services_outlined,
+                  size: 40, color: AppColors.primaryColor),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Nessuna utenza attiva',
+              style: TextStyle(
+                color: AppColors.textDark,
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Carica una bolletta per confrontare le offerte e attivare un nuovo servizio.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: AppColors.textPrimary, fontSize: 14, height: 1.5),
+            ),
+            const SizedBox(height: 28),
+            GestureDetector(
+              onTap: () => NavHelper.push(SelectUtilityScreen()),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: AppColors.primaryGradient,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                  child: const Text('Carica Bolletta',
-                      style: TextStyle(
-                          color: AppColors.textDark,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 13)),
+                  borderRadius: BorderRadius.circular(30),
                 ),
+                child: Text('my_utility.upload_button'.tr,
+                    style: TextStyle(
+                        color: AppColors.background,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14)),
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-// ── Utility Tile ──
-class _UtilityTile extends StatelessWidget {
-  final UtilityModel utility;
-  const _UtilityTile({required this.utility});
+// ── Service Tile ──
+class _ServiceTile extends StatelessWidget {
+  final UserServiceModel service;
+  const _ServiceTile({required this.service});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) =>  UtilityDetailsScreen(),
-        ),
-      ),
+      onTap: () => NavHelper.push(UtilityDetailsScreen()),
       child: Container(
-        height: 163,
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
@@ -172,7 +148,6 @@ class _UtilityTile extends StatelessWidget {
             color: const Color(0xFF7B48CB),
             width: 1,
           ),
-
           boxShadow: [
             BoxShadow(
                 color: AppColors.textPrimary.withOpacity(0.05),
@@ -181,11 +156,11 @@ class _UtilityTile extends StatelessWidget {
           ],
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Thumbnail
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
@@ -198,51 +173,55 @@ class _UtilityTile extends StatelessWidget {
                         end: Alignment.bottomRight,
                       ),
                     ),
-                    child: const Icon(Icons.bolt, color: AppColors.background, size: 26),
+                    child: Icon(
+                      service.energyType == 'gas'
+                          ? Icons.local_fire_department
+                          : Icons.bolt,
+                      color: AppColors.background,
+                      size: 26,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
-                // Name + type
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(utility.name,
+                      Text(
+                          service.supplierName ?? service.offerName ?? '',
                           style: const TextStyle(
                               color: AppColors.textDark,
                               fontSize: 15,
                               fontWeight: FontWeight.w700)),
                       const SizedBox(height: 3),
-                      Text(utility.type,
+                      Text(service.energyType ?? '',
                           style: const TextStyle(
                               color: AppColors.textPrimary, fontSize: 12)),
                     ],
                   ),
                 ),
-                // Active Since (Moved to Row 1)
-                _meta('Attivo dal', utility.activeSince,
+                _meta('Attivo dal', _formatDate(service.activationDate),
                     align: CrossAxisAlignment.end),
               ],
             ),
-            const SizedBox(height: 16),
-            const Divider(color: AppColors.divider, height: 1.22),
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
+            const Divider(color: AppColors.divider, height: 1),
+            const SizedBox(height: 14),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _meta('Tipo di Offerta', utility.offerType),
-
+                _meta('Tipo di Offerta', service.offerName ?? ''),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Text('POD',
-                        style: TextStyle(color: AppColors.textPrimary, fontSize: 11)),
-                    Text(utility.monthID,
+                    Text('utility.pod_label'.tr,
+                        style: TextStyle(
+                            color: AppColors.textPrimary, fontSize: 11)),
+                    Text(service.podPdrNumber ?? '',
                         style: const TextStyle(
                             color: AppColors.textDark,
                             fontSize: 15,
                             fontWeight: FontWeight.w800)),
-
                   ],
                 ),
               ],
@@ -251,6 +230,16 @@ class _UtilityTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _formatDate(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty) return '';
+    try {
+      final dt = DateTime.parse(dateStr);
+      return '${dt.day.toString().padLeft(2, '0')}/${dt.month.toString().padLeft(2, '0')}/${dt.year}';
+    } catch (_) {
+      return dateStr;
+    }
   }
 
   Widget _meta(String label, String value,
@@ -263,9 +252,10 @@ class _UtilityTile extends StatelessWidget {
         const SizedBox(height: 2),
         Text(value,
             style: const TextStyle(
-                color: AppColors.textDark, fontSize: 12, fontWeight: FontWeight.w600)),
+                color: AppColors.textDark,
+                fontSize: 12,
+                fontWeight: FontWeight.w600)),
       ],
     );
   }
 }
-

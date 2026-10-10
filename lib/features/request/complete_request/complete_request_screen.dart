@@ -1,22 +1,38 @@
-import 'package:vyzi/features/request/request_success_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:vyzi/core/constants/api_constants.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
+import 'package:vyzi/features/bills/models/bill_model.dart';
+import 'package:vyzi/features/request/models/api_offer_model.dart';
 import 'complete_request_controller.dart';
 
 class CompleteRequestScreen extends StatefulWidget {
-  const CompleteRequestScreen({super.key});
+  final ApiOfferModel offer;
+  final BillModel? bill;
+
+  const CompleteRequestScreen({
+    super.key,
+    required this.offer,
+    this.bill,
+  });
 
   @override
   State<CompleteRequestScreen> createState() => _CompleteRequestScreenState();
 }
 
 class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
-  final CompleteRequestController _c = CompleteRequestController();
-  final ImagePicker _picker = ImagePicker();
+  late final CompleteRequestController _c;
+  final ScrollController _scrollCtrl = ScrollController();
+
+  // ── Section keys for scroll-to-error ──
+  final _personalInfoKey = GlobalKey();
+  final _firstNameKey = GlobalKey();
+  final _lastNameKey = GlobalKey();
+  final _podKey = GlobalKey();
+  final _phoneKey = GlobalKey();
+  final _identityKey = GlobalKey();
+  final _paymentKey = GlobalKey();
 
   // ── Personal Info edit ──
   bool _editingPersonalInfo = false;
@@ -33,51 +49,155 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   late TextEditingController _zipCtrl;
   String? _supplyProvince;
 
+  // ── Residential Address (when "No, it's different") ──
+  bool _residentialAddressConfirmed = false;
+  late TextEditingController _resStreetCtrl;
+  late TextEditingController _resCityCtrl;
+  late TextEditingController _resZipCtrl;
+  String? _resStreetError;
+  String? _resCityError;
+  String? _resZipError;
+  String? _resProvinceError;
+
   // ── Payment Method extras ──
-  // shown only when directDebit selected
   bool _ibanSameAsContract = true;
-  final TextEditingController _holderFirstCtrl =
-  TextEditingController(text: 'jacob clai');
-  final TextEditingController _holderLastCtrl =
-  TextEditingController(text: 'jacob');
-  final TextEditingController _holderTaxCtrl =
-  TextEditingController(text: '1234 5678 9654 2135 6874 1312 456');
+  final TextEditingController _ibanCtrl = TextEditingController();
+  String? _ibanError;
+  final TextEditingController _holderFirstCtrl = TextEditingController();
+  final TextEditingController _holderLastCtrl = TextEditingController();
+  final TextEditingController _holderTaxCtrl = TextEditingController();
 
   // ── Invoice Delivery extras ──
-  // shown only when digital selected
-  final TextEditingController _invoiceEmailCtrl =
-  TextEditingController(text: 'example@amail.com');
-  // shown only when paper selected
+  late TextEditingController _invoiceEmailCtrl;
   InvoiceAddressMatch? _invoiceAddressMatch;
-  // new address for paper invoice "No" branch
   final TextEditingController _invStreetCtrl = TextEditingController();
-  final TextEditingController _invCityCtrl =
-  TextEditingController(text: 'Milano');
-  final TextEditingController _invNumberCtrl =
-  TextEditingController(text: '20100');
-  final TextEditingController _invProvinceCtrl =
-  TextEditingController(text: 'RM');
+  final TextEditingController _invCityCtrl = TextEditingController();
+  final TextEditingController _invNumberCtrl = TextEditingController();
+  final TextEditingController _invProvinceCtrl = TextEditingController();
   String? _invZipProvince;
+
+  bool _profileSynced = false;
+
+  // ── Personal Info validation errors ──
+  String? _firstNameError;
+  String? _lastNameError;
+  String? _podError;
+  String? _phoneError;
 
   @override
   void initState() {
     super.initState();
-    _c.addListener(() {
-      if (mounted) setState(() {});
+    _c = CompleteRequestController(
+      offer: widget.offer,
+      bill: widget.bill,
+    );
+    _c.addListener(_onControllerUpdate);
+
+    _firstNameCtrl = TextEditingController();
+    _lastNameCtrl = TextEditingController();
+    _emailCtrl = TextEditingController();
+    _phoneCtrl = TextEditingController();
+    _podCtrl = TextEditingController();
+    _streetCtrl = TextEditingController();
+    _cityCtrl = TextEditingController();
+    _zipCtrl = TextEditingController();
+    _invoiceEmailCtrl = TextEditingController();
+    _resStreetCtrl = TextEditingController();
+    _resCityCtrl = TextEditingController();
+    _resZipCtrl = TextEditingController();
+  }
+
+  void _onControllerUpdate() {
+    if (!mounted) return;
+    // Sync text controllers once profile data arrives
+    if (!_profileSynced && !_c.isLoadingProfile && _c.firstName.isNotEmpty) {
+      _profileSynced = true;
+      _firstNameCtrl.text = _c.firstName;
+      _lastNameCtrl.text = _c.lastName;
+      _emailCtrl.text = _c.email;
+      _phoneCtrl.text = _c.phone;
+      _podCtrl.text = _c.podNumber;
+      _invoiceEmailCtrl.text = _c.email;
+      _holderFirstCtrl.text = _c.firstName;
+      _holderLastCtrl.text = _c.lastName;
+      _holderTaxCtrl.text = _c.taxCode;
+      _c.holderFirstName = _c.firstName;
+      _c.holderLastName = _c.lastName;
+      _c.holderTaxCode = _c.taxCode;
+    }
+    // Sync POD number when bill data arrives (may arrive after profile sync)
+    if (_podCtrl.text.isEmpty && _c.podNumber.isNotEmpty) {
+      _podCtrl.text = _c.podNumber;
+    }
+    // Sync address when bill data arrives
+    if (_streetCtrl.text.isEmpty && _c.address.isNotEmpty) {
+      _streetCtrl.text = _c.address;
+    }
+    if (_cityCtrl.text.isEmpty && _c.city.isNotEmpty) {
+      _cityCtrl.text = _c.city;
+    }
+    setState(() {});
+  }
+
+  void _scrollToKey(GlobalKey key) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final ctx = key.currentContext;
+      if (ctx != null) {
+        Scrollable.ensureVisible(
+          ctx,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeInOut,
+          alignment: 0.2,
+        );
+      }
     });
-    _firstNameCtrl = TextEditingController(text: _c.firstName);
-    _lastNameCtrl = TextEditingController(text: _c.lastName);
-    _emailCtrl = TextEditingController(text: _c.email);
-    _phoneCtrl = TextEditingController(text: _c.phone);
-    _podCtrl = TextEditingController(text: _c.podNumber);
-    _streetCtrl = TextEditingController(text: '123 Main Street');
-    _cityCtrl = TextEditingController(text: 'Milano');
-    _zipCtrl = TextEditingController(text: '20100');
+  }
+
+  void _scrollToFirstIncomplete() {
+    // Personal info missing → open edit mode and scroll to the card
+    if (_c.firstName.trim().isEmpty ||
+        _c.lastName.trim().isEmpty ||
+        _c.phone.trim().isEmpty ||
+        _c.podNumber.trim().isEmpty) {
+      if (!_editingPersonalInfo) {
+        setState(() => _editingPersonalInfo = true);
+      }
+      // Set errors so the user sees which fields need attention
+      setState(() {
+        _firstNameError = _c.firstName.trim().isEmpty
+            ? 'request.form.first_name_required'.tr
+            : null;
+        _lastNameError = _c.lastName.trim().isEmpty
+            ? 'request.form.last_name_required'.tr
+            : null;
+        _podError = _c.podNumber.trim().isEmpty
+            ? 'request.form.pod_number_required'.tr
+            : null;
+        _phoneError = _c.phone.trim().isEmpty
+            ? 'request.form.phone_required'.tr
+            : null;
+      });
+      _scrollToKey(_personalInfoKey);
+      return;
+    }
+    // Identity documents missing
+    if (_c.uploadedDocuments.isEmpty) {
+      _scrollToKey(_identityKey);
+      return;
+    }
+    // Payment / IBAN missing
+    if (_c.selectedPayment == null) {
+      _scrollToKey(_paymentKey);
+      return;
+    }
+    // Fallback — scroll to top
+    _scrollToKey(_personalInfoKey);
   }
 
   @override
   void dispose() {
     _c.dispose();
+    _scrollCtrl.dispose();
     _firstNameCtrl.dispose();
     _lastNameCtrl.dispose();
     _emailCtrl.dispose();
@@ -86,6 +206,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     _streetCtrl.dispose();
     _cityCtrl.dispose();
     _zipCtrl.dispose();
+    _ibanCtrl.dispose();
     _holderFirstCtrl.dispose();
     _holderLastCtrl.dispose();
     _holderTaxCtrl.dispose();
@@ -94,6 +215,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     _invCityCtrl.dispose();
     _invNumberCtrl.dispose();
     _invProvinceCtrl.dispose();
+    _resStreetCtrl.dispose();
+    _resCityCtrl.dispose();
+    _resZipCtrl.dispose();
     super.dispose();
   }
 
@@ -106,29 +230,39 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildOfferCard(),
-            _gap(),
-            _buildPersonalInfoCard(),
-            _gap(),
-            _buildSupplyAddressCard(),
-            _gap(),
-            _buildIdentityVerificationCard(),
-            _gap(),
-            _buildPaymentMethodCard(),
-            _gap(),
-            _buildInvoiceDeliveryCard(),
-            _gap(),
-            _buildAlmostThereCard(),
-            SizedBox(height: 16.h),
-            _buildActivateButton(),
-            SizedBox(height: 30.h),
-          ],
-        ),
+      body: SafeArea(
+        top: false,
+        child: _c.isLoadingProfile
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+              controller: _scrollCtrl,
+              padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 14.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildOfferCard(),
+                  _gap(),
+                  Container(key: _personalInfoKey, child: _buildPersonalInfoCard()),
+                  _gap(),
+                  _buildSupplyAddressCard(),
+                  _gap(),
+                  Container(key: _identityKey, child: _buildIdentityVerificationCard()),
+                  _gap(),
+                  Container(key: _paymentKey, child: _buildPaymentMethodCard()),
+                  _gap(),
+                  _buildInvoiceDeliveryCard(),
+                  _gap(),
+                  _buildAlmostThereCard(),
+                  if (_c.bill == null && !_c.isLoadingBill) ...[
+                    SizedBox(height: 12.h),
+                    _buildNoBillWarning(),
+                  ],
+                  SizedBox(height: 16.h),
+                  _buildActivateButton(),
+                  SizedBox(height: 30.h),
+                ],
+              ),
+            ),
       ),
     );
   }
@@ -149,7 +283,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
-        'Completa la tua Richiesta',
+        'request.form.complete_request_title'.tr,
         style: TextStyle(
           fontSize: 17.sp,
           fontWeight: FontWeight.w700,
@@ -165,6 +299,10 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   // ─────────────────────────────────────────────
 
   Widget _buildOfferCard() {
+    final offer = widget.offer;
+    final supplierLogo = offer.supplier?.logoUrl;
+    final baseUrl = ApiConstants.baseUrl;
+
     return _card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,53 +311,36 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10.r),
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=200',
-                  width: 50.w,
-                  height: 50.w,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
-                    width: 50.w,
-                    height: 50.w,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary300,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Icon(Icons.bolt, color: AppColors.background, size: 24.sp),
-                  ),
-                ),
+                child: supplierLogo != null && supplierLogo.isNotEmpty
+                    ? Image.network(
+                        supplierLogo.startsWith('http')
+                            ? supplierLogo
+                            : '$baseUrl$supplierLogo',
+                        width: 50.w,
+                        height: 50.w,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => _offerIconFallback(),
+                      )
+                    : _offerIconFallback(),
               ),
               SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Energia Verde',
+                    Text(offer.name,
                         style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textDark,
                             height: 1.22)),
-                    Text('Offerta Verde',
+                    Text(offer.supplier?.name ?? offer.marketTypeDisplay,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textPrimary,
                             height: 1.22)),
                   ],
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                decoration: BoxDecoration(
-                  color: AppColors.green200,
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: Text('Miglior Valore',
-                    style: TextStyle(
-                        color: AppColors.background,
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w600,
-                        height: 1.22)),
               ),
             ],
           ),
@@ -231,7 +352,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
               color: AppColors.primary100,
               borderRadius: BorderRadius.circular(8.r),
             ),
-            child: Text('Prezzo Energia : PUN GME + € 0.01/KWh',
+            child: Text(offer.energyPriceDisplay,
                 style: TextStyle(
                     fontSize: 12.sp,
                     color: AppColors.textDark,
@@ -240,23 +361,23 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           ),
           SizedBox(height: 10.h),
           _buildInfoRow(Icons.credit_card_outlined, AppColors.accentBlue,
-              'Metodo di Pagamento: Bollettino Postale'),
+              'request.form.payment_method_info'.tr),
           SizedBox(height: 7.h),
           _buildInfoRow(Icons.check_circle_outline, AppColors.primary400,
-              'Compatibilità: Residenziale'),
+              '${offer.contractDurationDisplay} · ${offer.target == 'business' ? 'Business' : 'Residenziale'}'),
           SizedBox(height: 12.h),
           _dividerLine(),
           SizedBox(height: 12.h),
           Row(
             children: [
-              Text('€380',
+              Text('€${offer.fixedMonthlyFee.toStringAsFixed(2)}',
                   style: TextStyle(
                       fontSize: 26.sp,
                       fontWeight: FontWeight.w800,
                       color: AppColors.green200,
                       height: 1.22)),
               SizedBox(width: 8.w),
-              Text('Risparmio Annuale',
+              Text('/mese',
                   style: TextStyle(
                       fontSize: 13.sp,
                       color: AppColors.textDark,
@@ -266,6 +387,18 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _offerIconFallback() {
+    return Container(
+      width: 50.w,
+      height: 50.w,
+      decoration: BoxDecoration(
+        color: AppColors.primary300,
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      child: Icon(Icons.bolt, color: AppColors.background, size: 24.sp),
     );
   }
 
@@ -297,15 +430,48 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _sectionTitle('Informazioni Personali'),
+              _sectionTitle('request.form.personal_info_title'.tr),
               GestureDetector(
                 onTap: () {
                   if (_editingPersonalInfo) {
-                    _c.firstName = _firstNameCtrl.text;
-                    _c.lastName = _lastNameCtrl.text;
-                    _c.email = _emailCtrl.text;
-                    _c.phone = _phoneCtrl.text;
-                    _c.podNumber = _podCtrl.text;
+                    // Validate required fields
+                    final firstNameOk = _firstNameCtrl.text.trim().isNotEmpty;
+                    final lastNameOk = _lastNameCtrl.text.trim().isNotEmpty;
+                    final podOk = _podCtrl.text.trim().isNotEmpty;
+                    final phoneOk = _phoneCtrl.text.trim().isNotEmpty;
+
+                    setState(() {
+                      _firstNameError = firstNameOk ? null : 'request.form.first_name_required'.tr;
+                      _lastNameError = lastNameOk ? null : 'request.form.last_name_required'.tr;
+                      _podError = podOk ? null : 'request.form.pod_number_required'.tr;
+                      _phoneError = phoneOk ? null : 'request.form.phone_required'.tr;
+                    });
+
+                    if (!firstNameOk || !lastNameOk || !podOk || !phoneOk) {
+                      // Scroll to first errored field
+                      final errorKey = !firstNameOk
+                          ? _firstNameKey
+                          : !lastNameOk
+                              ? _lastNameKey
+                              : !podOk
+                                  ? _podKey
+                                  : _phoneKey;
+                      _scrollToKey(errorKey);
+                      return;
+                    }
+
+                    _c.firstName = _firstNameCtrl.text.trim();
+                    _c.lastName = _lastNameCtrl.text.trim();
+                    _c.phone = _phoneCtrl.text.trim();
+                    _c.podNumber = _podCtrl.text.trim();
+                  } else {
+                    // Entering edit mode — clear errors
+                    setState(() {
+                      _firstNameError = null;
+                      _lastNameError = null;
+                      _podError = null;
+                      _phoneError = null;
+                    });
                   }
                   setState(() => _editingPersonalInfo = !_editingPersonalInfo);
                 },
@@ -329,7 +495,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       ),
                       SizedBox(width: 4.w),
                       Text(
-                        _editingPersonalInfo ? 'Salva' : 'Modifica',
+                        _editingPersonalInfo ? 'common.save'.tr : 'request.form.edit'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.background,
@@ -344,23 +510,44 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           ),
           SizedBox(height: 14.h),
           if (_editingPersonalInfo) ...[
-            _buildEditField('Nome', _firstNameCtrl),
+            Container(
+              key: _firstNameKey,
+              child: _buildEditField('request.form.first_name_field'.tr, _firstNameCtrl,
+                  errorText: _firstNameError,
+                  onChanged: (_) => setState(() => _firstNameError = null)),
+            ),
             SizedBox(height: 10.h),
-            _buildEditField('Cognome', _lastNameCtrl),
+            Container(
+              key: _lastNameKey,
+              child: _buildEditField('request.form.last_name_field'.tr, _lastNameCtrl,
+                  errorText: _lastNameError,
+                  onChanged: (_) => setState(() => _lastNameError = null)),
+            ),
             SizedBox(height: 10.h),
-            _buildEditField('Email', _emailCtrl,
-                keyboardType: TextInputType.emailAddress),
+            _buildEditField('request.form.email_field'.tr, _emailCtrl,
+                keyboardType: TextInputType.emailAddress,
+                readOnly: true),
             SizedBox(height: 10.h),
-            _buildEditField('Numero POD', _podCtrl),
+            Container(
+              key: _podKey,
+              child: _buildEditField('request.form.pod_number_field'.tr, _podCtrl,
+                  errorText: _podError,
+                  onChanged: (_) => setState(() => _podError = null)),
+            ),
             SizedBox(height: 10.h),
-            _buildEditField('Telefono', _phoneCtrl,
-                keyboardType: TextInputType.phone),
+            Container(
+              key: _phoneKey,
+              child: _buildEditField('request.form.phone_field'.tr, _phoneCtrl,
+                  keyboardType: TextInputType.phone,
+                  errorText: _phoneError,
+                  onChanged: (_) => setState(() => _phoneError = null)),
+            ),
           ] else ...[
-            _personalRow('Nome', _c.firstName),
-            _personalRow('Cognome', _c.lastName),
-            _personalRow('Email', _c.email),
-            _personalRow('Telefono', _c.phone),
-            _personalRow('Numero POD', _c.podNumber),
+            _personalRow('request.form.first_name_field'.tr, _c.firstName),
+            _personalRow('request.form.last_name_field'.tr, _c.lastName),
+            _personalRow('request.form.email_field'.tr, _c.email),
+            _personalRow('request.form.phone_field'.tr, _c.phone),
+            _personalRow('request.form.pod_number_field'.tr, _c.podNumber),
           ],
         ],
       ),
@@ -371,6 +558,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       String label,
       TextEditingController ctrl, {
         TextInputType keyboardType = TextInputType.text,
+        String? errorText,
+        bool readOnly = false,
+        ValueChanged<String>? onChanged,
       }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -384,17 +574,22 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         SizedBox(height: 6.h),
         Container(
           decoration: BoxDecoration(
-            color: AppColors.shortcardbg,
+            color: readOnly ? AppColors.primary50 : AppColors.shortcardbg,
             borderRadius: BorderRadius.circular(10.r),
-            border: Border.all(color: AppColors.shortcardbg, width: 1),
+            border: Border.all(
+              color: errorText != null ? AppColors.error : AppColors.shortcardbg,
+              width: errorText != null ? 1.5 : 1,
+            ),
           ),
           child: TextField(
             controller: ctrl,
             keyboardType: keyboardType,
+            readOnly: readOnly,
+            onChanged: onChanged,
             textAlignVertical: TextAlignVertical.center,
             style: TextStyle(
                 fontSize: 13.sp,
-                color: AppColors.textDark,
+                color: readOnly ? AppColors.textSecondary : AppColors.textDark,
                 fontWeight: FontWeight.w500,
                 height: 1.22),
             decoration: InputDecoration(
@@ -405,6 +600,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ),
           ),
         ),
+        if (errorText != null)
+          Padding(
+            padding: EdgeInsets.only(top: 4.h, left: 4.w),
+            child: Text(errorText,
+                style: TextStyle(fontSize: 11.sp, color: AppColors.error, height: 1.22)),
+          ),
       ],
     );
   }
@@ -449,9 +650,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('Indirizzo di Fornitura'),
+          _sectionTitle('request.form.delivery_address'.tr),
           SizedBox(height: 2.h),
-          Text('Riepilogo in sola lettura da Bolletta/Profilo',
+          Text('request.form.readonly_summary'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -518,7 +719,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 14.h),
 
           Text(
-              'L\'indirizzo di residenza corrisponde all\'indirizzo di consegna?',
+              'request.form.residential_matches_delivery'.tr,
               style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
@@ -529,11 +730,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Row(
             children: [
               Expanded(
-                  child: _addressOption("Sì, è lo stesso", AddressMatch.same)),
+                  child: _addressOption('request.form.address_yes_same'.tr, AddressMatch.same)),
               SizedBox(width: 10.w),
               Expanded(
                   child: _addressOption(
-                      "No, è diverso", AddressMatch.different)),
+                      'request.form.address_no_different'.tr, AddressMatch.different)),
             ],
           ),
 
@@ -549,29 +750,61 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 : const SizedBox.shrink(),
           ),
 
-          SizedBox(height: 12.h),
+          if (_c.addressMatch == AddressMatch.different) ...[
+            SizedBox(height: 12.h),
+            SizedBox(
+              width: double.infinity,
+              height: 46.h,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_residentialAddressConfirmed) {
+                    // Switch to edit mode
+                    setState(() => _residentialAddressConfirmed = false);
+                  } else {
+                    // Validate before confirming
+                    final streetOk = _resStreetCtrl.text.trim().isNotEmpty;
+                    final cityOk = _resCityCtrl.text.trim().isNotEmpty;
+                    final zipOk = _resZipCtrl.text.trim().isNotEmpty;
+                    final provinceOk = _supplyProvince != null;
 
-          SizedBox(
-            width: double.infinity,
-            height: 46.h,
-            child: ElevatedButton(
-              onPressed: _c.addressMatch != null ? () {} : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _c.addressMatch != null
-                    ? AppColors.primaryColor
-                    : AppColors.primary300,
-                foregroundColor: AppColors.background,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r)),
-              ),
-              child: Text('Indirizzo verificato',
+                    setState(() {
+                      _resStreetError = streetOk ? null : 'request.form.street_required'.tr;
+                      _resCityError = cityOk ? null : 'request.form.city_required'.tr;
+                      _resZipError = zipOk ? null : 'request.form.zip_required'.tr;
+                      _resProvinceError = provinceOk ? null : 'request.form.province_required'.tr;
+                    });
+
+                    if (streetOk && cityOk && zipOk && provinceOk) {
+                      // Sync to controller
+                      _c.residentialStreet = _resStreetCtrl.text.trim();
+                      _c.residentialCity = _resCityCtrl.text.trim();
+                      _c.residentialZip = _resZipCtrl.text.trim();
+                      _c.residentialProvince = _supplyProvince!;
+                      setState(() => _residentialAddressConfirmed = true);
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _residentialAddressConfirmed
+                      ? AppColors.primary300
+                      : AppColors.primaryColor,
+                  foregroundColor: AppColors.background,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r)),
+                ),
+                child: Text(
+                  _residentialAddressConfirmed
+                      ? 'request.form.edit'.tr
+                      : 'common.confirm'.tr,
                   style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
-                      height: 1.22)),
+                      height: 1.22),
+                ),
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );
@@ -591,7 +824,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Indirizzo di Fornitura',
+              Text('request.form.delivery_address'.tr,
                   style: TextStyle(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
@@ -608,7 +841,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                     Icon(Icons.check_rounded,
                         color: AppColors.linkGreen, size: 14.sp),
                     SizedBox(width: 3.w),
-                    Text('Salva',
+                    Text('common.save'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.linkGreen,
@@ -620,7 +853,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ],
           ),
           SizedBox(height: 12.h),
-          Text('Indirizzo',
+          Text('request.form.address'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -628,7 +861,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 6.h),
           _addressTextField(_streetCtrl, hint: '123 Main Street'),
           SizedBox(height: 10.h),
-          Text('Città',
+          Text('request.form.city'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -636,7 +869,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 6.h),
           _addressTextField(_cityCtrl, hint: 'Milano'),
           SizedBox(height: 10.h),
-          Text('CAP',
+          Text('request.form.zip_code'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -674,7 +907,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
-                    'Se "No" è selezionato, questa sezione scende automaticamente.',
+                    'request.form.no_selection_info'.tr,
                     style: TextStyle(
                         fontSize: 11.sp,
                         color: AppColors.textDark,
@@ -685,37 +918,51 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ),
           ),
           SizedBox(height: 14.h),
-          Text('Nuovo Indirizzo Residenziale',
+          Text('request.form.new_residential_address'.tr,
               style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.textDark,
                   height: 1.22)),
           SizedBox(height: 12.h),
-          Text('Via e Numero',
+          Text('request.form.street_number'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
                   height: 1.22)),
           SizedBox(height: 6.h),
-          _addressTextField(TextEditingController(),
-              hint: 'Esempio: Via delle Rose 10'),
+          _addressTextField(_resStreetCtrl,
+              hint: 'Esempio: Via delle Rose 10',
+              readOnly: _residentialAddressConfirmed),
+          if (_resStreetError != null)
+            Padding(
+              padding: EdgeInsets.only(top: 4.h, left: 4.w),
+              child: Text(_resStreetError!,
+                  style: TextStyle(fontSize: 11.sp, color: AppColors.error, height: 1.22)),
+            ),
           SizedBox(height: 10.h),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Città',
+                    Text('request.form.city'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textPrimary,
                             height: 1.22)),
                     SizedBox(height: 6.h),
-                    _addressTextField(
-                        TextEditingController(text: 'Milano'),
-                        hint: 'Milano'),
+                    _addressTextField(_resCityCtrl,
+                        hint: 'Milano',
+                        readOnly: _residentialAddressConfirmed),
+                    if (_resCityError != null)
+                      Padding(
+                        padding: EdgeInsets.only(top: 4.h, left: 4.w),
+                        child: Text(_resCityError!,
+                            style: TextStyle(fontSize: 11.sp, color: AppColors.error, height: 1.22)),
+                      ),
                   ],
                 ),
               ),
@@ -725,16 +972,22 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('CAP',
+                    Text('request.form.zip_code'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textPrimary,
                             height: 1.22)),
                     SizedBox(height: 6.h),
-                    _addressTextField(
-                        TextEditingController(text: '20100'),
+                    _addressTextField(_resZipCtrl,
                         hint: '20100',
-                        keyboardType: TextInputType.number),
+                        keyboardType: TextInputType.number,
+                        readOnly: _residentialAddressConfirmed),
+                    if (_resZipError != null)
+                      Padding(
+                        padding: EdgeInsets.only(top: 4.h, left: 4.w),
+                        child: Text(_resZipError!,
+                            style: TextStyle(fontSize: 11.sp, color: AppColors.error, height: 1.22)),
+                      ),
                   ],
                 ),
               ),
@@ -743,7 +996,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 10.h),
           Row(
             children: [
-              Text('Provincia',
+              Text('request.form.province'.tr,
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: AppColors.textPrimary,
@@ -768,7 +1021,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 alignedDropdown: true,
                 child: DropdownButton<String>(
                   value: _supplyProvince,
-                  hint: Text('Seleziona Provincia',
+                  hint: Text('request.form.select_province'.tr,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: AppColors.textSecondary,
@@ -789,11 +1042,22 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                             height: 1.22)),
                   ))
                       .toList(),
-                  onChanged: (v) => setState(() => _supplyProvince = v),
+                  onChanged: _residentialAddressConfirmed
+                      ? null
+                      : (v) => setState(() {
+                          _supplyProvince = v;
+                          _resProvinceError = null;
+                        }),
                 ),
               ),
             ),
           ),
+          if (_resProvinceError != null)
+            Padding(
+              padding: EdgeInsets.only(top: 4.h, left: 4.w),
+              child: Text(_resProvinceError!,
+                  style: TextStyle(fontSize: 11.sp, color: AppColors.error, height: 1.22)),
+            ),
         ],
       ),
     );
@@ -803,6 +1067,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       TextEditingController ctrl, {
         String hint = '',
         TextInputType keyboardType = TextInputType.text,
+        bool readOnly = false,
       }) {
     return Container(
       decoration: BoxDecoration(
@@ -813,10 +1078,11 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: TextField(
         controller: ctrl,
         keyboardType: keyboardType,
+        readOnly: readOnly,
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(
             fontSize: 13.sp,
-            color: AppColors.textDark,
+            color: readOnly ? AppColors.textSecondary : AppColors.textDark,
             fontWeight: FontWeight.w500,
             height: 1.22),
         decoration: InputDecoration(
@@ -835,7 +1101,16 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   Widget _addressOption(String label, AddressMatch match) {
     final isSelected = _c.addressMatch == match;
     return GestureDetector(
-      onTap: () => _c.selectAddressMatch(match),
+      onTap: () {
+        _c.selectAddressMatch(match);
+        setState(() {
+          _residentialAddressConfirmed = false;
+          _resStreetError = null;
+          _resCityError = null;
+          _resZipError = null;
+          _resProvinceError = null;
+        });
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: EdgeInsets.symmetric(vertical: 11.h, horizontal: 10.w),
@@ -903,36 +1178,52 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _sectionTitle('Verifica Identità'),
-              Row(
-                children: [
-                  Icon(Icons.check_rounded,
-                      color: AppColors.linkGreen, size: 14.sp),
-                  SizedBox(width: 3.w),
-                  Text('Salva',
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          color: AppColors.linkGreen,
-                          fontWeight: FontWeight.w600,
-                          height: 1.22)),
-                ],
-              ),
+              _sectionTitle('request.form.identity_verification_title'.tr),
+              if (_c.uploadedDocuments.isNotEmpty)
+                Row(
+                  children: [
+                    Icon(Icons.check_circle_rounded,
+                        color: AppColors.linkGreen, size: 14.sp),
+                    SizedBox(width: 3.w),
+                    Text('${_c.uploadedDocuments.length} ${'request.form.files_selected'.tr}',
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: AppColors.linkGreen,
+                            fontWeight: FontWeight.w600,
+                            height: 1.22)),
+                  ],
+                )
+              else
+                Row(
+                  children: [
+                    Icon(Icons.error_outline_rounded,
+                        color: Colors.red.shade400, size: 14.sp),
+                    SizedBox(width: 3.w),
+                    Text('request.form.required'.tr,
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: Colors.red.shade400,
+                            fontWeight: FontWeight.w600,
+                            height: 1.22)),
+                  ],
+                ),
             ],
           ),
           SizedBox(height: 4.h),
           Text(
-              'Carica il tuo documento d\'identità o la patente per completare la richiesta.',
+              'request.form.id_document_instruction'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
                   height: 1.5)),
           SizedBox(height: 14.h),
-          if (_c.uploadedFiles.isNotEmpty) ...[
+          if (_c.uploadedDocuments.isNotEmpty) ...[
             Wrap(
               spacing: 8.w,
               runSpacing: 6.h,
-              children: _c.uploadedFiles.asMap().entries.map((e) {
-                final name = e.value.split('/').last;
+              children: _c.uploadedDocuments.asMap().entries.map((e) {
+                final doc = e.value;
+                final name = doc.fileName;
                 return Container(
                   padding:
                   EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
@@ -957,7 +1248,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                       ),
                       SizedBox(width: 6.w),
                       GestureDetector(
-                        onTap: () => _c.removeFile(e.key),
+                        onTap: () => _c.removeDocument(e.key),
                         child: Icon(Icons.close_rounded,
                             size: 12.sp, color: AppColors.linkGreen),
                       ),
@@ -968,28 +1259,12 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ),
             SizedBox(height: 10.h),
           ],
-          Row(
-            children: [
-              Expanded(
-                child: _buildIdButton(
-                  icon: Icons.upload_rounded,
-                  label: 'Carica File',
-                  sublabel: 'PDF, Foto',
-                  canUpload: _c.uploadedFiles.length < 3,
-                  onTap: _pickFile,
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: _buildIdButton(
-                  icon: Icons.qr_code_scanner_rounded,
-                  label: 'Scansiona Documento',
-                  sublabel: 'Scansiona con la fotocamera',
-                  canUpload: true,
-                  onTap: _openScanner,
-                ),
-              ),
-            ],
+          _buildIdButton(
+            icon: Icons.upload_rounded,
+            label: 'request.form.upload_file_button'.tr,
+            sublabel: 'request.form.upload_formats'.tr,
+            canUpload: _c.uploadedDocuments.length < 3,
+            onTap: _pickFile,
           ),
         ],
       ),
@@ -1006,11 +1281,17 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return GestureDetector(
       onTap: canUpload ? onTap : null,
       child: Container(
-        height: 90.h,
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: 16.h),
         decoration: BoxDecoration(
           color: canUpload ? AppColors.background : AppColors.primary50,
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: AppColors.divider, width: 1),
+          border: Border.all(
+            color: canUpload
+                ? AppColors.primaryColor.withOpacity(0.3)
+                : AppColors.divider,
+            width: 1,
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -1042,27 +1323,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   }
 
   Future<void> _pickFile() async {
-    try {
-      final XFile? file = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 85,
-      );
-      if (file != null) _c.addUploadedFile(file.path);
-    } catch (e) {
-      debugPrint('File picker error: $e');
-    }
+    await _c.pickDocuments();
   }
 
-  void _openScanner() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => _DocumentScannerScreen(
-          onScanned: (path) => _c.addUploadedFile(path),
-        ),
-      ),
-    );
-  }
 
   // ─────────────────────────────────────────────
   //  PAYMENT METHOD
@@ -1075,9 +1338,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('Metodo di Pagamento'),
+          _sectionTitle('request.form.payment_method_title'.tr),
           SizedBox(height: 2.h),
-          Text('Seleziona come preferisci pagare',
+          Text('request.form.payment_preference'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -1085,13 +1348,13 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 12.h),
 
           // Full Name / Tax Code rows
-          _personalRow('Nome Completo', _c.fullName),
+          _personalRow('request.form.full_name_label'.tr, _c.fullName),
           _dividerLine(),
-          _personalRow('Codice Fiscale', _c.taxCode),
+          _personalRow('request.form.tax_code_label'.tr, _c.taxCode),
           SizedBox(height: 14.h),
 
           // ── Payment options ──
-          Text('Scegli il Metodo di Pagamento',
+          Text('request.form.choose_payment_method'.tr,
               style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
@@ -1100,14 +1363,14 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 10.h),
           _paymentOption(
             method: PaymentMethod.directDebit,
-            title: 'Addebito Diretto (SDD)',
-            subtitle: 'Pagamento automatico dal tuo conto',
+            title: 'request.payment.sdd_title'.tr,
+            subtitle: 'request.payment.sdd_subtitle_full'.tr,
           ),
           SizedBox(height: 8.h),
           _paymentOption(
             method: PaymentMethod.postalOrder,
-            title: 'Bollettino Postale',
-            subtitle: 'Riceverai il bollettino per pagare',
+            title: 'request.payment.postal_bill_title'.tr,
+            subtitle: 'request.payment.postal_bill_subtitle_full'.tr,
           ),
 
           // ── Direct Debit extras (only when directDebit selected) ──
@@ -1131,10 +1394,98 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // ── IBAN Input Field ──
+        Row(
+          children: [
+            Text(
+              'request.form.iban_label'.tr,
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w500,
+                height: 1.22,
+              ),
+            ),
+            Text(' *',
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: AppColors.error,
+                height: 1.22,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 6.h),
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.shortcardbg,
+            borderRadius: BorderRadius.circular(10.r),
+            border: Border.all(
+              color: _ibanError != null ? AppColors.error : AppColors.shortcardbg,
+              width: 1,
+            ),
+          ),
+          child: TextField(
+            controller: _ibanCtrl,
+            textCapitalization: TextCapitalization.characters,
+            textAlignVertical: TextAlignVertical.center,
+            maxLength: 27,
+            style: TextStyle(
+              fontSize: 13.sp,
+              color: AppColors.textDark,
+              fontWeight: FontWeight.w500,
+              height: 1.22,
+            ),
+            decoration: InputDecoration(
+              hintText: 'request.form.iban_hint'.tr,
+              hintStyle: TextStyle(
+                fontSize: 13.sp,
+                color: AppColors.textSecondary,
+                height: 1.22,
+              ),
+              contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+              border: InputBorder.none,
+              isDense: true,
+              counterText: '',
+            ),
+            onChanged: (value) {
+              final cleaned = value.replaceAll(RegExp(r'\s'), '').toUpperCase();
+              _c.iban = cleaned;
+              setState(() {
+                if (cleaned.isEmpty) {
+                  _ibanError = null;
+                } else if (!CompleteRequestController.isValidItalianIban(cleaned)) {
+                  _ibanError = 'request.form.iban_error'.tr;
+                } else {
+                  _ibanError = null;
+                }
+              });
+            },
+          ),
+        ),
+        if (_ibanError != null)
+          Padding(
+            padding: EdgeInsets.only(top: 4.h, left: 4.w),
+            child: Text(
+              _ibanError!,
+              style: TextStyle(fontSize: 11.sp, color: AppColors.error, height: 1.22),
+            ),
+          ),
+        SizedBox(height: 14.h),
+
         // ── Yes, IBAN checkbox ──
         GestureDetector(
           onTap: () => setState(() {
             _ibanSameAsContract = !_ibanSameAsContract;
+            _c.ibanSameAsContract = _ibanSameAsContract;
+            if (_ibanSameAsContract) {
+              _holderFirstCtrl.text = _c.firstName;
+              _holderLastCtrl.text = _c.lastName;
+              _holderTaxCtrl.text = _c.taxCode;
+              _c.holderFirstName = _c.firstName;
+              _c.holderLastName = _c.lastName;
+              _c.holderTaxCode = _c.taxCode;
+            }
           }),
           child: Container(
             width: double.infinity,
@@ -1172,7 +1523,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 SizedBox(width: 10.w),
                 Expanded(
                   child: Text(
-                    'Yes, IBAN Holder & Contract Holder are same',
+                    'request.form.iban_same_as_contract'.tr,
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: AppColors.textDark,
@@ -1215,7 +1566,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Holder information',
+              Text('request.form.holder_info'.tr,
                   style: TextStyle(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
@@ -1226,7 +1577,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                   Icon(Icons.check_rounded,
                       color: AppColors.linkGreen, size: 14.sp),
                   SizedBox(width: 3.w),
-                  Text('Save',
+                  Text('common.save'.tr,
                       style: TextStyle(
                           fontSize: 12.sp,
                           color: AppColors.linkGreen,
@@ -1237,12 +1588,23 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             ],
           ),
           SizedBox(height: 12.h),
-          _buildEditField('Fast Name', _holderFirstCtrl),
+          _buildEditField('request.form.first_name'.tr, _holderFirstCtrl,
+              onChanged: (v) {
+                _c.holderFirstName = v.trim();
+                setState(() {});
+              }),
           SizedBox(height: 10.h),
-          _buildEditField('Last Name', _holderLastCtrl),
+          _buildEditField('request.form.last_name'.tr, _holderLastCtrl,
+              onChanged: (v) {
+                _c.holderLastName = v.trim();
+                setState(() {});
+              }),
           SizedBox(height: 10.h),
-          _buildEditField('Tax Code / Fiscal Code', _holderTaxCtrl,
-              keyboardType: TextInputType.number),
+          _buildEditField('request.form.tax_code_full'.tr, _holderTaxCtrl,
+              onChanged: (v) {
+                _c.holderTaxCode = v.trim();
+                setState(() {});
+              }),
         ],
       ),
     );
@@ -1331,10 +1693,10 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('Metodo di Invio Fattura'),
+          _sectionTitle('request.form.invoice_delivery_title'.tr),
           SizedBox(height: 2.h),
           Text(
-              'Il nostro consiglio: invio via email per ricevere il servizio puntualmente!',
+              'request.form.invoice_delivery_tip'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -1343,14 +1705,14 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
 
           _invoiceOption(
             method: InvoiceMethod.digital,
-            title: 'Fattura Digitale',
-            subtitle: 'Ricevi la fattura via email',
+            title: 'request.invoice.digital_title'.tr,
+            subtitle: 'request.invoice.digital_subtitle'.tr,
           ),
           SizedBox(height: 8.h),
           _invoiceOption(
             method: InvoiceMethod.paper,
-            title: 'Fattura Cartacea',
-            subtitle: 'Riceverai il bollettino per pagare',
+            title: 'request.invoice.paper_title'.tr,
+            subtitle: 'request.payment.postal_bill_subtitle_full'.tr,
           ),
 
           // ── Digital extras: pre-filled note + email field ──
@@ -1395,7 +1757,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             borderRadius: BorderRadius.circular(10.r),
           ),
           child: Text(
-            'Pre-filled email from your profile',
+            'request.form.prefilled_email'.tr,
             style: TextStyle(
                 fontSize: 13.sp,
                 color: AppColors.primaryColor,
@@ -1410,7 +1772,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: 'Email for invoice ',
+                text: '${'request.form.email_for_invoice'.tr} ',
                 style: TextStyle(
                     fontSize: 13.sp,
                     color: AppColors.textDark,
@@ -1443,7 +1805,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Does the shipping address match the delivery address?',
+        Text('request.form.shipping_match_question'.tr,
             style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
@@ -1454,9 +1816,9 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
         // Yes / No toggle
         Row(
           children: [
-            Expanded(child: _invoiceAddressOption('Yes', InvoiceAddressMatch.yes)),
+            Expanded(child: _invoiceAddressOption('request.form.yes'.tr, InvoiceAddressMatch.yes)),
             SizedBox(width: 10.w),
-            Expanded(child: _invoiceAddressOption('No', InvoiceAddressMatch.no)),
+            Expanded(child: _invoiceAddressOption('request.form.no'.tr, InvoiceAddressMatch.no)),
           ],
         ),
 
@@ -1504,7 +1866,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(width: 8.w),
           Expanded(
             child: Text(
-              'The invoice will be sent to: Via Roma 42, 20121 Milan (MI)',
+              '${'request.invoice.destination_preview'.tr} ${_c.address}${_c.city.isNotEmpty ? ', ${_c.city}' : ''}',
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.red200,
@@ -1544,7 +1906,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
-                    'Enter your shipping address',
+                    'request.form.enter_shipping_address'.tr,
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: AppColors.textPrimary,
@@ -1557,7 +1919,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 14.h),
 
           // Address
-          Text('Address',
+          Text('request.form.address'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -1573,7 +1935,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('City',
+                    Text('request.form.city'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textPrimary,
@@ -1589,7 +1951,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Number',
+                    Text('request.form.number'.tr,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textPrimary,
@@ -1606,7 +1968,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 10.h),
 
           // Zip Code
-          Text('Zip Code',
+          Text('request.form.zip_code'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -1624,7 +1986,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 alignedDropdown: true,
                 child: DropdownButton<String>(
                   value: _invZipProvince,
-                  hint: Text('Select Province',
+                  hint: Text('request.form.select_province'.tr,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: AppColors.textSecondary,
@@ -1653,7 +2015,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
           SizedBox(height: 10.h),
 
           // Province
-          Text('Province',
+          Text('request.form.province'.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textPrimary,
@@ -1675,7 +2037,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.r)),
               ),
-              child: Text('Conform Address',
+              child: Text('request.form.conform_address'.tr,
                   style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
@@ -1843,7 +2205,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Quasi fatto!',
+                Text('request.form.almost_done'.tr,
                     style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -1851,7 +2213,7 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
                         height: 1.22)),
                 SizedBox(height: 4.h),
                 Text(
-                    "Una volta attivato, invieremo il tuo contratto entro 24 ore per la firma.",
+                    'request.form.contract_send_info'.tr,
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: AppColors.textPrimary,
@@ -1868,25 +2230,136 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
   //  ACTIVATE BUTTON
   // ─────────────────────────────────────────────
 
-  Widget _buildActivateButton() {
-    return SizedBox(
-      width: double.infinity,
-      height: 54.h,
-      child: ElevatedButton(
-        onPressed: () => Get.to(() => const RequestSuccessScreen()),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryColor,
-          foregroundColor: AppColors.background,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.r)),
-        ),
-        child: Text('Attiva Offerta',
-            style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                height: 1.22)),
+  Widget _buildNoBillWarning() {
+    return Container(
+      padding: EdgeInsets.all(14.w),
+      decoration: BoxDecoration(
+        color: AppColors.yellowAlpha10,
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: AppColors.yellow100, width: 1),
       ),
+      child: Row(
+        children: [
+          Icon(Icons.warning_amber_rounded,
+              color: AppColors.yellow200, size: 18.sp),
+          SizedBox(width: 10.w),
+          Expanded(
+            child: Text(
+              'request.form.no_bill_warning'.tr,
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: AppColors.textDark,
+                  height: 1.4),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActivateButton() {
+    final missingPersonalFields = <String>[];
+    if (_c.firstName.trim().isEmpty) missingPersonalFields.add('request.form.first_name_field'.tr);
+    if (_c.lastName.trim().isEmpty) missingPersonalFields.add('request.form.last_name_field'.tr);
+    if (_c.phone.trim().isEmpty) missingPersonalFields.add('request.form.phone_field'.tr);
+    if (_c.podNumber.trim().isEmpty) missingPersonalFields.add('request.form.pod_number_field'.tr);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (missingPersonalFields.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.only(bottom: 8.h),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.info_outline_rounded,
+                    size: 14.sp, color: Colors.red.shade400),
+                SizedBox(width: 4.w),
+                Expanded(
+                  child: Text(
+                    '${missingPersonalFields.join(', ')} ${missingPersonalFields.length == 1 ? 'is' : 'are'} required.',
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Colors.red.shade400,
+                        height: 1.22),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        if (_c.uploadedDocuments.isEmpty)
+          Padding(
+            padding: EdgeInsets.only(bottom: 8.h),
+            child: Row(
+              children: [
+                Icon(Icons.info_outline_rounded,
+                    size: 14.sp, color: Colors.red.shade400),
+                SizedBox(width: 4.w),
+                Text(
+                  'request.form.identity_required_hint'.tr,
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      color: Colors.red.shade400,
+                      height: 1.22),
+                ),
+              ],
+            ),
+          ),
+        if (_c.selectedPayment == PaymentMethod.directDebit &&
+            !CompleteRequestController.isValidItalianIban(_c.iban))
+          Padding(
+            padding: EdgeInsets.only(bottom: 8.h),
+            child: Row(
+              children: [
+                Icon(Icons.info_outline_rounded,
+                    size: 14.sp, color: Colors.red.shade400),
+                SizedBox(width: 4.w),
+                Expanded(
+                  child: Text(
+                    'request.form.iban_required_hint'.tr,
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Colors.red.shade400,
+                        height: 1.22),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        SizedBox(
+          width: double.infinity,
+          height: 54.h,
+          child: ElevatedButton(
+            onPressed: _c.canActivate
+                ? () => _c.activateOffer()
+                : () => _scrollToFirstIncomplete(),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: _c.canActivate
+                  ? AppColors.primaryColor
+                  : AppColors.primary300,
+              foregroundColor: AppColors.background,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r)),
+            ),
+            child: _c.isSubmitting
+                ? SizedBox(
+                    width: 24.w,
+                    height: 24.w,
+                    child: const CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2.5,
+                    ),
+                  )
+                : Text('request.form.activate_offer'.tr,
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        height: 1.22)),
+          ),
+        ),
+      ],
     );
   }
 
@@ -1930,168 +2403,3 @@ class _CompleteRequestScreenState extends State<CompleteRequestScreen> {
 
 enum InvoiceAddressMatch { yes, no }
 
-// ─────────────────────────────────────────────
-//  DOCUMENT SCANNER SCREEN
-// ─────────────────────────────────────────────
-
-class _DocumentScannerScreen extends StatefulWidget {
-  final void Function(String path) onScanned;
-  const _DocumentScannerScreen({required this.onScanned});
-
-  @override
-  State<_DocumentScannerScreen> createState() => _DocumentScannerScreenState();
-}
-
-class _DocumentScannerScreenState extends State<_DocumentScannerScreen> {
-  final MobileScannerController _scanCtrl = MobileScannerController();
-  bool _scanned = false;
-
-  @override
-  void dispose() {
-    _scanCtrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-        title: Text('Scansiona Documento',
-            style: TextStyle(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w600,
-                height: 1.22)),
-        actions: [
-          ValueListenableBuilder(
-            valueListenable: _scanCtrl,
-            builder: (_, state, __) => IconButton(
-              icon: Icon(
-                state.torchState == TorchState.on
-                    ? Icons.flash_on_rounded
-                    : Icons.flash_off_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () => _scanCtrl.toggleTorch(),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.flip_camera_ios_rounded, color: Colors.white),
-            onPressed: () => _scanCtrl.switchCamera(),
-          ),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Divider(height: 1, color: Colors.white),
-        ),
-      ),
-      body: Stack(
-        children: [
-          MobileScanner(
-            controller: _scanCtrl,
-            onDetect: (capture) {
-              if (_scanned) return;
-              final barcodes = capture.barcodes;
-              if (barcodes.isNotEmpty) {
-                _scanned = true;
-                final value = barcodes.first.rawValue ?? 'scanned_doc';
-                widget.onScanned(value);
-                Navigator.pop(context);
-              }
-            },
-          ),
-          Center(
-            child: Container(
-              width: 260.w,
-              height: 180.h,
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.primaryColor, width: 2.5),
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-              child: Stack(children: _cornerAccents()),
-            ),
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.62,
-            left: 0,
-            right: 0,
-            child: Column(
-              children: [
-                Text('Allinea il documento nella cornice',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        height: 1.22)),
-                SizedBox(height: 6.h),
-                Text('Sono supportati anche codici QR e codici a barre',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        color: Colors.white,
-                        height: 1.22)),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 50.h,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: GestureDetector(
-                onTap: _captureManual,
-                child: Container(
-                  width: 68.w,
-                  height: 68.w,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 3),
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 54.w,
-                      height: 54.w,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _captureManual() async {
-    final picker = ImagePicker();
-    final XFile? file =
-    await picker.pickImage(source: ImageSource.camera, imageQuality: 90);
-    if (file != null && mounted) {
-      widget.onScanned(file.path);
-      Navigator.pop(context);
-    }
-  }
-
-  List<Widget> _cornerAccents() {
-    const c = AppColors.primaryColor;
-    const size = 20.0;
-    const w = 3.0;
-    return [
-      Positioned(top: 0, left: 0, child: Container(width: size, height: w, color: c)),
-      Positioned(top: 0, left: 0, child: Container(width: w, height: size, color: c)),
-      Positioned(top: 0, right: 0, child: Container(width: size, height: w, color: c)),
-      Positioned(top: 0, right: 0, child: Container(width: w, height: size, color: c)),
-      Positioned(bottom: 0, left: 0, child: Container(width: size, height: w, color: c)),
-      Positioned(bottom: 0, left: 0, child: Container(width: w, height: size, color: c)),
-      Positioned(bottom: 0, right: 0, child: Container(width: size, height: w, color: c)),
-      Positioned(bottom: 0, right: 0, child: Container(width: w, height: size, color: c)),
-    ];
-  }
-}

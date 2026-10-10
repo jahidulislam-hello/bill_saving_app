@@ -1,9 +1,12 @@
+import 'package:vyzi/core/navbar/nav_helper.dart';
 import 'package:vyzi/core/utils/app_assets.dart';
 import 'package:vyzi/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vyzi/features/my_utility/utility_details_controller.dart';
+import 'package:vyzi/features/support/support_screen.dart';
 
 
 class UtilityDetailsScreen extends StatelessWidget {
@@ -30,7 +33,7 @@ class UtilityDetailsScreen extends StatelessWidget {
           ),
         ),
         title: Text(
-          "Utility Details",
+          'utility.details_title'.tr,
           style: TextStyle(
             color: Colors.black,
             fontSize: 20.sp,
@@ -38,7 +41,9 @@ class UtilityDetailsScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 14.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +108,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                             ),
                             SizedBox(width: 6.w),
                             Text(
-                              "ACTIVE OFFER",
+                              'utility.active_offer_badge'.tr,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 9.sp,
@@ -148,7 +153,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                               CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "MATERIAL PRICE",
+                                  'utility.material_price'.tr,
                                   style: TextStyle(
                                     color:
                                     Colors.white.withOpacity(0.85),
@@ -191,7 +196,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                               CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "ACTIVATION",
+                                  'utility.activation'.tr,
                                   style: TextStyle(
                                     color:
                                     Colors.white.withOpacity(0.85),
@@ -234,11 +239,11 @@ class UtilityDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _sectionTitle("Active Offer"),
+                  _sectionTitle('utility.active_offer'.tr),
                   SizedBox(height: 16.h),
-                  _infoRow("Offer Name", "fixed Rate Plan"),
+                  _infoRow('utility.offer_name'.tr, "fixed Rate Plan"),
                   SizedBox(height: 16.h),
-                  _infoRow("Service Type", "Gas"),
+                  _infoRow('utility.service_type'.tr, "Gas"),
                 ],
               ),
             ),
@@ -266,7 +271,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 6.w),
                       Text(
-                        "Supply Information",
+                        'utility.supply_info'.tr,
                         style: TextStyle(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w900,
@@ -293,7 +298,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                             CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "POD CODE",
+                                'utility.pod_code'.tr,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 9.sp,
@@ -333,7 +338,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                               ),
                               SizedBox(width: 5.w),
                               Text(
-                                "Copy",
+                                'utility.copy'.tr,
                                 style: TextStyle(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w800,
@@ -353,13 +358,13 @@ class UtilityDetailsScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: _miniInfo(
-                          title: "Address",
+                          title: 'utility.address'.tr,
                           value: "Via Roma 123,\nMilan, IT",
                         ),
                       ),
                       Expanded(
                         child: _miniInfo(
-                          title: "Meter Number",
+                          title: 'utility.meter_number'.tr,
                           value: "MTR-XCFAQRT18",
                         ),
                       ),
@@ -387,7 +392,7 @@ class UtilityDetailsScreen extends StatelessWidget {
                             CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "ANNUAL CONSUMPTION",
+                                'utility.annual_consumption'.tr,
                                 style: TextStyle(
                                   color:
                                   AppColors.primaryColor,
@@ -423,41 +428,89 @@ class UtilityDetailsScreen extends StatelessWidget {
 
             SizedBox(height: 24.h),
 
-            _sectionTitle("Contact Support"),
+            _sectionTitle('utility.contact_support'.tr),
 
             SizedBox(height: 14.h),
 
             _supportTile(
               icon: AppAssets.sendEmail,
-              title: "Send Email",
+              title: 'utility.send_email'.tr,
               subtitle: "support@utility.com",
+              onTap: () => launchUrl(Uri.parse('mailto:support@utility.com')),
             ),
 
             SizedBox(height: 12.h),
 
             _supportTile(
               icon: AppAssets.openTicket,
-              title: "Open Ticket",
-              subtitle: "Get help via app support",
+              title: 'utility.open_ticket'.tr,
+              subtitle: 'utility.open_ticket_desc'.tr,
+              onTap: () => NavHelper.push(const SupportFormScreen()),
             ),
 
             SizedBox(height: 12.h),
 
             _supportTile(
               icon: AppAssets.website,
-              title: "Website",
+              title: 'utility.website'.tr,
               subtitle: "eniplenitude.it",
               isWebsite: true,
+              onTap: () => launchUrl(Uri.parse('https://eniplenitude.it'), mode: LaunchMode.externalApplication),
             ),
 
             SizedBox(height: 26.h),
 
-            _sectionTitle("Frequently Asked Questions"),
+            _sectionTitle('utility.faq'.tr),
 
             SizedBox(height: 14.h),
 
-            Obx(
-                  () => Column(
+            Obx(() {
+              if (controller.isFaqLoading.value) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
+              if (controller.faqError.value.isNotEmpty) {
+                return Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          controller.faqError.value,
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            color: Colors.red,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 8.h),
+                        GestureDetector(
+                          onTap: () => controller.fetchFaqs(),
+                          child: Text(
+                            'utility.retry'.tr,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              if (controller.faqList.isEmpty) {
+                return const SizedBox.shrink();
+              }
+
+              return Column(
                 children: List.generate(
                   controller.faqList.length,
                       (index) {
@@ -504,12 +557,13 @@ class UtilityDetailsScreen extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-            ),
+              );
+            }),
 
             SizedBox(height: 30.h),
           ],
         ),
+      ),
       ),
     );
   }
@@ -582,8 +636,11 @@ class UtilityDetailsScreen extends StatelessWidget {
     required String title,
     required String subtitle,
     bool isWebsite = false,
+    VoidCallback? onTap,
   }) {
-    return Container(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
@@ -639,6 +696,7 @@ class UtilityDetailsScreen extends StatelessWidget {
             color: Colors.black,
           ),
         ],
+      ),
       ),
     );
   }

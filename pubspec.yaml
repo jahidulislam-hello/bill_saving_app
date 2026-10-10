@@ -25,10 +25,13 @@ dependencies:
   path_provider:
   google_fonts:
   shared_preferences:
+  flutter_secure_storage:
   flutter_svg:
   flutter_spinkit:
   pin_code_fields:
   image_picker:
+  camera:
+  file_picker:
   internet_connection_checker:
   fluttertoast:
   flutter_html:
@@ -52,8 +55,27 @@ dependencies:
   flutter_typeahead:
   http:
   mobile_scanner:
+  # google_mlkit_text_recognition: removed — OCR now handled server-side via OpenAI Vision API
+  # syncfusion_flutter_pdf: removed — PDF text extraction no longer needed on-device
+  # pdfx: removed — PDF rendering no longer needed on-device
+  pdfrx:
+  flutter_cache_manager:
+  url_launcher:
+  share_plus:
+  app_links: ^6.4.0
 
+  # Firebase
+  firebase_core:
+  firebase_auth:
+  firebase_messaging:
+  flutter_local_notifications:
 
+  # Social sign-in providers
+  google_sign_in:
+  sign_in_with_apple:
+  flutter_facebook_auth:
+  crypto:
+  pretty_dio_logger: ^1.4.0
 
 
 
